@@ -1,0 +1,34 @@
+;NeuCon combined function 1.0
+; $Id: test.cof,v 1.3 2003-01-12 12:22:45 vlad Exp $
+[CombinedFunction main]
+CustomFunction deadzone
+TransferFunction p
+
+[CustomFunction deadzone]
+;              .so/.dll depending the OS
+file    deadzone
+;HalfWidth Gain
+options 0.5 2
+;Dummy initial (deadzone object skips this vector)
+initial 1 2 3
+
+; Simple P controller
+[TransferFunction p]
+polyfrac 0	 ; <=== Proportional term
+ 2 /  1		 ; Kp
+
+; Speed form of a discrete PID controller
+[TransferFunction pid]
+sum 3		 ; Kp + Ki*(z/z-1) + Kd*(z2-2z+1/z(z-1))
+polyfrac 0	 ; <=== Proportional term
+ 2 /  1		 ; Kp
+product 2	 ; <=== Integral term
+polyfrac 0
+ 2 /  1		 ; Ki
+polyfrac 0
+ 1 0 /  1 -1
+product 2	 ; <=== Differencial term
+polyfrac 0
+ 2 /  1		 ; Kd
+polyfrac 0
+ 1 -2 1 / 1 -1 0

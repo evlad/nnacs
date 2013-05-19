@@ -1,0 +1,38 @@
+# dplantid parameters
+# $Id: dplantid.par,v 1.1 2008-06-08 21:04:15 evlad Exp $
+
+# NNP TEACHING
+# Input files
+in_u = ../0tr/u.dat
+in_y = ../0tr/ny.dat
+
+# Output files
+nn_y = nn_y_tr.dat
+tr_y = tr_y_tr.dat
+
+# NNP TESTING
+# Input files
+test_in_u = ../0ev/u.dat
+test_in_y = ../0ev/ny.dat
+
+# Output files
+test_nn_y = nn_y_ev.dat
+test_tr_y = tr_y_ev.dat
+
+# Neural net file
+in_nnp_file = nnp_ini.nn
+out_nnp_file = nnp_res.nn
+
+# Tracking learning process:
+# LearnME LearnSDE LearnMSE TestME TestSDE TestMSE NormLearnMSE NormTestMSE
+trace_file = nnp_trace.dat
+
+# Stop learning if...
+finish_on_value=0.001
+finish_on_grow=50
+finish_max_epoch=500
+
+# Learning algorithm setup
+eta = 0.01
+eta_output = 0.001
+alpha = 0.0

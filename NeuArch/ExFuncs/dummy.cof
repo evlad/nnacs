@@ -1,0 +1,11 @@
+;NeuCon combined function 1.0
+[CombinedFunction main]
+CustomFunction dummy1
+
+[CustomFunction dummy1]
+;              .so/.dll depending the OS
+file    dummy
+options Line1
+options Line2
+initial 1 2 3
+options Line3

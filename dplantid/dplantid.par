@@ -1,0 +1,42 @@
+# dplantid parameters
+# $Id: dplantid.par,v 1.6 2003-11-04 20:39:29 vlad Exp $
+
+# NNP TEACHING
+# Input files
+in_u = moby/ex0_u.dat
+in_y = moby/ex0_x.dat
+
+# Output files (tr_y is in_y without several startup samples)
+nn_y = moby/ex0_x_nn.dat
+tr_y = moby/ex0_x_tr.dat
+
+# NNP TESTING
+# Input files
+test_in_u = moby/ex8_u.dat
+test_in_y = moby/ex8_x.dat
+
+# Output files
+test_nn_y = moby/ex8_x_nn_test.dat
+test_tr_y = moby/ex8_x_tr_test.dat
+
+# Neural net file
+in_nnp_file = moby_new.nn
+out_nnp_file = moby_out.nn
+
+# Tracking learning process:
+# LearnME LearnSDE LearnMSE TestME TestSDE TestMSE NormLearnMSE NormTestMSE
+trace_file = nnp_trace.dat
+
+# Stop learning if...
+finish_on_value=0.001
+finish_on_grow=20
+finish_max_epoch=100
+
+# Learning algorithm setup
+eta = 0.01
+eta_output = 0.001
+alpha = 0.0
+
+# When MSE will descent for accel_hits epochs then eta, eta_output,
+# alpha will be multiplied by two
+#accel_hits = 20

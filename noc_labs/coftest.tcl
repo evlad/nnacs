@@ -1,0 +1,2 @@
+#source cofedit.tcl
+#CoFuncTest

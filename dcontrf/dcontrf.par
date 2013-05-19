@@ -1,0 +1,111 @@
+# dcontrf parameters
+# $Id: dcontrf.par,v 2.7 2009-02-14 20:28:06 evlad Exp $
+
+########################################
+# Mode of the modeling
+input_kind = stream
+#input_kind = file
+
+# (input_kind = stream) Length of series
+stream_len = 5000
+
+# (input_kind = stream,file) Auto update frequency; 0 to disable
+nnc_auf = 500
+
+# >0 means turn on NNP learning
+#nnp_auf = 100
+
+# NNC INPUT MODE: "e+r", "e+de", "e+e+...", "tradcontr"
+# "tradcontr" means using traditional controller instead of neural one
+# to teach NNP online
+nnc_mode = e+r
+
+# Traditional controller
+tradcontr = pid.tf
+
+# Linear (or combined) plant transfer function
+linplant_tf = ../../../plant.tf
+
+# (input_kind = stream) Input transfer (or combined) functions
+refer_tf = ../../../refer.tf
+noise_tf = ../../../noise.tf
+
+# (input_kind = file) Maximum number of epochs; 0 is unlimited
+max_epochs = 0
+
+# (input_kind = file) Input files
+in_r = r.dat
+in_n = n.dat
+
+# (input_kind = stream) Output files
+out_r = nncfin_r_out.dat
+out_n = nncfin_n_out.dat
+
+# Output files
+out_u = nncfin_u.dat
+out_e = nncfin_e.dat
+out_y = nncfin_y.dat
+out_nn_y = nncfin_nn_y.dat
+out_ny = nncfin_ny.dat
+
+# Logging of controller's and plant's inputs
+c_in = c_in.dat
+p_in = p_in.dat
+
+# Neural net files
+in_nnp_file = ../nnp_1+1_1res.nn
+out_nnp_file = nnp_1+1_1fix.nn
+in_nnc_file = ../nnc_re_1pre.nn
+out_nnc_file = nnc_re_1fin.nn
+
+# Optional to list inputs of NN-P as a error conductor in
+# backpropagation chain.  Defined automatically by default as a scalar.
+# errfetch_output = 0 1 3
+
+# Optional to errfetch_output is vector of weights used to sum fetched
+# errors into one scalar value
+# IMPORTANT! if not defined then errors are not summed!
+# errfetch_sumweights = 0.5 0.3 0.2
+
+# Tracking learning process (order can't be changed):
+# cerr_trace_contents = ABSMEAN MEAN RMS STDDEV MAX MIN ABSMAX TIME TINDEX VALUE
+cerr_trace_file = cerr_trace.dat
+# iderr_trace_contents = ABSMEAN MEAN RMS STDDEV MAX MIN ABSMAX TIME TINDEX VALUE
+iderr_trace_file = iderr_trace.dat
+
+# ATTENTION! Setting next two parameters will change error trace data
+# dramatically as well as final result!
+
+# Sliding averaging base to calculate statistical parameters
+# cerr_avg_base = 100
+# iderr_avg_base = 100
+
+# Skip up to given number of epochs if MSE growing at start
+skip_growing = 35
+
+# Stop learning if...
+finish_on_grow = 35
+finish_decrease = 1e-6
+
+# Special halt condition syntax:
+#   HaltCond ::= { StatId Cond Value ";" } StatId Cond Value
+# where
+#   StatId   ::= ABSMEAN | MEAN | RMS | STDDEV | MAX | MIN | ABSMAX
+#   Cond     ::= "<" | "=" | ">"
+#   Value    ::= FloatingPointNumber
+# Separated for control and identification error statistics
+finish_cerr_cond = absmean > 1.0 ; rms > 1.0
+finish_iderr_cond = rms > 6.0
+
+# (OPTIONAL) Scale down eta by auf size if =1 and old behavour otherwise
+#eta_scale_by_auf = 1
+
+# Learning algorithm setup for NN-C
+eta = 0.005
+eta_output = 0.0005
+alpha = 0.0
+
+# Learning algorithm setup for NN-P
+p_eta = 0.005
+p_eta_output = 0.0005
+p_alpha = 0.0

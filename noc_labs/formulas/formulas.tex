@@ -1,0 +1,75 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\begin{document}
+
+\section{Линейные звенья}
+
+\begin{itemize}
+
+% rm -rf formulas
+% latex2html formulas.tex
+% awk '$1=="%%file:" {printf "convert formulas/%s.png ../templates/%s.gif\n", $2, $3}' formulas.tex | bash
+
+%%file: img1 pid_kkk
+\item ПИД регулятор (представление KKK):
+  $$C_{PID}^*(z)=K_p+K_i\frac{z}{z-1}+K_d\frac{z^2-2z+1}{z^2-z}$$
+
+%%file: img2 pid_ktt
+\item ПИД регулятор (представление KTT):
+  $$C_{PID}^*(z)=K_p\Bigl(1+\frac{z}{T_i(z-1)}+\frac{z^2-2z+1}{T_d(z^2-z)}\Bigr)$$
+
+%%file: img3 gain
+\item Усилительное звено:
+$$G^*(z)=K$$
+
+%%file: img4 integral
+\item Суммирующее звено:
+$$G^*(z)=\frac{K}{z-d}, 0<d\le 1$$
+
+%%file: img5 1st_order
+\item Звено 1-го порядка:
+$$G^*(z)=K\frac{d_1z+d_2}{z+d_3}$$
+
+%%file: img6 2nd_order
+\item Звено 2-го порядка:
+$$G^*(z)=K\frac{d_1z^2+d_2z+d_3}{z^2+d_4z+d_5}$$
+
+%%file: img7 delay1
+\item Задержка на 1 такт:
+$$G^*(z)=\frac{K}{z}$$
+
+%%file: img8 delay2
+\item Задержка на 2 такта:
+$$G^*(z)=\frac{K}{z^2}$$
+
+%%file: img9 delay3
+\item Задержка на 3 такта:
+$$G^*(z)=\frac{K}{z^3}$$
+
+%%file: img10 simple_delayn
+\item Звено задержки: $z^{-n}$
+
+%\item Форсирующее звено 1-го порядка:
+%$$G^*(z)=K\frac{z+d}{z}$$
+%\item Форсирующее звено 2-го порядка:
+%$$G^*(z)=K\frac{z^2+d_1z+d_2}{z^2}$$
+
+%%file: img11 3rd_order
+\item Звено 3-го порядка:
+$$G^*(z)=K\frac{d_1z^3+d_2z^2+d_3z+d_4}{z^3+d_5z^2+d_6z+d_7}$$
+
+
+%%file: img12 pid_kkk
+%\item ПИД регулятор (представление KKK):
+%  $$C_{PID}^*(z)=K_p+K_i\frac{z}{z-1+\beta_i}+K_d\frac{z^2-2z+1}{z(z-1+\beta_d)}$$
+
+%%file: img13 pid_ktt
+%\item ПИД регулятор (представление KTT):
+%  $$C_{PID}^*(z)=K_p\Bigl(1+\frac{z}{T_i(z-1+\beta_i)}+\frac{z^2-2z+1}{T_dz(z-1+\beta_d)}\Bigr)$$
+
+
+\end{itemize}
+
+\end{document}

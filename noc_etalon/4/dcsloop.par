@@ -1,0 +1,42 @@
+# dcsloop parameters
+# $Id: dcsloop.par,v 1.1 2008-06-08 21:04:16 evlad Exp $
+
+########################################
+# Type of controller
+contr_kind = nnc
+#contr_kind = lin
+
+########################################
+# Mode of the modeling
+input_kind = stream
+#input_kind = file
+
+# (input_kind = stream) Length of series
+stream_len = 1000
+
+# Linear plant transfer function
+linplant_tf = ../plant.tf
+
+# (contr_kind = lin) Linear controller transfer function
+lincontr_tf = ../pid_bad.tf
+
+# (contr_kind = nnc) Neural net controller
+nncontr = ../3/res.nnc
+
+# (input_kind = stream) Input transfer functions
+refer_tf = ../refer.tf
+noise_tf = ../noise.tf
+
+# (input_kind = file) Input files
+in_r = r_in.dat
+in_n = n_in.dat
+
+# Output files
+out_u = u.dat
+out_e = e.dat
+out_y = y.dat
+out_ny = ny.dat
+
+# (input_kind = stream) Output files
+out_r = r.dat
+out_n = n.dat

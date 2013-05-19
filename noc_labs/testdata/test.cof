@@ -1,0 +1,37 @@
+;NeuCon combined function 1.0
+[CombinedFunction main]
+TransferFunction Plant1 0 5000
+TransferFunction Plant2 5000 -1
+CustomFunction DeadZone1
+
+[TransferFunction Plant1]
+; idname:  1st_order
+; type:    TransferFunction
+; label:   Звено 1-го порядка
+; key_pos: K 0 d1 1 d2 4
+; formula: K*(z-d1)/(z-d2)
+product 2
+polyfrac 0
+1 / 1   ; K
+polyfrac 0
+ -1 0 / -1 0.5 ; d1 d2
+
+[TransferFunction Plant2]
+; idname:  1st_order
+; type:    TransferFunction
+; label:   Звено 1-го порядка
+; key_pos: K 0 d1 1 d2 4
+; formula: K*(z-d1)/(z-d2)
+product 2
+polyfrac 0
+1.4 / 1   ; K
+polyfrac 0
+ -1 0 / -1 0.5 ; d1 d2
+
+[CustomFunction DeadZone1]
+;              .so/.dll depending the OS
+file    deadzone
+;HalfWidth Gain
+options 0.5 2
+;Dummy initial (deadzone object skips this vector)
+initial 1 2 3

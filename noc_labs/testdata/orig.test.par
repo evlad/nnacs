@@ -1,0 +1,11 @@
+# Just a comment
+aa = 123
+bb = 666
+cc = 909
+
+bla-bla-bla
+
+  # Intermediate comment
+
+dd = very long text
+# end of file comment

@@ -1,0 +1,86 @@
+CC		=cc
+CFLAGS	=$(FLAGS) -g2 -T1
+CCC		=CC
+CXXFLAGS=$(FLAGS) -WC,-xs -Dbool=int -Dtrue=1 -Dfalse=0 -g2 -T1 -I../matrix -I.
+LIBRARY	=pnna.lib
+
+OBJS	=NaConLaw.o \
+	NaConfig.o \
+	NaDDir.o \
+	NaDataIO.o \
+	NaBinrIO.o \
+	NaDynAr.o \
+	NaExcept.o \
+	NaInfoSt.o \
+	NaLiNois.o \
+	NaLinCon.o \
+	NaLogFil.o \
+	NaMath.o \
+	NaMatrix.o \
+	NaNDescr.o \
+	NaNNCon.o \
+	NaNNLrn.o \
+	NaNNPObj.o \
+	NaNNUnit.o \
+	NaNNet.o \
+	NaPCnInp.o \
+	NaPCnOut.o \
+	NaPID.o \
+	NaPNAct.o \
+	NaPNBu21.o \
+	NaPNChPt.o \
+	NaPNCmp.o \
+	NaPNCnst.o \
+	NaPNDely.o \
+	NaPNFIn.o \
+	NaPNFOut.o \
+	NaPNFetc.o \
+	NaPNGen.o \
+	NaPNKalm.o \
+	NaPNRand.o \
+	NaPNStat.o \
+	NaPNSum.o \
+	NaPNSwap.o \
+	NaPNSwit.o \
+	NaPNTchr.o \
+	NaPNTimD.o \
+	NaPNTime.o \
+	NaPNTran.o \
+	NaPNTrig.o \
+	NaPNLAnd.o \
+	NaPetCn.o \
+	NaPetNet.o \
+	NaPetNod.o \
+	NaPetri.o \
+	NaPlotIO.o \
+	NaQProp.o \
+	NaRandom.o \
+	NaSSCtrl.o \
+	NaSSPlan.o \
+	NaStdBPE.o \
+	NaStrOps.o \
+	NaSysSch.o \
+	NaTextIO.o \
+	NaTimer.o \
+	NaTrFunc.o \
+	NaUnit.o \
+	NaVector.o \
+	NaParams.o \
+	NaPNDerv.o \
+	NaPNQIn.o \
+	NaPNQOut.o \
+	kbdif.o
+
+all:	$(LIBRARY)
+
+clean:
+	-@rm -f $(OBJS) $(LIBRARY) *.err *.b
+
+$(LIBRARY):	$(OBJS)
+
+#SUFFIXES	=.c .o .lib .cpp
+#.cpp.o:
+$(OBJS):
+	$(CCC) $(CXXFLAGS) -c $(@:.o=.cpp) -o $@
+
+#	$(CCC) $(CXXFLAGS) -c $< -a $(LIBRARY) -o $@

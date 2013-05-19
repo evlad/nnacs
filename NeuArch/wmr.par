@@ -1,0 +1,29 @@
+# distance between motor wheels, m
+base_length = 0.5
+
+# distance between wheels axis and center of mass, m
+mass_offset = 0.3
+
+# radius of the wheel, m
+wheel_radius = 0.08
+
+# mass of the robot, kg
+total_mass = 8
+
+# moment of inertia of the robot around vertical axis, kg*m^2
+inertia_z = 2
+
+# electic resistance, Ohm
+motor_resist = 24
+
+# induction, H
+motor_induct = 0.005
+
+# coefficient of electromotive force
+motor_Kw = 0.029
+
+# coefficient of torque
+motor_Km = 0.35
+
+# ratio of reductor
+reductor_ratio = 51

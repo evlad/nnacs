@@ -1,0 +1,47 @@
+# Continuous stirred tank rector parameters
+
+# Two parallel first-order irreversible chemical reactions:
+#
+#    k1         k2
+# A ----> B  A ----> B
+#
+
+# Main symbols:
+#  c   - concentrations
+#  T   - temperatures
+#  V   - volumes
+#  rho - densities
+#  Cp  - specific heat capacities
+#  drH - reaction enthalpies
+# Subscripts:
+#  c   - coolant
+#  r   - reacting mixture
+#  s   - steady state value in main operating point
+
+q = 0.015
+V = 0.23
+V_c = 0.21
+rho = 1020
+rho_c = 998
+Cp = 4.02
+Cp_c = 4.182
+A = 1.51
+k = 42.8
+k10 = 1.55e11
+k20 = 4.55e25
+drH_1 = -8.6e4
+drH_2 = -1.82e4
+c_Av = 4.22
+c_Bv = 0
+c_Cv = 0
+T_v = 328
+T_vc = 298
+E1R = 9850
+E2R = 22019
+
+#q_sc = 0.004
+#T_s = 363.61
+#T_sc = 350.15
+#c_sA = 0.4915
+#c_sB = 2.0042
+#c_sC = 1.7243

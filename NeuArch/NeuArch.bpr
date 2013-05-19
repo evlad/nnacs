@@ -1,0 +1,181 @@
+# ---------------------------------------------------------------------------
+!if !$d(BCB)
+BCB = $(MAKEDIR)\..
+!endif
+
+# ---------------------------------------------------------------------------
+# IDE SECTION
+# ---------------------------------------------------------------------------
+# The following section of the project makefile is managed by the BCB IDE.
+# It is recommended to use the IDE to change any of the values in this
+# section.
+# ---------------------------------------------------------------------------
+
+VERSION = BCB.03
+# ---------------------------------------------------------------------------
+PROJECT = NeuArch.lib
+OBJFILES = NeuArch.obj NaDataIO.obj NaDDir.obj NaLinCon.obj NaMatrix.obj NaNDescr.obj \
+  NaNNLrn.obj NaNNUnit.obj NaPID.obj NaRandom.obj NaStaIO.obj NaStdBPE.obj \
+  NaTextIO.obj NaTimer.obj NaUnit.obj NaVector.obj NaConLaw.obj NaLogFil.obj \
+  NaLiNois.obj NaQProp.obj NaPlotIO.obj NaConfig.obj NaDynAr.obj NaNNCon.obj \
+  NaNNPObj.obj NaStrOps.obj NaExcept.obj NaMath.obj NaSysSch.obj NaSSPlan.obj \
+  NaSSCtrl.obj NaNNet.obj NaTrFunc.obj
+DEFFILE =
+LIBFILES =
+RESDEPEN = $(RESFILES)
+RESFILES =
+LIBRARIES = INET35.lib TEE35.lib VCLX35.lib RXCTL.lib VCL35.lib
+SPARELIBS = VCL35.lib RXCTL.lib VCLX35.lib TEE35.lib INET35.lib
+PACKAGES =
+# ---------------------------------------------------------------------------
+PATHCPP = .;
+PATHASM = .;
+PATHPAS = .;
+PATHRC = .;
+# ---------------------------------------------------------------------------
+CFLAG1 = -Od -Hc -w -Ve -r- -k -y -v -vi- -c -b- -w-par -w-inl -Vx
+CFLAG2 = -D_NO_VCL -I..\dssmod;..\..\nn;$(BCB)\include;..\StaDev;..\Matrix.041 \
+  -H=$(BCB)\lib\vcl35.csm
+CFLAG3 = -xp -Tkh30000 -fp -ff -5
+PFLAGS = -D_NO_VCL -U$(DEBUGLIBPATH) \
+  -I..\dssmod;..\..\nn;$(BCB)\include;..\StaDev;..\Matrix.041 -$Y -$W -$O- -v \
+  -JPHN -M
+AFLAGS = /i..\dssmod /i..\..\nn /i$(BCB)\include /i..\StaDev /i..\Matrix.041 /d_NO_VCL \
+  /mx /w2 /zi
+RFLAGS = -i..\dssmod;..\..\nn;$(BCB)\include;..\StaDev;..\Matrix.041
+LFLAGS = /P32 /E /C
+IFLAGS =
+# ---------------------------------------------------------------------------
+ALLOBJ = $(OBJFILES)
+# ---------------------------------------------------------------------------
+!ifdef IDEOPTIONS
+
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1033
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=8
+Item0=..\dssmod;..\..\nn;$(BCB)\include;..\StaDev;..\Matrix.041
+Item1=$(BCB)\include;..\StaDev;..\Matrix.041
+Item2=$(BCB)\include;..\StaDev;..\Matrix-0.41
+Item3=$(BCB)\include;..\StaDev
+Item4=..\..\вовин хлам;..\..\nn;$(BCB)\rx\units;..\neucon;..\StaDev;$(BCB)\projects;$(BCB)\include;$(BCB)\include\vcl
+Item5=..\..\nn;$(BCB)\rx\units;..\neucon;..\StaDev;$(BCB)\projects;$(BCB)\include;$(BCB)\include\vcl
+Item6=..\StaDev;$(BCB)\projects;$(BCB)\include;$(BCB)\include\vcl
+Item7=$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=2
+Item0=..\StaDev;$(BCB)\lib;\obj;$(BCB)\lib;.
+Item1=..\StaDev;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=12
+Item0=_NO_VCL
+Item1=_NO_VCL;DynAr_DEBUG
+Item2=_NO_VCL;PrintUpdateNN
+Item3=_NO_VCL;StdBPE_DEBUG
+Item4=_NO_VCL;BPE_DEBUG
+Item5=_NO_VCL;NNCON_DEBUG
+Item6=_NO_VCL;StdBPE_DEBUG;NNUnit_DEBUG
+Item7=_NO_VCL;StdBPE_DEBUG;QuickProp_DEBUG;NNUnit_DEBUG
+Item8=_NO_VCL;ThreadSafe_BCB;QuickProp_DEBUG
+Item9=_NO_VCL;ThreadSafe_BCB
+Item10=_NO_VCL;ThreadSafe_BCB;StdBPE_DEBUG;NNUnit_DEBUG
+Item11=_NO_VCL;NNUnit_DEBUG
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+HostApplication=
+
+!endif
+
+# ---------------------------------------------------------------------------
+# MAKE SECTION
+# ---------------------------------------------------------------------------
+# This section of the project makefile is not used by the BCB IDE.  It is for
+# the benefit of building from the command-line using the MAKE utility.
+# ---------------------------------------------------------------------------
+
+.autodepend
+# ---------------------------------------------------------------------------
+!if !$d(BCC32)
+BCC32 = bcc32
+!endif
+
+!if !$d(DCC32)
+DCC32 = dcc32
+!endif
+
+!if !$d(TASM32)
+TASM32 = tasm32
+!endif
+
+!if !$d(LINKER)
+LINKER = TLib
+!endif
+# ---------------------------------------------------------------------------
+!if $d(PATHCPP)
+.PATH.CPP = $(PATHCPP)
+.PATH.C   = $(PATHCPP)
+!endif
+
+!if $d(PATHPAS)
+.PATH.PAS = $(PATHPAS)
+!endif
+
+!if $d(PATHASM)
+.PATH.ASM = $(PATHASM)
+!endif
+# ---------------------------------------------------------------------------
+$(PROJECT): $(OBJFILES)
+    $(BCB)\BIN\$(LINKER) /u $@ @&&!
+    $(LFLAGS) $?
+!
+# ---------------------------------------------------------------------------
+.pas.hpp:
+    $(BCB)\BIN\$(DCC32) $(PFLAGS) {$< }
+
+.pas.obj:
+    $(BCB)\BIN\$(DCC32) $(PFLAGS) {$< }
+
+.cpp.obj:
+    $(BCB)\BIN\$(BCC32) $(CFLAG1) $(CFLAG2) $(CFLAG3) -n$(@D) {$< }
+
+.c.obj:
+    $(BCB)\BIN\$(BCC32) $(CFLAG1) $(CFLAG2) $(CFLAG3) -n$(@D) {$< }
+
+.asm.obj:
+    $(BCB)\BIN\$(TASM32) $(AFLAGS) $<, $@
+# ---------------------------------------------------------------------------

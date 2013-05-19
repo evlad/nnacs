@@ -1,0 +1,14 @@
+;NeuCon combined function 1.0
+[CombinedFunction main]
+CustomFunction DeadZone1
+
+[CustomFunction DeadZone1]
+; title_label: Зона нечувствительности
+;              .so/.dll depending the OS
+file    deadzone
+; options_descr: Параметры:
+; options_descr: 1. полуширина области нечувствительности
+; options_descr: 2. усиление линейной части
+options 0.5 2
+; initial_descr: Параметры инициализации (не используются)
+initial 1 2 3

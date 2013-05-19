@@ -1,0 +1,44 @@
+# dcontrp parameters
+# $Id: dcontrp.par,v 1.2 2001-06-18 19:22:53 vlad Exp $
+
+# NNC INPUT MODE: "e+r", "e+de", "e+e+..."
+nnc_mode = e+r
+
+# NNC TEACHING
+# Input files
+in_r = ../003/r.dat
+in_e = ../003/e.dat
+in_u = ../003/u.dat
+
+# Output files
+nn_u = nn_u.dat
+
+# NNC TESTING
+# Input files
+test_in_r = ../002/r.dat
+test_in_e = ../002/e.dat
+test_in_u = ../002/u.dat
+
+# Output files
+test_nn_u = nn_u_test.dat
+
+# Neural net file
+in_nnc_file = ../nnc_initial.nn
+out_nnc_file = ../nnc_as_pid.nn
+
+# Tracking learning process:
+# LearnME LearnSDE LearnMSE TestME TestSDE TestMSE NormLearnMSE NormTestMSE
+trace_file = nnc_er_trace.dat
+
+# Stop learning if...
+#finish_decrease=0.0001
+finish_on_value = 0.001
+finish_on_grow = 20
+finish_max_epoch = 400
+
+# Learning algorithm setup
+eta = 0.02
+eta_output = 0.002
+alpha = 0.0
+
+comment = Предварительное обучение НС-Р подобно ПИД

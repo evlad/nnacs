@@ -1,0 +1,41 @@
+# dcsloop parameters
+
+########################################
+# Type of controller
+#contr_kind = nnc
+contr_kind = lin
+
+########################################
+# Mode of the modeling
+input_kind = stream
+#input_kind = file
+
+# (input_kind = stream) Length of series
+stream_len = 200
+
+# Linear object transfer function
+linobject_tf = plant.tf
+
+# (contr_kind = lin) Linear controller transfer function
+lincontr_tf = contr.tf
+
+# (contr_kind = nnc) Neural net controller
+nncontr = nnc.nn
+
+# (input_kind = stream) Input transfer functions
+refer_tf = refer.tf
+noise_tf = noise.tf
+
+# (input_kind = file) Input files
+in_r = r.dat
+in_n = n.dat
+
+# Output files
+out_u = u_learn.dat
+out_e = e_learn.dat
+out_y = y_learn.dat
+out_ny = ny_learn.dat
+
+# (input_kind = stream) Output files
+out_r = r_learn.dat
+out_n = n_learn.dat

@@ -1,0 +1,80 @@
+# dcontrf parameters
+# $Id: dcontrf.par,v 1.1 2008-06-08 21:04:16 evlad Exp $
+
+########################################
+# Mode of the modeling
+input_kind = stream
+#input_kind = file
+
+# (input_kind = stream) Length of series
+stream_len = 10000
+
+# (input_kind = stream,file) Auto update frequency; 0 to disable
+nnc_auf = 50
+
+# NNC INPUT MODE: "e+r", "e+de", "e+e+..."
+nnc_mode = e+r
+
+# Linear (or combined) plant transfer function
+linplant_tf = ../plant.tf
+
+# (input_kind = stream) Input transfer (or combined) functions
+refer_tf = ../refer.tf
+noise_tf = ../noise.tf
+
+# (input_kind = file) Maximum number of epochs; 0 is unlimited
+max_epochs = 0
+
+# (input_kind = file) Input files
+in_r = r.dat
+in_n = n.dat
+
+# (input_kind = stream) Output files
+out_r = r_out.dat
+out_n = n_out.dat
+
+# Output files
+out_u = u.dat
+out_e = e.dat
+out_y = y.dat
+out_nn_y = nn_y.dat
+out_ny = ny.dat
+
+# Logging of controller's and plant's inputs
+c_in = c_in.dat
+p_in = p_in.dat
+
+# Neural net files
+in_nnp_file = ../1/nnp_res.nn
+in_nnc_file = ../2/pre.nnc
+out_nnc_file = res.nnc
+
+# Optional to select exact input of NN-P as a error conductor in
+# backpropagation chain.  Defined automatically by default.
+#errfetch_output=0
+
+# Tracking learning process: ABSMEAN MEAN RMS STDDEV MAX MIN ABSMAX
+cerr_trace_file = cerr_trace.dat
+iderr_trace_file = iderr_trace.dat
+
+# Skip up to given number of epochs if MSE growing at start
+skip_growing = 35
+
+# Stop learning if...
+finish_on_grow = 35
+finish_decrease = 1e-6
+
+# Special halt condition syntax:
+#   HaltCond ::= { StatId Cond Value ";" } StatId Cond Value
+# where
+#   StatId   ::= ABSMEAN | MEAN | RMS | STDDEV | MAX | MIN | ABSMAX
+#   Cond     ::= "<" | "=" | ">"
+#   Value    ::= FloatingPointNumber
+# Separated for control and identification error statistics
+finish_cerr_cond = absmean > 1.0 ; rms > 1.0
+finish_iderr_cond = rms > 6.0
+
+# Learning algorithm setup
+eta = 0.005
+eta_output = 0.0005
+alpha = 0.0
