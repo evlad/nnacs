@@ -1,5 +1,5 @@
-/* 
-  Magnum 
+/*
+  Magnum
   Copyright (C) 2002-2006 Kaya Kupferschmidt. All Rights Reserved.
 
   This software is provided 'as-is', without any express or implied
@@ -13,6 +13,8 @@
   Kaya Kupferschmidt  (k.kupferschmidt@dimajix.de)
 */
 
+#ifndef __GNUC__
+
 /**
  * This is a dirty hack in order to get String::sscanf to work and
  * because there is no vsscanf in Visual C++
@@ -20,40 +22,40 @@
 
 /*** Microsoft License for Redistributable Code
 
-i.    Right to Use and Distribute.  The code and text files listed below are 
-“Distributable Code.”  
+i.    Right to Use and Distribute.  The code and text files listed below are
+“Distributable Code.”
 ·  You may modify the source code form the C runtimes (CRTs) to design, develop
-   and test your programs, and copy and distribute the object code form of your 
+   and test your programs, and copy and distribute the object code form of your
    modified files under a new name; and
 
-· Permit distributors of your programs to copy and distribute the Distributable 
+· Permit distributors of your programs to copy and distribute the Distributable
    Code as part of those programs.
 
-ii.   Distribution Requirements.  For any Distributable Code you distribute, you 
+ii.   Distribution Requirements.  For any Distributable Code you distribute, you
 must:
 ·  add significant primary functionality to it in your programs;
-·  only invoke the software via interfaces described in the software 
+·  only invoke the software via interfaces described in the software
     documentation;
-·  require distributors and external end users to agree to terms that protect it 
+·  require distributors and external end users to agree to terms that protect it
    at least as much as this agreement;
 ·  display your valid copyright notice on your programs;
-·  indemnify, defend, and hold harmless Microsoft from any claims, including 
+·  indemnify, defend, and hold harmless Microsoft from any claims, including
    attorneys’ fees, related to the distribution or use of your programs.
 
 iii.  Distribution Restrictions.  You may not:
 ·  alter any copyright, trademark or patent notice in the Distributable Code;
-·  use Microsoft’s trademarks in your programs’ names or in a way that suggests 
+·  use Microsoft’s trademarks in your programs’ names or in a way that suggests
    your programs come from or are endorsed by Microsoft;
-·  distribute Distributable Code to run on a platform other than the Windows 
-   platform; 
+·  distribute Distributable Code to run on a platform other than the Windows
+   platform;
 ·  include Distributable Code in malicious, deceptive or unlawful programs; or
-·  modify or distribute the source code of any Distributable Code so that any 
-   part of it becomes subject to an Excluded License.  An Excluded License is 
+·  modify or distribute the source code of any Distributable Code so that any
+   part of it becomes subject to an Excluded License.  An Excluded License is
    one that requires, as a condition of use, modification or distribution, that:
       o  the code be disclosed or distributed in source code form, or
-      o  others have the right to modify it. 
-*/      
-      
+      o  others have the right to modify it.
+*/
+
 /***
 *input.c - C formatted input, used by scanf, etc.
 *
@@ -235,7 +237,7 @@ int __cdecl vsscanf (
     unsigned long number;               /* temp hold-value                   */
     char *table = NULL;                 /* which chars allowed for %[]       */
     int malloc_flag = 0;                /* is "table" allocated on the heap? */
-#if _INTEGRAL_MAX_BITS >= 64   
+#if _INTEGRAL_MAX_BITS >= 64
     unsigned __int64 num64;             /* temp for 64-bit integers          */
 #endif  /* _INTEGRAL_MAX_BITS >= 64    */
     void *pointer=NULL;                 /* points to user data receptacle    */
@@ -263,7 +265,7 @@ int __cdecl vsscanf (
 
     char done_flag;                     /* general purpose loop monitor      */
     char longone;                       /* 0 = SHORT, 1 = LONG, 2 = L_DOUBLE */
-#if _INTEGRAL_MAX_BITS >= 64   
+#if _INTEGRAL_MAX_BITS >= 64
     int integer64;                      /* 1 for 64-bit integer, 0 otherwise */
 #endif  /* _INTEGRAL_MAX_BITS >= 64    */
     signed char widechar;               /* -1 = char, 0 = ????, 1 = wchar_t  */
@@ -293,7 +295,7 @@ int __cdecl vsscanf (
 #else
     FILE strfile;
     FILE *stream = &strfile;
-#endif    
+#endif
     stream->_flag = _IOREAD|_IOSTRG|_IOMYBUF;
     stream->_ptr = stream->_base = (char *) str;
     stream->_cnt = (int)strlen(str);
@@ -352,7 +354,7 @@ int __cdecl vsscanf (
                             --widechar;         /* set widechar = -1 */
                             break;
 
-#if _INTEGRAL_MAX_BITS >= 64   
+#if _INTEGRAL_MAX_BITS >= 64
                         case _T('I'):
                             if ( (*(format + 1) == _T('6')) &&
                                  (*(format + 2) == _T('4')) )
@@ -716,7 +718,7 @@ d_incwidth:
                         }
 
 getnum:
-#if _INTEGRAL_MAX_BITS >= 64   
+#if _INTEGRAL_MAX_BITS >= 64
                         if ( integer64 ) {
 
                             while (!done_flag) {
@@ -802,7 +804,7 @@ getnum:
 
                             if (negative)
                                 number = (unsigned long)(-(long)number);
-#if _INTEGRAL_MAX_BITS >= 64   
+#if _INTEGRAL_MAX_BITS >= 64
                         }
 #endif  /* _INTEGRAL_MAX_BITS >= 64    */
                         if (_T('F')==comchr) /* expected ':' in long pointer */
@@ -813,7 +815,7 @@ getnum:
 
                                 ++count;
 assign_num:
-#if _INTEGRAL_MAX_BITS >= 64   
+#if _INTEGRAL_MAX_BITS >= 64
                                 if ( integer64 )
                                     *(__int64 UNALIGNED *)pointer = (unsigned __int64)num64;
                                 else
@@ -1078,7 +1080,7 @@ f_incwidth2w:
 error_return:
 #ifdef _MT
 	DeleteCriticalSection( &strfile.lock);
-#endif	
+#endif
     if (malloc_flag == 1)
         _free_crt(table);
 
@@ -1178,3 +1180,5 @@ static int __cdecl _whiteout (
 }
 
 #endif  /* _UNICODE */
+
+#endif /* __GNUC__ */

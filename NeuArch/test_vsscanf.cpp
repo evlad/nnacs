@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+#ifndef __GNUC__
 extern "C" void vsscanf (const char* s, const char* f, va_list vargs);
+#endif /* __GNUC__ */
 
 void
 getf (const char* szData, const char* szFormat, ...)
@@ -19,7 +21,7 @@ getf (const char* szData, const char* szFormat, ...)
 int
 main ()
 {
-	char *s = "10 20";
+	char s[] = "10 20";
 	int n1, n2;
 	printf("test vsscanf(\"%s\")\n", s);
 	getf(s, "%d %d", &n1, &n2);
