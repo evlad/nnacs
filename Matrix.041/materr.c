@@ -24,10 +24,10 @@
 
 #include "matrix.h"
 
-MATRIX mat_error( errno )
-int errno;
+
+MATRIX mat_error( int eno )
 {
-	switch( errno )
+	switch( eno )
 		{
 		case MAT_MALLOC:
 			fprintf(stderr, "mat: malloc error\n" );

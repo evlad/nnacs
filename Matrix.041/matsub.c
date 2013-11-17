@@ -24,8 +24,7 @@
 *	comen:
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_sub( A, B )
-MATRIX A, B;
+MATRIX mat_sub( MATRIX A, MATRIX B )
 {
 	int	i, j;
 	MATRIX	C;

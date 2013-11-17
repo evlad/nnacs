@@ -23,9 +23,7 @@
 *	retrn:	S
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_submat( A, i, j )
-MATRIX A;
-int i,j;
+MATRIX mat_submat( MATRIX A, int i, int j )
 {
 	int	m, m1, p, p1;
 	MATRIX	S;

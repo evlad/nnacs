@@ -35,8 +35,7 @@
 *		NULL = fails, singular matrix, or malloc() fails
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_inv( a )
-MATRIX a;
+MATRIX mat_inv( MATRIX a )
 {
 	MATRIX	A, B, C, P;
 	int	i, n;

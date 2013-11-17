@@ -25,8 +25,7 @@
 *	comen:
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_mul( A, B )
-MATRIX A, B;
+MATRIX mat_mul( MATRIX A, MATRIX B )
 {
 	int	i, j, k;
 	MATRIX	C;
@@ -43,8 +42,7 @@ MATRIX A, B;
 	return (C);
 }
 
-double mat_diagmul( A )
-MATRIX A;
+double mat_diagmul( MATRIX A )
 {
 	int i;
 	double result = 1.0;

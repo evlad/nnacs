@@ -40,9 +40,7 @@
 *		rows interchanged matrix.
 *-----------------------------------------------------------------------------
 */
-int mat_lu( A, P )
-MATRIX A;
-MATRIX P;
+int mat_lu( MATRIX A, MATRIX P )
 {
 	int	i, j, k, n;
 	int	maxi, tmp;
@@ -121,9 +119,7 @@ MATRIX P;
 *	comen:	B will be overwritten
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_backsubs1( A, B, X, P, xcol )
-MATRIX A, B, X, P;
-int xcol;
+MATRIX mat_backsubs1( MATRIX A, MATRIX B, MATRIX X, MATRIX P, int xcol )
 {
 	int	i, j, k, n;
 	double	sum;
@@ -159,8 +155,7 @@ int xcol;
 *	retrn:	column matrix X (of AX = B)
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_lsolve( a, b )
-MATRIX a, b;
+MATRIX mat_lsolve( MATRIX a, MATRIX b )
 {
 	MATRIX	A, B, X, P;
 	int	n;

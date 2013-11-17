@@ -26,8 +26,7 @@
 *	comen:	matrix a dumped to standard output
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_dump( A )
-MATRIX A;
+MATRIX mat_dump( MATRIX A )
 {
     return(mat_fdumpf(A, "%f ", stdout));
 }
@@ -41,24 +40,17 @@ MATRIX A;
 *	comen:	matrix a dumped to standard output
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_dumpf( A, s )
-MATRIX A;
-char *s;
+MATRIX mat_dumpf( MATRIX A, char* s )
 {
     return (mat_fdumpf(A, s, stdout));
 }
 
-MATRIX mat_fdump( A, fp )
-MATRIX A;
-FILE *fp;
+MATRIX mat_fdump( MATRIX A, FILE* fp )
 {
     return (mat_fdumpf(A, "%f ", fp));
 }
 
-MATRIX mat_fdumpf( A, s, fp )
-MATRIX A;
-char *s;
-FILE *fp;
+MATRIX mat_fdumpf( MATRIX A, char* s, FILE* fp )
 {
 	int	i, j;
 

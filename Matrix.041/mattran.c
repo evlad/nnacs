@@ -24,8 +24,7 @@
 *	comen:
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_tran( A )
-MATRIX A;
+MATRIX mat_tran( MATRIX A )
 {
 	int	i, j;
 	MATRIX	At;

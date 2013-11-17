@@ -37,8 +37,7 @@
 *	retrn:	x (of Ax = B)
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_durbin( R )
-MATRIX R;
+MATRIX mat_durbin( MATRIX R )
 {
 	int	i, i1, j, ji, p;
 	MATRIX	W, E, K, A, X;
@@ -112,8 +111,7 @@ MATRIX R;
 *
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_lsolve_durbin( A, B )
-MATRIX A, B;
+MATRIX mat_lsolve_durbin( MATRIX A, MATRIX B )
 {
 	MATRIX	R, X;
 	int	i, n;

@@ -25,8 +25,7 @@
 
 #include "matrix.h"
 
-MATRIX	_mat_creat( row, col )
-int row, col;
+MATRIX	_mat_creat( int row, int col )
 {
 	MATBODY	*mat;
 	int 	i;
@@ -54,8 +53,7 @@ int row, col;
 *	retrn:	allocated matrix (use mat_free() to free memory)
 *-----------------------------------------------------------------------------
 */
-MATRIX	mat_creat( row, col, type )
-int row, col, type;
+MATRIX	mat_creat( int row, int col, int type )
 {
 	MATRIX	A;
 
@@ -75,9 +73,7 @@ int row, col, type;
 *	retrn:	A
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_fill( A, type )
-MATRIX A;
-int type;
+MATRIX mat_fill( MATRIX A, int type )
 {
 	int	i, j;
 
@@ -114,8 +110,7 @@ int type;
 *	retrn:	nothing <actually 0 = NULL A passed, 1 = normal exit>
 *-----------------------------------------------------------------------------
 */
-int mat_free( A )
-MATRIX A;
+int mat_free( MATRIX A )
 {
 	int i;
 
@@ -138,8 +133,7 @@ MATRIX A;
 *	comen:
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_copy( A )
-MATRIX A;
+MATRIX mat_copy( MATRIX A )
 {
 	int	i, j;
 	MATRIX	C;
@@ -156,9 +150,7 @@ MATRIX A;
 }
 
 
-MATRIX mat_colcopy1( A, B, cola, colb )
-MATRIX A, B;
-int cola, colb;
+MATRIX mat_colcopy1( MATRIX A, MATRIX B, int cola, int colb )
 {
 	int	i, n;
 
@@ -170,9 +162,7 @@ int cola, colb;
 	return (A);
 }
 
-int fgetmat( A, fp )
-MATRIX A;
-FILE *fp;
+int fgetmat( MATRIX A, FILE* fp )
 {
 	int 	i, j, k=0;
 

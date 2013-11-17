@@ -26,8 +26,7 @@
 *	retrn:	the symmetric Toeplitz matrix
 *-----------------------------------------------------------------------------
 */
-MATRIX mat_SymToeplz( R )
-MATRIX R;
+MATRIX mat_SymToeplz( MATRIX R )
 {
 	int	i, j, n;
 	MATRIX	T;

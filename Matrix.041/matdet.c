@@ -25,9 +25,7 @@ static double signa[2] = {1.0, -1.0};
 *	retrn:	the minor of Aij
 *-----------------------------------------------------------------------------
 */
-double mat_minor( A, i, j )
-MATRIX A;
-int i, j;
+double mat_minor( MATRIX A, int i, int j )
 {
 	MATRIX	S;
 	double	result;
@@ -49,9 +47,7 @@ int i, j;
 *	retrn:	the cofactor of Aij
 *-----------------------------------------------------------------------------
 */
-double mat_cofact( A, i, j )
-MATRIX A;
-int i, j;
+double mat_cofact( MATRIX A, int i, int j )
 {
 	double	result;
 
@@ -69,8 +65,7 @@ int i, j;
 *	comen:
 *-----------------------------------------------------------------------------
 */
-double mat_det( a )
-MATRIX a;
+double mat_det( MATRIX a )
 {
 	MATRIX	A, P;
 	int	i, j, n;
