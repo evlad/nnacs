@@ -149,7 +149,7 @@ NaNNRegrPlantLearn::run_net ()
 bool
 NaNNRegrPlantLearn::user_break ()
 {
-#if defined(__MSDOS__) || defined(__WIN32__)
+#if defined(__MSDOS__) || (defined(__WIN32__) && !defined(__MINGW32__))
     if(kbhit()){
         int c = getch();
         if('x' == c || 'q' == c){
