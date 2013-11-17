@@ -1,0 +1,1179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="dtools" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\Matrix.041\;CMake Files\NeuArch\;CMake Files\NaTools\;CMake Files\dtools\;CMake Files\dcsloop\;CMake Files\dplantid\;CMake Files\dcontrp\;CMake Files\dcontrf\;CMake Files\noc_labs\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="d2ts">
+         <Option output="D:/repos/nnacs/dtools/d2ts.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 d2ts" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="d2ts/fast">
+         <Option output="D:/repos/nnacs/dtools/d2ts.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 d2ts/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dconst">
+         <Option output="D:/repos/nnacs/dtools/dconst.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dconst" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dconst/fast">
+         <Option output="D:/repos/nnacs/dtools/dconst.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dconst/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dcorr">
+         <Option output="D:/repos/nnacs/dtools/dcorr.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dcorr" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dcorr/fast">
+         <Option output="D:/repos/nnacs/dtools/dcorr.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dcorr/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="djacob">
+         <Option output="D:/repos/nnacs/dtools/djacob.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 djacob" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="djacob/fast">
+         <Option output="D:/repos/nnacs/dtools/djacob.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 djacob/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dmean">
+         <Option output="D:/repos/nnacs/dtools/dmean.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dmean" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dmean/fast">
+         <Option output="D:/repos/nnacs/dtools/dmean.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dmean/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dmeander">
+         <Option output="D:/repos/nnacs/dtools/dmeander.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dmeander" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dmeander/fast">
+         <Option output="D:/repos/nnacs/dtools/dmeander.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dmeander/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dmse">
+         <Option output="D:/repos/nnacs/dtools/dmse.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dmse" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dmse/fast">
+         <Option output="D:/repos/nnacs/dtools/dmse.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dmse/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dmult">
+         <Option output="D:/repos/nnacs/dtools/dmult.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dmult" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dmult/fast">
+         <Option output="D:/repos/nnacs/dtools/dmult.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dmult/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="drand">
+         <Option output="D:/repos/nnacs/dtools/drand.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 drand" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="drand/fast">
+         <Option output="D:/repos/nnacs/dtools/drand.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 drand/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="drandmea">
+         <Option output="D:/repos/nnacs/dtools/drandmea.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 drandmea" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="drandmea/fast">
+         <Option output="D:/repos/nnacs/dtools/drandmea.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 drandmea/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dranduni">
+         <Option output="D:/repos/nnacs/dtools/dranduni.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dranduni" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dranduni/fast">
+         <Option output="D:/repos/nnacs/dtools/dranduni.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dranduni/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dsin">
+         <Option output="D:/repos/nnacs/dtools/dsin.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dsin" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dsin/fast">
+         <Option output="D:/repos/nnacs/dtools/dsin.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dsin/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dsmooth">
+         <Option output="D:/repos/nnacs/dtools/dsmooth.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dsmooth" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dsmooth/fast">
+         <Option output="D:/repos/nnacs/dtools/dsmooth.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dsmooth/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dstat">
+         <Option output="D:/repos/nnacs/dtools/dstat.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dstat" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dstat/fast">
+         <Option output="D:/repos/nnacs/dtools/dstat.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dstat/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dstatsb">
+         <Option output="D:/repos/nnacs/dtools/dstatsb.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dstatsb" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dstatsb/fast">
+         <Option output="D:/repos/nnacs/dtools/dstatsb.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dstatsb/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dstddev">
+         <Option output="D:/repos/nnacs/dtools/dstddev.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dstddev" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dstddev/fast">
+         <Option output="D:/repos/nnacs/dtools/dstddev.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dstddev/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dsteps">
+         <Option output="D:/repos/nnacs/dtools/dsteps.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dsteps" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dsteps/fast">
+         <Option output="D:/repos/nnacs/dtools/dsteps.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dsteps/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dsub">
+         <Option output="D:/repos/nnacs/dtools/dsub.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dsub" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dsub/fast">
+         <Option output="D:/repos/nnacs/dtools/dsub.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dsub/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dsum">
+         <Option output="D:/repos/nnacs/dtools/dsum.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dsum" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dsum/fast">
+         <Option output="D:/repos/nnacs/dtools/dsum.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dsum/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dtf">
+         <Option output="D:/repos/nnacs/dtools/dtf.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dtf" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dtf/fast">
+         <Option output="D:/repos/nnacs/dtools/dtf.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dtf/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dwtest">
+         <Option output="D:/repos/nnacs/dtools/dwtest.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dwtest" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dwtest/fast">
+         <Option output="D:/repos/nnacs/dtools/dwtest.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dwtest/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dwtest2">
+         <Option output="D:/repos/nnacs/dtools/dwtest2.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dwtest2" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dwtest2/fast">
+         <Option output="D:/repos/nnacs/dtools/dwtest2.exe" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="D:/repos/nnacs/dtools" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="D:/repos/nnacs/dtools/." />
+            <Add directory="D:/repos/nnacs/dtools/../Matrix.041" />
+            <Add directory="D:/repos/nnacs/dtools/../NeuArch" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include-fixed" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/backward" />
+            <Add directory="c:\program files\codeblocks\mingw\bin\../lib/gcc/mingw32/4.7.1/include/c++/mingw32" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 dwtest2/fast" />
+            <CompileFile command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="C:/PROGRA~1/CODEBL~1/MinGW/bin/mingw32-make.exe -f &quot;D:/repos/nnacs/dtools/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="D:/repos/nnacs/dtools/d2ts.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dconst.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dcorr.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/djacob.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dmean.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dmeander.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dmse.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dmult.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/drand.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/drandmea.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dranduni.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dsin.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dsmooth.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dstat.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dstatsb.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dstddev.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dsteps.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dsub.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dsum.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dtf.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dwtest.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/dwtest2.cpp">
+      </Unit>
+      <Unit filename="D:/repos/nnacs/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/Matrix.041/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\Matrix.041\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/Matrix.041/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\Matrix.041\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/NeuArch/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\NeuArch\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/NeuArch/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\NeuArch\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/NaTools/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\NaTools\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/NaTools/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\NaTools\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\dtools\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dtools/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\dtools\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dcsloop/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\dcsloop\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dcsloop/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\dcsloop\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dplantid/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\dplantid\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dplantid/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\dplantid\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dcontrp/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\dcontrp\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dcontrp/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\dcontrp\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dcontrf/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\dcontrf\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/dcontrf/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\dcontrf\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/noc_labs/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\noc_labs\" />
+      </Unit>
+      <Unit filename="D:/repos/nnacs/noc_labs/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\noc_labs\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>
