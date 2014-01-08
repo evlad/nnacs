@@ -72,6 +72,23 @@ NaMatrix&   NaMatrix::operator= (const NaMatrix& rMatr)
     return *this;
 }
 
+
+//---------------------------------------------------------------------------
+// Assign considering equal dimensions (otherwise exception is excited)
+NaMatrix&   NaMatrix::copy (const NaMatrix& rMatr)
+{
+    if(dim_rows() != rMatr.dim_rows() || dim_cols() != rMatr.dim_cols()){
+	throw(na_size_mismatch);
+    }
+
+    unsigned    i;
+    for(i = 0; i < nDimRow * nDimCol; ++i)
+        pMatr[i] = rMatr.pMatr[i];
+
+    return *this;
+}
+
+
 //---------------------------------------------------------------------------
 // Make new size of matrix
 NaMatrix&   NaMatrix::new_dim (unsigned nR, unsigned nC)

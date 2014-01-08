@@ -41,6 +41,9 @@ public:
     // Make new size of vector and unlink it from other data
     virtual NaVector&   new_dim (unsigned n);
 
+    // Assign considering equal dimensions (otherwise exception is excited)
+    virtual NaVector&   copy (const NaVector& rVect);
+
     /*=======================================*
      *    INFORMATION AND ACCESS TO ITEMS    *
      *=======================================*/

@@ -39,6 +39,9 @@ public:
     // Make new size of matrix
     virtual NaMatrix&   new_dim (unsigned nR, unsigned nC);
 
+    // Assign considering equal dimensions (otherwise exception is excited)
+    virtual NaMatrix&   copy (const NaMatrix& rMatr);
+
     /*=======================================*
      *    INFORMATION AND ACCESS TO ITEMS    *
      *=======================================*/

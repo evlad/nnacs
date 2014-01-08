@@ -80,6 +80,24 @@ NaVector::operator= (const NaReal* pVect_)
     return *this;
 }
 
+
+//---------------------------------------------------------------------------
+// Assign considering equal dimensions (otherwise exception is excited)
+NaVector&
+NaVector::copy (const NaVector& rVect)
+{
+    if(dim() != rVect.dim()){
+	throw(na_size_mismatch);
+    }
+
+    unsigned    i;
+    for(i = 0; i < dim(); ++i)
+        pVect[i] = rVect.pVect[i];
+
+    return *this;
+}
+
+
 //---------------------------------------------------------------------------
 // Make new size of vector and unlink it from other data
 NaVector&
