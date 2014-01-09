@@ -82,6 +82,8 @@ set(SOURCE_LIB NaConLaw.cpp
 	NaPNCuSu.cpp
 	NaPNWatc.cpp
 	NaPNTDG.cpp
+	NaSSModel.cpp
+	NaPNSS.cpp
 	NaInvPnd.cpp
 	NaWMR.cpp
 	kbdif.cpp)			# Установка переменной со списком исходников для библиотеки
