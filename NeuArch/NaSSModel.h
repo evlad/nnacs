@@ -98,6 +98,9 @@ public:
 				       unsigned& uOutputs,
 				       unsigned& uState) const;
 
+    // Get internal state.
+    virtual void	GetState (NaVector& vX) const;
+
     //***********************************************************************
     // Unit part
     //***********************************************************************

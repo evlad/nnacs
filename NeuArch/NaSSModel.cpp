@@ -250,6 +250,15 @@ NaStateSpaceModel::GetDimensions (unsigned& uInputs,
 }
 
 
+//---------------------------------------------------------------------------
+// Get internal state.
+void
+NaStateSpaceModel::GetState (NaVector& vX) const
+{
+    vX = x;
+}
+
+
 //***********************************************************************
 // Unit part
 //***********************************************************************
@@ -260,6 +269,7 @@ NaStateSpaceModel::GetDimensions (unsigned& uInputs,
 void
 NaStateSpaceModel::Reset ()
 {
+    x.new_dim(n);
     if(x0.dim() == 0)
 	x.init_zero();
     else if(x0.dim() == x.dim())
@@ -307,6 +317,7 @@ NaStateSpaceModel::Function (NaReal* pU, NaReal* pY)
 void
 NaStateSpaceModel::Save (NaDataStream& ds)
 {
+    // TODO
 }
 
 
@@ -315,6 +326,7 @@ NaStateSpaceModel::Save (NaDataStream& ds)
 void
 NaStateSpaceModel::Load (NaDataStream& ds)
 {
+    // TODO
 }
 
 
@@ -323,6 +335,7 @@ NaStateSpaceModel::Load (NaDataStream& ds)
 void
 NaStateSpaceModel::Save (const char* szFileName)
 {
+    // TODO
 }
 
 
@@ -331,4 +344,5 @@ NaStateSpaceModel::Save (const char* szFileName)
 void
 NaStateSpaceModel::Load (const char* szFileName)
 {
+    // TODO
 }
