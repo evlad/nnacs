@@ -26,6 +26,10 @@ main (int argc, char* argv[])
 
 	ssm.SetMatrices(A, B);
 
+	ssm.Save("mimo_test.ssm");
+
+	ssm.Load("mimo_test.ssm");
+
 	// Start modeling
 
 	// Initial state x0=[0; 0] but may be changed

@@ -317,7 +317,75 @@ NaStateSpaceModel::Function (NaReal* pU, NaReal* pY)
 void
 NaStateSpaceModel::Save (NaDataStream& ds)
 {
-    // TODO
+    unsigned     i, j;
+    char    *szBuf, szComment[100];
+
+    ds.PutComment(" State space discrete time model:");
+    ds.PutComment("   x(t+1) = A*x(t) + B*u(t)");
+    ds.PutComment("   y(t)   = C*x(t) + D*u(t)");
+    ds.PutComment(" Matrices: A(N,N), B(N,K), C(M,N), D(M,K)");
+    ds.PutComment("   N - state vector, M - outputs, K - inputs");
+    ds.PutF("Dimensions N M K", "%u %u %u", n, m, k);
+
+    sprintf(szComment, " Matrix A(%u,%u), %u numbers:", n, n, n*n);
+    ds.PutComment(szComment);
+    szBuf = new char[20*A.dim_cols()];
+    for(i = 0; i < A.dim_rows(); ++i){
+        szBuf[0] = '\0';
+        for(j = 0; j < A.dim_cols(); ++j){
+            sprintf(szBuf + strlen(szBuf), " %g", A[i][j]);
+        }
+        ds.PutF(NULL, "%s", szBuf);
+    }
+    delete[] szBuf;
+
+    sprintf(szComment, " Matrix B(%u,%u), %u numbers:", n, k, n*k);
+    ds.PutComment(szComment);
+    szBuf = new char[20*B.dim_cols()];
+    for(i = 0; i < B.dim_rows(); ++i){
+        szBuf[0] = '\0';
+        for(j = 0; j < B.dim_cols(); ++j){
+            sprintf(szBuf + strlen(szBuf), " %g", B[i][j]);
+        }
+        ds.PutF(NULL, "%s", szBuf);
+    }
+    delete[] szBuf;
+
+    sprintf(szComment, " Matrix C(%u,%u), %u numbers:", m, n, m*n);
+    ds.PutComment(szComment);
+    szBuf = new char[20*C.dim_cols()];
+    for(i = 0; i < C.dim_rows(); ++i){
+        szBuf[0] = '\0';
+        for(j = 0; j < C.dim_cols(); ++j){
+            sprintf(szBuf + strlen(szBuf), " %g", C[i][j]);
+        }
+        ds.PutF(NULL, "%s", szBuf);
+    }
+    delete[] szBuf;
+
+    sprintf(szComment, " Matrix D(%u,%u), %u numbers:", m, k, m*k);
+    ds.PutComment(szComment);
+    szBuf = new char[20*D.dim_cols()];
+    for(i = 0; i < D.dim_rows(); ++i){
+        szBuf[0] = '\0';
+        for(j = 0; j < D.dim_cols(); ++j){
+            sprintf(szBuf + strlen(szBuf), " %g", D[i][j]);
+        }
+        ds.PutF(NULL, "%s", szBuf);
+    }
+    delete[] szBuf;
+
+    // Since x0 may be em[ty due to zero initial conditions, then
+    // special algorithm to save it is used.
+    ds.PutComment(" Initial state x(0):");
+    szBuf = new char[20*n];
+    szBuf[0] = '\0';
+    for(i = 0; i < n; ++i){
+	NaReal fX0i = (i < x0.dim())? x0[i]: 0.0;
+	sprintf(szBuf + strlen(szBuf), " %g", fX0i);
+    }
+    ds.PutF(NULL, "%s", szBuf);
+    delete[] szBuf;
 }
 
 
@@ -326,7 +394,67 @@ NaStateSpaceModel::Save (NaDataStream& ds)
 void
 NaStateSpaceModel::Load (NaDataStream& ds)
 {
-    // TODO
+    char        *szBuf, *s, *p;
+    unsigned     i, j;
+
+    ds.GetF("%u %u %u", &n, &m, &k);
+    NaPrintLog("N=%d  M=%d  K=%d\n", n, m, k);
+
+    A.new_dim(n, n);
+    for(i = 0; i < A.dim_rows(); ++i){
+        szBuf = ds.GetData();
+        s = szBuf;
+        for(j = 0; j < A.dim_cols(); ++j){
+            A[i][j] = strtod(s, &p);
+            s = p;
+        }
+    }
+    A.print_contents();
+
+    B.new_dim(n, k);
+    for(i = 0; i < B.dim_rows(); ++i){
+        szBuf = ds.GetData();
+        s = szBuf;
+        for(j = 0; j < B.dim_cols(); ++j){
+            B[i][j] = strtod(s, &p);
+            s = p;
+        }
+    }
+    B.print_contents();
+
+    C.new_dim(m, n);
+    for(i = 0; i < C.dim_rows(); ++i){
+        szBuf = ds.GetData();
+        s = szBuf;
+        for(j = 0; j < C.dim_cols(); ++j){
+            C[i][j] = strtod(s, &p);
+            s = p;
+        }
+    }
+    C.print_contents();
+
+    D.new_dim(m, k);
+    for(i = 0; i < D.dim_rows(); ++i){
+        szBuf = ds.GetData();
+        s = szBuf;
+        for(j = 0; j < C.dim_cols(); ++j){
+            D[i][j] = strtod(s, &p);
+            s = p;
+        }
+    }
+    D.print_contents();
+
+    // Just to have right dimension
+    x.new_dim(n);
+
+    x0.new_dim(n);
+    szBuf = ds.GetData();
+    s = szBuf;
+    for(i = 0; i < x0.dim(); ++i){
+	x0[i] = strtod(s, &p);
+	s = p;
+    }
+    x0.print_contents();
 }
 
 
@@ -335,7 +463,10 @@ NaStateSpaceModel::Load (NaDataStream& ds)
 void
 NaStateSpaceModel::Save (const char* szFileName)
 {
-    // TODO
+  NaConfigPart	*conf_list[] = { this };
+  NaConfigFile	conf_file(";NeuCon StateSpaceModel", 1, 0, ".ssm");
+  conf_file.AddPartitions(NaNUMBER(conf_list), conf_list);
+  conf_file.SaveToFile(szFileName);
 }
 
 
@@ -344,5 +475,8 @@ NaStateSpaceModel::Save (const char* szFileName)
 void
 NaStateSpaceModel::Load (const char* szFileName)
 {
-    // TODO
+  NaConfigPart	*conf_list[] = { this };
+  NaConfigFile	conf_file(";NeuCon StateSpaceModel", 1, 0, ".ssm");
+  conf_file.AddPartitions(NaNUMBER(conf_list), conf_list);
+  conf_file.LoadFromFile(szFileName);
 }
