@@ -29,6 +29,37 @@ package require universal
 # { name "ssm1" states 2 inputs 1 outputs 2
 #   a {1 0.5 0 2} b {0 1} c {1 0 0 1} d {0 0} x0 {0 0} }
 
+# Load object from given text taken from file.
+# - this - object internal data (array with keys) - result;
+# - ftext - file contents to parse (.ssm format).
+proc SSModelLoadConfig {thisvar ftext} {
+    upvar $thisvar this
+
+    foreach line $ftext {
+	# Let's exclude empty items to get fields
+	set fields {}
+	foreach f [split $line] {
+	    if {$f != {}} {
+		lappend fields $f
+	    }
+	}
+	# Let's try to find key in the line
+	#puts "key_pos: $key_pos"
+	foreach {key pos} $key_pos {
+	    # Key presents somewhere after ;
+	    set cindex [lsearch -exact $fields ";"]
+	    if {$cindex > 0} {
+		# There is a comment, let's find all keywords
+		if {[lsearch -exact [lrange $fields $cindex end] $key] > 0} {
+		    set this($key) [lindex $fields $pos]
+		    #puts "[lindex $fields $pos] ==> $key=$this($key)"
+		} 
+	    }
+	}
+    }
+}
+
+
 # Display four matrices of the object
 # - p - parent widget
 # - thisvar - name of the array in calling context to list name=value pairs
