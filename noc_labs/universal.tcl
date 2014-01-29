@@ -269,3 +269,105 @@ proc array_equal {a1_ a2_} {
     }
     return 1
 }
+
+
+# Example of parameters dialog:
+#global array_params
+#array set array_params {par_a 12.3 par_c "Test value" par_b 32000 }
+#set TestParameters {
+#    -0 "Window title"
+#    -1 "Первый подзаголовок"
+#    par_a "Первый параметр"
+#    par_b "Второй параметр"
+#    -2 "Второй подзаголовок"
+#    par_c "Третий параметр"
+#}
+#ParametersWindow .main.subwin array_params $TestParameters
+#...
+#puts [array get array_params]
+
+# Create dialog window with named parameters.
+# - p - parent widget;
+# - arref - name of global array variable where to store settings
+#           under names mentioned in parlist;
+# - parlist - list of parameters and their labels.
+proc ParametersWindow {p arref parlist} {
+    upvar $arref arvar
+
+    set w $p.nntpar
+    catch {destroy $w}
+    toplevel $w
+    wm title $w "Parameters"
+
+    global $w.parvalue
+    array set pardescr $parlist
+
+    # Make local copy
+    foreach par [array names pardescr] {
+	if {[info exists arvar($par)]} {
+	    set $w.parvalue($par) $arvar($par)
+	} else {
+	    set $w.parvalue($par) {}
+	}
+    }
+
+    set f $w.p
+    frame $f
+
+    set row 0
+    foreach {par parlabel} $parlist {
+	switch -glob -- $par {
+	    -0 { # Window title
+		wm title $w $pardescr($par)
+	    }
+	    -* { # Title
+		label $f.title$par -text $pardescr($par)
+		grid $f.title$par
+		grid $f.title$par -row $row -column 0 -columnspan 2
+	    }
+	    default {
+		label $f.label_$par -text $pardescr($par) -anchor w
+		entry $f.entry_$par -textvariable $w.parvalue($par) -width 10
+		grid $f.label_$par $f.entry_$par -sticky nw
+	    }
+	}
+	incr row
+    }
+
+    pack $f -side top
+
+    frame $w.buttons
+    pack $w.buttons -side bottom -fill x -pady 2m
+
+    button $w.buttons.ok -text "OK" \
+	-command "set $w.applyChanges 1 ; destroy $w"
+    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    pack $w.buttons.ok $w.buttons.cancel -side left -expand 1
+
+    global $w.applyChanges
+    set $w.applyChanges 0
+
+    tkwait window $w
+
+    set changed 0
+    if {[set $w.applyChanges]} {
+	#puts "ParametersWindow: apply changes"
+
+	# Return changed values back
+	foreach par [array names pardescr] {
+	    if {[info exists arvar($par)]} {
+		if {$arvar($par) != [set $w.parvalue($par)]} {
+		    set arvar($par) [set $w.parvalue($par)]
+		    set changed 1
+		}
+	    } elseif {[set $w.parvalue($par)] != {}} {
+		set arvar($par) [set $w.parvalue($par)]
+		set changed 1
+	    }
+	}
+    }
+    if {$changed == 0} {
+	#puts "ParametersWindow: no changes"
+    }
+    return $changed
+}

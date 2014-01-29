@@ -300,7 +300,7 @@ proc dcontrpCreateWindow {p title sessionDir} {
 	-command "NNContrWindow $w \"$curSessionDir\" dcontrp_params in_nnc_file out_nnc_file nnc_mode; ParFileAssign \"$parFile\" dcontrp_params"
 
     $c.learn_training configure \
-	-command "NNTeacherParWindow $w dcontrp_params \$OfflineNNTeacherPar; ParFileAssign \"$parFile\" dcontrp_params"
+	-command "ParametersWindow $w dcontrp_params \$OfflineNNTeacherPar; ParFileAssign \"$parFile\" dcontrp_params"
 
     # Assign name of check point output files
     foreach {chkpnt parname} {

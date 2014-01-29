@@ -202,7 +202,7 @@ proc SignalGenAction {p n} {
 
     if {[info exists $n.par_initial]} {
 	#puts "$n.par_arr: [array get $n.par_arr]"
-	NNTeacherParWindow $p $n.par_arr [set $n.par_gui]
+	ParametersWindow $p $n.par_arr [set $n.par_gui]
     }
     $n.gen $p $n.par_arr $filepath
     set wholeData [GrSeriesReadFile $filepath]

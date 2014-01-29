@@ -305,7 +305,7 @@ proc dcontrfCreateWindow {p title sessionDir} {
     $c.noise configure \
 	-command "SignalWindow $w \"$curSessionDir\" noise dcontrf_params input_kind in_n noise_tf stream_len ; ParFileAssign \"$parFile\" dcontrf_params"
     $c.teacher configure \
-	-command "NNTeacherParWindow $w dcontrf_params \$OnlineNNTeacherPar; ParFileAssign \"$parFile\" dcontrf_params"
+	-command "ParametersWindow $w dcontrf_params \$OnlineNNTeacherPar; ParFileAssign \"$parFile\" dcontrf_params"
     $c.controller configure \
 	-command "NNContrWindow $w \"$curSessionDir\" dcontrf_params in_nnc_file out_nnc_file nnc_mode; ParFileAssign \"$parFile\" dcontrf_params"
     $c.nnplant configure \

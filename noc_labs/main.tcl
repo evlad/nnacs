@@ -55,11 +55,11 @@ NNACS - Neural network applications for control systems
 } center
     global tcl_platform
     set platform [string totitle $tcl_platform(platform)]
-    $w.text insert end "Версия: 1.5 для $platform\n" center
+    $w.text insert end "Версия: 1.6 для $platform\n" center
     $w.text insert end "Дата: 19 мая 2013 года\n" center
     $w.text insert end {
 Национальный исследовательский университет "МЭИ"
-Факультет Автоматики и вычислительной техники
+Институт Автоматики и вычислительной техники
 Кафедра Управления и информатики
 } center
 

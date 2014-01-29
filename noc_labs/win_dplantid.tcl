@@ -309,7 +309,7 @@ proc dplantidCreateWindow {p title sessionDir} {
 	-command "NNPlantWindow $w \"$curSessionDir\" dplantid_params in_nnp_file out_nnp_file; ParFileAssign \"$parFile\" dplantid_params"
 
     $c.learn_training configure \
-	-command "NNTeacherParWindow $w dplantid_params \$OfflineNNTeacherPar; ParFileAssign \"$parFile\" dplantid_params"
+	-command "ParametersWindow $w dplantid_params \$OfflineNNTeacherPar; ParFileAssign \"$parFile\" dplantid_params"
 
     # Assign name of check point output files
     foreach {chkpnt parname} {
