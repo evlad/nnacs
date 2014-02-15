@@ -112,8 +112,6 @@ proc SSModelEditor {p thisvar} {
     catch {destroy $w}
     toplevel $w
 
-    #set debugCells 0
-
     upvar $thisvar this
     set n $this(states)
     set m $this(outputs)
@@ -149,104 +147,8 @@ proc SSModelEditor {p thisvar} {
     }
     pack $f -anchor nw
 
-    #frame $w.data
-
     SSModelDisplayData $w.data $w.states $w.outputs $w.inputs \
 	$this(x0) $this(a) $this(b) $this(c) $this(d)
-
-    # set f $w.data
-
-    # set r 0
-
-    # set c 0
-    # label $f.la -text "A:"
-    # grid $f.la -row $r -column $c
-    # incr c
-    # for {set j 0} {$j < $n} {incr j} {
-    # 	for {set i 0} {$i < $n} {incr i} {
-    # 	    global a_${j}_$i
-    # 	    if $debugCells {
-    # 		set a_${j}_$i "A\[$j,$i\]"
-    # 	    } else {
-    # 		set a_${j}_$i [lindex $this(a) $j $i]
-    # 	    }
-    # 	    entry $f.ea_${j}_$i -width 10 -textvariable a_${j}_$i
-    # 	    grid $f.ea_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
-    # 	}
-    # }
-
-    # incr c $n
-    # label $f.lb -text "B:"
-    # grid $f.lb -row $r -column [expr $c]
-    # incr c
-    # for {set j 0} {$j < $n} {incr j} {
-    # 	for {set i 0} {$i < $k} {incr i} {
-    # 	    global b_${j}_$i
-    # 	    if $debugCells {
-    # 		set b_${j}_$i "B\[$j,$i\]"
-    # 	    } else {
-    # 		set b_${j}_$i [lindex $this(b) $j $i]
-    # 	    }
-    # 	    entry $f.eb_${j}_$i -width 10 -textvariable b_${j}_$i
-    # 	    grid $f.eb_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
-    # 	}
-    # }
-    # incr r $n
-
-    # incr r
-    # set c 0
-    # label $f.lc -text "C:"
-    # grid $f.lc -row $r -column $c
-    # incr c
-    # for {set j 0} {$j < $m} {incr j} {
-    # 	for {set i 0} {$i < $n} {incr i} {
-    # 	    global c_${j}_$i
-    # 	    if $debugCells {
-    # 		set c_${j}_$i "C\[$j,$i\]"
-    # 	    } else {
-    # 		set c_${j}_$i [lindex $this(c) $j $i]
-    # 	    }
-    # 	    entry $f.ec_${j}_$i -width 10 -textvariable c_${j}_$i
-    # 	    grid $f.ec_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
-    # 	}
-    # }
-
-    # incr c $n
-    # label $f.ld -text "D:"
-    # grid $f.ld -row $r -column [expr $c]
-    # incr c
-    # for {set j 0} {$j < $m} {incr j} {
-    # 	for {set i 0} {$i < $k} {incr i} {
-    # 	    global d_${j}_$i
-    # 	    if $debugCells {
-    # 		set d_${j}_$i "D\[$j,$i\]"
-    # 	    } else {
-    # 		set d_${j}_$i [lindex $this(d) $j $i]
-    # 	    }
-    # 	    entry $f.ed_${j}_$i -width 10 -textvariable d_${j}_$i
-    # 	    grid $f.ed_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
-    # 	}
-    # }
-    # incr r $m
-
-    # set c 0
-    # label $f.lx0 -text "x0:"
-    # grid $f.lx0 -row $r -column $c
-    # incr c
-    # for {set i 0} {$i < $n} {incr i} {
-    # 	global x0_$i
-    # 	if $debugCells {
-    # 	    set x0_$i "x0\[$i\]"
-    # 	} else {
-    # 	    set x0_$i [lindex $this(x0) $i]
-    # 	}
-    # 	global x0_$i
-    # 	entry $f.ex0_$i -width 10 -textvariable x0_$i
-    # 	grid $f.ex0_$i -row [expr $r] -column [expr $c + $i]
-    # }
-    # incr r
-
-    #pack $f
 }
 
 set ssm {
