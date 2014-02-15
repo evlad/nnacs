@@ -48,7 +48,11 @@ proc SSModelLoadConfig {thisvar ftext} {
 		    lappend fields $f
 		}
 	    }
-	    puts "$lineNo ($cindex): [join $fields]"
+	    if {$cindex == -1} {
+		puts "$lineNo (no comment): [join $fields]"
+	    } else {
+		puts "$lineNo (comment at $cindex): [join $fields]"
+	    }
 
 	    if {$dimensionsLine == 0} {
 		incr dimensionsLine

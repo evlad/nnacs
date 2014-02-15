@@ -27,7 +27,7 @@ package require universal
 
 # For example:
 # { name "ssm1" states 2 inputs 1 outputs 2
-#   a {1 0.5 0 2} b {0 1} c {1 0 0 1} d {0 0} x0 {0 0} }
+#   a {{1 0.5} {0 2}} b {0 1} c {{1 0} {0 1}} d {0 0} x0 {0 0} }
 
 # Load object from given text taken from file.
 # - this - object internal data (array with keys) - result;
