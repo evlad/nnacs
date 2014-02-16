@@ -61,14 +61,19 @@ $$G^*(z)=\frac{K}{z^3}$$
 $$G^*(z)=K\frac{d_1z^3+d_2z^2+d_3z+d_4}{z^3+d_5z^2+d_6z+d_7}$$
 
 
-%%file: img12 pid_kkk
 %\item ПИД регулятор (представление KKK):
 %  $$C_{PID}^*(z)=K_p+K_i\frac{z}{z-1+\beta_i}+K_d\frac{z^2-2z+1}{z(z-1+\beta_d)}$$
 
-%%file: img13 pid_ktt
 %\item ПИД регулятор (представление KTT):
 %  $$C_{PID}^*(z)=K_p\Bigl(1+\frac{z}{T_i(z-1+\beta_i)}+\frac{z^2-2z+1}{T_dz(z-1+\beta_d)}\Bigr)$$
 
+%%file: img12 ssmodel
+\item Модель в пространстве состояний
+$$ \left\{\begin{array}{rcl}
+  x_{k+1} & = & Ax_k+Bu_k \\
+  y_k & = & Cx_k+Du_k \\
+  x_0 & = & x0
+\end{array}\right. $$
 
 \end{itemize}
 
