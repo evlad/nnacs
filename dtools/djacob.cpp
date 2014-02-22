@@ -17,7 +17,7 @@ static char rcsid[] = "$Id$";
 /***********************************************************************
  * Read input and observation of some system and compute discrete
  * jacobian estimation.  Output contains Delta u(k), Delta y(k) and
- * Jacobian(k)=Delta u(k)/Delta y(k)
+ * Jacobian(k)=Delta y(k)/Delta u(k)
  ***********************************************************************/
 int main (int argc, char* argv[])
 {
