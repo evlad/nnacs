@@ -28,7 +28,6 @@ set(TCL_SCRIPTS data_file.tcl
 	win_dcontrp.tcl
 	win_dcsloop.tcl
 	win_dplantid.tcl
-	win_genseries.tcl
 	win_grseries.tcl
 	win_nncedit.tcl
 	win_nncontr.tcl
