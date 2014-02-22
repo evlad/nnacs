@@ -22,7 +22,8 @@ NaStateSpaceModel::NaRegStateSpaceModel ()
 // Make empty (A=[0], B=[0], C=[0], D=[0]) state-space model of
 // with dimension 1 for all signals.
 NaStateSpaceModel::NaStateSpaceModel ()
-    : A(1, 1), B(1, 1), C(1, 1), D(1, 1), x(1), x0(0),
+    : NaUnit(1, 1),
+      A(1, 1), B(1, 1), C(1, 1), D(1, 1), x(1), x0(0),
       n(1), m(1), k(1),
       NaConfigPart(NaTYPE_StateSpaceModel)
 {
@@ -36,10 +37,12 @@ NaStateSpaceModel::NaStateSpaceModel ()
 //---------------------------------------------------------------------------
 // Make an explicit copy of the state-space model
 NaStateSpaceModel::NaStateSpaceModel (const NaStateSpaceModel& orig)
-    : A(orig.A), B(orig.B), C(orig.C), D(orig.D), x(orig.x), x0(orig.x0),
+    : NaUnit(orig),
+      A(orig.A), B(orig.B), C(orig.C), D(orig.D), x(orig.x), x0(orig.x0),
       n(orig.n), m(orig.m), k(orig.k),
       NaConfigPart(orig)
 {
+    Assign(k, m);
 }
 
 
@@ -57,6 +60,7 @@ NaStateSpaceModel::operator= (const NaStateSpaceModel& orig)
 {
     orig.GetMatrices(A, B, C, D);
     orig.GetDimensions(k, m, n);
+    Assign(k, m);
 }
 
 
@@ -99,6 +103,7 @@ NaStateSpaceModel::Clean ()
     D.new_dim(1, 1);
 
     n = m = k = 1;
+    Assign(k, m);
 
     A.fetch(0,0) = 0.0;
     B.fetch(0,0) = 0.0;
@@ -159,6 +164,8 @@ NaStateSpaceModel::SetMatrices (const NaMatrix& mA,
     n = A.dim_rows();
     m = C.dim_rows();
     k = B.dim_cols();
+
+    Assign(k, m);
 }
 
 
@@ -190,6 +197,8 @@ NaStateSpaceModel::SetMatrices (const NaMatrix& mA,
     n = A.dim_rows();
     m = C.dim_rows();
     k = B.dim_cols();
+
+    Assign(k, m);
 }
 
 
@@ -219,6 +228,8 @@ NaStateSpaceModel::SetMatrices (const NaMatrix& mA,
     n = A.dim_rows();
     m = C.dim_rows();
     k = B.dim_cols();
+
+    Assign(k, m);
 }
 
 
@@ -437,7 +448,7 @@ NaStateSpaceModel::Load (NaDataStream& ds)
     for(i = 0; i < D.dim_rows(); ++i){
         szBuf = ds.GetData();
         s = szBuf;
-        for(j = 0; j < C.dim_cols(); ++j){
+        for(j = 0; j < D.dim_cols(); ++j){
             D[i][j] = strtod(s, &p);
             s = p;
         }
@@ -455,6 +466,8 @@ NaStateSpaceModel::Load (NaDataStream& ds)
 	s = p;
     }
     x0.print_contents();
+
+    Assign(k, m);
 }
 
 
