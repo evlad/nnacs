@@ -17,6 +17,7 @@ static char rcsid[] = "$Id$";
 #include <NaTrFunc.h>
 #include <NaDataIO.h>
 #include <NaTimer.h>
+#include <NaSSModel.h>
 
 
 /***********************************************************************
@@ -42,6 +43,7 @@ int main (int argc, char* argv[])
     NaUnit	*func = NULL;
     NaCombinedFunc	dcof;
     NaTransFunc		dtf;
+    NaStateSpaceModel	dssm;
 
     int	len = strlen(dtf_file);
     if(len >= 3 && !strcmp(dtf_file + len - 3, ".tf")){
@@ -50,27 +52,40 @@ int main (int argc, char* argv[])
     }else if(len >= 4 && !strcmp(dtf_file + len - 4, ".cof")){
       dcof.Load(dtf_file);
       func = &dcof;
+    }else if(len >= 4 && !strcmp(dtf_file + len - 4, ".ssm")){
+      dssm.Load(dtf_file);
+      func = &dssm;
     }else{
       NaPrintLog("Unknown file format of '%s'!\n", dtf_file);
       throw(na_cant_open_file);
     }
 
     NaDataFile	*dfIn = OpenInputDataFile(in_file);
-    NaDataFile	*dfOut = OpenOutputDataFile(out_file, bdtAuto, 1);
+    NaDataFile	*dfOut = OpenOutputDataFile(out_file, bdtAuto,
+					    func->OutputDim());
 
     dfIn->GoStartRecord();
     func->Reset();
-    do{
-      NaReal	fIn, fOut;
-      fIn = dfIn->GetValue();
 
-      func->Function(&fIn, &fOut);
+    NaReal	*pfIn = new NaReal[func->InputDim()];
+    NaReal	*pfOut = new NaReal[func->OutputDim()];
+
+    do{
+      for(unsigned i = 0; i < func->InputDim(); ++i)
+	pfIn[i] = dfIn->GetValue(i);
+
+      func->Function(pfIn, pfOut);
 
       dfOut->AppendRecord();
-      dfOut->SetValue(fOut);
+
+      for(unsigned i = 0; i < func->OutputDim(); ++i)
+	dfOut->SetValue(pfOut[i], i);
 
       TheTimer.GoNextTime();
     }while(dfIn->GoNextRecord());
+
+    delete[] pfOut;
+    delete[] pfIn;
 
     delete dfOut;
     delete dfIn;
