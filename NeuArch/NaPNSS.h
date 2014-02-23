@@ -8,11 +8,12 @@
 #include <NaUnit.h>
 #include <NaMatrix.h>
 #include <NaVector.h>
+#include <NaSSModel.h>
 
 
 //---------------------------------------------------------------------------
-// Applied Petri net node: state space unit.
-// May has many inputs andmany outputs
+// Applied Petri net node: state space model unit.
+// May has many inputs and many outputs
 
 //---------------------------------------------------------------------------
 class NaPNStateSpace : public NaPetriNode, public NaTimer
@@ -53,7 +54,10 @@ public:
     // Node specific //
     ///////////////////
 
-    // Initial state
+    // Assign new state-space model
+    virtual void        set_ss_model (NaStateSpaceModel* pSSModel);
+
+    // Setup initial state
     virtual void        set_initial_state (const NaVector& vX0);
 
     // Set space-state equation matrices A, B, C, D, where:
@@ -82,6 +86,20 @@ public:
     virtual void        set_ss_matrices (const NaMatrix& mA,
 					 const NaMatrix& mB);
 
+    // Get matrices.
+    virtual void        get_ss_matrices (NaMatrix& mA,
+					 NaMatrix& mB,
+					 NaMatrix& mC,
+					 NaMatrix& mD) const;
+
+    // Get dimensions.
+    virtual void	get_dimensions (unsigned& uInputs,
+					unsigned& uOutputs,
+					unsigned& uState) const;
+
+    // Get internal state.
+    virtual void	get_state (NaVector& vX) const;
+
     ///////////////////////
     // Phases of network //
     ///////////////////////
@@ -100,17 +118,9 @@ public:
 
 protected:/* data */
 
-    // x[n], y[m], u[k]
-    unsigned            n, m, k;    // useful dimensions (after phase #2)
-    NaMatrix            A;          // state step matrix [n,n]
-    NaMatrix            B;          // control input influence [n,k]
-    NaMatrix            C;          // state observation [m,n]
-    NaMatrix            D;          // observation input influence [m,k]
+  NaStateSpaceModel	*m_pSSModel;
 
-    NaVector            x0;         // initial state vector
-
-protected:/* mathods */
-
+protected:/* methods */
     
 };
 

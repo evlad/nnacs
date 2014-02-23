@@ -132,14 +132,13 @@ int main(int argc, char **argv)
     NaCombinedFunc	noise_tf;
     NaCombinedFunc	au_linplant;
     NaCombinedFunc	au_lincontr;
+    NaStateSpaceModel	au_ssmplant;
+    enum { TForCOF, SSModel } ePlantType;
     NaNNUnit		au_nnc, au_nnp;
 
-    // Load plant
-    au_linplant.Load(par("linplant_tf"));
-
-    // Initial state
+    // Initial value of control error comparator
     NaVector	vInitial(1);
-    vInitial.init_zero();
+
 
     // Type of controller
     NaControllerKind	ckind;
@@ -148,10 +147,26 @@ int main(int argc, char **argv)
     switch(contr_kind)
       {
       case linear_contr:
-	au_lincontr.Load(par("lincontr_tf"));
-	ckind = NaLinearContr;
+	vInitial.init_zero();
+	if(par.CheckParam("cerror_initial_value"))
+	  vInitial.init_value(atof(par("cerror_initial_value")));
+	else if(par.CheckParam("plant_initial_state"))
+	  // old and wrong name for cerror_initial_value semantics
+	  vInitial.init_value(atof(par("plant_initial_state")));
 
-	vInitial.init_value(atof(par("plant_initial_state")));
+	// Load plant
+	{
+	  const char *szFileName = par("linplant_tf");
+	  if(!strcmp(szFileName + strlen(szFileName) - 4, ".ssm")) {
+	    au_ssmplant.Load(szFileName);
+	    ePlantType = SSModel;
+	  } else {
+	    // Otherwise let's try combined/transfer function
+	    au_linplant.Load(szFileName);
+	    ePlantType = TForCOF;
+	  }
+	}
+	ckind = NaLinearContr;
 	break;
       case neural_contr:
 	au_nnc.Load(par("nncontr"));
@@ -338,6 +353,7 @@ int main(int argc, char **argv)
 
 	if(bUseCuSum)
 	  csm.cusum_out.set_output_filename(par("cusum"));
+
       
 	// Setpoint and noise
 	NaReal	fMean = 0.0, fStdDev = 1.0;
@@ -357,9 +373,21 @@ int main(int argc, char **argv)
 	    break;
 	  }
 
+	csm.set_initial_cerror(vInitial);
+
 	// Plant
-	csm.set_initial_state(vInitial);
-	csm.plant.set_transfer_func(&au_linplant);
+	switch(ePlantType)
+	  {
+	  case TForCOF:
+	    csm.set_plant_function(au_linplant);
+	    break;
+
+	  case SSModel:
+	    if(par.CheckParam(par("plant_x")))
+	      csm.plant_x.set_output_filename(par("plant_x"));
+	    csm.set_plant_ss_model(au_ssmplant);
+	    break;
+	  }
 
 	// Controller
 	switch(contr_kind)

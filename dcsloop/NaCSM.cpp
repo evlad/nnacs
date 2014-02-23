@@ -16,7 +16,7 @@ static char rcsid[] = "$Id$";
 // with data files if len=0
 NaControlSystemModel::NaControlSystemModel (int len, NaControllerKind ckind)
 : net("nncp0pn"), nSeriesLen(len), eContrKind(ckind), vInitial(1),
-  bUseCuSum(true), bUseTDG(false),
+  bUseCuSum(true), bUseTDG(false), bPlantSSM(false),
   setpnt_inp("setpnt_inp"),
   setpnt_gen("setpnt_gen"),
   chkpnt_r("chkpnt_r"),
@@ -30,7 +30,9 @@ NaControlSystemModel::NaControlSystemModel (int len, NaControllerKind ckind)
   noise_inp("noise_inp"),
   noise_gen("noise_gen"),
   chkpnt_n("chkpnt_n"),
-  plant("plant"),
+  p_plant(NULL),
+  plant_cof("plant"),
+  plant_ssm("plant"),
   chkpnt_y("chkpnt_y"),
   onsum("onsum"),
   chkpnt_ny("chkpnt_ny"),
@@ -55,7 +57,8 @@ NaControlSystemModel::NaControlSystemModel (int len, NaControllerKind ckind)
   tdg_u("tdg_u"),
   tdg_ny("tdg_ny"),
   cerr_fout("cerr_fout"),
-  iderr_fout("iderr_fout")
+  iderr_fout("iderr_fout"),
+  plant_x("plant_x")
 {
   vInitial.init_zero();
 }
@@ -115,7 +118,7 @@ NaControlSystemModel::link_net ()
 	net.link_nodes(
 		       &controller,
 		       &chkpnt_u,
-		       &plant,
+		       p_plant,
 		       &chkpnt_y,
 		       &onsum,
 		       &chkpnt_ny,
@@ -176,7 +179,9 @@ NaControlSystemModel::link_net ()
         net.link(&chkpnt_n.out, &onsum.aux);
 
         net.link(&chkpnt_r.out, &cmp_e.main);
-        net.link(&plant.y, &cmp_e.aux);
+        net.link(p_plant->main_output_cn(), &cmp_e.aux);
+	if(bPlantSSM)
+	  net.link(&plant_ssm.x, &plant_x.in);
 
         net.link(&cmp_e.cmp, &statan_cerr.signal);
 	net.link(&statan_cerr.stat, &cerr_fout.in);
@@ -276,9 +281,9 @@ NaControlSystemModel::idle_entry ()
 
 
 //---------------------------------------------------------------------------
-// Set initial observed state of a plant
+// Set initial value of control error
 void
-NaControlSystemModel::set_initial_state (const NaVector& v)
+NaControlSystemModel::set_initial_cerror (const NaVector& v)
 {
   vInitial = v;
 }
@@ -299,6 +304,28 @@ void
 NaControlSystemModel::set_tdg_flag (bool use_tdg)
 {
   bUseTDG = use_tdg;
+}
+
+
+//---------------------------------------------------------------------------
+// Set plant function
+void
+NaControlSystemModel::set_plant_function (NaCombinedFunc& cofunc)
+{
+  plant_cof.set_transfer_func(&cofunc);
+  p_plant = &plant_cof;
+  bPlantSSM = false;
+}
+
+
+//---------------------------------------------------------------------------
+// Set plant model
+void
+NaControlSystemModel::set_plant_ss_model (NaStateSpaceModel& ssm)
+{
+  plant_ssm.set_ss_model(&ssm);
+  p_plant = &plant_ssm;
+  bPlantSSM = true;
 }
 
 

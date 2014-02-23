@@ -28,15 +28,26 @@ NaPNStateSpace::NaPNStateSpace (const char* szNodeName)
 // Node specific //
 ///////////////////
 
-// Initial state
+// Assign new state-space model
+void
+NaPNStateSpace::set_ss_model (NaStateSpaceModel* pSSModel)
+{
+  m_pSSModel = pSSModel;
+}
+
+
+// Setup initial state
 void
 NaPNStateSpace::set_initial_state (const NaVector& vX0)
 {
-    if(!(vX0.dim() > 0)){
-         throw(na_size_mismatch);
-    }
+  if(NULL == m_pSSModel){
+    throw(na_null_pointer);
+  }
+  if(!(vX0.dim() > 0)){
+    throw(na_size_mismatch);
+  }
 
-    x0 = vX0;
+  m_pSSModel->SetInitialState(vX0);
 }
 
 
@@ -51,22 +62,11 @@ NaPNStateSpace::set_ss_matrices (const NaMatrix& mA,
 				 const NaMatrix& mC,
 				 const NaMatrix& mD)
 {
-    if(!(mA.dim_cols() > 0 && mA.dim_rows() > 0 &&
-         mB.dim_cols() > 0 && mB.dim_rows() > 0 &&
-         mC.dim_cols() > 0 && mC.dim_rows() > 0 &&
-         mD.dim_cols() > 0 && mD.dim_rows() > 0 &&
-         mA.dim_rows() == mA.dim_cols() &&
-         mA.dim_rows() == mB.dim_rows() &&
-         mA.dim_rows() == mC.dim_cols() &&
-         mC.dim_rows() == mD.dim_rows() &&
-         mB.dim_cols() == mD.dim_cols())){
-	throw(na_size_mismatch);
-    }
+  if(NULL == m_pSSModel){
+    throw(na_null_pointer);
+  }
 
-    A = mA;
-    B = mB;
-    C = mC;
-    D = mD;
+  m_pSSModel->SetMatrices(mA, mB, mC, mD);
 }
 
 
@@ -81,20 +81,11 @@ NaPNStateSpace::set_ss_matrices (const NaMatrix& mA,
 				 const NaMatrix& mB,
 				 const NaMatrix& mC)
 {
-    if(!(mA.dim_cols() > 0 && mA.dim_rows() > 0 &&
-         mB.dim_cols() > 0 && mB.dim_rows() > 0 &&
-         mC.dim_cols() > 0 && mC.dim_rows() > 0 &&
-         mA.dim_rows() == mA.dim_cols() &&
-         mA.dim_rows() == mB.dim_rows() &&
-         mA.dim_rows() == mC.dim_cols())){
-         throw(na_size_mismatch);
-    }
+  if(NULL == m_pSSModel){
+    throw(na_null_pointer);
+  }
 
-    A = mA;
-    B = mB;
-    C = mC;
-    D.new_dim(C.dim_rows(), B.dim_cols());
-    D.init_zero();
+  m_pSSModel->SetMatrices(mA, mB, mC);
 }
 
 
@@ -108,19 +99,55 @@ void
 NaPNStateSpace::set_ss_matrices (const NaMatrix& mA,
 				 const NaMatrix& mB)
 {
-    if(!(mA.dim_cols() > 0 && mA.dim_rows() > 0 &&
-         mB.dim_cols() > 0 && mB.dim_rows() > 0 &&
-         mA.dim_rows() == mA.dim_cols() &&
-         mA.dim_rows() == mB.dim_rows())){
-         throw(na_size_mismatch);
-    }
+  if(NULL == m_pSSModel){
+    throw(na_null_pointer);
+  }
 
-    A = mA;
-    B = mB;
-    C.new_dim(A.dim_rows(), A.dim_cols());
-    C.init_diag(1.0);
-    D.new_dim(C.dim_rows(), B.dim_cols());
-    D.init_zero();
+  m_pSSModel->SetMatrices(mA, mB);
+}
+
+
+//---------------------------------------------------------------------------
+// Get matrices.
+void
+NaPNStateSpace::get_ss_matrices (NaMatrix& mA,
+				 NaMatrix& mB,
+				 NaMatrix& mC,
+				 NaMatrix& mD) const
+{
+  if(NULL == m_pSSModel){
+    throw(na_null_pointer);
+  }
+
+  m_pSSModel->GetMatrices(mA, mB, mC, mD);
+}
+
+
+//---------------------------------------------------------------------------
+// Get dimensions.
+void
+NaPNStateSpace::get_dimensions (unsigned& uInputs,
+				unsigned& uOutputs,
+				unsigned& uState) const
+{
+  if(NULL == m_pSSModel){
+    throw(na_null_pointer);
+  }
+
+  m_pSSModel->GetDimensions(uInputs, uOutputs, uState);
+}
+
+
+//---------------------------------------------------------------------------
+// Get internal state.
+void
+NaPNStateSpace::get_state (NaVector& vX) const
+{
+  if(NULL == m_pSSModel){
+    throw(na_null_pointer);
+  }
+
+  m_pSSModel->GetState(vX);
 }
 
 
@@ -158,14 +185,13 @@ NaPNStateSpace::main_output_cn ()
 void
 NaPNStateSpace::relate_connectors ()
 {
-    // initialize dimensions
-    n = A.dim_rows();
-    k = B.dim_cols();
-    m = C.dim_rows();
+  if(NULL == m_pSSModel){
+    throw(na_null_pointer);
+  }
 
-    // Assign output dimensions
-    y.data().new_dim(m);
-    x.data().new_dim(n);
+  // Assign output dimensions
+  y.data().new_dim(m_pSSModel->C.dim_rows());
+  x.data().new_dim(m_pSSModel->A.dim_rows());
 }
 
 
@@ -174,19 +200,17 @@ bool
 NaPNStateSpace::verify ()
 {
     bool    answer = true;
+    unsigned n, m, k;
+
+    if(NULL == m_pSSModel){
+      throw(na_null_pointer);
+    }
+
+    m_pSSModel->GetDimensions(k, m, n);
 
     answer = answer && x.data().dim() == n;
     answer = answer && y.data().dim() == m;
     answer = answer && u.data().dim() == k;
-    answer = answer && x0.dim() == n;
-    answer = answer && A.dim_rows() == n;
-    answer = answer && A.dim_cols() == n;
-    answer = answer && C.dim_rows() == m;
-    answer = answer && C.dim_cols() == n;
-    answer = answer && B.dim_rows() == n;
-    answer = answer && B.dim_cols() == k;
-    answer = answer && D.dim_rows() == m;
-    answer = answer && D.dim_cols() == k;
 
     return answer;
 }
@@ -196,7 +220,12 @@ NaPNStateSpace::verify ()
 void
 NaPNStateSpace::initialize (bool& starter)
 {
-    x.data().copy(x0);
+    if(NULL == m_pSSModel){
+      throw(na_null_pointer);
+    }
+
+    m_pSSModel->Reset();
+    m_pSSModel->GetState(x.data());
 }
 
 
@@ -204,6 +233,10 @@ NaPNStateSpace::initialize (bool& starter)
 void
 NaPNStateSpace::action ()
 {
+    if(NULL == m_pSSModel){
+      throw(na_null_pointer);
+    }
+
     //           *************************
     //           * Internal state change *
     //           *************************
@@ -220,18 +253,8 @@ NaPNStateSpace::action ()
         y.data().print_contents();
     }
 
-    NaVector    x1(n), x2(n), y1(m);
-
-    // y(t) = C*x(t) + D*u(t)
-    C.multiply(x.data(), y.data());     // y = C * x
-    D.multiply(u.data(), y1);           // y1 = D * u
-    y.data().add(y1);                   // y += y1
-
-    // x(t+1) = A*x(t) + B*u(t)
-    A.multiply(x.data(), x1);           // x1 = A * x
-    B.multiply(u.data(), x2);           // x2 = B * u
-    x.data().copy(x1);                  // x = x1
-    x.data().add(x2);                   // x += x2
+    m_pSSModel->Function(&u.data()[0], &y.data()[0]);
+    m_pSSModel->GetState(x.data());
 
     if(bVerbose){
         NaPrintLog("### x(t+1): ");

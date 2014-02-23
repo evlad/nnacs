@@ -270,6 +270,15 @@ NaStateSpaceModel::GetState (NaVector& vX) const
 }
 
 
+//---------------------------------------------------------------------------
+// Return dimension of state space
+unsigned
+NaStateSpaceModel::StateDim () const
+{
+    return n;
+}
+
+
 //***********************************************************************
 // Unit part
 //***********************************************************************

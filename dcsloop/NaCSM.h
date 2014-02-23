@@ -24,6 +24,8 @@
 #include <NaPNSkip.h>
 #include <NaPNFill.h>
 #include <NaPNTDG.h>
+#include <NaPNSS.h>
+#include <NaCoFunc.h>
 
 
 //---------------------------------------------------------------------------
@@ -65,14 +67,20 @@ public:/* methods */
     // Additional //
     ////////////////
 
-    // Set initial observed state of a plant
-    void		set_initial_state (const NaVector& v);
+    // Set initial value of control error
+    void		set_initial_cerror (const NaVector& v);
 
     // Set flag of using cummulative sum features
     void		set_cusum_flag (bool use_cusum);
 
     // Set flag of using training data gather features
     void		set_tdg_flag (bool use_tdg);
+
+    // Set plant function
+    void		set_plant_function (NaCombinedFunc& cofunc);
+
+    // Set plant model
+    void		set_plant_ss_model (NaStateSpaceModel& ssm);
 
 public:/* data */
 
@@ -90,7 +98,9 @@ public:/* data */
     NaPNFileInput   noise_inp;
     NaPNRandomGen   noise_gen;
     NaPNCheckPoint  chkpnt_n;
-    NaPNTransfer    plant;
+    NaPetriNode     *p_plant;
+    NaPNTransfer    plant_cof;
+    NaPNStateSpace  plant_ssm;
     NaPNCheckPoint  chkpnt_y;
     NaPNCheckPoint  chkpnt_ny;
     NaPNSum         onsum;
@@ -120,6 +130,7 @@ public:/* data */
     NaPNFileOutput  tdg_ny;     // y+n series
     NaPNFileOutput  cerr_fout;  // output statistics of control error (see statan_cerr)
     NaPNFileOutput  iderr_fout; // output statistics of identif. error (see statan_iderr)
+    NaPNFileOutput  plant_x;    // Output of plant state (see plant_ssm)
 
 private:/* data */
 
@@ -129,7 +140,7 @@ private:/* data */
     // Length of series or 0 for data input
     int			nSeriesLen;
 
-    // Initial state of a plant
+    // Initial value of the control error to start loop evaluation
     NaVector		vInitial;
 
     // Cummulative sum usage
@@ -138,6 +149,8 @@ private:/* data */
     // Training data gather usage
     bool		bUseTDG;
 
+    // Flag of state space plant model
+    bool	        bPlantSSM;
 };
 
 

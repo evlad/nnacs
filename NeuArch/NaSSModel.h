@@ -23,6 +23,8 @@
 // Class for state-space model
 class NaStateSpaceModel : public NaUnit, public NaConfigPart
 {
+    friend class NaPNStateSpace;
+
 public:
 
     // Registrar for the NaStateSpaceModel
@@ -97,6 +99,9 @@ public:
     virtual void	GetDimensions (unsigned& uInputs,
 				       unsigned& uOutputs,
 				       unsigned& uState) const;
+
+    // Return dimension of state space
+    virtual unsigned    StateDim () const;
 
     // Get internal state.
     virtual void	GetState (NaVector& vX) const;

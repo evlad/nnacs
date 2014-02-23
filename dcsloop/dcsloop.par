@@ -9,8 +9,8 @@ contr_kind = lin
 # NNC INPUT MODE: "e+r", "e+de", "e+e+..."
 nnc_mode = e+de
 
-# Initial state of a plant
-plant_initial_state = 0
+# Initial value of control error
+cerror_initial_value = 0
 
 ########################################
 # Mode of the modeling
@@ -21,6 +21,7 @@ input_kind = stream
 stream_len = 5000
 
 # Linear (or combined) plant transfer function
+# or state-space model.
 linplant_tf = plant.tf
 
 # (contr_kind = lin) Linear (or combined) controller transfer function
@@ -42,6 +43,9 @@ out_u = u.dat
 out_e = e.dat
 out_y = y.dat
 out_ny = ny.dat
+
+# In case of state-space plant model
+out_x = x.dat
 
 # (input_kind = stream) Output files
 out_r = r_out.dat
