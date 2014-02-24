@@ -136,9 +136,20 @@ int main(int argc, char **argv)
     enum { TForCOF, SSModel } ePlantType;
     NaNNUnit		au_nnc, au_nnp;
 
+
+    // Load plant
+    const char *szFileName = par("linplant_tf");
+    if(!strcmp(szFileName + strlen(szFileName) - 4, ".ssm")) {
+      au_ssmplant.Load(szFileName);
+      ePlantType = SSModel;
+    } else {
+      // Otherwise let's try combined/transfer function
+      au_linplant.Load(szFileName);
+      ePlantType = TForCOF;
+    }
+
     // Initial value of control error comparator
     NaVector	vInitial(1);
-
 
     // Type of controller
     NaControllerKind	ckind;
@@ -153,19 +164,6 @@ int main(int argc, char **argv)
 	else if(par.CheckParam("plant_initial_state"))
 	  // old and wrong name for cerror_initial_value semantics
 	  vInitial.init_value(atof(par("plant_initial_state")));
-
-	// Load plant
-	{
-	  const char *szFileName = par("linplant_tf");
-	  if(!strcmp(szFileName + strlen(szFileName) - 4, ".ssm")) {
-	    au_ssmplant.Load(szFileName);
-	    ePlantType = SSModel;
-	  } else {
-	    // Otherwise let's try combined/transfer function
-	    au_linplant.Load(szFileName);
-	    ePlantType = TForCOF;
-	  }
-	}
 	ckind = NaLinearContr;
 	break;
       case neural_contr:
@@ -218,6 +216,22 @@ int main(int argc, char **argv)
       {
 	NaPrintLog("Run %d (of %d)\n", 1+iRun, nRuns);
 	NaControlSystemModel	csm(len, ckind);
+
+	// Plant
+	switch(ePlantType)
+	  {
+	  case TForCOF:
+	    NaPrintLog("plant TF or COF function\n");
+	    csm.set_plant_function(au_linplant);
+	    break;
+
+	  case SSModel:
+	    NaPrintLog("plant SS model\n");
+	    csm.set_plant_ss_model(au_ssmplant);
+	    if(par.CheckParam("out_x"))
+	      csm.plant_x.set_output_filename(par("out_x"));
+	    break;
+	  }
 
 	if(par.CheckParam("cerr_trace_file")) {
 	    NaPrintLog("Writing control error statistics to '%s' file.\n",
@@ -374,20 +388,6 @@ int main(int argc, char **argv)
 	  }
 
 	csm.set_initial_cerror(vInitial);
-
-	// Plant
-	switch(ePlantType)
-	  {
-	  case TForCOF:
-	    csm.set_plant_function(au_linplant);
-	    break;
-
-	  case SSModel:
-	    if(par.CheckParam(par("plant_x")))
-	      csm.plant_x.set_output_filename(par("plant_x"));
-	    csm.set_plant_ss_model(au_ssmplant);
-	    break;
-	  }
 
 	// Controller
 	switch(contr_kind)

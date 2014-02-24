@@ -1,11 +1,13 @@
 Neural net Optimal Controller case study
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Vladimir L. Eliseev (MPEI, Moscow, 1999-2011)
+Vladimir L. Eliseev (MPEI, Moscow, 1999-2014)
 
 Directories:
 ^^^^^^^^^^^^
 0ev - evaluation (test) data set preparation
 0tr - training data set preparation
+0tf - evaluation of step.dat for plant.tf
+0ssm - evaluation of step.dat for plant.ssm (compare with 0tf)
 1   - NNP training
 2   - NNC out-of-loop training
 3   - NNC in-the-loop training
@@ -27,6 +29,7 @@ refer.tf   - reference signal
 pid_bad.tf - not optimal PID controller 
 pid.tf     - fine tuned manually PID controller 
 plant.tf   - original plant (K=1,tau=-0.5)
+plant.ssm  - original plant in state-space
 wiener.tf  - wiener equivalent system (linear optimal controller + plant
 	     in the loop)
 woc.tf     - linear optimal controller
