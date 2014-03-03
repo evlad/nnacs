@@ -295,6 +295,7 @@ int main(int argc, char **argv)
 	    //au_nnp.SetInstance("Plant");
 	    au_nnp.Load(par("in_nnp_file"));
 	    csm.nnplant.set_nn_unit(&au_nnp);
+	    csm.nnpback.set_nn(&csm.nnplant);
 
 	    if(par.CheckParam("iderr_trace_file")) {
 		NaPrintLog("Writing identification error statistics to '%s' file.\n",
@@ -341,17 +342,36 @@ int main(int argc, char **argv)
 	    csm.skip_y.set_skip_number(iSkip_y);
 	    csm.fill_nn_y.set_fill_number(iSkip_e);
 
+	    // Additional delay for target value
+	    csm.skip_r.set_skip_number(1 + iSkip_e);
+
 	    NaPrintLog("delay_u=%d,  skip_u=%d\n", iDelay_u, iSkip_u);
 	    NaPrintLog("delay_y=%d,  skip_y=%d\n", iDelay_y, iSkip_y);
-	    NaPrintLog("delay_e=%d,  skip_e=%d\n", iDelay_e, iSkip_e);
+	    NaPrintLog("delay_r=%d,  skip_r=%d\n", iDelay_e, iSkip_e);
 
-	    csm.nn_y.set_output_filename(par("out_nn_y"));
-	    NaPrintLog("Writing NNP identification output to '%s' file.\n",
-		       par("out_nn_y"));
+	    if(par.CheckParam("out_nn_y")) {
+		csm.nn_y.set_output_filename(par("out_nn_y"));
+		NaPrintLog("Writing NNP identification output to '%s' file.\n",
+			   par("out_nn_y"));
+	    } else {
+		csm.nn_y.set_output_filename(DEV_NULL);
+	    }
 
-	    csm.nn_e.set_output_filename(par("out_nn_e"));
-	    NaPrintLog("Writing NNP identification error to '%s' file.\n",
-		       par("out_nn_e"));
+	    if(par.CheckParam("out_nn_e")) {
+		csm.nn_e.set_output_filename(par("out_nn_e"));
+		NaPrintLog("Writing NNP identification error to '%s' file.\n",
+			   par("out_nn_e"));
+	    } else {
+		csm.nn_e.set_output_filename(DEV_NULL);
+	    }
+
+	    if(par.CheckParam("out_nnp_bpe")) {
+		csm.nnp_bpe.set_output_filename(par("out_nnp_bpe"));
+		NaPrintLog("Writing NNP backpropagated error to '%s' file.\n",
+			   par("out_nnp_bpe"));
+	    } else {
+		csm.nnp_bpe.set_output_filename(DEV_NULL);
+	    }
 	  }
 
 	// Link the network

@@ -58,7 +58,10 @@ NaControlSystemModel::NaControlSystemModel (int len, NaControllerKind ckind)
   tdg_ny("tdg_ny"),
   cerr_fout("cerr_fout"),
   iderr_fout("iderr_fout"),
-  plant_x("plant_x")
+  plant_x("plant_x"),
+  skip_r("skip_r"),
+  nnpback("nnpback"),
+  nnp_bpe("nnp_bpe")
 {
   vInitial.init_zero();
 }
@@ -185,6 +188,12 @@ NaControlSystemModel::link_net ()
 
         net.link(&cmp_e.cmp, &statan_cerr.signal);
 	net.link(&statan_cerr.stat, &cerr_fout.in);
+
+	net.link(&chkpnt_r.out, &skip_r.in);
+	net.link(&nnplant.y, &nnpback.nnout);
+	net.link(&skip_r.out, &nnpback.desout);
+
+	net.link(&nnpback.errinp, &nnp_bpe.in);
 
         net.link(&chkpnt_r.out, &statan_r.signal);
 

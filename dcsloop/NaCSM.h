@@ -26,6 +26,7 @@
 #include <NaPNTDG.h>
 #include <NaPNSS.h>
 #include <NaCoFunc.h>
+#include <NaPNTchr.h>
 
 
 //---------------------------------------------------------------------------
@@ -131,6 +132,9 @@ public:/* data */
     NaPNFileOutput  cerr_fout;  // output statistics of control error (see statan_cerr)
     NaPNFileOutput  iderr_fout; // output statistics of identif. error (see statan_iderr)
     NaPNFileOutput  plant_x;    // Output of plant state (see plant_ssm)
+    NaPNSkip        skip_r;     // Skip some r to wait for u and y
+    NaPNTeacher     nnpback;    // Backward propagator through nnplant
+    NaPNFileOutput  nnp_bpe;    // Backpropagated control error through NNP
 
 private:/* data */
 

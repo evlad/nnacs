@@ -30,6 +30,9 @@ lincontr_tf = contr.tf
 # (contr_kind = nnc) Neural net controller
 nncontr = nnc.nn
 
+# NN model of the plant
+#in_nnp_file = nnp.nn
+
 # (input_kind = stream) Input transfer functions
 refer_tf = refer.tf
 noise_tf = noise.tf
@@ -43,6 +46,13 @@ out_u = u.dat
 out_e = e.dat
 out_y = y.dat
 out_ny = ny.dat
+
+# NN plant output
+#out_nn_y = nn_y.dat
+#out_nn_e = nn_e.dat
+
+# NN plant propagated errors on input
+#out_nnp_bpe = nnp_bpe.dat
 
 # In case of state-space plant model
 out_x = x.dat
