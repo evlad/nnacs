@@ -23,54 +23,64 @@ int main (int argc, char* argv[])
 {
   if(argc != 3)
     {
-      fprintf(stderr, "Error: need 2 arguments\n");
-      fprintf(stderr, "Usage: djacob u-Series y-Series\n");
-      fprintf(stderr, "  Output contains du dy J=dy/du\n");
+      fprintf(stderr,
+	      "Error: need 2 arguments\n"				\
+	      "Usage: DJACOB_DELAY=n djacob u-Series y-Series\n"	\
+	      "  Output contains du dy J=dy/du, where\n"		\
+	      "  dy=y(k+1)-y(k), du=u(k+1-n)-u(k-n)\n");
       return 1;
     }
 
-  char	*in_file = argv[1];
-  char	*out_file = argv[2];
+  char	*u_file = argv[1];
+  char	*y_file = argv[2];
 
   NaOpenLogFile("djacob.log");
 
   try{
-    NaDataFile	*dfIn = OpenInputDataFile(in_file);
-    NaDataFile	*dfOut = OpenInputDataFile(out_file);
+    NaDataFile	*dfU = OpenInputDataFile(u_file);
+    NaDataFile	*dfY = OpenInputDataFile(y_file);
 
-    if(NULL == dfIn)
+    if(NULL == dfU)
       {
-	fprintf(stderr, "Error: can't open file '%s'\n", in_file);
+	fprintf(stderr, "Error: can't open file '%s'\n", u_file);
 	throw(na_cant_open_file);
       }
 
-    if(NULL == dfOut)
+    if(NULL == dfY)
       {
-	fprintf(stderr, "Error: can't open file '%s'\n", out_file);
+	fprintf(stderr, "Error: can't open file '%s'\n", y_file);
 	throw(na_cant_open_file);
       }
 
-    dfIn->GoStartRecord();
-    dfOut->GoStartRecord();
+    dfU->GoStartRecord();
+    dfY->GoStartRecord();
 
-    NaReal	fInPrev = dfIn->GetValue(),
-		fOutPrev = dfOut->GetValue();
+    char *p = getenv("DJACOB_DELAY");
+    if(NULL != p) {
+	int	i, n = atoi(p);
+	for(i = 0; i < n; ++i)
+	    // Make/avoid delay between u(k) and y(k) series */
+	    dfY->GoNextRecord();
+    }
 
-    while(dfIn->GoNextRecord() && dfOut->GoNextRecord())
+    NaReal	fUprev = dfU->GetValue(),
+		fYprev = dfY->GetValue();
+
+    while(dfU->GoNextRecord() && dfY->GoNextRecord())
       {
-	NaReal	fIn = dfIn->GetValue(),
-		fOut = dfOut->GetValue();
+	NaReal	fU = dfU->GetValue(),
+		fY = dfY->GetValue();
 
 	printf("%g\t%g\t%g\n",
-	       fIn - fInPrev, fOut - fOutPrev,
-	       (fOut - fOutPrev) / (fIn - fInPrev));
+	       fU - fUprev, fY - fYprev,
+	       (fY - fYprev) / (fU - fUprev));
 
-	fInPrev = fIn;
-	fOutPrev = fOut;
+	fUprev = fU;
+	fYprev = fY;
       }
 
-    delete dfOut;
-    delete dfIn;
+    delete dfY;
+    delete dfU;
   }
   catch(NaException& ex){
     NaPrintLog("EXCEPTION: %s\n", NaExceptionMsg(ex));
