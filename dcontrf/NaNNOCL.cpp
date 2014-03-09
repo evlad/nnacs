@@ -60,7 +60,8 @@ NaNNOptimContrLearn::NaNNOptimContrLearn (int len, NaControllerKind ckind,
     cerr_qout("cerr_qout"),
     iderr_qout("iderr_qout"),
     c_in("c_in"),
-    p_in("p_in")
+    p_in("p_in"),
+    nnp_bpe("nnp_bpe")
 {
   // Nothing to do
 }
@@ -182,6 +183,7 @@ NaNNOptimContrLearn::link_net ()
     net.link(&cerrcomp.cmp, &skip_e.in);
     net.link(&skip_e.out, &errbackprop.errout);
 
+    net.link(&errbackprop.errinp, &nnp_bpe.in);
     net.link(&errbackprop.errinp, &errfetch.in);
     if(eContrKind != NaLinearContr)
       net.link(&errfetch.out, &nncteacher.errout);

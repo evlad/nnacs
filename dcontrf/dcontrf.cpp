@@ -449,6 +449,14 @@ int main(int argc, char **argv)
 	nnocl.iderr_fout.set_output_filename(DEV_NULL);
     }
 
+    if(par.CheckParam("out_nnp_bpe")) {
+	nnocl.nnp_bpe.set_output_filename(par("out_nnp_bpe"));
+	NaPrintLog("Writing NNP backpropagated error to '%s' file.\n",
+		   par("out_nnp_bpe"));
+    } else {
+	nnocl.nnp_bpe.set_output_filename(DEV_NULL);
+    }
+
     nnocl.nn_u.set_output_filename(par("out_u"));
     NaPrintLog("Writing NNC control force to '%s' file.\n", par("out_u"));
 

@@ -111,6 +111,7 @@ public:/* data */
 
   NaPNFileOutput  c_in;       // logging controller input
   NaPNFileOutput  p_in;       // logging plant input
+  NaPNFileOutput  nnp_bpe;    // logging BPE control error through NNP
 
 private:/* methods */
 
