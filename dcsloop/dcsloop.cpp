@@ -158,6 +158,8 @@ int main(int argc, char **argv)
     switch(contr_kind)
       {
       case linear_contr:
+        au_lincontr.Load(par("lincontr_tf"));
+
 	vInitial.init_zero();
 	if(par.CheckParam("cerror_initial_value"))
 	  vInitial.init_value(atof(par("cerror_initial_value")));
@@ -166,6 +168,7 @@ int main(int argc, char **argv)
 	  vInitial.init_value(atof(par("plant_initial_state")));
 	ckind = NaLinearContr;
 	break;
+
       case neural_contr:
 	au_nnc.Load(par("nncontr"));
 
