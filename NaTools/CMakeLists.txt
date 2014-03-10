@@ -37,6 +37,10 @@ set(SOURCE_TrainNN TrainNN.cpp)
 add_executable(TrainNN ${SOURCE_TrainNN})
 target_link_libraries(TrainNN ${LIST_LIBS})
 
+set(SOURCE_BackNN BackNN.cpp)
+add_executable(BackNN ${SOURCE_BackNN})
+target_link_libraries(BackNN ${LIST_LIBS})
+
 set(SOURCE_UNGen UNGen.cpp)
 add_executable(UNGen ${SOURCE_UNGen})
 target_link_libraries(UNGen ${LIST_LIBS})
@@ -49,4 +53,4 @@ target_link_libraries(FileCvt ${LIST_LIBS})
 #add_executable(% ${SOURCE_%})
 #target_link_libraries(% ${LIST_LIBS})
 
-install(TARGETS StatAn Distr2D Distr1D MakeNN ResetNN EvalNN TrainNN UNGen FileCvt RUNTIME DESTINATION bin)
+install(TARGETS StatAn Distr2D Distr1D MakeNN ResetNN EvalNN BackNN TrainNN UNGen FileCvt RUNTIME DESTINATION bin)
