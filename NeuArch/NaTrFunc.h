@@ -179,9 +179,14 @@ public:
         utSum = 0,      // Root of sum tree (items is defined)
         utProduct,      // Root of production tree (items is defined)
         utPolyFrac,     // Not a subtree root but leaf of tree
+	utInOutDim,     // Dimension definition for input and output
+	utInOut,        // Begin of exact transfer function definition
         __utNumber
     }           ut;
-    NaTFAr      items;  // Subtrees if utSum, utProduct
+    NaTFAr      items;  // Subtrees if utSum, utProduct; input-output
+			// link functions (InputDim()*OutputDim()) in
+			// rows - all inputs for the first output,
+			// then all inputs for thesecond etc.
     NaPolyFrac  pf;     // Numerator, denumerator if utLeaf
 
     // Input/output operations
