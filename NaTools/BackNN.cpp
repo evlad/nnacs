@@ -56,7 +56,7 @@ write_output (NaDataFile* df, unsigned vec_len, const NaReal* vec)
 
    Arguments:
    ~~~~~~~~~~
-   argv[1] - NN file (source and target in case of argc==6)
+   argv[1] - NN file
    argv[2] - network input (=input dimension) to produce output
    argv[3] - target output (=output dimension)
    argv[4] - output produced by the network 
@@ -66,7 +66,12 @@ int main (int argc, char* argv[])
 {
   if(argc != 6)
     {
-      printf("Usage: %s NN-file DataIn DesiredOut DataOut ErrOnIn\n",
+      printf("Usage: %s NN-file DataIn DesiredOut DataOut ErrOnIn\n"\
+	     " where NN-file    - evaluated neural network (not changed)\n"\
+	     "       DataIn     - network input (=input dimension)\n"\
+	     "       DesiredOut - target output (=output dimension)\n"\
+	     "       DataOut    - output produced by the network\n"\
+	     "       ErrOnIn    - error on input produced by the network\n",
 	     argv[0]);
       return 1;
     }
