@@ -1,0 +1,18 @@
+;NeuCon StateSpaceModel 1.0
+[StateSpaceModel]
+;  State space discrete time model:
+;    x(t+1) = A*x(t) + B*u(t)
+;    y(t)   = C*x(t) + D*u(t)
+;  Matrices: A(N,N), B(N,K), C(M,N), D(M,K)
+;    N - state vector, M - outputs, K - inputs
+1 1 1	 ; Dimensions N M K
+;  Matrix A(1,1), 1 numbers:
+ 0.5
+;  Matrix B(1,1), 1 numbers:
+ 1
+;  Matrix C(1,1), 1 numbers:
+ 0.5
+;  Matrix D(1,1), 1 numbers:
+ 1
+;  Initial state x(0):
+ 0
