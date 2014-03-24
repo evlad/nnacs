@@ -25,8 +25,8 @@ int main (int argc, char* argv[])
       fprintf(stderr,
 	      "Usage: dstat [ColNum] SignalSeries1 [SignalSeries2 ...]\n");
       fprintf(stderr,
-	      " DSTAT_EOF=t - stop at EOF in any series\n"\
-	      " DSTAT_EOF=f - continue generating resulting series (default)\n");
+	      " DSTAT_EOF=t - stop at EOF in any series (default)\n"\
+	      " DSTAT_EOF=f - continue generating resulting series\n");
       fprintf(stderr,
 	      "Output: _        2        ____\n"\
 	      "        x sd n Sx Sx S|x| S|x|\n");
@@ -36,7 +36,7 @@ int main (int argc, char* argv[])
   char		*p, **args = argv + 1;
   int		i, argn = argc - 1, iCol;
   NaDataFile	**dfSeries = new NaDataFile*[argn];
-  bool		bStopEOF = false;
+  bool		bStopEOF = true;
   char		*szStopEOF = getenv("DSTAT_EOF");
 
   if(NULL != szStopEOF)
