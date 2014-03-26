@@ -61,6 +61,7 @@ NaStateSpaceModel::operator= (const NaStateSpaceModel& orig)
     orig.GetMatrices(A, B, C, D);
     orig.GetDimensions(k, m, n);
     Assign(k, m);
+    return *this;
 }
 
 
