@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8)	 # Проверка версии CMake.
 
 project(NNACS)			# Название проекта
 
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 
 add_subdirectory(Matrix.041)
 add_subdirectory(NeuArch)
