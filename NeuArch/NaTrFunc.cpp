@@ -304,7 +304,7 @@ NaTransFunc::NaTransFunc (const NaVector& A, const NaVector& B)
 //---------------------------------------------------------------------------
 // Make an explicit copy of the transfer function
 NaTransFunc::NaTransFunc (const NaTransFunc& orig)
-: NaConfigPart(NaTYPE_TransFunc),
+  : NaUnit(orig), NaConfigPart(NaTYPE_TransFunc),
   ut(orig.ut), pf(orig.pf)
 {
     int i;
@@ -328,6 +328,8 @@ NaTransFunc::~NaTransFunc ()
 NaTransFunc&
 NaTransFunc::operator= (const NaTransFunc& orig)
 {
+    NaUnit::operator=(orig);
+
     ut = orig.ut;
     pf = orig.pf;
 
@@ -361,6 +363,12 @@ NaTransFunc::PrintLog (const char* szIndent) const
         pf.PrintLog();
     }else{
         switch(ut){
+        case utInOutDim:
+	    NaPrintLog("inputs:%u outputs:%d\n", InputDim(), OutputDim());
+            break;
+        case utInOut:
+	    NaPrintLog("strange...\n");
+            break;
         case utSum:
             NaPrintLog("+\n");
             break;
@@ -372,7 +380,10 @@ NaTransFunc::PrintLog (const char* szIndent) const
         char    *szIndentPlus = new char[strlen(szIndent) + strlen("  ") + 1];
         strcat(strcpy(szIndentPlus, szIndent), "  ");
         for(i = 0; i < items.count(); ++i){
-            items(i)->PrintLog(szIndentPlus);
+	  if(utInOutDim == ut)
+	    NaPrintLog("%slink: %d->%d\n",
+		       szIndent, i%InputDim(), i/InputDim());
+	  items(i)->PrintLog(szIndentPlus);
         }
         delete szIndentPlus;
     }
@@ -387,6 +398,7 @@ NaTransFunc::Reset ()
     switch(ut){
     case utSum:
     case utProduct:
+    case utInOutDim:
         for(i = 0; i < items.count(); ++i){
             items[i]->Reset();
         }
@@ -403,7 +415,7 @@ NaTransFunc::Reset ()
 void
 NaTransFunc::Function (NaReal* x, NaReal* y)
 {
-    int         i;
+    int         i, j;
     NaReal      tmp;
 
     switch(ut){
@@ -426,6 +438,18 @@ NaTransFunc::Function (NaReal* x, NaReal* y)
     case utPolyFrac:
         pf.Function(x, y);
         break;
+
+    case utInOutDim:
+      // Every output is a sum of values obtained from linked
+      // functions
+      for(j = 0; j < OutputDim(); ++j) {
+	y[j] = 0.0;
+	for(i = 0; i < InputDim(); ++i) {
+	  items[j*InputDim()+i]->Function(x + i, &tmp);
+	  y[j] += tmp;
+	}
+      }
+      break;
     }
 }
 
@@ -434,15 +458,28 @@ NaTransFunc::Function (NaReal* x, NaReal* y)
 void
 NaTransFunc::Save (NaDataStream& ds)
 {
-    ds.PutF("transfer function", "%s %d",
-            UnionTypeToStrIO(ut), utPolyFrac==ut ? 0: items.count());
     if(utPolyFrac == ut){
-        pf.Save(ds);
+      ds.PutF("transfer function", "%s %d",
+	      UnionTypeToStrIO(ut), utPolyFrac==ut ? 0: items.count());
+      pf.Save(ds);
+    }else if(utInOutDim == ut) {
+      ds.PutF("MIMO transfer function", "%s %u %u",
+	      UnionTypeToStrIO(ut), InputDim(), OutputDim());
+      unsigned i, j;
+      for(j = 0; j < OutputDim(); ++j) {
+	for(i = 0; i < InputDim(); ++i) {
+	  ds.PutF("link function", "%s %u %u",
+		  UnionTypeToStrIO(utInOut), i, j);
+	  items[j*InputDim() + i]->Save(ds);
+	}
+      }
     }else{ // if(utSum == ut || utProduct == ut)
-        int i;
-        for(i = 0; i < items.count(); ++i){
-            items[i]->Save(ds);
-        }
+      ds.PutF("transfer function", "%s %d",
+	      UnionTypeToStrIO(ut), utPolyFrac==ut ? 0: items.count());
+      int i;
+      for(i = 0; i < items.count(); ++i){
+	items[i]->Save(ds);
+      }
     }
 }
 
@@ -452,16 +489,44 @@ void
 NaTransFunc::Load (NaDataStream& ds)
 {
     char    szUT[100];
-    int     i, nItems;
+    int     i, j, nItems = 0;
+    unsigned nInput = 0, nOutput = 0;
 
     items.clean();
 
-    ds.GetF("%s %d", szUT, &nItems);
+    // counting words (up to 3 words)
+    char	*szData = ds.GetData();
+    char        *szBuf = szData;
+
+    for(i = 0; ; ++i){
+        // skip leading spaces
+        while(isspace(*szBuf) && *szBuf != '\0')
+            ++szBuf;
+
+        // while current string is not EOS...
+        if('\0' == *szBuf || ';' == *szBuf)
+            break;
+
+	while(!isspace(*szBuf) && *szBuf != '\0')
+            ++szBuf;
+    }
+
+    switch(i) {
+    case 2:
+      sscanf(szData, "%s %d", szUT, &nItems);
+      break;
+    case 3:
+      sscanf(szData, "%s %u %u", szUT, &nInput, &nOutput);
+      break;
+    default:
+      NaPrintLog("Wrong number of tokens in definition of transfer function\n.");
+      return;
+    }
 
     switch(ut = StrToUnionTypeIO(szUT)){
     default:
     case __utNumber:
-        NaPrintLog("Can't parse '%s' as a type of transfer function\n.",
+        NaPrintLog("Can't parse '%s' in definition of transfer function\n.",
                    szUT);
         break;
 
@@ -477,6 +542,37 @@ NaTransFunc::Load (NaDataStream& ds)
     case utPolyFrac:
         pf.Load(ds);
         break;
+
+    case utInOutDim:
+        // Declare number of inputs and outputs
+        Assign(nInput, nOutput);
+	nItems = nInput * nOutput;
+        for(i = 0; i < nItems; ++i){
+	    // Zero link by default
+	    NaTransFunc *tf = new NaTransFunc(0, 0.0, 0, 1.0);
+            items.addh(tf);
+        }
+
+	try{
+	  while(true) {
+	    ds.GetF("%s %u %u", szUT, &nInput, &nOutput);
+	    if(utInOut == StrToUnionTypeIO(szUT)) {
+	      
+	      NaTransFunc *tf = items[InputDim() * nOutput + nInput];
+	      tf->Load(ds);
+	    } else {
+	      NaPrintLog("Unexpected word '%s' while parsing MIMO function\n",
+			 szUT);
+	      break;
+	    }
+	  }
+	}
+	catch(NaException& ex) {
+	  if(ex != na_end_of_file)
+	    // It's a problem, let's pass upstack
+	    throw(ex);
+	}
+        break;
     }
 }
 
@@ -486,7 +582,7 @@ void
 NaTransFunc::Save (const char* szFileName)
 {
   NaConfigPart	*conf_list[] = { this };
-  NaConfigFile	conf_file(";NeuCon transfer", 1, 0, ".tf");
+  NaConfigFile	conf_file(";NeuCon transfer", 1, 1, ".tf");
   conf_file.AddPartitions(NaNUMBER(conf_list), conf_list);
   conf_file.SaveToFile(szFileName);
 }
@@ -497,7 +593,7 @@ void
 NaTransFunc::Load (const char* szFileName)
 {
   NaConfigPart	*conf_list[] = { this };
-  NaConfigFile	conf_file(";NeuCon transfer", 1, 0, ".tf");
+  NaConfigFile	conf_file(";NeuCon transfer", 1, 1, ".tf");
   conf_file.AddPartitions(NaNUMBER(conf_list), conf_list);
   conf_file.LoadFromFile(szFileName);
 }
@@ -641,6 +737,10 @@ NaTransFunc::UnionTypeToStrIO (UnionType eUT)
         return "product";
     case utPolyFrac:
         return "polyfrac";
+    case utInOutDim:
+        return "inoutdim";
+    case utInOut:
+        return "inout";
     default:
         return "?ut?";
     }
@@ -650,12 +750,21 @@ NaTransFunc::UnionTypeToStrIO (UnionType eUT)
 NaTransFunc::UnionType
 NaTransFunc::StrToUnionTypeIO (const char* szUT)
 {
-    if(!strcmp(szUT, UnionTypeToStrIO(utSum))){
+    if(!strncmp(szUT, UnionTypeToStrIO(utSum),
+	       strlen(UnionTypeToStrIO(utSum)))){
         return utSum;
-    }else if(!strcmp(szUT, UnionTypeToStrIO(utProduct))){
+    }else if(!strncmp(szUT, UnionTypeToStrIO(utProduct),
+		      strlen(UnionTypeToStrIO(utProduct)))){
         return utProduct;
-    }else if(!strcmp(szUT, UnionTypeToStrIO(utPolyFrac))){
+    }else if(!strncmp(szUT, UnionTypeToStrIO(utPolyFrac),
+		      strlen(UnionTypeToStrIO(utPolyFrac)))){
         return utPolyFrac;
+    }else if(!strncmp(szUT, UnionTypeToStrIO(utInOutDim),
+		      strlen(UnionTypeToStrIO(utInOutDim)))){
+        return utInOutDim;
+    }else if(!strncmp(szUT, UnionTypeToStrIO(utInOut),
+		      strlen(UnionTypeToStrIO(utInOut)))){
+        return utInOut;
     }
     return __utNumber;
 }

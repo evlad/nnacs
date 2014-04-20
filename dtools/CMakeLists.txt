@@ -17,6 +17,10 @@ set(SOURCE_dtf dtf.cpp)
 add_executable(dtf ${SOURCE_dtf})
 target_link_libraries(dtf ${LIST_LIBS})
 
+set(SOURCE_dtfinfo dtfinfo.cpp)
+add_executable(dtfinfo ${SOURCE_dtfinfo})
+target_link_libraries(dtfinfo ${LIST_LIBS})
+
 set(SOURCE_d2ts d2ts.cpp)
 add_executable(d2ts ${SOURCE_d2ts})
 target_link_libraries(d2ts ${LIST_LIBS})
@@ -105,6 +109,6 @@ target_link_libraries(dmeander ${LIST_LIBS})
 #add_executable(% ${SOURCE_%})
 #target_link_libraries(% ${LIST_LIBS})
 
-install(TARGETS dmeander dsteps dranduni drandmea dmult
+install(TARGETS dmeander dsteps dranduni drandmea dmult dtfinfo
         dsmooth dconst dstddev dmean dsin djacob dstatsb dstat dcorr
 	dsum dsub dmse dwtest dwtest2 dtf d2ts drand RUNTIME DESTINATION bin)
