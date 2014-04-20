@@ -14,6 +14,7 @@ static char rcsid[] = "$Id$";
 #include <ctype.h>
 
 //#define CONFIG_DEBUG
+#include "NaGenerl.h"
 #include "NaLogFil.h"
 #include "NaConfig.h"
 
@@ -457,15 +458,22 @@ NaConfigFile::LoadFromFile (const char* szFilePath)
     bUndo = false;
 
     // Load magic line
+    char *szAfterBOM = szLineBuf;
     if(NULL == fgets(szLineBuf, MaxConfigFileLine, fp))
         goto CloseFile;
-    if(0 != strncmp(szLineBuf, Magic(), strlen(Magic()))){
+
+    if(!strncmp(szLineBuf, NaBOM_utf8, strlen(NaBOM_utf8))){
+	// BOM is found -> it's OK
+	szAfterBOM = szLineBuf + strlen(NaBOM_utf8);
+    }
+
+    if(0 != strncmp(szAfterBOM, Magic(), strlen(Magic()))){
         NaPrintLog("Magic does not match.\n");
         goto CloseFile;
     }
 
     // Parse version of file
-    sscanf(szLineBuf + strlen(Magic()), "%u.%u",
+    sscanf(szAfterBOM + strlen(Magic()), "%u.%u",
            nFileVer + NaMajorVerNo, nFileVer + NaMinorVerNo);
 
     if(nVer[NaMajorVerNo] == nFileVer[NaMajorVerNo] &&

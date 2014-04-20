@@ -41,6 +41,11 @@ typedef double	NaReal;
  *************************************************************/
 extern FILE *fpNaLog;
 
+
+// UTF8 BOM
+#define NaBOM_utf8	"\xEF\xBB\xBF"
+
+
 #ifdef WIN32
 #include <stdarg.h>
 #ifdef __cplusplus

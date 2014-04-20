@@ -7,6 +7,7 @@ static char rcsid[] = "$Id$";
 #include <string.h>
 #include <stdlib.h>
 
+#include "NaGenerl.h"
 #include "NaExcept.h"
 #include "NaLogFil.h"
 #include "NaParams.h"
@@ -60,8 +61,15 @@ NaParams::NaParams (const char* szFileName,
 	  // skip leading spaces
 	  char	*p;
 
-	  // skip leading spaces before name
 	  p = buf;
+
+	  if(0 == stored_n &&
+	     !strncmp(p, NaBOM_utf8, strlen(NaBOM_utf8))){
+	      // BOM is found -> it's OK
+	      p += strlen(NaBOM_utf8);
+	  }
+
+	  // skip leading spaces before name
 	  while(isspace(*p) && *p != '\0')
 	    ++p;
 	  if(*p != '\0' && *p != spec[COMMENT])

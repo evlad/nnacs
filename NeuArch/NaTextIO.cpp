@@ -5,6 +5,7 @@ static char rcsid[] = "$Id$";
 #include <string.h>
 #include <stdlib.h>
 
+#include "NaGenerl.h"
 #include "NaTextIO.h"
 
 #define IOBUF_SIZE	102400
@@ -144,8 +145,13 @@ bool    NaTextStreamFile::GoNextRecord ()
     }
     ++iCase;
 
-    // Scan line
     char   *s = szBuf, *p = NULL;
+    if(!strncmp(s, NaBOM_utf8, strlen(NaBOM_utf8))){
+	// BOM is found -> it's OK
+	s += strlen(NaBOM_utf8);
+    }
+
+    // Scan line
     int    iVar = 0;
     while(true){
         NaReal  fVal = strtod(s, &p);
