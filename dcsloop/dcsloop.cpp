@@ -399,10 +399,10 @@ int main(int argc, char **argv)
 	  {
 	  case stream_mode:
 	    csm.setpnt_gen.set_generator_func(&refer_tf);
-	    csm.setpnt_gen.set_gauss_distrib(&fMean, &fStdDev);
+	    csm.setpnt_gen.set_gauss_distrib(fMean, fStdDev);
 
 	    csm.noise_gen.set_generator_func(&noise_tf);
-	    csm.noise_gen.set_gauss_distrib(&fMean, &fStdDev);
+	    csm.noise_gen.set_gauss_distrib(fMean, fStdDev);
 	    break;
 	  case file_mode:
 	    csm.setpnt_inp.set_input_filename(par("in_r"));

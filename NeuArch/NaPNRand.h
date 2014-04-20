@@ -45,10 +45,16 @@ public:
   virtual void        set_gauss_distrib (const NaReal* fMean,
 					 const NaReal* fStdDev);
 
+  // The same parameters for the whole dimension
+  virtual void        set_gauss_distrib (NaReal fMean, NaReal fStdDev);
+
   // Setup random generation with uniform distribution
   // with given output dimension
   virtual void        set_uniform_distrib (const NaReal* fMin,
 					   const NaReal* fMax);
+
+  // The same parameters for the whole dimension
+  virtual void        set_uniform_distrib (NaReal fMin, NaReal fMax);
 
 
   ///////////////////////

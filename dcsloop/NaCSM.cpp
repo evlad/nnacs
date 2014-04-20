@@ -215,7 +215,8 @@ NaPNEvent
 NaControlSystemModel::run_net ()
 {
     try{
-	NaVector	rMain(1), rAux(1);
+	NaVector	rMain(onsum.main.data().dim());
+	NaVector	rAux(onsum.aux.data().dim());
 	rMain.init_value(1.);
 	rAux.init_value(-1.);
 

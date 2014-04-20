@@ -73,8 +73,8 @@ bool
 NaPNCheckPoint::verify ()
 {
     return NaPNFileOutput::verify()
-        && out.data().dim() == in.data().dim()
-        && in.data().dim() >= 1;                    // Due to [0] for trace
+        && out.data().dim() == in.data().dim();
+    // ?? && in.data().dim() >= 1;                    // Due to [0] for trace
 }
 
 

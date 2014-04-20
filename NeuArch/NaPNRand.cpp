@@ -88,6 +88,26 @@ NaPNRandomGen::set_gauss_distrib (const NaReal* fMean, const NaReal* fStdDev)
 
 
 //---------------------------------------------------------------------------
+// The same parameters for the whole dimension
+void
+NaPNRandomGen::set_gauss_distrib (NaReal fMean, NaReal fStdDev)
+{
+  check_tunable();
+
+  if(NULL == pUnit)
+    throw(na_null_pointer);
+
+  // Setup distribution parameters
+  unsigned    i;
+  for(i = 0; i < pUnit->OutputDim(); ++i)
+    {
+      pRandGenAr[i].SetDistribution(rdGaussNormal);
+      pRandGenAr[i].SetGaussianParams(fMean, fStdDev);
+    }
+}
+
+
+//---------------------------------------------------------------------------
 // Setup random generation with uniform distribution
 // with given output dimension
 void
@@ -104,6 +124,26 @@ NaPNRandomGen::set_uniform_distrib (const NaReal* fMin, const NaReal* fMax)
     {
       pRandGenAr[i].SetDistribution(rdUniform);
       pRandGenAr[i].SetUniformParams(fMin[i], fMax[i]);
+    }
+}
+
+
+//---------------------------------------------------------------------------
+// The same parameters for the whole dimension
+void
+NaPNRandomGen::set_uniform_distrib (NaReal fMin, NaReal fMax)
+{
+  check_tunable();
+
+  if(NULL == pUnit)
+    throw(na_null_pointer);
+
+  // Setup distribution parameters
+  unsigned    i;
+  for(i = 0; i < pUnit->OutputDim(); ++i)
+    {
+      pRandGenAr[i].SetDistribution(rdUniform);
+      pRandGenAr[i].SetUniformParams(fMin, fMax);
     }
 }
 

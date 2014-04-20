@@ -136,24 +136,32 @@ NaCombinedFunc::Reset ()
 void
 NaCombinedFunc::Function (NaReal* x, NaReal* y)
 {
-  unsigned	i;
-  NaReal	tmp = *x;
+    if(1 == nParts) {
+	// Proper solution for MIMO in [0,+oo) time range
+	NaTimedUnit	*tu = (NaTimedUnit*)pParts[0]->pSelfData;
+	tu->pUnit->Function(x, y);
+    } else {
+	NaReal	tmp = *x;
 
-  for(i = 0; i < nParts; ++i){
-    NaTimedUnit	*tu = (NaTimedUnit*)pParts[i]->pSelfData;
+	// Old behaviour with problems of combining MIMO units both in
+	// sequence and in different time ranges
+	for(unsigned i = 0; i < nParts; ++i) {
+	    NaTimedUnit	*tu = (NaTimedUnit*)pParts[i]->pSelfData;
 
-    if(iTime >= tu->nTimeRange[0] &&
-       (NaInfinity == tu->nTimeRange[1] ||
-	iTime < tu->nTimeRange[1])){
-      // Activate function only in case of 1) eternal time range or 2)
-      // current time index is in time range of the unit
-      tu->pUnit->Function(&tmp, y);
-      tmp = *y;
+	    if(iTime >= tu->nTimeRange[0] &&
+	       (NaInfinity == tu->nTimeRange[1] ||
+		iTime < tu->nTimeRange[1]))
+		{
+		    // Activate function only in case of 1) eternal
+		    // time range or 2) current time index is in time
+		    // range of the unit
+		    tu->pUnit->Function(&tmp, y);
+		    tmp = *y;
+		}
+	}
+	*y = tmp;
     }
-  }
-  *y = tmp;
-
-  ++iTime;
+    ++iTime;
 }
 
 
@@ -296,6 +304,7 @@ NaCombinedFunc::Load (const char* szFileName)
 {
   if(NULL == szFileName)
     throw(na_null_pointer);
+
   if(strlen(szFileName) >= 3){
     if(!strcmp(szFileName + strlen(szFileName) - 3, ".tf")){
       // Old transfer function file
@@ -310,7 +319,7 @@ NaCombinedFunc::Load (const char* szFileName)
       // Load the transfer function
       p->Load(szFileName);
 
-      // Just to have the save facility
+      // Just to have the same facility
       conf_file.RemovePartitions();
       conf_file.AddPartitions(nParts, pParts);
 
@@ -322,6 +331,12 @@ NaCombinedFunc::Load (const char* szFileName)
 
       pParts[0]->pSelfData = tu;
 
+      // Assign dimensions of the only item
+      Assign(p->InputDim(), p->OutputDim());
+
+      NaPrintLog("Simple combined function defined; dim in=%d out=%d\n",
+		 InputDim(), OutputDim());
+
       return;
     }
   }
@@ -331,4 +346,10 @@ NaCombinedFunc::Load (const char* szFileName)
   conf_file.RemovePartitions();
   conf_file.AddPartitions(NaNUMBER(conf_list), conf_list);
   conf_file.LoadFromFile(szFileName);
+
+  // Ask for dimension of every item and check them for coinsidence
+  NaTimedUnit	*tu = (NaTimedUnit*)pParts[0]->pSelfData;
+  Assign(tu->pUnit->InputDim(), tu->pUnit->OutputDim());
+  NaPrintLog("WARNING: %u parts of combined function defined, 1st: dim in=%d out=%d\n",
+	     nParts, InputDim(), OutputDim());
 }
