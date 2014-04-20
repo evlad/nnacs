@@ -190,10 +190,16 @@ NaControlSystemModel::link_net ()
 	net.link(&statan_cerr.stat, &cerr_fout.in);
 
 	net.link(&chkpnt_r.out, &skip_r.in);
-	net.link(&nnplant.y, &nnpback.nnout);
-	net.link(&skip_r.out, &nnpback.desout);
 
-	net.link(&nnpback.errinp, &nnp_bpe.in);
+	/* NN-P BEGIN */
+	if(nnplant.get_nn_unit() != NULL)
+	  {
+	      net.link(&nnplant.y, &nnpback.nnout);
+	      net.link(&skip_r.out, &nnpback.desout);
+
+	      net.link(&nnpback.errinp, &nnp_bpe.in);
+	  }
+	/* NN-P END */
 
         net.link(&chkpnt_r.out, &statan_r.signal);
 
