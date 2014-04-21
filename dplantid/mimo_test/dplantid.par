@@ -1,0 +1,41 @@
+# dplantid parameters
+
+# NNP TEACHING
+# Input files
+in_u = ../../dcsloop/mimo_test/u.dat
+in_y = ../../dcsloop/mimo_test/ny.dat
+
+# Output files (tr_y is in_y without several startup samples)
+nn_y = nn_y.dat
+tr_y = tr_y.dat
+
+# NNP TESTING
+# Input files
+test_in_u = ../../dcsloop/mimo_test_nnc/u.dat
+test_in_y = ../../dcsloop/mimo_test_nnc/ny.dat
+
+# Output files
+test_nn_y = nn_y_test.dat
+test_tr_y = tr_y_test.dat
+
+# Neural net file
+in_nnp_file = nnp_ini.nn
+out_nnp_file = nnp_res.nn
+
+# Tracking learning process:
+# LearnME LearnSDE LearnMSE TestME TestSDE TestMSE NormLearnMSE NormTestMSE
+trace_file = nnp_trace.dat
+
+# Stop learning if...
+finish_on_value=0.001
+finish_on_grow=20
+finish_max_epoch=100
+
+# Learning algorithm setup
+eta = 0.01
+eta_output = 0.001
+alpha = 0.0
+
+# When MSE will descent for accel_hits epochs then eta, eta_output,
+# alpha will be multiplied by two
+#accel_hits = 20
