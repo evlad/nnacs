@@ -55,15 +55,15 @@ NNACS - Neural network applications for control systems
 } center
     global tcl_platform
     set platform [string totitle $tcl_platform(platform)]
-    $w.text insert end "Версия: 1.6 для $platform\n" center
-    $w.text insert end "Дата: 19 мая 2013 года\n" center
+    $w.text insert end "Версия: 1.6b для $platform\n" center
+    $w.text insert end "Дата: 22 апреля 2014 года\n" center
     $w.text insert end {
 Национальный исследовательский университет "МЭИ"
 Институт Автоматики и вычислительной техники
 Кафедра Управления и информатики
 } center
 
-    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2013\nEmail: YeliseevVL@mpei.ac.ru\n" center
+    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2014\nEmail: YeliseevVL@mpei.ac.ru\n" center
 
     if {$tcl_platform(platform) == "windows"} {
         $w.text insert end {
