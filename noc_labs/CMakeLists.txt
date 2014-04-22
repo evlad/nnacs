@@ -24,6 +24,7 @@ set(TCL_SCRIPTS data_file.tcl
 	win_checkpnt.tcl
 	win_cofunc.tcl
 	win_controller.tcl
+	win_cusum.tcl
 	win_dcontrf.tcl
 	win_dcontrp.tcl
 	win_dcsloop.tcl
@@ -35,6 +36,7 @@ set(TCL_SCRIPTS data_file.tcl
 	win_nnpedit.tcl
 	win_nnplant.tcl
 	win_nntpar.tcl
+	win_model.tcl
 	win_plant.tcl
 	win_rtseries.tcl
 	win_series.tcl
