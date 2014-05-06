@@ -6,6 +6,12 @@ project(NNACS)			# Название проекта
 
 set(CMAKE_BUILD_TYPE Release)
 
+# mkdir -p _build_ _release_
+# cd _build_
+# cmake -DCMAKE_INSTALL_PREFIX=../_release_ ..
+# make
+# make install
+
 add_subdirectory(Matrix.041)
 add_subdirectory(NeuArch)
 add_subdirectory(NaTools)
