@@ -1,6 +1,3 @@
-pkg_mkIndex .
-lappend auto_path .
-
 package provide win_dcsloop_cusum 1.0
 
 #set font "-*-helvetica-*-r-*-*-14-*-*-*-*-*-koi8-*"
