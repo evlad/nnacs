@@ -134,13 +134,19 @@ public:
     // Set input scale: [yMin,yMax] -> [-1,1]
     virtual void    SetInputScale (const NaReal* yMin, const NaReal* yMax);
 
-    // Scale given vector [iIndex..iIndex+nDim1]; maybe pSrcVect==pDstVect
+    // Scale given vector [iIndex..iIndex+nDim-1]; maybe pSrcVect==pDstVect
     virtual void    ScaleData (const NaNNUnit::NaScaler& rSrcScaler,
                                const NaNNUnit::NaScaler& rDstScaler,
                                const NaReal* pSrcVect,
                                NaReal* pDstVect,
                                unsigned nDim,
 			       unsigned iIndex = 0) const;
+
+    // Scale given scalar as an item on [iIndex] position.
+    virtual NaReal  ScaleData (const NaNNUnit::NaScaler& rSrcScaler,
+			       const NaNNUnit::NaScaler& rDstScaler,
+			       NaReal fSrcVal,
+			       unsigned iIndex) const;
 
 };
 

@@ -276,8 +276,8 @@ NaStdBackProp::DeltaRule (const NaReal* Ytarg, bool bError)
             fError = Ytarg[iNeuron];
 #else
             // Error must be scaled to standard range too
-	    nn().ScaleData(nn().OutputScaler, nn().StdOutputRange,
-			   &(Ytarg[iNeuron]), &fError, 1, iNeuron);
+	    fError = nn().ScaleData(nn().OutputScaler, nn().StdOutputRange,
+				    Ytarg[iNeuron], iNeuron);
 #endif
 	    if(nDebugLvl >= 3)
 		NaPrintLog("    ~ precomp.error[%d]= %g\n", iNeuron, fError);
@@ -285,8 +285,8 @@ NaStdBackProp::DeltaRule (const NaReal* Ytarg, bool bError)
             NaReal  Ydes_i;
 
             // Scale Ydes to standard range [-1,1]
-	    nn().ScaleData(nn().OutputScaler, nn().StdOutputRange,
-			   &(Ytarg[iNeuron]), &Ydes_i, 1, iNeuron);
+	    Ydes_i= nn().ScaleData(nn().OutputScaler, nn().StdOutputRange,
+				   Ytarg[iNeuron], iNeuron);
 
             fError = nn().Yout[iLayer][iNeuron] - Ydes_i;
 	    if(nDebugLvl >= 2)

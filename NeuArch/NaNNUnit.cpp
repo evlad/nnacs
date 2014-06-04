@@ -657,7 +657,7 @@ NaNNUnit::SetInputScale (const NaReal* yMin, const NaReal* yMax)
 
 
 //---------------------------------------------------------------------------
-// Scale given vector [iIndex..iIndex+nDim1]; maybe pSrcVect==pDstVect
+// Scale given vector [iIndex..iIndex+nDim-1]; maybe pSrcVect==pDstVect
 void
 NaNNUnit::ScaleData (const NaNNUnit::NaScaler& rSrcScaler,
                      const NaNNUnit::NaScaler& rDstScaler,
@@ -670,7 +670,7 @@ NaNNUnit::ScaleData (const NaNNUnit::NaScaler& rSrcScaler,
         throw(na_null_pointer);
 
     unsigned    i;
-    for(i = iIndex; i < nDim; ++i){
+    for(i = 0; i < nDim; ++i){
         NaReal  fDstDiff = rDstScaler.max(i) - rDstScaler.min(i);
         NaReal  fSrcDiff = rSrcScaler.max(i) - rSrcScaler.min(i);
 	NaReal	fSrcVal = pSrcVect[i];
@@ -689,12 +689,41 @@ NaNNUnit::ScaleData (const NaNNUnit::NaScaler& rSrcScaler,
 	  }
 
 #if defined(NNUnit_SCALE)
-	NaPrintLog("ScaleData(%d) [%g,%g]->[%g,%g] ==> %g -> %g\n", i,
+	NaPrintLog("ScaleData(%u) [%g,%g]->[%g,%g] ==> %g -> %g\n", i,
 		   rSrcScaler.min(i), rSrcScaler.max(i),
 		   rDstScaler.min(i), rDstScaler.max(i),
 		   fSrcVal, pDstVect[i]);
 #endif // NNUnit_SCALE
     }
+}
+
+
+//---------------------------------------------------------------------------
+// Scale given scalar as an item on [iIndex] position.
+NaReal
+NaNNUnit::ScaleData (const NaNNUnit::NaScaler& rSrcScaler,
+                     const NaNNUnit::NaScaler& rDstScaler,
+                     NaReal fSrcVal,
+		     unsigned iIndex) const
+{
+  NaReal  fDstDiff = rDstScaler.max(iIndex) - rDstScaler.min(iIndex);
+  NaReal  fSrcDiff = rSrcScaler.max(iIndex) - rSrcScaler.min(iIndex);
+  NaReal  fDstVal = fSrcVal;
+
+  // Preveint scaling if some difference is zero
+  if(0 != fDstDiff && 0 != fSrcDiff)
+    {
+      fDstVal = rDstScaler.min(iIndex)
+	+ (fSrcVal - rSrcScaler.min(iIndex)) * fDstDiff / fSrcDiff;
+    }
+
+#if defined(NNUnit_SCALE)
+  NaPrintLog("ScaleData(%u) [%g,%g]->[%g,%g] ==> %g -> %g\n", iIndex,
+	     rSrcScaler.min(iIndex), rSrcScaler.max(iIndex),
+	     rDstScaler.min(iIndex), rDstScaler.max(iIndex),
+	     fSrcVal, fDstVal);
+#endif // NNUnit_SCALE
+  return fDstVal;
 }
 
 
