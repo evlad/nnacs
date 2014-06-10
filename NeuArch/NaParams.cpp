@@ -209,7 +209,11 @@ NaParams::NaParams (const char* szFileName,
 //---------------------------------------------------------------------------
 NaParams::~NaParams ()
 {
-  delete storage;
+  for(int i = 0; i < stored_n; ++i) {
+    delete[] storage[i].name;
+    delete[] storage[i].value;
+  }
+  delete[] storage;
 }
 
 
