@@ -1,4 +1,4 @@
-package require Tk
+﻿package require Tk
 
 set w ""
 wm title . "Main menu of laboratory works"
@@ -55,8 +55,8 @@ NNACS - Neural network applications for control systems
 } center
     global tcl_platform
     set platform [string totitle $tcl_platform(platform)]
-    $w.text insert end "Версия: 1.6d для $platform\n" center
-    $w.text insert end "Дата: 5 июня 2014 года\n" center
+    $w.text insert end "Версия: 1.6e для $platform\n" center
+    $w.text insert end "Дата: 11 июня 2014 года\n" center
     $w.text insert end {
 Национальный исследовательский университет "МЭИ"
 Институт Автоматики и вычислительной техники
