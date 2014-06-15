@@ -125,7 +125,7 @@ int main (int argc, char* argv[])
 	  }
 
 	/* Testing epoch */
-	if(dfLeIn->GoStartRecord() && dfLeOut->GoStartRecord())
+	if(dfTeIn->GoStartRecord() && dfTeOut->GoStartRecord())
 	  {
 	    int	nSamples = 0;
 
