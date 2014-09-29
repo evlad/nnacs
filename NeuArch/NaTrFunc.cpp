@@ -9,6 +9,7 @@ static char rcsid[] = "$Id$";
 
 #include "NaTrFunc.h"
 
+//#define TransFunc_DEBUG
 
 //===========================================================================
 //
@@ -126,9 +127,18 @@ NaPolyFrac::Function (NaReal* x, NaReal* y)
     k = den.dim() - num.dim();
     for(i = 0; i < num.dim(); ++i){
         if(0 == k && 0 == i){
-            ma += ib0 * num(i) * *x;
+	     ma += ib0 * num(i) * *x;
+#ifdef TransFunc_DEBUG
+	     NaPrintLog("MA(%d): a(%d){%g} * x(current){%g} = %g\n",
+			i, i, ib0 * num(i), *x, ib0 * num(i) * *x);
+#endif // TransFunc_DEBUG
         }else{
-            ma += ib0 * num(i) * xprev(i+k-1);
+	     ma += ib0 * num(i) * xprev(i+k-1);
+#ifdef TransFunc_DEBUG
+	     NaPrintLog("MA(%d): a(%d){%g} * x(prev=%d){%g} = %g\n",
+			i, i, ib0*num(i), i+k-1, ib0 * xprev(i+k-1),
+			ib0 * num(i) * xprev(i+k-1));
+#endif // TransFunc_DEBUG
         }
     }
 #ifdef TransFunc_DEBUG
