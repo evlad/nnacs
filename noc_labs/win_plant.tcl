@@ -98,11 +98,11 @@ proc PlantWindow {p sessionDir arref plantfile} {
 	-direction below -menu $m -relief raised
     menu $m -tearoff 0
     $m add command -label "Тип звена" \
-	-command "TrFuncEdit $w \"$sessionDir\" \"$var_plantfile\" $var_plantfile true"
+	-command "TrFuncEdit $w \"$sessionDir\" \"$var_plantfile\" @var_plantfile true"
     $m add command -label "Параметры" \
-	-command "TrFuncEdit $w \"$sessionDir\" \"$var_plantfile\" $var_plantfile"
+	-command "TrFuncEdit $w \"$sessionDir\" \"$var_plantfile\" @var_plantfile"
     $m add command -label "Как текст" \
-	-command "TrFuncEdit $w \"$sessionDir\" \"$var_plantfile\" $var_plantfile false true"
+	-command "TrFuncEdit $w \"$sessionDir\" \"$var_plantfile\" @var_plantfile false true"
 
 
     grid $f.lin_fl $f.lin_fe $f.lin_fsel $f.lin_fedit

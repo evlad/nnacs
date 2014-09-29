@@ -514,10 +514,19 @@ proc TrFuncNewType {p sessionDir fileRelPath {force false}} {
 
 
 # Call file transfer function editor
+# - sessionDir - directory to build relative path to
+# - title - string in the head
+# - fileRelPath - file path to edit or @variable with value of this path
 # - forceNew - boolean: true to create new file anyway
 # - asText - boolean: true to edit as text file
 proc TrFuncEdit {p sessionDir title fileRelPath {forceNew false} {asText false}} {
     puts "TrFuncEdit: $sessionDir $fileRelPath"
+    if {[string index $fileRelPath 0] == "@"} {
+	set varName [string range $fileRelPath 1 end]
+	upvar #0 $varName varValue
+	set fileRelPath $varValue
+	puts "TrFuncEdit: $sessionDir $fileRelPath (deref)"
+    }
     set ftype [TrFuncNewType $p $sessionDir $fileRelPath $forceNew]
     if {$forceNew && $ftype == {}} {
 	# User cancelled transfer function creation
