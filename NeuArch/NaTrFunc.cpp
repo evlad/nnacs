@@ -463,6 +463,19 @@ NaTransFunc::Function (NaReal* x, NaReal* y)
     }
 }
 
+
+//---------------------------------------------------------------------------
+// Take pointer to scalar function with i input and j output
+NaTransFunc*
+NaTransFunc::ScalarFunction (unsigned i, unsigned j)
+{
+  if(i >= InputDim() || j >= OutputDim())
+    return NULL;
+
+  return items[j * InputDim() + i];
+}
+
+
 //---------------------------------------------------------------------------
 // Store configuration data in internal order to given stream
 void
