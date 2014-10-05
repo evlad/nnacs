@@ -126,11 +126,21 @@ proc dcontrfRun {p sessionDir parFile} {
 	set params {
 	    winWidth 600
 	    winHeight 250
-	    yMin 1e-3
-	    yMax 1e2
 	    yScale log
 	    timeLabel "Epoch:"
 	}
+
+	if {$dcontrf_params(rtseries_yMax) != ""} {
+	    lappend params yMax $dcontrf_params(rtseries_yMax)
+	} else {
+	    lappend params yMax 1e2
+	}
+	if {$dcontrf_params(rtseries_yMin) != ""} {
+	    lappend params yMin $dcontrf_params(rtseries_yMin)
+	} else {
+	    lappend params yMin 1e-3
+	}
+
 	set series { ControlMSE IdentifMSE }
 	set pipe [open "|\"$exepath\" \"$parFile\"" r]
 	fconfigure $pipe -buffering line

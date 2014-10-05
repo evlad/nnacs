@@ -333,6 +333,14 @@ int main(int argc, char **argv)
       }
     else
       {
+	int	iErrFetch = atoi(par.GetParam("errfetch_output"));
+	NaPrintLog("user defined errfetch_output=%d\n", iErrFetch);
+	nnocl.errfetch.set_output(iErrFetch,
+				  nnocl.nncontr.get_nn_unit()->OutputDim());
+      }
+#if 0
+    else
+      {
 	// To adopt for MIMO!!!
 	char	*buf = strdup(par("errfetch_output"));
 	char	*token = strtok(buf, " ,;");
@@ -383,6 +391,7 @@ int main(int argc, char **argv)
 	    delete[] pfSumWeights;  pfSumWeights = NULL;
 	  }
       }
+#endif
 
     // Setpoint and noise
     NaReal	fMean = 0.0, fStdDev = 1.0;

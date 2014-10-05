@@ -172,6 +172,9 @@ public:
     friend NaTransFunc  operator* (const NaTransFunc& tf1,
                                    const NaTransFunc& tf2);
 
+    // Take pointer to scalar function with i input and j output
+    virtual NaTransFunc*    ScalarFunction (unsigned i, unsigned j);
+
 public:
 
     // Union type

@@ -109,11 +109,21 @@ proc dcontrpRun {p sessionDir parFile} {
 	set params {
 	    winWidth 600
 	    winHeight 250
-	    yMin 1e-5
-	    yMax 10
 	    yScale log
 	    timeLabel "Epoch:"
 	}
+
+	if {$dcontrp_params(rtseries_yMax) != ""} {
+	    lappend params yMax $dcontrp_params(rtseries_yMax)
+	} else {
+	    lappend params yMax 10
+	}
+	if {$dcontrp_params(rtseries_yMin) != ""} {
+	    lappend params yMin $dcontrp_params(rtseries_yMin)
+	} else {
+	    lappend params yMin 1e-5
+	}
+
 	set series { LearnMSE TestMSE EtaHidden EtaOutput }
 	set pipe [open "|\"$exepath\" \"$parFile\"" r]
 	fconfigure $pipe -buffering line

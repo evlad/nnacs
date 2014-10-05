@@ -55,6 +55,7 @@ set(TEMPLATES
 	templates/integral.tf
 	templates/pid_kkk.tf
 	templates/pid_ktt.tf
+	templates/mimo_2i3o.tf
 
 	templates/1st_order.gif
 	templates/2nd_order.gif
@@ -65,7 +66,7 @@ set(TEMPLATES
 	templates/integral.gif
 	templates/pid_kkk.gif
 	templates/pid_ktt.gif
-	templates/simple_delayn.gif
+	templates/mimo_2i3o.gif
 
 	templates/dcontrf.par
 	templates/dcontrp.par

@@ -23,12 +23,11 @@ static char rcsid[] = "$Id$";
  ***********************************************************************/
 int main (int argc, char* argv[])
 {
-  if(argc != 3 && argc != 4 && argc != 5)
+  if(argc != 4 && argc != 5)
     {
-      fprintf(stderr, "Error: need 2, 3 or 4 arguments\n");
+      fprintf(stderr, "Error: need 3 or 4 arguments\n");
       fprintf(stderr,
 	      "Usage: drand Length Mean StdDev [DiscrTrFunc]\n"\
-	      "    or drand InputSeries DiscrTrFunc\n"\
 	      "DRAND_SAFE=something to avoid the same seed in srand()\n");
       return 1;
     }
@@ -39,65 +38,54 @@ int main (int argc, char* argv[])
   float	mean;
   float	stddev;
   char	*dtf_file = NULL;
-  NaDataFile	*ins = NULL;
 
-  if(argc == 3)
-    {
-      ins = OpenInputDataFile(argv[1]);
-      dtf_file = argv[2];
-    }
-  else
-    {
-      length = atol(argv[1]);
-      mean = atof(argv[2]);
-      stddev = atof(argv[3]);
-      if(argc == 5)
-	dtf_file = argv[4];
-    }
+  length = atol(argv[1]);
+  mean = atof(argv[2]);
+  stddev = atof(argv[3]);
+  if(argc == 5)
+    dtf_file = argv[4];
 
   try{
-    int		i;
+    int		i, j, dim;
     NaTransFunc	dtf;	/* K=1 */
 
     if(NULL != dtf_file)
       {
 	NaConfigPart	*conf_list[] = { &dtf };
-	NaConfigFile	conf_file(";NeuCon transfer", 1, 0);
+	NaConfigFile	conf_file(";NeuCon transfer", 1, 1);
 	conf_file.AddPartitions(NaNUMBER(conf_list), conf_list);
 	conf_file.LoadFromFile(dtf_file);
+
+	NaPrintLog("Custom function with %d inputs, %d outputs\n",
+		   dtf.InputDim(), dtf.OutputDim());
+      }
+    dim = dtf.OutputDim();
+
+    if(1 != dtf.InputDim())
+      {
+	fprintf(stderr, "Input dimension of a function must be 1, not %d\n",
+		dtf.InputDim());
+	return 1;
       }
 
-    if(NULL == ins)
-      {
-	// See DRAND_SAFE to prevent dependent random series
-	reset_rand();
-      }
-    else
-      {
-	ins->GoStartRecord();
-	length = ins->CountOfRecord();
-      }
-
+    // See DRAND_SAFE to prevent dependent random series
+    reset_rand();
     dtf.Reset();
 
+    NaReal fRand, fOut;
     for(i = 0; i < length; ++i)
       {
-	NaReal	fRand, fOut;
-
-	if(NULL == ins)
-	  fRand = rand_gaussian(mean, stddev);
-	else
+	for(j = 0; j < dim; ++j)
 	  {
-	    fRand = ins->GetValue();
-	    ins->GoNextRecord();
+	    fRand = rand_gaussian(mean, stddev);
+	    dtf.ScalarFunction(0, j)->Function(&fRand, &fOut);
+	    if(j == 0)
+	      printf("%10g", fOut);
+	    else
+	      printf(" %10g", fOut);
 	  }
-
-	dtf.Function(&fRand, &fOut);
-
-	printf("%g\n", fOut);
+	putchar('\n');
       }
-
-    delete ins;
   }
   catch(NaException& ex){
     NaPrintLog("EXCEPTION: %s\n", NaExceptionMsg(ex));
