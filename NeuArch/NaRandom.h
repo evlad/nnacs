@@ -33,6 +33,9 @@ public:
     // Construct by default: (1,1)
     NaRandomSequence ();
 
+    // Construct arbitrary output dimension >=1
+    NaRandomSequence (unsigned nOutDim);
+
     // Copying construct
     NaRandomSequence (const NaRandomSequence& rRandSeq);
 
@@ -48,22 +51,20 @@ public:
     virtual void    Function (NaReal* x, NaReal* y);
 
     // Setup generator law
-    void    SetDistribution (NaRandomDistribution eRD);
+    void    SetDistribution (NaRandomDistribution eRD, unsigned iOut = 0);
 
     // Setup distribution parameters
-    void    SetGaussianParams (NaReal mean, NaReal stddev);
-    void    SetUniformParams (NaReal min, NaReal max);
+    void    SetGaussianParams (NaReal mean, NaReal stddev, unsigned iOut = 0);
+    void    SetUniformParams (NaReal min, NaReal max, unsigned iOut = 0);
 
     // Get actual generator law
-    NaRandomDistribution    GetDistribution () const;
+    NaRandomDistribution    GetDistribution (unsigned iOut = 0) const;
 
     // Get distribution parameters
-    void    GetGaussianParams (NaReal& mean, NaReal& stddev) const;
-    void    GetUniformParams (NaReal& min, NaReal& max) const;
-
-    // Store/load parameters from file
-    void    Serialize (FILE* fp) const;
-    void    Deserialize (FILE* fp);
+    void    GetGaussianParams (NaReal& mean, NaReal& stddev,
+			       unsigned iOut = 0) const;
+    void    GetUniformParams (NaReal& min, NaReal& max,
+			      unsigned iOut = 0) const;
 
     //***********************************************************************
     // Store and retrieve configuration data
@@ -77,16 +78,19 @@ public:
 
 private:
 
-    // How to produce random numbers?
-    NaRandomDistribution    eRandomDistr;
+    struct Params {
+      // How to produce random numbers?
+      NaRandomDistribution    eRandomDistr;
 
-    // Gaussian distribution parameters
-    NaReal      fMean;      // Mean value
-    NaReal      fStdDev;    // Standard deviation
+      // Gaussian distribution parameters
+      NaReal      fMean;      // Mean value
+      NaReal      fStdDev;    // Standard deviation
 
-    // Uniform distribution parameters
-    NaReal      fMin;       // Low value limit
-    NaReal      fMax;       // High value limit
+      // Uniform distribution parameters
+      NaReal      fMin;       // Low value limit
+      NaReal      fMax;       // High value limit
+
+    }	*params;
 };
 
 
