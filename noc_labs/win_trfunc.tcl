@@ -431,9 +431,7 @@ proc TrFuncSelect {p} {
 	    #puts "$trf - ok"
 	    # Proper template must contain idname, label, type and key_pos
 	    set idname [lindex $descr 0]
-	    set type [lindex $descr 1]
 	    set label [lindex $descr 2]
-	    set key_pos [lindex $descr 3]
 	    incr height
 	    set len [string length $label]
 	    if {$width < $len} {
