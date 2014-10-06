@@ -110,8 +110,8 @@ public:
   // sign>0 --> stop if statistics value is greater than value
   void		halt_condition (int stat_id, int sign, NaReal value);
 
-  // Print to the log statistics
-  void		print_stat (const char* szTitle = NULL);
+  // Print statistics to the log (fp==NULL) or to the specified file stream.
+  void		print_stat (const char* szTitle = NULL, FILE* fp = NULL);
 
 
   /////////////////////////
