@@ -888,7 +888,8 @@ NaPetriNet::link (NaPetriConnector* pcSrc, NaPetriConnector* pcDst)
 		pcDst->host()->name(), pcDst->name());
     }
 
-    NaPrintLog("Link %s.%s & %s.%s\n",
+    NaPrintLog(" %s: %s.%s -> %s.%s\n",
+	       name(),
                pcSrc->host()->name(), pcSrc->name(),
                pcDst->host()->name(), pcDst->name());
 
@@ -1028,7 +1029,7 @@ NaPetriNet::add (NaPetriNode* pNode)
 	}
     }
 
-    NaPrintLog("Add node %s to network %s\n", pNode->name(), name());
+    NaPrintLog(" %s: + %s node\n", name(), pNode->name());
 
     pnaNet.addh(pNode);
 
