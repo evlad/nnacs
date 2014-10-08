@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=NNACS
+Comment=Neural Network Applications for Control Systems
+Exec=nnacs
+Icon=/usr/share/icons/gnome/48x48/categories/applications-science.png
+Terminal=true
+Type=Application
+Categories=Science;Education;
