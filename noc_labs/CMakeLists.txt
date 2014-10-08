@@ -68,6 +68,8 @@ set(TEMPLATES
 	templates/pid_ktt.gif
 	templates/mimo_2i3o.gif
 
+	templates/simple_delayn.gif
+
 	templates/dcontrf.par
 	templates/dcontrp.par
 	templates/dcsloop.par
