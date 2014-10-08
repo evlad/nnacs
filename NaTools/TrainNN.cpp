@@ -9,6 +9,7 @@ static char rcsid[] = "$Id$";
 #include <NaExcept.h>
 #include <NaDataIO.h>
 #include <NaStdBPE.h>
+#include <NaQProp.h>
 
 
 /* Flag of program termination */
@@ -50,6 +51,12 @@ int main (int argc, char* argv[])
   /* Let's handle SIGINT(2) */
   signal(SIGINT, handle_sigint);
 
+  int	nMaxEpochs = -1;	// unlimited
+  char	*szMaxEpochs = getenv("MAX_EPOCHS");
+  if(NULL != szMaxEpochs) {
+      nMaxEpochs = atoi(szMaxEpochs);
+  }
+
   try{
     NaDataFile	*dfLeIn = OpenInputDataFile(argv[2]);
     NaDataFile	*dfLeOut = OpenInputDataFile(argv[3]);
@@ -65,6 +72,14 @@ int main (int argc, char* argv[])
     nn.Load(argv[1]);
 
     NaStdBackProp	bpe(nn);
+    NaQuickProp		qpe(nn);
+    NaStdBackProp	*nnteacher = &bpe;
+
+    char		*szQPropMu = getenv("QPROP_MU");
+    if(NULL != szQPropMu) {
+	qpe.mu = atof(szQPropMu);
+	nnteacher = &qpe;
+    }
 
     /* Prepare buffers for input, target and output data */
     NaReal	*pIn = new NaReal[nn.descr.InputsNumber()];
@@ -109,10 +124,10 @@ int main (int argc, char* argv[])
 		{
 		  if(nn.OutputLayer() == iLayer)
 		    /* Output layer */
-		    bpe.DeltaRule(pTar);
+		    nnteacher->DeltaRule(pTar);
 		  else
 		    /* Hidden layer */
-		    bpe.DeltaRule(iLayer, iLayer + 1);
+		    nnteacher->DeltaRule(iLayer, iLayer + 1);
 		}
 
 	      ++nSamples;
@@ -125,7 +140,7 @@ int main (int argc, char* argv[])
 	  }
 
 	/* Testing epoch */
-	if(dfLeIn->GoStartRecord() && dfLeOut->GoStartRecord())
+	if(dfTeIn->GoStartRecord() && dfTeOut->GoStartRecord())
 	  {
 	    int	nSamples = 0;
 
@@ -153,7 +168,7 @@ int main (int argc, char* argv[])
 	  }
 
 	/* Update the NN weights at the end of each epoch */
-	bpe.UpdateNN();
+	nnteacher->UpdateNN();
 
 	/* Display epoch number, learning and testing errors */
 	printf("%d\t", iEpoch);
@@ -167,6 +182,9 @@ int main (int argc, char* argv[])
 	  printf(" %g", pTeMSE[j]);
 
 	putchar('\n');
+
+	if(iEpoch > nMaxEpochs)
+	    bTerminate = true;
 
       }/* End of learning loop */
 
