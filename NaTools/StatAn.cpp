@@ -91,7 +91,15 @@ int main(int argc, char **argv)
                 break;
             }
 
-            statan.print_stat(NULL);
+	    // To the log
+            statan.print_stat();
+
+	    // To the output
+	    if(3 == argc)
+	      printf("Compare files '%s' and '%s'\n", fname[0], fname[1]);
+	    else
+	      printf("Explore file '%s'\n", fname[0]);
+	    statan.print_stat("Statistics:", stdout);
         }
     }
     catch(NaException& ex){

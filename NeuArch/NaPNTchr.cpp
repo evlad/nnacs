@@ -140,22 +140,27 @@ NaPNTeacher::relate_connectors ()
 bool
 NaPNTeacher::verify ()
 {
-    if(NULL == pnn || NULL == pnn->get_nn_unit()){
-        NaPrintLog("VERIFY FAILED: No NN is set!\n");
-        return false;
-    }else if(nnout.links() != 0 && desout.links() != 0 && errout.links() == 0){
-        // Input pack #1
-        return pnn->get_nn_unit()->OutputDim() == nnout.data().dim()
-            && pnn->get_nn_unit()->OutputDim() == desout.data().dim()
-            && pnn->get_nn_unit()->InputDim() == errinp.data().dim();
-    }else if(nnout.links() == 0 && desout.links() == 0 && errout.links() != 0){
-        // Input pack #2
-        return pnn->get_nn_unit()->OutputDim() == errout.data().dim()
-            && pnn->get_nn_unit()->InputDim() == errinp.data().dim();
-    }
-    NaPrintLog("VERIFY FAILED: "
-               "'nnout' & 'desout' or 'errout' must be linked!\n");
+  bool bVerified = true;
+  if(NULL == pnn || NULL == pnn->get_nn_unit()){
+    NaPrintLog("VERIFY FAILED: No NN is set!\n");
     return false;
+  }
+  if(nnout.links() != 0 && desout.links() != 0) {
+    // Input pack #1
+    bVerified = bVerified
+      && pnn->get_nn_unit()->OutputDim() == nnout.data().dim()
+      && pnn->get_nn_unit()->OutputDim() == desout.data().dim();
+  }
+  if(errout.links() != 0) {
+    // Input pack #2
+    bVerified = bVerified
+      && pnn->get_nn_unit()->OutputDim() == errout.data().dim();
+  }
+
+  if(!bVerified)
+    NaPrintLog("VERIFY FAILED: "
+	       "'nnout' & 'desout' or 'errout' must be linked!\n");
+  return bVerified;
 }
 
 

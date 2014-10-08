@@ -281,29 +281,50 @@ NaPetriNet::prepare (bool bDoPrintouts)
     }
 
     // 2. Link connectors inside the node
-    for(iNode = 0; iNode < pnaNet.count(); ++iNode){
+    unsigned nPrevDim = (unsigned)(-1);
+    // Not more passes than number of nodes
+    for(int iPass = 1; iPass <= pnaNet.count(); ++iPass){
+      NaPrintLog("## pass %u\n", iPass);
+
+      unsigned nTotalDim = 0;
+      for(iNode = 0; iNode < pnaNet.count(); ++iNode){
         try{
+	  NaPetriNode	&node = *pnaNet[iNode];
+
             if(bDoPrintouts){
-                NaPrintLog("node '%s'\n", pnaNet[iNode]->name());
+                NaPrintLog("node '%s'\n", node.name());
             }
-            pnaNet[iNode]->relate_connectors();
+            node.relate_connectors();
+
+	    int	iCn;
+	    for(iCn = 0; iCn < node.connectors(); ++iCn){
+	      nTotalDim += node.connector(iCn)->data().dim();
+	    }
 
 	    /* describe all connectors */
-	    if(bDoPrintouts && pnaNet[iNode]->is_verbose()){
-	      int	iCn;
-	      NaPetriNode	&node = *pnaNet[iNode];
-
+	    if(bDoPrintouts && node.is_verbose()){
 	      for(iCn = 0; iCn < node.connectors(); ++iCn){
 		NaPrintLog("  #%d ", iCn + 1);
 		node.connector(iCn)->describe();
 	      }
 	    }
+
         }catch(NaException exCode){
             NaPrintLog("Link connectors phase (#2): node '%s' fault.\n"
                        "Caused by exception: %s\n",
                        pnaNet[iNode]->name(), NaExceptionMsg(exCode));
         }
-    }
+      } // for nodes
+
+      NaPrintLog("## pass %u ==> total dim %u\n", iPass, nTotalDim);
+
+      // Iterate until dimensions became stable
+      if(nPrevDim == nTotalDim)
+	break;
+
+      nPrevDim = nTotalDim;
+
+    } // for passes
 
     if(bDoPrintouts){
         NaPrintLog("# net '%s', phase #3: open output data.\n", name());
@@ -867,7 +888,8 @@ NaPetriNet::link (NaPetriConnector* pcSrc, NaPetriConnector* pcDst)
 		pcDst->host()->name(), pcDst->name());
     }
 
-    NaPrintLog("Link %s.%s & %s.%s\n",
+    NaPrintLog(" %s: %s.%s -> %s.%s\n",
+	       name(),
                pcSrc->host()->name(), pcSrc->name(),
                pcDst->host()->name(), pcDst->name());
 
@@ -1007,7 +1029,7 @@ NaPetriNet::add (NaPetriNode* pNode)
 	}
     }
 
-    NaPrintLog("Add node %s to network %s\n", pNode->name(), name());
+    NaPrintLog(" %s: + %s node\n", name(), pNode->name());
 
     pnaNet.addh(pNode);
 

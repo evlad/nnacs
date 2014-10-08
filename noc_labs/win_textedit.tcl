@@ -69,7 +69,9 @@ proc TextSyntaxHighlight {ftype t} {
 	NeuralNet -
 	TrFunc {
 	    TextRegexpHighlight $t {;.*$} comment
-	    TextRegexpHighlight $t {^[:space:]*\[.*\]} section
+	    TextRegexpHighlight $t {^\s*\[.*\]} section
+	    TextRegexpHighlight $t {^\s*inout\s+[0-9]+\s+[0-9]+} subsection
+	    TextRegexpHighlight $t {^\s*\(|inoutdim|polyfrac|product|sum\)\s} parline
 	}
 	ProgParams {
 	    TextRegexpHighlight $t {^\s*\#.*$} comment
@@ -156,6 +158,7 @@ proc TextEditWindow {p title filepath {onSave {}}} {
     set TextEditTags {comment section parline}
     $f.text tag configure comment -foreground DarkGreen
     $f.text tag configure section -foreground DarkRed
+    $f.text tag configure subsection -foreground NavyBlue -underline true
     $f.text tag configure parline -foreground NavyBlue
     $f.text tag configure error -foreground red
 

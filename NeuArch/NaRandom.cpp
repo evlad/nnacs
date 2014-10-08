@@ -48,12 +48,25 @@ NaRandomDistribution    StrToRandomDistrIO (const char* str)
 // Store configuration data in internal order to given stream
 void    NaRandomSequence::Save (NaDataStream& ds)
 {
-    ds.PutComment("Kinds of random distribution: 'gaussian', 'uniform'");
-    ds.PutF("Distribution kind", "%s", RandomDistrToStrIO(eRandomDistr));
-    ds.PutF("Gaussian distribution parameters (m D)", "%g %g",
-            fMean, fStdDev);
-    ds.PutF("Uniform distribution parameters (min max)", "%g %g",
-            fMin, fMax);
+  ds.PutF("Random sequence multioutput dimension", "%u", OutputDim());
+  char szLabel[100];
+  for(unsigned i = 0 ; i < OutputDim(); ++i)
+    {
+      sprintf(szLabel, "Distribution type; #%u", i);
+      ds.PutF(szLabel, "%s", RandomDistrToStrIO(params[i].eRandomDistr));
+      switch(params[i].eRandomDistr)
+	{
+	case rdGaussNormal:
+	  ds.PutF("m D", "%g %g", params[i].fMean, params[i].fStdDev);
+	  break;
+	case rdUniform:
+	  ds.PutF("min max", "%g %g", params[i].fMin, params[i].fMax);
+	  break;
+	default:
+	  ds.PutComment("Unknown parameters");
+	  break;
+	}
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -61,43 +74,84 @@ void    NaRandomSequence::Save (NaDataStream& ds)
 void    NaRandomSequence::Load (NaDataStream& ds)
 {
     char    szBuf[1024];
+    unsigned nOutDim;
 
-    ds.GetF("%s", szBuf);
-    eRandomDistr = StrToRandomDistrIO(szBuf);
+    ds.GetF("%u", &nOutDim);
+    if(nOutDim < 1)
+      throw(na_out_of_range);
 
-    ds.GetF("%lg %lg", &fMean, &fStdDev);
-    ds.GetF("%lg %lg", &fMin, &fMax);
+    delete[] params;
+    Assign(1, nOutDim);
+
+    params = new Params[OutputDim()];
+
+    for(unsigned i = 0 ; i < OutputDim(); ++i)
+      {
+	ds.GetF("%s", szBuf);
+	params[i].eRandomDistr = StrToRandomDistrIO(szBuf);
+
+	switch(params[i].eRandomDistr)
+	  {
+	  case rdGaussNormal:
+	    ds.GetF("%lg %lg", &params[i].fMean, &params[i].fStdDev);
+	    break;
+	  case rdUniform:
+	    ds.GetF("%lg %lg", &params[i].fMin, &params[i].fMax);
+	    break;
+	  }
+      }
 }
 
 //---------------------------------------------------------------------------
 // Construct by default: (1,1)
 NaRandomSequence::NaRandomSequence ()
-: NaUnit(1, 1), NaConfigPart("RandomNumberGenerator")
+  : NaUnit(1, 1), NaConfigPart("RandomNumberGenerator")
 {
-    eRandomDistr = rdGaussNormal;
-    fMean = 0.;
-    fStdDev = 1.;
-    fMin = 0.;
-    fMax = 1.;
+  params = new Params[1];
+  params[0].eRandomDistr = rdGaussNormal;
+  params[0].fMean = 0.;
+  params[0].fStdDev = 1.;
+  params[0].fMin = 0.;
+  params[0].fMax = 1.;
+}
+
+//---------------------------------------------------------------------------
+// Construct arbitrary output dimension >=1
+NaRandomSequence::NaRandomSequence (unsigned nOutDim)
+  : NaUnit(nOutDim, 1), NaConfigPart("RandomNumberGenerator")
+{
+  params = new Params[OutputDim()];
+  for(unsigned i = 0 ; i < OutputDim(); ++i)
+    {
+      params[i].eRandomDistr = rdGaussNormal;
+      params[i].fMean = 0.;
+      params[i].fStdDev = 1.;
+      params[i].fMin = 0.;
+      params[i].fMax = 1.;
+    }
 }
 
 //---------------------------------------------------------------------------
 // Copying construct
 NaRandomSequence::NaRandomSequence (const NaRandomSequence& rRandSeq)
-: NaUnit(rRandSeq), NaConfigPart(rRandSeq)
+  : NaUnit(rRandSeq), NaConfigPart(rRandSeq)
 {
-    eRandomDistr = rRandSeq.eRandomDistr;
-    fMean = rRandSeq.fMean;
-    fStdDev = rRandSeq.fStdDev;
-    fMin = rRandSeq.fMin;
-    fMax = rRandSeq.fMax;
+  params = new Params[OutputDim()];
+  for(unsigned i = 0 ; i < OutputDim(); ++i)
+    {
+      params[i].eRandomDistr = rRandSeq.params[i].eRandomDistr;
+      params[i].fMean = rRandSeq.params[i].fMean;
+      params[i].fStdDev = rRandSeq.params[i].fStdDev;
+      params[i].fMin = rRandSeq.params[i].fMin;
+      params[i].fMax = rRandSeq.params[i].fMax;
+    }
 }
 
 //---------------------------------------------------------------------------
 // Destroy the object
 NaRandomSequence::~NaRandomSequence ()
 {
-    // Dummy
+  delete[] params;
 }
 
 //---------------------------------------------------------------------------
@@ -118,66 +172,94 @@ void    NaRandomSequence::Function (NaReal* x, NaReal* y)
     if(NULL == y)
         throw(na_null_pointer);
 
-    switch(eRandomDistr){
-
-    case rdGaussNormal:
-        *y = rand_gaussian(fMean, fStdDev);
-        break;
-    case rdUniform:
-        *y = rand_unified(fMin, fMax);
-        break;
-    default:
-        *y = 0.;    // Not a random
-        break;
-    }
+    for(unsigned i = 0 ; i < OutputDim(); ++i)
+      {
+	Params *p = params + i;
+	switch(p->eRandomDistr)
+	  {
+	  case rdGaussNormal:
+	    y[i] = rand_gaussian(p->fMean, p->fStdDev);
+	    break;
+	  case rdUniform:
+	    y[i] = rand_unified(p->fMin, p->fMax);
+	    break;
+	  default:
+	    y[i] = 0.;    // Not a random
+	    break;
+	  }
+      }
 }
 
 //---------------------------------------------------------------------------
 // Setup generator law
-void    NaRandomSequence::SetDistribution (NaRandomDistribution eRD)
+void    NaRandomSequence::SetDistribution (NaRandomDistribution eRD,
+					   unsigned iOut)
 {
-    eRandomDistr = eRD;
+  if(iOut >= OutputDim())
+    throw(na_out_of_range);
+
+  params[iOut].eRandomDistr = eRD;
 }
 
 //---------------------------------------------------------------------------
 // Setup distribution parameters
-void    NaRandomSequence::SetGaussianParams (NaReal mean, NaReal stddev)
+void    NaRandomSequence::SetGaussianParams (NaReal mean, NaReal stddev,
+					     unsigned iOut)
 {
-    fMean = mean;
-    fStdDev = stddev;
+  if(iOut >= OutputDim())
+    throw(na_out_of_range);
+
+  params[iOut].fMean = mean;
+  params[iOut].fStdDev = stddev;
 }
 
 //---------------------------------------------------------------------------
 // Setup distribution parameters
-void    NaRandomSequence::SetUniformParams (NaReal min, NaReal max)
+void    NaRandomSequence::SetUniformParams (NaReal min, NaReal max,
+					    unsigned iOut)
 {
-    fMin = min;
-    fMax = max;
+  if(iOut >= OutputDim())
+    throw(na_out_of_range);
+
+  params[iOut].fMin = min;
+  params[iOut].fMax = max;
 }
 
 //---------------------------------------------------------------------------
 // Get actual generator law
-NaRandomDistribution    NaRandomSequence::GetDistribution () const
+NaRandomDistribution    NaRandomSequence::GetDistribution (unsigned iOut) const
 {
-    return eRandomDistr;
+  if(iOut >= OutputDim())
+    throw(na_out_of_range);
+
+  return params[iOut].eRandomDistr;
 }
 
 //---------------------------------------------------------------------------
 // Get distribution parameters
-void    NaRandomSequence::GetGaussianParams (NaReal& mean, NaReal& stddev) const
+void    NaRandomSequence::GetGaussianParams (NaReal& mean, NaReal& stddev,
+					     unsigned iOut) const
 {
-    mean = fMean;
-    stddev = fStdDev;
+  if(iOut >= OutputDim())
+    throw(na_out_of_range);
+
+  mean = params[iOut].fMean;
+  stddev = params[iOut].fStdDev;
 }
 
 //---------------------------------------------------------------------------
 // Get distribution parameters
-void    NaRandomSequence::GetUniformParams (NaReal& min, NaReal& max) const
+void    NaRandomSequence::GetUniformParams (NaReal& min, NaReal& max,
+					    unsigned iOut) const
 {
-    min = fMin;
-    max = fMax;
+  if(iOut >= OutputDim())
+    throw(na_out_of_range);
+
+  min = params[iOut].fMin;
+  max = params[iOut].fMax;
 }
 
+#if 0
 //---------------------------------------------------------------------------
 // Store parameters to file
 void    NaRandomSequence::Serialize (FILE* fp) const
@@ -247,6 +329,5 @@ void    NaRandomSequence::Deserialize (FILE* fp)
         }
     }
 }
-
+#endif
 //---------------------------------------------------------------------------
-

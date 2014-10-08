@@ -1,6 +1,3 @@
-pkg_mkIndex .
-lappend auto_path .
-
 package provide win_dcsloop_cusum 1.0
 
 #set font "-*-helvetica-*-r-*-*-14-*-*-*-*-*-koi8-*"
@@ -111,11 +108,20 @@ proc dcsloopCusumCheckPoint {p chkpnt sessionDir fileName label} {
 
     if {[GrSeriesCheckPresence $p]} {
 	set wholeData [GrSeriesReadFile $filePath]
-	# Avoid adding one series several times
-	if {0 <= [GrSeriesAddSeries $p "[lindex $wholeData 0]" \
-		      $label $filePath]} {
+	set i 0
+	set failed 0
+	# Try to display all columns of data
+	foreach oneColData $wholeData {
+	    incr i
+	    if {0 > [GrSeriesAddSeries $p "$oneColData" "$label\($i\)" \
+			 [lindex $oneColData 2]]} {
+		incr failed
+	    }
+	}
+	if { $i > $failed } {
 	    GrSeriesRedraw $p
-	} else {
+	}
+	if { $failed != 0 } {
 	    # If series already plotted then let's show statistics,
 	    StatAnDataFile $p $sessionDir $fileName
 	}

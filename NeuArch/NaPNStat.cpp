@@ -160,21 +160,36 @@ NaPNStatistics::halt_condition (int stat_id, int sign, NaReal value)
 
 
 //---------------------------------------------------------------------------
-// Print to the log statistics
+// Print statistics to the log (fp==NULL) or to the specified file stream.
 void
-NaPNStatistics::print_stat (const char* szTitle)
+NaPNStatistics::print_stat (const char* szTitle, FILE* fp)
 {
     if(NULL == szTitle){
+      if(NULL == fp)
         NaPrintLog("Statistics of node '%s':\n", name());
+      else
+        fprintf(fp, "Statistics of node '%s':\n", name());
     }else{
+      if(NULL == fp)
         NaPrintLog("%s\n", szTitle);
+      else
+	fprintf(fp ,"%s\n", szTitle);
     }
-    NaPrintLog("       Min        Max         Mean     StdDev "\
-	       "Dispersion        RMS Volume\n");
+    if(NULL == fp)
+      NaPrintLog("       Min        Max         Mean     StdDev "	\
+		 "Dispersion        RMS Volume\n");
+    else
+      fprintf(fp, "       Min        Max         Mean     StdDev "	\
+	      "Dispersion        RMS Volume\n");
     for(unsigned i = 0; i < Mean.dim(); ++i){
-      NaPrintLog("%10g %10g %12g %10g %10g %10g %u\n",
-		 Min[i], Max[i], Mean[i], StdDev[i], StdDev[i]*StdDev[i],
-		 RMS[i], activations());
+      if(NULL == fp)
+	NaPrintLog("%10g %10g %12g %10g %10g %10g %u\n",
+		   Min[i], Max[i], Mean[i], StdDev[i], StdDev[i]*StdDev[i],
+		   RMS[i], activations());
+      else
+	fprintf(fp, "%10g %10g %12g %10g %10g %10g %u\n",
+		Min[i], Max[i], Mean[i], StdDev[i], StdDev[i]*StdDev[i],
+		RMS[i], activations());
     }
 }
 

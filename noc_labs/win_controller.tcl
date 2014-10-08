@@ -139,11 +139,11 @@ proc ContrWindow {p sessionDir arref ckind trcfile nncfile nncinputs} {
 	-direction below -menu $m -relief raised
     menu $m -tearoff 0
     $m add command -label "Тип звена" \
-	-command "TrFuncEdit $w \"$sessionDir\" \"$var_trcfile\" $var_trcfile true"
+	-command "TrFuncEdit $w \"$sessionDir\" \"$var_trcfile\" @var_trcfile true"
     $m add command -label "Параметры" \
-	-command "TrFuncEdit $w \"$sessionDir\" \"$var_trcfile\" $var_trcfile"
+	-command "TrFuncEdit $w \"$sessionDir\" \"$var_trcfile\" @var_trcfile"
     $m add command -label "Как текст" \
-	-command "TrFuncEdit $w \"$sessionDir\" \"$var_trcfile\" $var_trcfile false true"
+	-command "TrFuncEdit $w \"$sessionDir\" \"$var_trcfile\" @var_trcfile false true"
 
     grid $f.lin_rb
     grid $f.lin_fl $f.lin_fe $f.lin_fsel $f.lin_fedit

@@ -109,11 +109,21 @@ proc dcontrpRun {p sessionDir parFile} {
 	set params {
 	    winWidth 600
 	    winHeight 250
-	    yMin 1e-5
-	    yMax 10
 	    yScale log
 	    timeLabel "Epoch:"
 	}
+
+	if {$dcontrp_params(rtseries_yMax) != ""} {
+	    lappend params yMax $dcontrp_params(rtseries_yMax)
+	} else {
+	    lappend params yMax 10
+	}
+	if {$dcontrp_params(rtseries_yMin) != ""} {
+	    lappend params yMin $dcontrp_params(rtseries_yMin)
+	} else {
+	    lappend params yMin 1e-5
+	}
+
 	set series { LearnMSE TestMSE EtaHidden EtaOutput }
 	set pipe [open "|\"$exepath\" \"$parFile\"" r]
 	fconfigure $pipe -buffering line
@@ -158,11 +168,20 @@ proc dcontrpCheckPoint {p chkpnt sessionDir arrayName arrayIndex label} {
 
     if {[GrSeriesCheckPresence $p]} {
 	set wholeData [GrSeriesReadFile $filePath]
-	# Avoid adding one series several times
-	if {0 <= [GrSeriesAddSeries $p "[lindex $wholeData 0]" \
-		      $label $filePath]} {
+	set i 0
+	set failed 0
+	# Try to display all columns of data
+	foreach oneColData $wholeData {
+	    incr i
+	    if {0 > [GrSeriesAddSeries $p "$oneColData" "$label\($i\)" \
+			 [lindex $oneColData 2]]} {
+		incr failed
+	    }
+	}
+	if { $i > $failed } {
 	    GrSeriesRedraw $p
-	} else {
+	}
+	if { $failed != 0 } {
 	    # If series already plotted then let's show statistics,
 	    StatAnDataFile $p $sessionDir $fileName
 	}
