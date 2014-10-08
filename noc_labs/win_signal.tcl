@@ -45,88 +45,6 @@ proc SignalWindowModified {w entry} {
     return 1
 }
 
-# Call file transfer function editor
-proc SignalEditFilter {p sessionDir title fileRelPath} {
-    puts "SignalEditFilter: $sessionDir $fileRelPath"
-    set fileName [SessionAbsPath "$sessionDir" "$fileRelPath"]
-    if {![file exists "$fileName"]} {
-	# New file must be created; let's ask about its type
-	# Let's determine type of the file
-	switch -glob -- "$fileName" {
-	    *.tf {
-		set ftype trfunc
-		puts "SignalEditFilter:TODO - new .tf file"
-		set idname [TrFuncSelect $p]
-		if {$idname != {}} {
-		    TrFuncUseTemplate $idname "$fileName"
-		}
-	    }
-	    default {
-		set ftype undefined
-		puts "SignalEditFilter:TODO - undefined"
-		return
-	    }
-	}
-	# Now it's possible to edit the file
-    }
-    # Let's determine type of the file
-    switch -glob -- "$fileName" {
-	*.tf {
-	    set descr [TrFuncParseFile "$fileName"]
-	    if {[llength $descr] == 4 &&
-		[lindex $descr 0] != {} && [lindex $descr 1] != {} &&
-		[lindex $descr 2] != {} && [lindex $descr 3] != {}} {
-		# The whole definition is in the file
-		set ftype trfunc
-	    } elseif {[llength $descr] == 4 &&
-		      [lindex $descr 0] != {}} {
-		# Only idname was found: let's use template
-		set descr [TrFuncParseTemplate [lindex $descr 0]]
-		if {$descr != {}} {
-		    set ftype trfunc
-		} else {
-		    set ftype undefined
-		}
-	    } else {
-		set ftype undefined
-	    }
-	}
-	default {
-	    set ftype undefined
-	}
-    }
-    switch -exact -- $ftype {
-	trfunc {
-	    array set params {}
-	    set fd [open "$fileName"]
-	    set ftext [split [read $fd] \n]
-	    close $fd
-	    set idname [lindex $descr 0]
-	    set type [lindex $descr 1]
-	    set label [lindex $descr 2]
-	    set key_pos [lindex $descr 3]
-	    TrFuncLoadConfig params $descr $ftext
-	    if {[TrFuncEditor $p params $descr]} {
-		set headLineFields [split [lindex $ftext 0]]
-		set fd [open $fileName "w"]
-		if {[lindex $headLineFields 0] != ";NeuCon" &&
-		    [lindex $headLineFields 1] != "transfer" } {
-		    puts $fd ";NeuCon transfer 1.0"
-		    puts $fd "\[$type $idname\]"
-		}
-		TrFuncSaveConfig params $descr $fd $ftext
-		flush $fd
-		close $fd
-	    }
-	    # otherwise no changes took place
-	}
-	undefined {
-	    TextEditWindow $p "$title" $fileName
-	}
-    }
-}
-
-
 # Display graphics series where filepath is referred by var.
 proc SignalViewDataFile {p sessionDir var} {
     global $var
@@ -257,8 +175,19 @@ proc SignalWindow {p sessionDir signal arref sigsrc datafile filtfile filtlen} {
     entry $f.filt_fe -width 30 -textvariable var_filtfile_$signal
     button $f.filt_fsel -text "Выбор..." \
 	-command "SignalSelectFiltFile $w \"$sessionDir\" var_filtfile_$signal"
-    button $f.filt_fedit -text "Изменить..." \
-	-command "SignalEditFilter $w \"$sessionDir\" [set var_filtfile_$signal] [set var_filtfile_$signal]"
+
+    set m $f.filt_fedit.m
+    menubutton $f.filt_fedit -text "Изменить..." -underline 0 \
+	-direction below -menu $m -relief raised
+
+    menu $m -tearoff 0
+    $m add command -label "Тип звена" \
+	-command "TrFuncEdit $w \"$sessionDir\" [set var_filtfile_$signal] @var_filtfile_$signal true"
+    $m add command -label "Параметры" \
+	-command "TrFuncEdit $w \"$sessionDir\" [set var_filtfile_$signal] @var_filtfile_$signal"
+    $m add command -label "Как текст" \
+	-command "TrFuncEdit $w \"$sessionDir\" [set var_filtfile_$signal] @var_filtfile_$signal false true"
+
     label $f.filt_ll -text "Длина ряда:" -anchor w
     entry $f.filt_le -width 8 -textvariable var_filtlen
 
@@ -306,13 +235,3 @@ proc SignalWindow {p sessionDir signal arref sigsrc datafile filtfile filtlen} {
     }
     return $changed
 }
-
-#font create myDefaultFont -family Freesans -size 11
-#option add *font myDefaultFont
-#option readfile noc_labs.ad
-
-#set myvar "../d.cf"
-#set myvar "pid.tf"
-#puts $myvar
-#ContrWindow "" "Plant function" myvar
-#puts $myvar

@@ -75,6 +75,7 @@ NaPNSum::verify ()
   bool	bGoodGain =
     (aux.data().dim() == vAuxGain.dim() && 0 != vAuxGain.dim() &&
      main.data().dim() == vMainGain.dim() && 0 != vMainGain.dim()) ||
+    (1 == vAuxGain.dim() && 1 == vMainGain.dim()) ||
     (0 == vAuxGain.dim() && 0 == vMainGain.dim());
 
   if(!bGoodGain)
@@ -98,6 +99,14 @@ NaPNSum::action ()
 	/* vMainGain[i]=1 and vAuxGain[i]=1 by default */
 	for(i = 0; i < sum.data().dim(); ++i)
 	  sum.data()[i] = main.data()[i] + aux.data()[i];
+      }
+    else if(1 == vMainGain.dim() || 1 == vAuxGain.dim())
+      {
+	/* vMainGain[0]=k1 and vAuxGain[0]=k2 by default */
+	for(i = 0; i < sum.data().dim(); ++i)
+	  sum.data()[i] =
+	    vMainGain[0] * main.data()[i]
+	    + vAuxGain[0] * aux.data()[i];
       }
     else
       {

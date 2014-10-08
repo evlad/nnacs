@@ -24,9 +24,11 @@ set(TCL_SCRIPTS data_file.tcl
 	win_checkpnt.tcl
 	win_cofunc.tcl
 	win_controller.tcl
+	win_cusum.tcl
 	win_dcontrf.tcl
 	win_dcontrp.tcl
 	win_dcsloop.tcl
+	win_dcsloop_cusum.tcl
 	win_dplantid.tcl
 	win_grseries.tcl
 	win_nncedit.tcl
@@ -34,6 +36,7 @@ set(TCL_SCRIPTS data_file.tcl
 	win_nnpedit.tcl
 	win_nnplant.tcl
 	win_nntpar.tcl
+	win_model.tcl
 	win_plant.tcl
 	win_rtseries.tcl
 	win_series.tcl
@@ -52,6 +55,7 @@ set(TEMPLATES
 	templates/integral.tf
 	templates/pid_kkk.tf
 	templates/pid_ktt.tf
+	templates/mimo_2i3o.tf
 
 	templates/1st_order.gif
 	templates/2nd_order.gif
@@ -62,11 +66,12 @@ set(TEMPLATES
 	templates/integral.gif
 	templates/pid_kkk.gif
 	templates/pid_ktt.gif
-	templates/simple_delayn.gif
+	templates/mimo_2i3o.gif
 
 	templates/dcontrf.par
 	templates/dcontrp.par
 	templates/dcsloop.par
+	templates/dcsloop_cusum.par
 	templates/dplantid.par)
 
 install(FILES ${TCL_SCRIPTS} nnacs.ad DESTINATION scripts)

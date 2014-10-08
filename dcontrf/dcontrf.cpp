@@ -302,6 +302,8 @@ int main(int argc, char **argv)
       {
 	nnocl.nncontr.set_nn_unit(&au_nnc);
 	nnocl.nncteacher.set_nn(&nnocl.nncontr, iSkip_e - 1);
+
+	nnocl.nncontr.get_nn_unit()->PrintLog();
       }
 
     nnocl.nnplant.set_nn_unit(&au_nnp);
@@ -326,10 +328,20 @@ int main(int argc, char **argv)
       {
 	int	iErrFetch = iDelay_u;	// value of u delay by default
 	NaPrintLog("default errfetch_output=%d\n", iErrFetch);
-	nnocl.errfetch.set_output(iErrFetch);
+	nnocl.errfetch.set_output(iErrFetch,
+				  nnocl.nncontr.get_nn_unit()->OutputDim());
       }
     else
       {
+	int	iErrFetch = atoi(par.GetParam("errfetch_output"));
+	NaPrintLog("user defined errfetch_output=%d\n", iErrFetch);
+	nnocl.errfetch.set_output(iErrFetch,
+				  nnocl.nncontr.get_nn_unit()->OutputDim());
+      }
+#if 0
+    else
+      {
+	// To adopt for MIMO!!!
 	char	*buf = strdup(par("errfetch_output"));
 	char	*token = strtok(buf, " ,;");
 	std::vector<int>	viErrFetch;
@@ -379,6 +391,7 @@ int main(int argc, char **argv)
 	    delete[] pfSumWeights;  pfSumWeights = NULL;
 	  }
       }
+#endif
 
     // Setpoint and noise
     NaReal	fMean = 0.0, fStdDev = 1.0;

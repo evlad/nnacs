@@ -73,8 +73,8 @@ public:
 
 protected:/* data */
 
-  // Array of RandomSequence units
-  NaRandomSequence	*pRandGenAr;
+  // Multioutput RandomSequence unit
+  NaRandomSequence	*pRandGen;
 
   // Array of random numbers
   NaReal		*pRandNums;

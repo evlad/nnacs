@@ -18,10 +18,10 @@ if {![info exists env(NNACSSYSDIR)]} {
     } else {
 	set SystemDirPath [file join $env(HOME) nnacs]
     }
-    puts "System directory: $SystemDirPath (use NNACSSYSDIR)"
+    puts "System directory: $SystemDirPath (use NNACSSYSDIR to override)"
 } else {
     set SystemDirPath $env(NNACSSYSDIR)
-    puts "System directory: $SystemDirPath (see NNACSSYSDIR)"
+    puts "System directory: $SystemDirPath (taken from NNACSSYSDIR)"
 }
 
 # Let's find scripts
