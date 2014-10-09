@@ -122,12 +122,12 @@ proc dplantidRun {p sessionDir parFile} {
 	    timeLabel "Epoch:"
 	}
 
-	if {$dplantid_params(rtseries_yMax) != ""} {
+	if {[info exists dplantid_params(rtseries_yMax)]} {
 	    lappend params yMax $dplantid_params(rtseries_yMax)
 	} else {
 	    lappend params yMax 10
 	}
-	if {$dplantid_params(rtseries_yMin) != ""} {
+	if {[info exists dplantid_params(rtseries_yMin)]} {
 	    lappend params yMin $dplantid_params(rtseries_yMin)
 	} else {
 	    lappend params yMin 1e-5

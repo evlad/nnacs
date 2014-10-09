@@ -130,12 +130,12 @@ proc dcontrfRun {p sessionDir parFile} {
 	    timeLabel "Epoch:"
 	}
 
-	if {$dcontrf_params(rtseries_yMax) != ""} {
+	if {[info exists dcontrf_params(rtseries_yMax)]} {
 	    lappend params yMax $dcontrf_params(rtseries_yMax)
 	} else {
 	    lappend params yMax 1e2
 	}
-	if {$dcontrf_params(rtseries_yMin) != ""} {
+	if {[info exists dcontrf_params(rtseries_yMin)]} {
 	    lappend params yMin $dcontrf_params(rtseries_yMin)
 	} else {
 	    lappend params yMin 1e-3
