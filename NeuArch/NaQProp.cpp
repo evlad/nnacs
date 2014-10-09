@@ -6,6 +6,7 @@ static char rcsid[] = "$Id$";
 
 #include "NaQProp.h"
 
+#define QuickProp_DEBUG
 //---------------------------------------------------------------------------
 NaQuickPropParams::NaQuickPropParams ()
 : mu(1.75)
@@ -69,11 +70,12 @@ NaReal          NaQuickProp::QuickPropDelta (unsigned iLayer,
     NaReal  fRatio = fMGF / (1.0 + fMGF);
 
 #ifdef QuickProp_DEBUG
-    NaPrintLog("QuickPropDelta: (this=%p) LR=%g  MGF=%g\n"\
+    NaPrintLog("QuickPropDelta: (this=%p, %u:%u) LR=%g  MGF=%g\n"\
                "                dEdW(t)=%g  dEdW(t-1)=%g\n"\
                "                X(t)=%g  X(t-1)=%g\n"\
                "                dW(t-1)=%g",
-               this, fLR, fMGF, dEdW, dEdWprev, fXinp, fXinp_prev, dWprev);
+               this, iLayer, iNeuron,
+	       fLR, fMGF, dEdW, dEdWprev, fXinp, fXinp_prev, dWprev);
 #endif // QuickProp_DEBUG
 
     // /* my */ is used only for preventing zero-division
@@ -139,9 +141,12 @@ void    NaQuickProp::UpdateNN ()
     unsigned    iInput, /*iNeuron,*/ iLayer;
 
     // Store Xinp from previous step
+    NaPrintLog("NaQuickProp::UpdateNN():\n");
     for(iLayer = nd.InputLayer(); iLayer <= nd.OutputLayer(); ++iLayer){
         for(iInput = 0; iInput < nd.Inputs(iLayer); ++iInput){
             Xinp_prev[iLayer][iInput] = nn().Xinp(iLayer)[iInput];
+	    NaPrintLog("             %u:%u =%g\n",
+		       iLayer, iInput, Xinp_prev[iLayer][iInput]);
         }
     }
 }
