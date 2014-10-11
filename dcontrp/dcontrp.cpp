@@ -327,7 +327,7 @@ int main(int argc, char **argv)
 		  fflush(stdout);
 		  break;
 		}
-	      printf(" -> grows\n", nFinishOnGrowMSE);
+	      printf(" -> grows\n");
 	      fflush(stdout);
 	    }
 	  else
