@@ -105,6 +105,10 @@ set(SOURCE_dmeander dmeander.cpp)
 add_executable(dmeander ${SOURCE_dmeander})
 target_link_libraries(dmeander ${LIST_LIBS})
 
+set(SOURCE_daccum daccum.cpp)
+add_executable(daccum ${SOURCE_daccum})
+target_link_libraries(daccum ${LIST_LIBS})
+
 #set(SOURCE_% .cpp)
 #add_executable(% ${SOURCE_%})
 #target_link_libraries(% ${LIST_LIBS})
