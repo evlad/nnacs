@@ -15,7 +15,8 @@ NaNNContrPreLearn::NaNNContrPreLearn (NaAlgorithmKind akind,
 				      const char* szNetName)
 : net(szNetName), eContrKind(ckind), eAlgoKind(akind),
   in_r("in_r"),
-  bus("bus"),
+  bus2("bus2"),
+  bus3("bus3"),
   delay("delay"),
   delta_e("delta_e"),
   in_e("in_e"),
@@ -26,7 +27,9 @@ NaNNContrPreLearn::NaNNContrPreLearn (NaAlgorithmKind akind,
   errcomp("errcomp"),
   statan("statan"),
   statan_u("statan_u"),
-  switcher("switcher")
+  switcher("switcher"),
+  err_acc("err_acc"),
+  nn_x("nn_x")
 {
   // Nothing
 }
@@ -59,19 +62,30 @@ NaNNContrPreLearn::link_net ()
 	  case NaNeuralContrDelayedE:
 	    net.link(&in_e.out, &delay.in);
 	    net.link(&delay.dout, &nncontr.x);
+	    net.link(&delay.dout, &nn_x.in);
 	    net.link(&delay.sync, &switcher.turn);
 	    net.link(&delay.sync, &trigger.turn);
 	    break;
 	  case NaNeuralContrER:
-	    net.link(&in_r.out, &bus.in1);
-	    net.link(&in_e.out, &bus.in2);
-	    net.link(&bus.out, &nncontr.x);
+	    net.link(&in_r.out, &bus2.in1);
+	    net.link(&in_e.out, &bus2.in2);
+	    net.link(&bus2.out, &nncontr.x);
+	    net.link(&bus2.out, &nn_x.in);
+	    break;
+	  case NaNeuralContrERSumE:
+	    net.link(&in_r.out, &bus3.in1);
+	    net.link(&in_e.out, &bus3.in2);
+	    net.link(&in_e.out, &err_acc.in);
+	    net.link(&err_acc.sum, &bus3.in3);
+	    net.link(&bus3.out, &nncontr.x);
+	    net.link(&bus3.out, &nn_x.in);
 	    break;
 	  case NaNeuralContrEdE:
-	    net.link(&in_e.out, &bus.in1);
+	    net.link(&in_e.out, &bus2.in1);
 	    net.link(&in_e.out, &delta_e.x);
-	    net.link(&delta_e.dx, &bus.in2);
-	    net.link(&bus.out, &nncontr.x);
+	    net.link(&delta_e.dx, &bus2.in2);
+	    net.link(&bus2.out, &nncontr.x);
+	    net.link(&bus2.out, &nn_x.in);
 	    break;
 	  }
 	if(eAlgoKind == NaTrainingAlgorithm)
@@ -102,7 +116,7 @@ NaNNContrPreLearn::link_net ()
 
         net.link(&errcomp.cmp, &statan.signal);
 
-	if(NaNeuralContrER == eContrKind)
+	if(NaNeuralContrER == eContrKind || NaNeuralContrERSumE == eContrKind)
 	  net.link(&in_r.out, &statan_u.signal);
     }catch(NaException ex){
         NaPrintLog("EXCEPTION at linkage phase: %s\n", NaExceptionMsg(ex));

@@ -12,10 +12,12 @@
 #include <NaPNStat.h>
 #include <NaPNTchr.h>
 #include <NaPNBu21.h>
+#include <NaPNBu31.h>
 #include <NaPNDely.h>
 #include <NaPNDerv.h>
 #include <NaPNSwit.h>
 #include <NaPNTrig.h>
+#include <NaPNAccu.h>
 
 
 //---------------------------------------------------------------------------
@@ -60,7 +62,8 @@ public:/* data */
 
     // Functional Petri network nodes
     NaPNFileInput   in_r;       // set point
-    NaPNBus2i1o     bus;        // (r,e),(e,de)->NN former
+    NaPNBus2i1o     bus2;       // (r,e),(e,de)->NN former
+    NaPNBus3i1o     bus3;       // (r,e,se)->NN former
     NaPNDerivative  delta_e;    // (1-1/z)*e(k)
     NaPNDelay       delay;      // (e(i),e(i-1),...e(i-n))->NN delayer-former
     NaPNFileInput   in_e;       // control error
@@ -73,6 +76,8 @@ public:/* data */
     NaPNStatistics  statan_u;   // target controller output analyzer
     NaPNSwitcher    switcher;   // switch in_u to nn_u until real nnc output
     NaPNTrigger     trigger;    // skip in_u for NNT and statistics
+    NaPNAccumulator err_acc;	// accumulate error to estimate its integral
+    NaPNFileOutput  nn_x;       // track NN controller input
 
 private:/* methods */
 

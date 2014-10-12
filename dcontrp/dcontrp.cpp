@@ -60,6 +60,9 @@ int main(int argc, char **argv)
     if(!strcmp(nnc_mode, "e+r") ||
        !strcmp(nnc_mode, "r+e"))
       ckind = NaNeuralContrER;
+    else if(!strcmp(nnc_mode, "e+r+se") ||
+       !strcmp(nnc_mode, "r+e+se"))
+      ckind = NaNeuralContrERSumE;
     else if(!strcmp(nnc_mode, "e+de"))
       ckind = NaNeuralContrEdE;
     else if(!strcmp(nnc_mode, "e+e+..."))
@@ -112,10 +115,20 @@ int main(int argc, char **argv)
     nncpl.in_u.set_input_filename(par("in_u"));
     nncpl.nn_u.set_output_filename(par("nn_u"));
 
+    if(par.CheckParam("nn_x"))
+	nncpl.nn_x.set_output_filename(par("nn_x"));
+    else
+	nncpl.nn_x.set_output_filename(DEV_NULL);
+
     nncpe.nncontr.set_transfer_func(&au_nnc);
     nncpe.in_e.set_input_filename(par("test_in_e"));
     nncpe.in_u.set_input_filename(par("test_in_u"));
     nncpe.nn_u.set_output_filename(par("test_nn_u"));
+
+    if(par.CheckParam("test_nn_x"))
+	nncpe.nn_x.set_output_filename(par("test_nn_x"));
+    else
+	nncpe.nn_x.set_output_filename(DEV_NULL);
 
     // Link the network
     nncpl.link_net();
@@ -125,6 +138,11 @@ int main(int argc, char **argv)
     nncpl.nnteacher.lpar.eta = atof(par("eta"));
     nncpl.nnteacher.lpar.eta_output = atof(par("eta_output"));
     nncpl.nnteacher.lpar.alpha = atof(par("alpha"));
+
+    int nErrAccDepth = atoi(par("err_acc_depth"));
+    NaPrintLog("Depth of error accumulation is %u\n", nErrAccDepth);
+    nncpl.err_acc.set_accum_depth(nErrAccDepth);
+    nncpe.err_acc.set_accum_depth(nErrAccDepth);
 
     //ask_user_lpar(nncpl.nnteacher.lpar);
     //putchar('\n');
@@ -206,6 +224,16 @@ int main(int argc, char **argv)
 	      nncpl.nnteacher.lpar.eta /= 2;
 	      nncpl.nnteacher.lpar.eta_output /= 2;
 	      nncpl.nnteacher.lpar.alpha /= 2;
+
+	      if(nncpl.nnteacher.lpar.eta < 1e-20 ||
+		 nncpl.nnteacher.lpar.eta_output < 1e-20) {
+		  NaPrintLog("Error: learning rate became too small: (%g, %g, %g)\n",
+			     nncpl.nnteacher.lpar.eta,
+			     nncpl.nnteacher.lpar.eta_output,
+			     nncpl.nnteacher.lpar.alpha);
+		  pnev = pneHalted;
+		  break;
+	      }
 
 	      NaPrintLog("Learning parameters: "
 			 "lrate=%g  lrate(out)=%g  momentum=%g\n",

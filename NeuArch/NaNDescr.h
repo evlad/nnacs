@@ -22,6 +22,7 @@ enum NaControllerKind
   NaNeuralContrER,
   NaNeuralContrEdE,
   NaNeuralContrRDelayedE,
+  NaNeuralContrERSumE,
 };
 
 
