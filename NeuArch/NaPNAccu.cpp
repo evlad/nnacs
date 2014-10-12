@@ -66,6 +66,7 @@ NaPNAccumulator::relate_connectors ()
 bool
 NaPNAccumulator::verify ()
 {
+    return true;
 }
 
 
@@ -84,16 +85,32 @@ void
 NaPNAccumulator::action ()
 {
     if(get_accum_depth() > 0) {
-	if(0 == iNext)
-	    fSum -= vBuffer[vBuffer.dim() - 1];
-	else
-	    fSum -= vBuffer[iNext - 1];
-	vBuffer[iNext]  = main.data()[0];
+#ifdef Accum_DEBUG
+	NaPrintLog("------------------------------------------------\n"\
+		   "begin: iNext=%u  fSum=%g  vBuffer:\n", iNext, fSum);
+	vBuffer.print_contents();
+
+	NaPrintLog("depth=%u input=%g\n", get_accum_depth(), main.data()[0]);
+#endif // Accum_DEBUG
+
+	fSum -= vBuffer[iNext];
+
+	vBuffer[iNext] = main.data()[0];
+#ifdef Accum_DEBUG
+	NaPrintLog("intermeadiate: fSum=%g -> %g\n",
+		   fSum, fSum + vBuffer[iNext]);
+#endif // Accum_DEBUG
+
 	fSum += vBuffer[iNext];
-	if(vBuffer.dim() - 1 == iNext)
+	if(iNext >= vBuffer.dim() - 1)
 	    iNext = 0;
 	else
 	    ++iNext;
+
+#ifdef Accum_DEBUG
+	NaPrintLog("end:   iNext=%u  fSum=%g  vBuffer:\n", iNext, fSum);
+	vBuffer.print_contents();
+#endif // Accum_DEBUG
     } else {
 	fSum += main.data()[0];
     }
