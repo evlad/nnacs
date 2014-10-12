@@ -26,7 +26,7 @@ public:
     ////////////////
 
     // Input (mainstream)
-    NaPetriCnInput      main;
+    NaPetriCnInput      in;
 
     // Output (mainstream)
     NaPetriCnOutput     sum;

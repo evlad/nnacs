@@ -3,6 +3,7 @@
 
 #include "NaPNAccu.h"
 
+//#define Accum_DEBUG
 
 //---------------------------------------------------------------------------
 // Create node for Petri network
@@ -11,7 +12,7 @@ NaPNAccumulator::NaPNAccumulator (const char* szNodeName)
   ////////////////
   // Connectors //
   ////////////////
-  main(this, "main"),
+  in(this, "in"),
   sum(this, "sum"),
   // Data
   iNext(0), fSum(0.0)
@@ -57,7 +58,7 @@ NaPNAccumulator::get_accum_depth () const
 void
 NaPNAccumulator::relate_connectors ()
 {
-    sum.data().new_dim(main.data().dim());
+    sum.data().new_dim(in.data().dim());
 }
 
 
@@ -76,6 +77,8 @@ void
 NaPNAccumulator::initialize (bool& starter)
 {
     vBuffer.init_zero();
+    iNext = 0;
+    fSum = 0.0;
 }
 
 
@@ -90,12 +93,12 @@ NaPNAccumulator::action ()
 		   "begin: iNext=%u  fSum=%g  vBuffer:\n", iNext, fSum);
 	vBuffer.print_contents();
 
-	NaPrintLog("depth=%u input=%g\n", get_accum_depth(), main.data()[0]);
+	NaPrintLog("depth=%u input=%g\n", get_accum_depth(), in.data()[0]);
 #endif // Accum_DEBUG
 
 	fSum -= vBuffer[iNext];
 
-	vBuffer[iNext] = main.data()[0];
+	vBuffer[iNext] = in.data()[0];
 #ifdef Accum_DEBUG
 	NaPrintLog("intermeadiate: fSum=%g -> %g\n",
 		   fSum, fSum + vBuffer[iNext]);
@@ -112,7 +115,7 @@ NaPNAccumulator::action ()
 	vBuffer.print_contents();
 #endif // Accum_DEBUG
     } else {
-	fSum += main.data()[0];
+	fSum += in.data()[0];
     }
 
     sum.data()[0] = fSum;
