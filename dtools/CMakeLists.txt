@@ -115,4 +115,4 @@ target_link_libraries(daccum ${LIST_LIBS})
 
 install(TARGETS dmeander dsteps dranduni drandmea dmult dtfinfo
         dsmooth dconst dstddev dmean dsin djacob dstatsb dstat dcorr
-	dsum dsub dmse dwtest dwtest2 dtf d2ts drand RUNTIME DESTINATION bin)
+	dsum dsub dmse dwtest dwtest2 dtf d2ts drand daccum RUNTIME DESTINATION bin)
