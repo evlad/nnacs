@@ -30,6 +30,7 @@ set(SOURCE_LIB NaConLaw.cpp
 	NaPID.cpp
 	NaPNAct.cpp
 	NaPNBu21.cpp
+	NaPNBu31.cpp
 	NaPNBu12.cpp
 	NaPNChPt.cpp
 	NaPNCmp.cpp
