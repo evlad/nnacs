@@ -64,7 +64,7 @@ NaPNFileOutput::set_output_filename (const char* szFileName)
 void
 NaPNFileOutput::open_output_data ()
 {
-    if(NULL ==szDataFName)
+    if(NULL == szDataFName)
         throw(na_null_pointer);
 
     delete pDataF;
