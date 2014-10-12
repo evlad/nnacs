@@ -14,10 +14,11 @@ int main(int argc, char **argv)
     char    *iname, *ofile;
 
     if(4 != argc){
-        printf("Usage: daccum Depth InputFile OutputFile\n"
-	       " Depth      - number in sequence of accumulated input values (0 - infinite, 1 - Input=Output)\n"\
+        printf("Usage: daccum Depth InputFile OutputFile\n"\
+	       " Depth      - number in sequence of accumulated input values\n"\
+	       "              where 0 designates infinite depth, 1 means Input=Output\n"\
 	       " InputFile  - input data series\n"\
-	       " OutputFile - output data of accumulated input\n");
+	       " OutputFile - output data of accumulated input data samples\n");
         return 2;
     }
 
