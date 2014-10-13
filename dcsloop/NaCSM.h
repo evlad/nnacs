@@ -14,6 +14,7 @@
 #include <NaPNFIn.h>
 #include <NaPNFOut.h>
 #include <NaPNBu21.h>
+#include <NaPNBu31.h>
 #include <NaPNDely.h>
 #include <NaPNRand.h>
 #include <NaPNDerv.h>
@@ -27,6 +28,7 @@
 #include <NaPNSS.h>
 #include <NaCoFunc.h>
 #include <NaPNTchr.h>
+#include <NaPNAccu.h>
 
 
 //---------------------------------------------------------------------------
@@ -108,7 +110,9 @@ public:/* data */
     NaPNComparator  cmp_e;	// reference minus pure y produces e for MSE
     NaPNStatistics  statan_cerr;// statistics calculation for control error
     NaPNStatistics  statan_r;
-    NaPNBus2i1o     bus;        // (u,e)->NN former
+    NaPNBus2i1o     bus2;       // (r,e)->NN former
+    NaPNBus3i1o     bus3;       // (r,e,se)->NN former
+    NaPNAccumulator err_acc;    // accumulate error to estimate its integral
     NaPNDelay       delay;      // (e(i),e(i-1),...e(i-n))->NN delayer-former
     NaPNDerivative  delta_e;    // (1-1/z)*e(k)
     NaPNCuSum       cusum;      // cumulative sum for change point detection
@@ -123,8 +127,9 @@ public:/* data */
     NaPNStatistics  statan_iderr;// identification error statistics
     NaPNDelay       delay_y;    // y -> y(-1), y(-2), ...
     NaPNDelay       delay_u;    // u -> u(-1), u(-2), ...
+    NaPNFileOutput  nn_x;       // NN controller input
     NaPNFileOutput  nn_y;       // NN plant output
-    NaPNFileOutput  nn_e;       // identification error output
+    NaPNFileOutput  nn_e;       // NN identification error output
     NaPNFill        fill_nn_y;  // fill by zeros nn_y output to fit on_y
     NaPNTrainDataGath trdgath;	// train data gathering
     NaPNFileOutput  tdg_u;      // u series

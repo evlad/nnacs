@@ -173,22 +173,27 @@ int main(int argc, char **argv)
 	au_nnc.Load(par("nncontr"));
 
 	// Interpret NN-C structure
+
 	// Default rule
 	if(au_nnc.descr.nInputsRepeat > 1)
 	  ckind = NaNeuralContrDelayedE;
 	else
 	  ckind = NaNeuralContrER;
+
 	// Explicit rule
-	if(!strcmp(par("nnc_mode"), "e+r"))
-	  ckind = NaNeuralContrER;
-	else if(!strcmp(par("nnc_mode"), "e+de"))
-	  ckind = NaNeuralContrEdE;
-	else if(!strcmp(par("nnc_mode"), "e+e+..."))
-	  ckind = NaNeuralContrDelayedE;
-	if(au_nnc.descr.nInputsRepeat > 1)
-	  ckind = NaNeuralContrDelayedE;
-	else
-	  ckind = NaNeuralContrER;
+	{
+	    const char *nnc_mode = par("nnc_mode");
+	    if(!strcmp(nnc_mode, "e+r+se") ||
+	       !strcmp(nnc_mode, "r+e+se"))
+		ckind = NaNeuralContrERSumE;
+	    else if(!strcmp(nnc_mode, "e+r") ||
+		    !strcmp(nnc_mode, "r+e"))
+		ckind = NaNeuralContrER;
+	    else if(!strcmp(nnc_mode, "e+de"))
+		ckind = NaNeuralContrEdE;
+	    else if(!strcmp(nnc_mode, "e+e+..."))
+		ckind = NaNeuralContrDelayedE;
+	}
 	break;
       }
 
@@ -388,9 +393,14 @@ int main(int argc, char **argv)
 	csm.chkpnt_y.set_output_filename(par("out_y"));
 	csm.chkpnt_ny.set_output_filename(par("out_ny"));
 
+	if(NaNeuralContrERSumE == ckind) {
+	    int nErrAccDepth = atoi(par("err_acc_depth"));
+	    NaPrintLog("Depth of error accumulation is %u\n", nErrAccDepth);
+	    csm.err_acc.set_accum_depth(nErrAccDepth);
+	}
+
 	if(bUseCuSum)
 	  csm.cusum_out.set_output_filename(par("cusum"));
-
       
 	// Setpoint and noise
 	NaReal	fMean = 0.0, fStdDev = 1.0;
@@ -420,6 +430,11 @@ int main(int argc, char **argv)
 	    break;
 	  case neural_contr:
 	    csm.controller.set_transfer_func(&au_nnc);
+
+	    if(par.CheckParam("nn_x"))
+		csm.nn_x.set_output_filename(par("nn_x"));
+	    else
+		csm.nn_x.set_output_filename(DEV_NULL);
 	    break;
 	  }
 

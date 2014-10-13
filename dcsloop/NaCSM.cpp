@@ -20,7 +20,10 @@ NaControlSystemModel::NaControlSystemModel (int len, NaControllerKind ckind)
   setpnt_inp("setpnt_inp"),
   setpnt_gen("setpnt_gen"),
   chkpnt_r("chkpnt_r"),
-  bus("bus"),
+  bus2("bus2"),
+  bus3("bus3"),
+  err_acc("err_acc"),
+  nn_x("nn_x"),
   delay("delay"),
   delta_e("delta_e"),
   cmp("cmp"),
@@ -104,17 +107,28 @@ NaControlSystemModel::link_net ()
 	  case NaNeuralContrDelayedE:
 	    net.link(&chkpnt_e.out, &delay.in);
 	    net.link(&delay.dout, &controller.x);
+	    net.link(&delay.dout, &nn_x.in);
 	    break;
 	  case NaNeuralContrER:
-	    net.link(&chkpnt_r.out, &bus.in1);
-	    net.link(&chkpnt_e.out, &bus.in2);
-	    net.link(&bus.out, &controller.x);
+	    net.link(&chkpnt_r.out, &bus2.in1);
+	    net.link(&chkpnt_e.out, &bus2.in2);
+	    net.link(&bus2.out, &controller.x);
+	    net.link(&bus2.out, &nn_x.in);
+	    break;
+	  case NaNeuralContrERSumE:
+	    net.link(&chkpnt_r.out, &bus3.in1);
+	    net.link(&chkpnt_e.out, &bus3.in2);
+	    net.link(&chkpnt_e.out, &err_acc.in);
+	    net.link(&err_acc.sum, &bus3.in3);
+	    net.link(&bus3.out, &controller.x);
+	    net.link(&bus3.out, &nn_x.in);
 	    break;
 	  case NaNeuralContrEdE:
-	    net.link(&chkpnt_e.out, &bus.in1);
+	    net.link(&chkpnt_e.out, &bus2.in1);
 	    net.link(&chkpnt_e.out, &delta_e.x);
-	    net.link(&delta_e.dx, &bus.in2);
-	    net.link(&bus.out, &controller.x);
+	    net.link(&delta_e.dx, &bus2.in2);
+	    net.link(&bus2.out, &controller.x);
+	    net.link(&bus2.out, &nn_x.in);
 	    break;
 	  }
 
