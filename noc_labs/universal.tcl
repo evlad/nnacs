@@ -71,7 +71,7 @@ proc fileSelectionBox {w operation filepath {types {{"Все файлы" *}}}} {
     }
     if { $initext == "" } {
 	# Let's use the first extension among
-	set initext [lindex 0 1 $types]
+	set initext [lindex $types 0 1]
 	if {$initext == "*"} {
 	    # No extension
 	    set initext ""
