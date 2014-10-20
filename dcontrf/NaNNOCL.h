@@ -14,6 +14,7 @@
 #include <NaPNStat.h>
 #include <NaPNTchr.h>
 #include <NaPNBu21.h>
+#include <NaPNBu31.h>
 #include <NaPNDely.h>
 #include <NaPNTime.h>
 #include <NaPNChPt.h>
@@ -23,6 +24,7 @@
 #include <NaPNNNUn.h>
 #include <NaPNSkip.h>
 #include <NaPNFill.h>
+#include <NaPNAccu.h>
 
 
 //---------------------------------------------------------------------------
@@ -86,7 +88,8 @@ public:/* data */
   NaPNTeacher     nnpteacher; // NN plant teacher
   NaPNTeacher     errbackprop;// NN error backpropagator
   NaPNBus2i1o     bus_p;      // ((u,y),e)->NN plant former
-  NaPNBus2i1o     bus_c;      // (u,e)->NN controller former
+  NaPNBus2i1o     bus2_c;     // (r,e)->NN controller former
+  NaPNBus3i1o     bus3_c;     // (r,e,Se)->NN controller former
   NaPNDelay       delay_c;    // (e(i),e(i-1),...e(i-n))->NNC former-delayer
   NaPNDerivative  delta_e;    // (1-1/z)*e(k)
   NaPNSum         sum_on;     // plant + noise summator
@@ -94,7 +97,8 @@ public:/* data */
   NaPNStatistics  iderrstat;  // identification error statistics
   NaPNComparator  cerrcomp;   // control error computer (r_k-y_k)
   NaPNStatistics  cerrstat;   // control error statistics
-  NaPNComparator  devcomp;    // deviation computation (r_k-y_{k-1})
+  NaPNComparator  devcomp;    // deviation computation (e=r_k-y_{k-1})
+  NaPNAccumulator err_acc;    // accumulate error to estimate its integral
   NaPNDelay       delay_y;    // y -> y(-1), y(-2), ...
   NaPNDelay       delay_u;    // u -> u(-1), u(-2), ...
   NaPNFetcher     errfetch;   // fetch control error 

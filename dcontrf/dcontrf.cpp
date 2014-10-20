@@ -220,22 +220,27 @@ int main(int argc, char **argv)
 
     // Interpret NN-C structure
     NaControllerKind	ckind;
-#if 0
     // Default rule
     if(au_nnc.descr.nInputsRepeat > 1)
       ckind = NaNeuralContrDelayedE;
     else
       ckind = NaNeuralContrER;
-#endif
     // Explicit rule
-    if(!strcmp(par("nnc_mode"), "tradcontr"))
+    const char* nnc_mode = par("nnc_mode");
+    if(!strcmp(nnc_mode, "tradcontr"))
       ckind = NaLinearContr;
-    else if(!strcmp(par("nnc_mode"), "e+r"))
+    else if(!strcmp(nnc_mode, "e+r") ||
+       !strcmp(nnc_mode, "r+e"))
       ckind = NaNeuralContrER;
-    else if(!strcmp(par("nnc_mode"), "e+de"))
+    else if(!strcmp(nnc_mode, "e+r+se") ||
+       !strcmp(nnc_mode, "r+e+se"))
+      ckind = NaNeuralContrERSumE;
+    else if(!strcmp(nnc_mode, "e+de"))
       ckind = NaNeuralContrEdE;
-    else if(!strcmp(par("nnc_mode"), "e+e+..."))
+    else if(!strcmp(nnc_mode, "e+e+..."))
       ckind = NaNeuralContrDelayedE;
+    else if(!strcmp(nnc_mode, "r+e+e+..."))
+      ckind = NaNeuralContrRDelayedE;
 
     if(NaLinearContr == ckind)
       // Load traditional controller
@@ -488,6 +493,7 @@ int main(int argc, char **argv)
 	// Nothing special
 	break;
       case NaNeuralContrER:
+      case NaNeuralContrERSumE:
 	nnocl.delay_c.set_delay(au_nnc.descr.nInputsRepeat - 1);
 	nnocl.delay_c.set_sleep_value(0.0);
 	break;
@@ -515,6 +521,14 @@ int main(int argc, char **argv)
     nnocl.nnpteacher.lpar.eta = atof(par("p_eta"));
     nnocl.nnpteacher.lpar.eta_output = atof(par("p_eta_output"));
     nnocl.nnpteacher.lpar.alpha = atof(par("p_alpha"));
+
+    if(NaNeuralContrERSumE == ckind) {
+	int nErrAccDepth = 0; // pure integration
+	if(par.CheckParam("err_acc_depth"))
+	    nErrAccDepth = atoi(par("err_acc_depth"));
+	NaPrintLog("Depth of error accumulation is %u\n", nErrAccDepth);
+	nnocl.err_acc.set_accum_depth(nErrAccDepth);
+    }
 
     // Teach the network iteratively
     NaPNEvent   pnev;
@@ -569,8 +583,10 @@ int main(int argc, char **argv)
 	      }
 	}
 
-	ParseHaltCond(nnocl.cerrstat, par("finish_cerr_cond"));
-	ParseHaltCond(nnocl.iderrstat, par("finish_iderr_cond"));
+	if(par.CheckParam("finish_cerr_cond"))
+	    ParseHaltCond(nnocl.cerrstat, par("finish_cerr_cond"));
+	if(par.CheckParam("finish_iderr_cond"))
+	    ParseHaltCond(nnocl.iderrstat, par("finish_iderr_cond"));
 
 	if(nnc_auf > 0 || nnp_auf > 0) {
 	  nnocl.nncteacher.set_auto_update_proc(PrintLog, &nnocl);

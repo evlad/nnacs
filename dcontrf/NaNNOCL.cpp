@@ -37,7 +37,8 @@ NaNNOptimContrLearn::NaNNOptimContrLearn (int len, NaControllerKind ckind,
     nnpteacher("nnpteacher"),
     errbackprop("errbackprop"),
     bus_p("bus_p"),
-    bus_c("bus_c"),
+    bus2_c("bus2_c"),
+    bus3_c("bus3_c"),
     delay_c("delay_c"),
     delta_e("delta_e"),
     sum_on("sum_on"),
@@ -61,7 +62,8 @@ NaNNOptimContrLearn::NaNNOptimContrLearn (int len, NaControllerKind ckind,
     iderr_qout("iderr_qout"),
     c_in("c_in"),
     p_in("p_in"),
-    nnp_bpe("nnp_bpe")
+    nnp_bpe("nnp_bpe"),
+    err_acc("err_acc")
 {
   // Nothing to do
 }
@@ -105,15 +107,30 @@ NaNNOptimContrLearn::link_net ()
       case NaNeuralContrER:
 	if(0 == nSeriesLen){
 	  net.link_1n(&setpnt_inp.out,
-		      &bus_c.in1, &skip_r.in, &cerrcomp.main, NULL);
+		      &bus2_c.in1, &skip_r.in, &cerrcomp.main, NULL);
 	}else{
 	  net.link_1n(&setpnt_gen.y,
 		      &setpnt_out.in,
-		      &bus_c.in1, &skip_r.in, &cerrcomp.main, NULL);
+		      &bus2_c.in1, &skip_r.in, &cerrcomp.main, NULL);
 	}
 	net.link(&skip_r.out, &devcomp.main);
-	net.link(&devcomp.cmp, &bus_c.in2);
-	net.link(&bus_c.out, &nncontr.x);
+	net.link(&devcomp.cmp, &bus2_c.in2);
+	net.link(&bus2_c.out, &nncontr.x);
+	break;
+      case NaNeuralContrERSumE:
+	if(0 == nSeriesLen){
+	  net.link_1n(&setpnt_inp.out,
+		      &bus3_c.in1, &skip_r.in, &cerrcomp.main, NULL);
+	}else{
+	  net.link_1n(&setpnt_gen.y,
+		      &setpnt_out.in,
+		      &bus3_c.in1, &skip_r.in, &cerrcomp.main, NULL);
+	}
+	net.link(&skip_r.out, &devcomp.main);
+	net.link(&devcomp.cmp, &bus3_c.in2);
+	net.link(&devcomp.cmp, &err_acc.in);
+	net.link(&err_acc.sum, &bus3_c.in3);
+	net.link(&bus3_c.out, &nncontr.x);
 	break;
       case NaNeuralContrDelayedE:
 	if(0 == nSeriesLen){
@@ -140,17 +157,19 @@ NaNNOptimContrLearn::link_net ()
 		      &skip_r.in, &cerrcomp.main, NULL);
 	}
 	net.link(&skip_r.out, &devcomp.main);
-	net.link(&devcomp.cmp, &bus_c.in1);
+	net.link(&devcomp.cmp, &bus2_c.in1);
 	net.link(&devcomp.cmp, &delta_e.x);
-	net.link(&delta_e.dx, &bus_c.in2);
-	net.link(&bus_c.out, &nncontr.x);
+	net.link(&delta_e.dx, &bus2_c.in2);
+	net.link(&bus2_c.out, &nncontr.x);
 	break;
       }
 
     if(eContrKind == NaLinearContr)
       net.link(&devcomp.cmp, &c_in.in);
+    else if(eContrKind == NaNeuralContrERSumE)
+      net.link(&bus3_c.out, &c_in.in);
     else
-      net.link(&bus_c.out, &c_in.in);
+      net.link(&bus2_c.out, &c_in.in);
 
     if(eContrKind == NaLinearContr)
       net.link(&tradcontr.y, &nn_u.in);
