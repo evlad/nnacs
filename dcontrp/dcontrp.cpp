@@ -139,7 +139,9 @@ int main(int argc, char **argv)
     nncpl.nnteacher.lpar.eta_output = atof(par("eta_output"));
     nncpl.nnteacher.lpar.alpha = atof(par("alpha"));
 
-    int nErrAccDepth = atoi(par("err_acc_depth"));
+    int nErrAccDepth = 0; // pure integration
+    if(par.CheckParam("err_acc_depth"))
+	nErrAccDepth = atoi(par("err_acc_depth"));
     NaPrintLog("Depth of error accumulation is %u\n", nErrAccDepth);
     nncpl.err_acc.set_accum_depth(nErrAccDepth);
     nncpe.err_acc.set_accum_depth(nErrAccDepth);

@@ -394,7 +394,9 @@ int main(int argc, char **argv)
 	csm.chkpnt_ny.set_output_filename(par("out_ny"));
 
 	if(NaNeuralContrERSumE == ckind) {
-	    int nErrAccDepth = atoi(par("err_acc_depth"));
+	    int nErrAccDepth = 0; // pure integration
+	    if(par.CheckParam("err_acc_depth"))
+		nErrAccDepth = atoi(par("err_acc_depth"));
 	    NaPrintLog("Depth of error accumulation is %u\n", nErrAccDepth);
 	    csm.err_acc.set_accum_depth(nErrAccDepth);
 	}
