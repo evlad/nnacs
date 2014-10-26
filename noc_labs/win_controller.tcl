@@ -86,7 +86,7 @@ proc ContrSelectNNFile {p sessionDir var} {
 proc ContrViewNNFile {p sessionDir var} {
     global $var
     upvar #0 $var fileRelPath
-    DisplayNeuralNetArch $p $fileRelPath [SessionAbsPath $sessionDir $fileRelPath]
+    NNCDisplayNeuralNetArch $p $fileRelPath [SessionAbsPath $sessionDir $fileRelPath]
 }
 
 
@@ -161,18 +161,19 @@ proc ContrWindow {p sessionDir arref ckind trcfile nncfile nncinputs} {
     label $f.inp_l -text "Входы:"
     frame $f.inputs
     set var_nncinputs "e+r"
-    #foreach {n v} {re "e+r" eee "e+e+..." ede "e+de"} {
-    #radiobutton $f.inputs.$n -variable var_nncinputs -value $v -text $v
-    #pack $f.inputs.$n -padx 2 -side left
-    #}
+    # ...  eee "e+e+..." ede "e+de"
+    foreach {n v} {re "e+r" reSe "e+r+se"} {
+	radiobutton $f.inputs.$n -variable var_nncinputs -value $v -text $v
+	pack $f.inputs.$n -padx 2 -side left
+    }
     grid $f.nnc_rb
     grid $f.nnc_fl $f.nnc_fe $f.nnc_fsel $f.nnc_fview
-    #grid $f.inp_l -row 5 -column 0
-    #grid $f.inputs -row 5 -column 1 -columnspan 2
+    grid $f.inp_l -row 5 -column 0
+    grid $f.inputs -row 5 -column 1 -columnspan 2
     grid $f.nnc_rb -sticky nw
     grid $f.nnc_fl -sticky e
-    #grid $f.inp_l -sticky e
-    #grid $f.inputs -sticky w
+    grid $f.inp_l -sticky e
+    grid $f.inputs -sticky w
 
     pack $f -side top
 

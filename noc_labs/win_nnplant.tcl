@@ -52,7 +52,7 @@ proc NNPlantSelectNNFile {p sessionDir var} {
 proc NNPlantViewNNFile {p sessionDir var} {
     global $var
     upvar #0 $var fileRelPath
-    DisplayNeuralNetArch $p $fileRelPath [SessionAbsPath $sessionDir $fileRelPath]
+    NNPDisplayNeuralNetArch $p $fileRelPath [SessionAbsPath $sessionDir $fileRelPath]
 }
 
 # Create neural network where filepath is referred by var1.

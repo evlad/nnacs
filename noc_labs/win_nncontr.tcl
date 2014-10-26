@@ -52,7 +52,7 @@ proc NNContrSelectNNFile {p sessionDir var} {
 proc NNContrViewNNFile {p sessionDir var} {
     global $var
     upvar #0 $var fileRelPath
-    DisplayNeuralNetArch $p $fileRelPath [SessionAbsPath $sessionDir $fileRelPath]
+    NNCDisplayNeuralNetArch  $p $fileRelPath [SessionAbsPath $sessionDir $fileRelPath]
 }
 
 # Create neural network where filepath is referred by var1 and inputs by var2.
@@ -104,7 +104,8 @@ proc NNContrWindow {p sessionDir arref nnc_in nnc_out nncinputs} {
 	-command "NNContrCreateNNFile $w \"$sessionDir\" var_nnc_in var_nncinputs"
     label $f.inp_l -text "Входы:"
     frame $f.inputs
-    foreach {n v} {re "e+r" eee "e+e+..." ede "e+de"} {
+    # ...  eee "e+e+..." ede "e+de"
+    foreach {n v} {re "e+r" reSe "e+r+se"} {
 	radiobutton $f.inputs.$n -variable var_nncinputs -value $v -text $v
 	pack $f.inputs.$n -padx 2 -side left
     }
