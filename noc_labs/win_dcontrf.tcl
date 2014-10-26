@@ -317,8 +317,8 @@ proc dcontrfCreateWindow {p title sessionDir} {
     # (reference+noise, modelling length) including selection of tf
     $c.reference configure \
 	-command "SignalWindow $w \"$curSessionDir\" refer dcontrf_params input_kind in_r refer_tf stream_len ; ParFileAssign \"$parFile\" dcontrf_params"
-    $c.controller configure \
-	-command "ContrWindow $w \"$curSessionDir\" dcontrf_params contr_kind lincontr_tf nncontr nnc_mode ; ParFileAssign \"$parFile\" dcontrf_params"
+#    $c.controller configure \
+#	-command "ContrWindow $w \"$curSessionDir\" dcontrf_params contr_kind lincontr_tf nncontr nnc_mode ; ParFileAssign \"$parFile\" dcontrf_params"
     $c.plant configure \
 	-command "PlantWindow $w \"$curSessionDir\" dcontrf_params linplant_tf ; ParFileAssign \"$parFile\" dcontrf_params"
     $c.noise configure \
