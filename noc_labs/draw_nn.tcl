@@ -12,6 +12,7 @@ proc ReadNeuralNetFile {filepath} {
     set contents [split [read -nonewline $fd] \n]
     close $fd
 
+    set limits {}
     foreach line $contents {
 	if [regexp {^\s*;} $line match] {
 	    # comment - let's skip it
@@ -46,13 +47,13 @@ proc ReadNeuralNetFile {filepath} {
 	    4 {
 		regexp {^\s*(\d+)} $line match nHidLayers
 		set iHidLayer 0
-		set listHidLayers {}
+		set listLayers {}
 	    }
 	    default {
 		if {[info exists iHidLayer]} {
 		    if {$iHidLayer < $nHidLayers} {
 			regexp {^\s*(\d+)} $line match num
-			lappend listHidLayers "$num tanh"
+			lappend listLayers "$num tanh"
 			incr iHidLayer
 		    } else {
 			unset iHidLayer
@@ -60,6 +61,13 @@ proc ReadNeuralNetFile {filepath} {
 		}
 		if {$lineNo == [expr $nHidLayers + 5]} {
 		    regexp {^\s*(\w+)\s+(\d+)} $line match eOutType nOutputs
+		} else {
+		    # matching for two floating point numbers (min max)
+		    if {[regexp {^\s*[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?\s+[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?} $line match]} {
+			lappend limits "$match"
+		    } else {
+			#puts "not matched: $line"
+		    }
 		}
 	    }
 	}
@@ -67,21 +75,45 @@ proc ReadNeuralNetFile {filepath} {
     if {[info exists nnName] && [info exists nInputs] && \
 	    [info exists nInpRep] && \
 	    [info exists nOutRep] && [info exists nFeedback] && \
-	    [info exists nHidLayers] && [info exists listHidLayers] && \
+	    [info exists nHidLayers] && [info exists listLayers] && \
 	    [info exists eOutType] && [info exists nOutputs]} {
-	set nnArch "[expr $nInputs * $nInpRep + $nOutputs * $nOutRep] \
-	    $listHidLayers"
-	lappend nnArch "$nOutputs $eOutType"
+	set nnArch "[expr $nInputs * $nInpRep + $nOutputs * $nOutRep]"
+	lappend nnArch [expr $nHidLayers + 1]
+	lappend listLayers "$nOutputs $eOutType"
+	set nnArch "$nnArch $listLayers"
+	lappend nnArch "idim $nInputs irep $nInpRep odim $nOutputs orep $nOutRep"
+	lappend nnArch "$limits"
+
+	#puts "readnn: $nnArch"
 	return $nnArch
     }
     puts stderr "Wrong NeuralNet format!"
     return {}
 }
 
-# nnarch = {{Inputs [InputLabels]} {HidNeurons1 HidType1} {HidNeurons2
-# HidType2} ...  {Outputs OutputType OutputLabels}}, where type is
-# "linear" or "tanh" and InputLabels or/and OutputLabels may be
-# absent.
+# nnarch = { { Inputs [InputLabels] }
+#            nLayers
+#            { HidNeurons1 HidType1 }
+#            { HidNeurons2 HidType2 }
+#            ...
+#            { Outputs OutputType [OutputLabels] }
+#            [ {
+#                idim nInputs
+#                irep nInpReps
+#                odim nOutputs
+#                orep nOutReps
+#              }
+#              [ { {min max}
+#                  ... 
+#                }
+#              ]
+#            ]
+#          },
+# where type is "linear" or "tanh" and InputLabels
+# or/and OutputLabels may be absent.
+# For exmaple:
+# 3 3 {5 tanh} {3 tanh} {1 linear} {idim 1 irep 1 odim 1 orep 2} {{-1
+# 1} {-1 1} {-1 1} {-1 1}}
 proc DrawNeuralNetArch {c nnarch} {
     set totalW [winfo width $c]
     set totalH [winfo height $c]
@@ -96,13 +128,46 @@ proc DrawNeuralNetArch {c nnarch} {
     # To prevent neurons slightly to go out of picture
     set totalH [expr $totalH - $y * 2]
 
+    #puts "drawnn: $nnarch"
+
     set inputs [lindex $nnarch 0 0]
-    set layers [lrange $nnarch 1 end]
-    set outputLayer [lindex $nnarch end]
     set inputLabels [lindex $nnarch 0 1]
-    set outputLabels [lindex $nnarch end 2]
+    set nlayers [lindex $nnarch 1]
+    #puts "nlayers: $nlayers"
+    set layers [lrange $nnarch 2 [expr 1 + $nlayers]]
+    #puts "layers: $layers"
+    set outputLayer [lindex $layers end]
+    set outputLabels [lindex $outputLayer 2]
+
+    if {[llength $nnarch] > [expr 2 + $nlayers]} {
+	#puts "ioports: [lindex $nnarch [expr 2 + $nlayers]]"
+	array set ioports [lindex $nnarch [expr 2 + $nlayers]]
+	set inputDim $ioports(idim)
+	set inputRep $ioports(irep)
+	set outputDim $ioports(odim)
+	set outputRep $ioports(orep)
+    }
+
+    # Total number of limits
+    set nLimits [expr $inputs + [lindex $outputLayer 0]]
+    set limits {}
+    if {[llength $nnarch] > [expr 3 + $nlayers]} {
+	set limits [lindex $nnarch [expr 3 + $nlayers]]
+	#puts "custom limits: $limits"
+    }
+    if {[llength $limits] < $nLimits} {
+	# Prepare default limits (fill rest)
+	for {set i [llength $limits]} {$i < $nLimits} {incr i} {
+	    lappend limits {-1 1}
+	}
+    }
+    #puts "final limits: $limits"
+
     # Distance in pixels between end of line and label
     set labelHorOffset 3
+
+    # Distance in pixels between horizontal line and min/max label
+    set limitVerOffset 3
 
     set MaxNeuronsInLayer $inputs
     foreach layer $layers {
@@ -121,12 +186,16 @@ proc DrawNeuralNetArch {c nnarch} {
     set HalfNS [expr int($NeuronSize / 2)]
 
     # Calculate distance between layers
-    set LayersDist [expr int($totalW / (2 + [llength $layers]))]
+    set LayersDist [expr int($totalW / (2 + $nlayers))]
+    #set LayersDist [expr int($totalW / (2 + [llength $layers]))]
     set HalfLD [expr int($LayersDist / 2)]
 
     # Make new list of layers considering input one with special type
     # of nodes: dots
     set layers [linsert $layers 0 "$inputs dot"]
+
+    # Counter for limits
+    set iLimit 0
 
     # Draw lines
     set iL 0
@@ -147,6 +216,15 @@ proc DrawNeuralNetArch {c nnarch} {
 		    $c create text [expr $HalfLD - $labelHorOffset] $finalY \
 			-justify right -anchor e -text $label
 		}
+		set minLimit [lindex $limits $iLimit 0]
+		$c create text [expr $HalfLD + $labelHorOffset] \
+		    [expr $finalY + $limitVerOffset] \
+		    -justify left -anchor nw -fill "DarkBlue" -text $minLimit
+		set maxLimit [lindex $limits $iLimit 1]
+		$c create text [expr $HalfLD + $labelHorOffset] \
+		    [expr $finalY - $limitVerOffset] \
+		    -justify left -anchor sw -fill "DarkRed" -text $maxLimit
+		incr iLimit
 	    }
 	} else {
 	    set yP [expr $y + ($totalH - $NeuronSize * (2 * $prevNum - 1)) / 2]
@@ -177,6 +255,15 @@ proc DrawNeuralNetArch {c nnarch} {
 	    $c create text [expr $startX + $HalfLD + $labelHorOffset] $startY \
 		-justify left -anchor w -text $label
 	}
+	set minLimit [lindex $limits $iLimit 0]
+	$c create text [expr $startX + $HalfLD - $labelHorOffset] \
+	    [expr $finalY + $limitVerOffset] \
+	    -justify left -anchor ne -fill "DarkBlue" -text $minLimit
+	set maxLimit [lindex $limits $iLimit 1]
+	$c create text [expr $startX + $HalfLD - $labelHorOffset] \
+	    [expr $finalY - $limitVerOffset] \
+	    -justify left -anchor se -fill "DarkRed" -text $maxLimit
+	incr iLimit
     }
 
     # Draw neurons
@@ -236,7 +323,7 @@ proc DisplayNeuralNetArch {p title nnFilePath} {
     wm title $w $title
 
     button $w.close -text "Закрыть" -command "destroy $w"
-    canvas $w.c -width 400 -height 200
+    canvas $w.c -width 500 -height 250
     pack $w.close -side bottom -expand 1
     pack $w.c -fill both -expand yes
     DrawNeuralNetArch $w.c [ReadNeuralNetFile $nnFilePath]
@@ -256,3 +343,15 @@ proc TestDrawNeuralNetArch {{nnarch {6 {7 "tanh"} {4 "tanh"} {3 "linear"}}}} {
 #TestDrawNeuralNetArch
 #TestDrawNeuralNetArch [ReadNeuralNetFile testdata/test.nn]
 #TestDrawNeuralNetArch {{8 {i1 i2 i3 i4 i5 i6 i7 i8}} {4 "tanh"} {1 "linear" {o1}}}
+
+#set nna1 [ReadNeuralNetFile "/home/evlad/labworks/SumError1/010/nncSe_ini.nn"]
+#puts "nna1: $nna1"
+#set nna2 [DecorateNNCArch $nna1]
+#puts "nna2: $nna2"
+#TestDrawNeuralNetArch $nna2
+
+#set nna1 [ReadNeuralNetFile "/home/evlad/labworks/SumError1/013/nnp_ini.nn"]
+#puts "nna1: $nna1"
+#set nna2 [DecorateNNPArch $nna1]
+#puts "nna2: $nna2"
+#TestDrawNeuralNetArch $nna2
