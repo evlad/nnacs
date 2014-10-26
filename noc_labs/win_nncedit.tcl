@@ -4,6 +4,7 @@ package provide win_nncedit 1.0
 
 package require Tk
 package require draw_nn
+package require screenshot
 
 proc NNCEditSave {w filepath nncinputs} {
     set f $w.nnarch
@@ -18,7 +19,9 @@ proc NNCEditSave {w filepath nncinputs} {
     upvar #0 $f.outputlabels_var outputlabels
 
     set args {}
-    if {$nncinputs == "e+r" || $nncinputs == "e+de"} {
+    if {$nncinputs == "e+r+se"} {
+	lappend args 3 1
+    } elseif {$nncinputs == "e+r" || $nncinputs == "e+de"} {
 	lappend args 2 1
     } else {
 	lappend args 1 $inputrep
@@ -71,8 +74,11 @@ proc NNCEditDoPlot {w nncinputs} {
 
     set inputs [expr $inputrep + $outputrep]
     switch -exact $nncinputs {
+	"e+r+se" {
+	    set inputlabels {"r(k)" "e(k)" "∫e(k)"}
+	}
 	"e+r" {
-	    set inputlabels {"e(k)" "r(k)"}
+	    set inputlabels {"r(k)" "e(k)"}
 	}
 	"e+de" {
 	    set inputlabels {"e(k)" "Δe(k)"}
@@ -92,11 +98,22 @@ proc NNCEditDoPlot {w nncinputs} {
 
     set nnarch {}
     lappend nnarch [list $inputs $inputlabels]
+    lappend nnarch [expr $numlayers + 1]
     for {set i 1} {$i <= $numlayers} {incr i} {
 	eval set numneurons \$numneurons$i
 	lappend nnarch "$numneurons tanh"
     }
     lappend nnarch [list 1 $outputfunc $outputlabels]
+
+    # Let's append map of inputs
+    lappend nnarch [list "idim" 1 "irep" $inputrep "odim" 1 "orep" $outputrep]
+
+    # Let's append limits
+    set limits {}
+    for {set i 0} {$i < [expr $inputs + 1]} {incr i} {
+	lappend limits {-1 1}
+    }
+    lappend nnarch $limits
 
     $c delete all
 
@@ -104,6 +121,7 @@ proc NNCEditDoPlot {w nncinputs} {
     # {HidNeurons2 HidType2} ...  {Outputs OutputType OutputLabels}},
     # where type is "linear" or "tanh" and InputLabels or/and
     # OutputLabels may be absent.
+    #puts "nncedit: $nnarch"
     DrawNeuralNetArch $c $nnarch
 }
 
@@ -148,7 +166,7 @@ proc NNCEditHiddenLayersChange {w p nncinputs} {
 # w - parent
 # title - text to show
 # filepath - file to store neural network
-# nncinputs - "e+r", "e+de", "e+e+..."
+# nncinputs - "e+r", "e+r+se", "e+de", "e+e+..."
 proc NNCEditWindow {p title filepath nncinputs} {
     set w $p.textedit
     catch {destroy $w}
@@ -183,6 +201,21 @@ proc NNCEditWindow {p title filepath nncinputs} {
 	set $f.numneurons2_var 5
 	set $f.numneurons3_var 5
 	set $f.outputfunc_var "linear"
+    } else {
+	set $f.inputrep_var 2
+	set $f.outputrep_var 0
+
+	# Taken from .nn file
+	set nlayers [expr [lindex $nnarch 1] - 1]
+	set $f.numlayers_var $nlayers
+	foreach {i defv} {1 7  2 7  3 5} {
+	    if {$i <= $nlayers} {
+		set $f.numneurons${i}_var [lindex $nnarch [expr 1 + $i] 0]
+	    } else {
+		set $f.numneurons${i}_var $defv
+	    }
+	}
+	set $f.outputfunc_var [lindex $nnarch [expr 2 + $nlayers] 1]
     }
     set $f.inputlabels_var {i1 i2 i3 i4 i5 i6 i7 i8 i9}
     set $f.outputlabels_var {o1 o2 o3 o4 o5 o6 o7 o8 o9}
@@ -197,6 +230,11 @@ proc NNCEditWindow {p title filepath nncinputs} {
 	     -vcmd "NNCEditFieldChange $w %P $nncinputs"]
 
     switch -exact $nncinputs {
+	"e+r+se" {
+	    set $f.inputrep_var 3
+	    $f.inputrep_l configure -state disabled
+	    $f.inputrep configure -state disabled
+	}
 	"e+r" {
 	    set $f.inputrep_var 2
 	    $f.inputrep_l configure -state disabled
@@ -251,7 +289,7 @@ $f.numneurons1 $f.numneurons2 $f.numneurons3" {
 
     set c $w.nnpicture.c
     frame $w.nnpicture
-    grid [canvas $c -background white -width 400 -height 200] -sticky news
+    grid [canvas $c -background white -width 500 -height 200] -sticky news
     grid columnconfigure $w.nnpicture 0 -weight 1
     grid rowconfigure $w.nnpicture 0 -weight 1
     pack $w.nnpicture -expand yes -fill both -side right
@@ -263,5 +301,58 @@ $f.numneurons1 $f.numneurons2 $f.numneurons3" {
 #	"NNCEditModified $w %W ; TextSyntaxHighlight $ftype %W"
 }
 
-# test
-#NNCEditWindow "" "Neural network editor" "testdata/test.nn" "e+r"
+
+# Decorate labels as for NN controller.
+# Takes on input an NN architecture without labels.
+# Return architecture in format acceptable for DrawNeuralNetArch.
+proc NNCDecorateNNArch {nnarch} {
+    set ninputs [lindex $nnarch 0 0]
+    set nlayers [lindex $nnarch 1]
+    set layers [lrange $nnarch 2 [expr 1 + $nlayers]]
+    set rest [lrange $nnarch [expr 2 + $nlayers] end]
+
+    switch -exact $ninputs {
+	3 { set inputlabels {"r(k)" "e(k)" "∫e(k)"} }
+	2 { set inputlabels {"r(k)" "e(k)"} }
+	1 { set inputlabels {"e(k)"} }
+	default {
+	    set inputlabels {}
+	    for {set i 1} {$i <= $ninputs} {incr i} {
+		lappend inputlabels "${i}?(k)"
+	    }
+	}
+    }
+
+    set newarch {}
+    lappend newarch [list $ninputs $inputlabels]
+    lappend newarch $nlayers
+    for {set i 0} {$i < $nlayers} {incr i} {
+	if {$i == [expr $nlayers - 1]} {
+	    # The last layer is an output one
+	    lappend newarch [list [lindex $layers $i 0] [lindex $layers $i 1] \
+				 "u'(k)"]
+	} else {
+	    # Just copy
+	    lappend newarch [lindex $layers $i]
+	}
+    }
+    return "$newarch $rest"
+}
+
+
+proc NNCDisplayNeuralNetArch {p title nnFilePath} {
+    set w $p.display_nnarch
+    catch {destroy $w}
+    toplevel $w
+
+    wm title $w $title
+
+    canvas $w.c -background white -width 500 -height 200
+    pack $w.c -fill both -expand yes -side top
+
+    button $w.close -text "Закрыть" -command "destroy $w"
+    ScreenshotButton $w $w.print_button $w.c [file dirname $nnFilePath] "nncarch"
+    pack $w.print_button $w.close -side left
+
+    DrawNeuralNetArch $w.c [NNCDecorateNNArch [ReadNeuralNetFile $nnFilePath]]
+}

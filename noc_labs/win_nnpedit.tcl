@@ -4,6 +4,7 @@ package provide win_nnpedit 1.0
 
 package require Tk
 package require draw_nn
+package require screenshot
 
 proc NNPEditSave {w filepath} {
     set f $w.nnarch
@@ -84,15 +85,27 @@ proc NNPEditDoPlot {w} {
     set inputs [expr $inputrep + $outputrep]
     set nnarch {}
     lappend nnarch [list $inputs $inputlabels]
+    lappend nnarch [expr $numlayers + 1]
     for {set i 1} {$i <= $numlayers} {incr i} {
 	eval set numneurons \$numneurons$i
 	lappend nnarch "$numneurons tanh"
     }
     lappend nnarch [list 1 $outputfunc $outputlabels]
 
+    # Let's append map of inputs
+    lappend nnarch [list "idim" 1 "irep" $inputrep "odim" 1 "orep" $outputrep]
+
+    # Let's append limits
+    set limits {}
+    for {set i 0} {$i < [expr $inputs + 1]} {incr i} {
+	lappend limits {-1 1}
+    }
+    lappend nnarch $limits
+
     $c delete all
-    # nnarch = {Inputs {HidNeurons1 HidType1} {HidNeurons2 HidType2} ...
+    # nnarch = {Inputs NumLayers {HidNeurons1 HidType1} {HidNeurons2 HidType2} ...
     # {Outputs OutputType}}, where type is "linear" or "tanh"
+    #puts "nnpedit: $nnarch"
     DrawNeuralNetArch $c $nnarch
 }
 
@@ -171,6 +184,26 @@ proc NNPEditWindow {p title filepath} {
 	set $f.numneurons2_var 5
 	set $f.numneurons3_var 5
 	set $f.outputfunc_var "linear"
+    } else {
+	#puts "nnarch: $nnarch"
+
+	set nlayers [lindex $nnarch 1]
+	set ioports [lindex $nnarch [expr 2 + $nlayers]]
+	array set iop $ioports
+	set $f.inputrep_var $iop(irep)
+	set $f.outputrep_var $iop(orep)
+
+	# Taken from .nn file
+	set nlayers [expr [lindex $nnarch 1] - 1]
+	set $f.numlayers_var $nlayers
+	foreach {i defv} {1 7  2 7  3 5} {
+	    if {$i <= $nlayers} {
+		set $f.numneurons${i}_var [lindex $nnarch [expr 1 + $i] 0]
+	    } else {
+		set $f.numneurons${i}_var $defv
+	    }
+	}
+	set $f.outputfunc_var [lindex $nnarch [expr 2 + $nlayers] 1]
     }
     set $f.inputlabels_var {i1 i2 i3 i4 i5 i6 i7 i8 i9}
     set $f.outputlabels_var {o1 o2 o3 o4 o5 o6 o7 o8 o9}
@@ -232,5 +265,71 @@ $f.numneurons1 $f.numneurons2 $f.numneurons3" {
 #	"NNPEditModified $w %W ; TextSyntaxHighlight $ftype %W"
 }
 
-# test
-#NNPEditWindow "" "Text editor title" "testdata/nnp_ini.nn"
+
+# Decorate labels as for NN plant.
+# Takes on input an NN architecture without labels.
+# Return architecture in format acceptable for DrawNeuralNetArch.
+proc NNPDecorateNNArch {nnarch} {
+    set ninputs [lindex $nnarch 0 0]
+    set nlayers [lindex $nnarch 1]
+    set layers [lrange $nnarch 2 [expr 1 + $nlayers]]
+    set ioports [lindex $nnarch [expr 2 + $nlayers]]
+    set rest [lrange $nnarch [expr 3 + $nlayers] end]
+
+    #puts "ioports: [lindex $nnarch [expr 2 + $nlayers]]"
+    array set iop $ioports
+    set inputDim $iop(idim)
+    set inputRep $iop(irep)
+    set outputDim $iop(odim)
+    set outputRep $iop(orep)
+
+    set inputlabels {}
+    for {set i 0} {$i < $inputRep} {incr i} {
+	if {$i == 0} {
+	    lappend inputlabels "u(k)"
+	} else {
+	    lappend inputlabels "u(k-$i)"
+	}
+    }
+    for {set i 0} {$i < $outputRep} {incr i} {
+	if {$i == 0} {
+	    lappend inputlabels "y(k)"
+	} else {
+	    lappend inputlabels "y(k-$i)"
+	}
+    }
+
+    set newarch {}
+    lappend newarch [list $ninputs $inputlabels]
+    lappend newarch $nlayers
+    for {set i 0} {$i < $nlayers} {incr i} {
+	if {$i == [expr $nlayers - 1]} {
+	    # The last layer is an output one
+	    lappend newarch [list [lindex $layers $i 0] [lindex $layers $i 1] \
+				 "y'(k+1)"]
+	} else {
+	    # Just copy
+	    lappend newarch [lindex $layers $i]
+	}
+    }
+    lappend newarch $ioports
+    return "$newarch $rest"
+}
+
+
+proc NNPDisplayNeuralNetArch {p title nnFilePath} {
+    set w $p.display_nnarch
+    catch {destroy $w}
+    toplevel $w
+
+    wm title $w $title
+
+    canvas $w.c -background white -width 500 -height 200
+    pack $w.c -fill both -expand yes -side top
+
+    button $w.close -text "Закрыть" -command "destroy $w"
+    ScreenshotButton $w $w.print_button $w.c [file dirname $nnFilePath] "nncarch"
+    pack $w.print_button $w.close -side left
+
+    DrawNeuralNetArch $w.c [NNPDecorateNNArch [ReadNeuralNetFile $nnFilePath]]
+}
