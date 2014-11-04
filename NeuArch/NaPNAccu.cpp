@@ -48,6 +48,17 @@ NaPNAccumulator::get_accum_depth () const
 
 
 //---------------------------------------------------------------------------
+// Reset accumulated sum (make it zero).
+void
+NaPNAccumulator::reset_accum ()
+{
+    vBuffer.init_zero();
+    iNext = 0;
+    fSum = 0.0;
+}
+
+
+//---------------------------------------------------------------------------
 
 ///////////////////////
 // Phases of network //
@@ -76,9 +87,7 @@ NaPNAccumulator::verify ()
 void
 NaPNAccumulator::initialize (bool& starter)
 {
-    vBuffer.init_zero();
-    iNext = 0;
-    fSum = 0.0;
+    reset_accum();
 }
 
 

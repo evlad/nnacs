@@ -42,6 +42,7 @@ static char rcsid[] = "$Id$";
 NaReal	fPrevMSEc = 0.0, fPrevMSEi = 0.0;
 int	nMaxEpochs = 0;
 
+
 void
 PrintLog (int iAct, void* pData)
 {
@@ -55,14 +56,27 @@ PrintLog (int iAct, void* pData)
 
   fPrevMSEc = nnocl.cerrstat.RMS[0];
   fPrevMSEi = nnocl.iderrstat.RMS[0];
+}
 
-  if(nMaxEpochs > 0 && iAct >= nMaxEpochs) {
-      printf("Maximum number of epochs %d was reached\n", nMaxEpochs);
-      fflush(stdout);
-      NaPrintLog("Maximum number of epochs %d was reached\n", nMaxEpochs);
-      /* arbitrary node may be halted to stop the whole network */
-      nnocl.plant.halt();
-  }
+
+void
+OnUpdateNNC (int iAct, void* pData)
+{
+    NaNNOptimContrLearn	&nnocl = *(NaNNOptimContrLearn*)pData;
+
+    PrintLog(iAct, pData);
+
+    // In case of NaNeuralContrERSumE==ckind reset accumulator
+    nnocl.err_acc.reset_accum();
+
+    // Check for max epoch condition
+    if(nMaxEpochs > 0 && iAct >= nMaxEpochs) {
+	printf("Maximum number of epochs %d was reached\n", nMaxEpochs);
+	fflush(stdout);
+	NaPrintLog("Maximum number of epochs %d was reached\n", nMaxEpochs);
+	/* arbitrary node may be halted to stop the whole network */
+	nnocl.plant.halt();
+    }
 }
 
 
@@ -589,7 +603,7 @@ int main(int argc, char **argv)
 	    ParseHaltCond(nnocl.iderrstat, par("finish_iderr_cond"));
 
 	if(nnc_auf > 0 || nnp_auf > 0) {
-	  nnocl.nncteacher.set_auto_update_proc(PrintLog, &nnocl);
+	  nnocl.nncteacher.set_auto_update_proc(OnUpdateNNC, &nnocl);
 	}
 	if(nnc_auf > 0 && nnp_auf > 0) {
 	  nnocl.nnpteacher.set_auto_update_proc(PushNNP, &nnocl);

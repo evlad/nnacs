@@ -43,6 +43,10 @@ public:
     virtual unsigned	get_accum_depth () const;
 
 
+    // Reset accumulated sum (make it zero).
+    virtual void	reset_accum ();
+
+
     ///////////////////////
     // Phases of network //
     ///////////////////////
