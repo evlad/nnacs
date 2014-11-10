@@ -160,7 +160,6 @@ proc ContrWindow {p sessionDir arref ckind trcfile nncfile nncinputs} {
 	-command "ContrViewNNFile $w \"$sessionDir\" var_nncfile"
     label $f.inp_l -text "Входы:"
     frame $f.inputs
-    set var_nncinputs "e+r"
     # ...  eee "e+e+..." ede "e+de"
     foreach {n v} {re "e+r" reSe "e+r+se"} {
 	radiobutton $f.inputs.$n -variable var_nncinputs -value $v -text $v
