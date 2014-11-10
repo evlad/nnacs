@@ -69,19 +69,30 @@ proc NNCEditDoPlot {w nncinputs} {
     upvar #0 $f.inputlabels_var inputlabels
     upvar #0 $f.outputlabels_var outputlabels
 
+# Preparation for subscripts
+#set subscripts "\u2080\u2081\u2082\u2083\u2084\u2085\u2086\u2087\u2088\u2089" 
+#for {set i 0} {$i < 10} {incr i} {
+#  set s "r" 
+#  append s [string range $subscripts $i $i]
+#  append s "(k)"
+#  .c create text 100 [expr 100 + $i * 20] -justify left -anchor sw -fill blue -text $s
+#}
+
     # Common output of any neural controller
     set outputlabels {"u'(k)"}
 
     set inputs [expr $inputrep + $outputrep]
     switch -exact $nncinputs {
+	# ∫e
 	"e+r+se" {
-	    set inputlabels {"r(k)" "e(k)" "∫e(k)"}
+	    set inputlabels {"r(k)" "e(k)" "\u222be(k)"}
 	}
 	"e+r" {
 	    set inputlabels {"r(k)" "e(k)"}
 	}
+	# Δe
 	"e+de" {
-	    set inputlabels {"e(k)" "Δe(k)"}
+	    set inputlabels {"e(k)" "\u2206e(k)"}
 	}
 	"e+e+..." {
 	    # Generate automatically special labels for this kind of
