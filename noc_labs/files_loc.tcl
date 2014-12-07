@@ -122,6 +122,8 @@ proc UserBaseDir {} {
 	set dir $env(NNACSUSERDIR)
 	puts "User directory: $dir (see NNACSUSERDIR)"
     }
+    # To convert possibly problem "C:\nn\labworks" to neutral "C:/nn/labworks"
+    set dir [file join $dir]
     file mkdir $dir
     return $dir
 }
