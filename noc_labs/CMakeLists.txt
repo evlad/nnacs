@@ -4,10 +4,12 @@ project(noc_labs)
 
 if(UNIX)
 install(PROGRAMS nnacs.tcl DESTINATION bin RENAME nnacs)
+install(PROGRAMS nndisplay.tcl DESTINATION bin RENAME nndisplay)
 endif(UNIX)
 
 if(WIN32)
 install(PROGRAMS nnacs.tcl DESTINATION bin)
+install(PROGRAMS nndisplay.tcl DESTINATION bin)
 install(PROGRAMS setnnacs.bat DESTINATION bin)
 endif(WIN32)
 
@@ -21,6 +23,7 @@ set(TCL_SCRIPTS data_file.tcl
 	progressbar.tcl
 	screenshot.tcl
 	universal.tcl
+	getoptbyrs.tcl
 	win_checkpnt.tcl
 	win_cofunc.tcl
 	win_controller.tcl
