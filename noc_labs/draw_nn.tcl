@@ -81,7 +81,7 @@ proc ReadNeuralNetFile {filepath} {
 	lappend nnArch [expr $nHidLayers + 1]
 	lappend listLayers "$nOutputs $eOutType"
 	set nnArch "$nnArch $listLayers"
-	lappend nnArch "idim $nInputs irep $nInpRep odim $nOutputs orep $nOutRep"
+	lappend nnArch "idim $nInputs irep $nInpRep odim $nOutputs orep $nOutRep name $nnName"
 	lappend nnArch "$limits"
 
 	#puts "readnn: $nnArch"
@@ -102,6 +102,7 @@ proc ReadNeuralNetFile {filepath} {
 #                irep nInpReps
 #                odim nOutputs
 #                orep nOutReps
+#                name NNName
 #              }
 #              [ { {min max}
 #                  ... 
@@ -112,8 +113,8 @@ proc ReadNeuralNetFile {filepath} {
 # where type is "linear" or "tanh" and InputLabels
 # or/and OutputLabels may be absent.
 # For exmaple:
-# 3 3 {5 tanh} {3 tanh} {1 linear} {idim 1 irep 1 odim 1 orep 2} {{-1
-# 1} {-1 1} {-1 1} {-1 1}}
+# 3 3 {5 tanh} {3 tanh} {1 linear} {idim 1 irep 1 odim 1 orep 2 name Plant}
+# {{-1 1} {-1 1} {-1 1} {-1 1}}
 proc DrawNeuralNetArch {c nnarch} {
     set totalW [winfo width $c]
     set totalH [winfo height $c]
