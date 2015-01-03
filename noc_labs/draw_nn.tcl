@@ -1,6 +1,7 @@
 package provide draw_nn 1.0
 
 package require Tk
+package require universal
 
 # Return architecture in format acceptable for DrawNeuralNetArch
 proc ReadNeuralNetFile {filepath} {
@@ -356,3 +357,83 @@ proc TestDrawNeuralNetArch {{nnarch {6 {7 "tanh"} {4 "tanh"} {3 "linear"}}}} {
 #set nna2 [DecorateNNPArch $nna1]
 #puts "nna2: $nna2"
 #TestDrawNeuralNetArch $nna2
+
+# Decorate labels as for general (abstract) NN.
+# Takes on input an NN architecture without labels.
+# Return architecture in format acceptable for DrawNeuralNetArch.
+proc ANNDecorateNNArch {nnarch} {
+    #puts "nnarch: $nnarch"
+    set ninputs [lindex $nnarch 0 0]
+    set nlayers [lindex $nnarch 1]
+    set layers [lrange $nnarch 2 [expr 1 + $nlayers]]
+    #puts "layers: $layers"
+    set rest [lrange $nnarch [expr 2 + $nlayers] end]
+    #puts "rest: $rest"
+    array set props [lindex $rest 0]
+
+    set inputDim $props(idim)
+    set inputRep $props(irep)
+    set outputDim $props(odim)
+    set outputRep $props(orep)
+
+    set inputlabels {}
+    for {set i 0} {$i < $inputRep} {incr i} {
+	if {$inputDim > 1} {
+	    for {set j 1} {$j <= $inputDim} {incr j} {
+		if {$i == 0} {
+		    lappend inputlabels "x[subscriptString $j](k)"
+		} else {
+		    lappend inputlabels "x[subscriptString $j](k-$i)"
+		}
+	    }
+	} else {
+	    if {$i == 0} {
+		lappend inputlabels "x(k)"
+	    } else {
+		lappend inputlabels "x(k-$i)"
+	    }
+	}
+    }
+    for {set i 0} {$i < $outputRep} {incr i} {
+	if {$outputDim > 1} {
+	    for {set j 1} {$j <= $outputDim} {incr j} {
+		if {$i == 0} {
+		    lappend inputlabels "y[subscriptString $j](k)"
+		} else {
+		    lappend inputlabels "y[subscriptString $j](k-$i)"
+		}
+	    }
+	} else {
+	    if {$i == 0} {
+		lappend inputlabels "x(k)"
+	    } else {
+		lappend inputlabels "x(k-$i)"
+	    }
+	}
+    }
+
+    set newarch {}
+    set outputlabels {}
+    if {$outputDim > 1} {
+	for {set j 1} {$j <= $outputDim} {incr j} {
+	    lappend outputlabels "y[subscriptString $j]'(k)"
+	}
+    } else {
+	lappend outputlabels "y'(k)"
+    }
+
+    lappend newarch [list $ninputs $inputlabels]
+    lappend newarch $nlayers
+    for {set i 0} {$i < $nlayers} {incr i} {
+	if {$i == [expr $nlayers - 1]} {
+	    # The last layer is an output one
+	    lappend newarch [list [lindex $layers $i 0] [lindex $layers $i 1] \
+				 $outputlabels]
+	} else {
+	    # Just copy
+	    lappend newarch [lindex $layers $i]
+	}
+    }
+    #puts "newarch: $newarch"
+    return "$newarch $rest"
+}

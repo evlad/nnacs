@@ -170,7 +170,7 @@ switch -exact $nnType {
 	set nnPictRoot "nncarch"
     }
     general {
-	set nnArchDecor [ReadNeuralNetFile $nnFilePath]
+	set nnArchDecor [ANNDecorateNNArch [ReadNeuralNetFile $nnFilePath]]
 	set nnPictRoot "nn_arch"
     }
 }
