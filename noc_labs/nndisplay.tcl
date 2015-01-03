@@ -151,9 +151,9 @@ if {$nnType == "auto"} {
 	    set nnType controller
 	}
 	default {
+	    set nnType general
 	    if {$bVerbose} {
 		puts "Can't determine type of neural network, using general"
-		set nnType general
 	    }
 	}
     }
