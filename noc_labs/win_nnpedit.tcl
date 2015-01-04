@@ -342,28 +342,6 @@ proc NNPDecorateNNArch {nnarch} {
 	}
     }
 
-#    set newarch {}
-#    lappend newarch [list $ninputs $inputlabels]
-#    lappend newarch $nlayers
-#    for {set i 0} {$i < $nlayers} {incr i} {
-#	if {$i == [expr $nlayers - 1]} {
-#	    # The last layer is an output one
-#	    lappend newarch [list [lindex $layers $i 0] [lindex $layers $i 1] \
-#				 "y'(k+1)"]
-#	} else {
-#	    # Just copy
-#	    lappend newarch [lindex $layers $i]
-#	}
-#    }
-
-#    if {$outputDim > 1} {
-#	for {set j 1} {$j <= $outputDim} {incr j} {
-#	    lappend outputlabels "y[subscriptString $j]'(k)"
-#	}
-#    } else {
-#	lappend outputlabels "y'(k)"
-#    }
-
     lappend newarch $ioports
     return "$newarch $rest"
 }
