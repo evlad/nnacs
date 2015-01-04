@@ -297,15 +297,15 @@ linear 2	 ; Output layer
 -0.0969032
 ; Input scaler:
 -1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
+-2 2	 ; min max
+-3 3	 ; min max
+-4 4	 ; min max
+-5 5	 ; min max
+-6 6	 ; min max
+-7 7	 ; min max
+-8 8	 ; min max
+-9 9	 ; min max
+-10 10	 ; min max
 ; Output scaler:
--1 1	 ; min max
--1 1	 ; min max
+-11 11	 ; min max
+-12 12	 ; min max

@@ -100,9 +100,9 @@ linear 1	 ; Output layer
 -0.0603753
 ; Input scaler:
 -1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
--1 1	 ; min max
+-2 2	 ; min max
+-3 3	 ; min max
+-4 4	 ; min max
+-5 5	 ; min max
 ; Output scaler:
--1 1	 ; min max
+-6 6	 ; min max

@@ -246,7 +246,7 @@ proc DrawNeuralNetArch {c nnarch} {
 	incr iL
 	set prevNum $num
     }
-    # Ouputs
+    # Outputs
     for {set iN 0} {$iN < $prevNum} {incr iN} {
 	set yL [expr $y + ($totalH - $NeuronSize * (2 * $num - 1)) / 2]
 	set startX [expr $x + $iL * $LayersDist]
@@ -259,11 +259,11 @@ proc DrawNeuralNetArch {c nnarch} {
 	}
 	set minLimit [lindex $limits $iLimit 0]
 	$c create text [expr $startX + $HalfLD - $labelHorOffset] \
-	    [expr $finalY + $limitVerOffset] \
+	    [expr $startY + $limitVerOffset] \
 	    -justify left -anchor ne -fill "DarkBlue" -text $minLimit
 	set maxLimit [lindex $limits $iLimit 1]
 	$c create text [expr $startX + $HalfLD - $labelHorOffset] \
-	    [expr $finalY - $limitVerOffset] \
+	    [expr $startY - $limitVerOffset] \
 	    -justify left -anchor se -fill "DarkRed" -text $maxLimit
 	incr iLimit
     }
@@ -434,6 +434,6 @@ proc ANNDecorateNNArch {nnarch} {
 	    lappend newarch [lindex $layers $i]
 	}
     }
-    #puts "newarch: $newarch"
+    #puts "newarch: $newarch $rest"
     return "$newarch $rest"
 }
