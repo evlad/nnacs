@@ -405,9 +405,9 @@ proc ANNDecorateNNArch {nnarch} {
 	    }
 	} else {
 	    if {$i == 0} {
-		lappend inputlabels "x(k)"
+		lappend inputlabels "y(k)"
 	    } else {
-		lappend inputlabels "x(k-$i)"
+		lappend inputlabels "y(k-$i)"
 	    }
 	}
     }
@@ -416,10 +416,10 @@ proc ANNDecorateNNArch {nnarch} {
     set outputlabels {}
     if {$outputDim > 1} {
 	for {set j 1} {$j <= $outputDim} {incr j} {
-	    lappend outputlabels "y[subscriptString $j]'(k)"
+	    lappend outputlabels "y[subscriptString $j]'(k+1)"
 	}
     } else {
-	lappend outputlabels "y'(k)"
+	lappend outputlabels "y'(k+1)"
     }
 
     lappend newarch [list $ninputs $inputlabels]
