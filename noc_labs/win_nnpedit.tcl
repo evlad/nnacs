@@ -285,33 +285,85 @@ proc NNPDecorateNNArch {nnarch} {
 
     set inputlabels {}
     for {set i 0} {$i < $inputRep} {incr i} {
-	if {$i == 0} {
-	    lappend inputlabels "u(k)"
+	if {$inputDim > 1} {
+	    for {set j 1} {$j <= $inputDim} {incr j} {
+		if {$i == 0} {
+		    lappend inputlabels "u[subscriptString $j](k)"
+		} else {
+		    lappend inputlabels "u[subscriptString $j](k-$i)"
+		}
+	    }
 	} else {
-	    lappend inputlabels "u(k-$i)"
+	    if {$i == 0} {
+		lappend inputlabels "u(k)"
+	    } else {
+		lappend inputlabels "u(k-$i)"
+	    }
 	}
     }
     for {set i 0} {$i < $outputRep} {incr i} {
-	if {$i == 0} {
-	    lappend inputlabels "y(k)"
+	if {$outputDim > 1} {
+	    for {set j 1} {$j <= $outputDim} {incr j} {
+		if {$i == 0} {
+		    lappend inputlabels "y[subscriptString $j](k)"
+		} else {
+		    lappend inputlabels "y[subscriptString $j](k-$i)"
+		}
+	    }
 	} else {
-	    lappend inputlabels "y(k-$i)"
+	    if {$i == 0} {
+		lappend inputlabels "y(k)"
+	    } else {
+		lappend inputlabels "y(k-$i)"
+	    }
 	}
     }
 
     set newarch {}
+    set outputlabels {}
+    if {$outputDim > 1} {
+	for {set j 1} {$j <= $outputDim} {incr j} {
+	    lappend outputlabels "y[subscriptString $j]'(k+1)"
+	}
+    } else {
+	lappend outputlabels "y'(k+1)"
+    }
+
     lappend newarch [list $ninputs $inputlabels]
     lappend newarch $nlayers
     for {set i 0} {$i < $nlayers} {incr i} {
 	if {$i == [expr $nlayers - 1]} {
 	    # The last layer is an output one
 	    lappend newarch [list [lindex $layers $i 0] [lindex $layers $i 1] \
-				 "y'(k+1)"]
+				 $outputlabels]
 	} else {
 	    # Just copy
 	    lappend newarch [lindex $layers $i]
 	}
     }
+
+#    set newarch {}
+#    lappend newarch [list $ninputs $inputlabels]
+#    lappend newarch $nlayers
+#    for {set i 0} {$i < $nlayers} {incr i} {
+#	if {$i == [expr $nlayers - 1]} {
+#	    # The last layer is an output one
+#	    lappend newarch [list [lindex $layers $i 0] [lindex $layers $i 1] \
+#				 "y'(k+1)"]
+#	} else {
+#	    # Just copy
+#	    lappend newarch [lindex $layers $i]
+#	}
+#    }
+
+#    if {$outputDim > 1} {
+#	for {set j 1} {$j <= $outputDim} {incr j} {
+#	    lappend outputlabels "y[subscriptString $j]'(k)"
+#	}
+#    } else {
+#	lappend outputlabels "y'(k)"
+#    }
+
     lappend newarch $ioports
     return "$newarch $rest"
 }
