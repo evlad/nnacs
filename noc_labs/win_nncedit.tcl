@@ -320,33 +320,134 @@ proc NNCDecorateNNArch {nnarch} {
     set ninputs [lindex $nnarch 0 0]
     set nlayers [lindex $nnarch 1]
     set layers [lrange $nnarch 2 [expr 1 + $nlayers]]
-    set rest [lrange $nnarch [expr 2 + $nlayers] end]
+    set ioports [lindex $nnarch [expr 2 + $nlayers]]
+    set rest [lrange $nnarch [expr 3 + $nlayers] end]
 
-    switch -exact $ninputs {
-	3 { set inputlabels {"r(k)" "e(k)" "∫e(k)"} }
-	2 { set inputlabels {"r(k)" "e(k)"} }
-	1 { set inputlabels {"e(k)"} }
-	default {
-	    set inputlabels {}
-	    for {set i 1} {$i <= $ninputs} {incr i} {
-		lappend inputlabels "${i}?(k)"
+    #puts "ioports: [lindex $nnarch [expr 2 + $nlayers]]"
+    array set iop $ioports
+    set inputDim $iop(idim)
+    set inputRep $iop(irep)
+    set outputDim $iop(odim)
+    set outputRep $iop(orep)
+
+    if {$inputRep == 1} {
+	# Old style for scalar inputs
+	switch -exact $ninputs {
+	    3 { set inputlabels {"r(k)" "e(k)" "∫e(k)"} }
+	    2 { set inputlabels {"r(k)" "e(k)"} }
+	    1 { set inputlabels {"e(k)"} }
+	    default {
+		set inputlabels {}
+		for {set i 1} {$i <= $ninputs} {incr i} {
+		    lappend inputlabels "${i}?(k)"
+		}
+	    }
+	}
+    } else {
+	# New style
+	if {$inputDim == 1} {
+	    # Scalar inputs case
+	    switch -exact $inputRep {
+		3 { set inputlabels {"r(k)" "e(k)" "∫e(k)"} }
+		2 { set inputlabels {"r(k)" "e(k)"} }
+		1 { set inputlabels {"e(k)"} }
+		default {
+		    set inputlabels {}
+		    for {set i 1} {$i <= $ninputs} {incr i} {
+			lappend inputlabels "${i}?(k)"
+		    }
+		}
+	    }
+	} else {
+	    # Vector inputs case
+	    switch -exact $inputRep {
+		3 { # r+e+Se
+		    set inputlabels {}
+		    for {set j 1} {$j <= $inputDim} {incr j} {
+			lappend inputlabels "r[subscriptString $j](k)"
+		    }
+		    for {set j 1} {$j <= $inputDim} {incr j} {
+			lappend inputlabels "e[subscriptString $j](k)"
+		    }
+		    for {set j 1} {$j <= $inputDim} {incr j} {
+			lappend inputlabels "∫e[subscriptString $j](k)"
+		    }
+		}
+		2 { # r+e
+		    set inputlabels {}
+		    for {set j 1} {$j <= $inputDim} {incr j} {
+			lappend inputlabels "r[subscriptString $j](k)"
+		    }
+		    for {set j 1} {$j <= $inputDim} {incr j} {
+			lappend inputlabels "e[subscriptString $j](k)"
+		    }
+		}
+		1 { # e
+		    set inputlabels {}
+		    for {set j 1} {$j <= $inputDim} {incr j} {
+			lappend inputlabels "r[subscriptString $j](k)"
+		    }
+		    for {set j 1} {$j <= $inputDim} {incr j} {
+			lappend inputlabels "e[subscriptString $j](k)"
+		    }
+		}
+		default {
+		    # undefined
+		    set inputlabels {}
+		    for {set i 1} {$i <= $inputRep} {incr i} {
+			for {set j 1} {$j <= $inputDim} {incr j} {
+			    lappend inputlabels "${i}[subscriptString $j]?(k)"
+			}
+		    }
+		}
+	    }
+	}
+    }
+
+    # Strange case: outputs on input for controller - impossible
+    # except for working in parallel with other kind of controller
+    for {set i 0} {$i < $outputRep} {incr i} {
+	if {$outputDim > 1} {
+	    for {set j 1} {$j <= $outputDim} {incr j} {
+		if {$i == 0} {
+		    lappend inputlabels "u[subscriptString $j](k)"
+		} else {
+		    lappend inputlabels "u[subscriptString $j](k-$i)"
+		}
+	    }
+	} else {
+	    if {$i == 0} {
+		lappend inputlabels "u(k)"
+	    } else {
+		lappend inputlabels "u(k-$i)"
 	    }
 	}
     }
 
     set newarch {}
+    set outputlabels {}
+    if {$outputDim > 1} {
+	for {set j 1} {$j <= $outputDim} {incr j} {
+	    lappend outputlabels "u[subscriptString $j]'(k)"
+	}
+    } else {
+	lappend outputlabels "u'(k)"
+    }
+
     lappend newarch [list $ninputs $inputlabels]
     lappend newarch $nlayers
     for {set i 0} {$i < $nlayers} {incr i} {
 	if {$i == [expr $nlayers - 1]} {
 	    # The last layer is an output one
 	    lappend newarch [list [lindex $layers $i 0] [lindex $layers $i 1] \
-				 "u'(k)"]
+				 $outputlabels]
 	} else {
 	    # Just copy
 	    lappend newarch [lindex $layers $i]
 	}
     }
+
+    lappend newarch $ioports
     return "$newarch $rest"
 }
 

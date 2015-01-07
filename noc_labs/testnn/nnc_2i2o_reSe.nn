@@ -1,0 +1,130 @@
+;NeuCon NeuralNet 1.1
+[NeuralNet Controller]
+; Neural network architecture definition
+2 3	 ; Number of inputs and their repeat factor
+0	 ; Output repeat factor on the input
+0	 ; Feedback depth
+2	 ; Number of hidden layers
+7	 ; Hidden layer
+5	 ; Hidden layer
+linear 2	 ; Output layer
+; Input delays:
+0
+1
+2
+; Output delays:
+; Neural network:
+; Layer #0  (6 inputs, 7 neurons)
+-0.0971051	 ; Neuron #0 (bias / weights):
+-0.0795609
+0.0539814
+0.104615
+-0.026914
+-0.187376
+0.112342
+-0.02563	 ; Neuron #1 (bias / weights):
+-0.172011
+0.175549
+0.0838888
+0.190446
+0.161016
+0.156898
+0.108638	 ; Neuron #2 (bias / weights):
+-0.167051
+0.193824
+-0.0904179
+0.0898542
+-0.0794578
+0.105555
+0.012477	 ; Neuron #3 (bias / weights):
+0.0391854
+0.0698015
+-0.194305
+-0.059292
+0.0384246
+-0.114676
+-0.135776	 ; Neuron #4 (bias / weights):
+0.094312
+-0.122726
+-0.125559
+-0.106523
+0.0294599
+-0.0883572
+-0.170819	 ; Neuron #5 (bias / weights):
+-0.154849
+0.149899
+0.165624
+0.149765
+-0.077015
+0.178248
+-0.0819679	 ; Neuron #6 (bias / weights):
+0.0621078
+-0.0490257
+0.153798
+-0.0540034
+-0.0585792
+0.114814
+; Layer #1  (7 inputs, 5 neurons)
+-0.0181722	 ; Neuron #0 (bias / weights):
+0.10341
+0.0989821
+-0.0762724
+-0.155882
+-0.0625933
+0.0090521
+0.13843
+-0.198889	 ; Neuron #1 (bias / weights):
+0.0146807
+0.0834932
+-0.168094
+-0.155859
+0.195136
+-0.122943
+0.19404
+-0.066029	 ; Neuron #2 (bias / weights):
+0.16076
+-0.173178
+-0.0829755
+0.139009
+0.0889303
+0.0679989
+0.092806
+0.196508	 ; Neuron #3 (bias / weights):
+-0.165073
+-0.19058
+0.00762
+-0.0621783
+-0.0162103
+-0.0837416
+0.150299
+0.0846038	 ; Neuron #4 (bias / weights):
+0.0480139
+-0.054561
+-0.131669
+-0.0485764
+-0.155579
+-0.00794152
+-0.0044587
+; Layer #2  (5 inputs, 2 neurons)
+-0.180288	 ; Neuron #0 (bias / weights):
+-0.0341228
+-0.159351
+0.0797398
+0.0429343
+-0.165311
+-0.127685	 ; Neuron #1 (bias / weights):
+0.0404999
+0.0697567
+-0.0482869
+-0.0204915
+-0.041313
+; Input scaler:
+-1 1	 ; min max
+-1 1	 ; min max
+-1 1	 ; min max
+-1 1	 ; min max
+-1 1	 ; min max
+-1 1	 ; min max
+; Output scaler:
+-1 1	 ; min max
+-1 1	 ; min max
