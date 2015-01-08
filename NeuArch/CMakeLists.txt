@@ -103,3 +103,5 @@ if(WIN32)
 set(SOURCE_EXE test_vsscanf.cpp vsscanf.win.c)
 add_executable(test_vsscanf ${SOURCE_EXE})
 endif(WIN32)
+
+add_subdirectory(ExFuncs)
