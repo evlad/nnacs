@@ -23,7 +23,7 @@ ask_user_string (const char* szPrompt, const char* szDefault)
     if(NULL != szDefault)
       printf("%s <%s>: ", szPrompt, szDefault);
     else
-      printf("%s: ", szPrompt, szDefault);
+      printf("%s: ", szPrompt);
     fgets(enter, sizeof(enter)-1, stdin);
     if(('\0' == enter[0] || '\n' == enter[0]) && NULL != szDefault)
       {
