@@ -7,6 +7,12 @@ project(NeuArch)			# Название проекта
 include_directories(.)			# Расположение заголовочных файлов
 include_directories(../Matrix.041)	# Расположение заголовочных файлов
 
+if(WIN32)
+set(LIB_DEST_DIR bin)
+else()
+set(LIB_DEST_DIR lib)
+endif(WIN32)
+
 set(SOURCE_LIB NaConLaw.cpp
 	NaConfig.cpp
 	NaDDir.cpp
@@ -96,8 +102,10 @@ endif(WIN32)
 
 #target_link_libraries(pnna matrix)
 
-add_library(pnna STATIC ${SOURCE_LIB})	# Создание статической библиотеки с именем pnna
-#add_library(pnna SHARED ${SOURCE_LIB})	# Создание динамической библиотеки с именем pnna
+#add_library(pnna STATIC ${SOURCE_LIB})	# Создание статической библиотеки с именем pnna
+add_library(pnna SHARED ${SOURCE_LIB})	# Создание динамической библиотеки с именем pnna
+
+install(TARGETS pnna LIBRARY DESTINATION ${LIB_DEST_DIR} RUNTIME DESTINATION ${LIB_DEST_DIR})
 
 if(WIN32)
 set(SOURCE_EXE test_vsscanf.cpp vsscanf.win.c)

@@ -7,7 +7,11 @@ include_directories(.)
 include_directories(../Matrix.041)
 include_directories(../NeuArch)
 
+if(WIN32)
 set(LIST_LIBS pnna matrix)
+else(UNIX)
+set(LIST_LIBS pnna matrix dl)
+endif(WIN32)
 
 set(SOURCE_StatAn StatAn.cpp)
 add_executable(StatAn ${SOURCE_StatAn})

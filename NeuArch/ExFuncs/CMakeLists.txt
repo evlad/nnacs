@@ -7,7 +7,7 @@ project(NeuArch)			# Название проекта
 include_directories(..)			# Расположение заголовочных файлов
 include_directories(../../Matrix.041)	# Расположение заголовочных файлов
 
-set(LIB_DEST_DIR bin)
+set(LIB_DEST_DIR lib/exfuncs)
 
 if(WIN32)
 set(LIST_LIBS pnna matrix)

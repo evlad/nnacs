@@ -153,10 +153,15 @@ foreach {label title} $menuContent {
 	      -command "CheckGoodEnv \"$w\" ; MenuProg$i \"$w\" \"$text\""] -fill x -side top -expand yes -pady 2
 }
 
-button $w.info_button -text "О программе" -command "AboutWindow \"$w\""
-button $w.quit_button -text "Выход" -command { removeTemporalFiles ; exit }
+if {$tcl_platform(platform) == "unix"} {
+    button $w.term_button -text "Консоль" -command "exec xterm &"
+    pack $w.term_button -fill x -side top -expand yes -pady 2
+}
 
+button $w.info_button -text "О программе" -command "AboutWindow \"$w\""
 pack $w.info_button -fill x -side top -expand yes -pady 2
+
+button $w.quit_button -text "Выход" -command { removeTemporalFiles ; exit }
 pack $w.quit_button -side top -expand yes -pady 2
 
 # End of file
