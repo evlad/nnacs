@@ -32,6 +32,7 @@ set(TCL_SCRIPTS data_file.tcl
 	win_dcontrp.tcl
 	win_dcsloop.tcl
 	win_dcsloop_cusum.tcl
+	win_distr2d.tcl
 	win_dplantid.tcl
 	win_grseries.tcl
 	win_nncedit.tcl
