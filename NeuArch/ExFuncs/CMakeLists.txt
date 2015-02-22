@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)	# Проверка версии CMake.
 					# Если версия установленой программы
 					# старее указаной, произайдёт аварийный выход.
 
-project(NeuArch)			# Название проекта
+project(ExFuncs)			# Название проекта
 
 include_directories(..)			# Расположение заголовочных файлов
 include_directories(../../Matrix.041)	# Расположение заголовочных файлов
@@ -16,16 +16,19 @@ else(UNIX)
 endif(WIN32)
 
 set(EXFUNC_LIST
+    # Just for test/debug purpose
+    dummy
+    # Functions
     cstr
     deadzone
-    dummy
     luft
     polynomial
-    randmeander
-    randunified
     saturat
     sine
-    watertank)
+    watertank
+    # Generators (no input)
+    randmeander
+    randunified)
 
 add_library(cstr SHARED cstr.cpp)
 add_library(deadzone SHARED deadzone.cpp)
