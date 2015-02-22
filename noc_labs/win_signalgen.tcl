@@ -205,7 +205,7 @@ proc SignalGenAction {p n} {
 	ParametersWindow $p $n.par_arr [set $n.par_gui]
     }
     $n.gen $p $n.par_arr $filepath
-    set wholeData [GrSeriesReadFile $filepath]
+    set wholeData [DataSeriesReadFile $filepath]
     GrSeriesUpdateSeries $p 0 [lindex $wholeData 0]
     GrSeriesViewAll $p.grseries.graphics.c x
     GrSeriesViewAll $p.grseries.graphics.c y

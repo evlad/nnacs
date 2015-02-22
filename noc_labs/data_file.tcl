@@ -3,7 +3,7 @@ package provide data_file 1.0
 # Read data series file into {{{col1}{min1
 # max1}{name1}}...{{colN}{minN maxN}{nameN}}} resulting data
 # structure.
-proc GrSeriesReadFile {filepath} {
+proc DataSeriesReadFile {filepath} {
     if [ catch {open $filepath r} fd ] {
 	error "Failed to open $filepath: $fd"
 	return

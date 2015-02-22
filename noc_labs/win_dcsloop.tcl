@@ -84,7 +84,7 @@ proc dcsloopCheckPoint {p chkpnt sessionDir fileName label} {
     if {![file exists $filePath]} return
 
     if {[GrSeriesCheckPresence $p]} {
-	set wholeData [GrSeriesReadFile $filePath]
+	set wholeData [DataSeriesReadFile $filePath]
 	set i 0
 	set failed 0
 	# Try to display all columns of data

@@ -176,7 +176,7 @@ proc dplantidCheckPoint {p chkpnt sessionDir arrayName arrayIndex label} {
     if {![file exists $filePath]} return
 
     if {[GrSeriesCheckPresence $p]} {
-	set wholeData [GrSeriesReadFile $filePath]
+	set wholeData [DataSeriesReadFile $filePath]
 	set i 0
 	set failed 0
 	# Try to display all columns of data

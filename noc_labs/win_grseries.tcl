@@ -428,7 +428,7 @@ proc GrSeriesAddFile {p workDir {filePath ""}} {
 	    return -1
 	}
     }
-    set wholeData [GrSeriesReadFile $filePath]
+    set wholeData [DataSeriesReadFile $filePath]
     set label [SessionRelPath $workDir $filePath]
     set retindex [GrSeriesAddSeries $p "[lindex $wholeData 0]" $label]
     GrSeriesRedraw $p
@@ -496,7 +496,7 @@ proc GrSeriesWindow {p title {path ""} {extproc ""}} {
 	array set props {}
     }
     if { $filepath != "" } {
-	set props(dataSeries) [GrSeriesReadFile $filepath]
+	set props(dataSeries) [DataSeriesReadFile $filepath]
     }
     #puts "Create $c.props: [array get props]"
 
@@ -582,13 +582,13 @@ proc GrSeriesTest {} {
 	set xold $xnew
     }
 
-    set wholeData [GrSeriesReadFile testdata/r_short.dat]
+    set wholeData [DataSeriesReadFile testdata/r_short.dat]
     GrSeriesAddSeries "" "[lindex $wholeData 0]" "Var1"
     GrSeriesAddSeries "" "[lindex $wholeData 3]" "Var4"
     GrSeriesAddSeries "" "[lindex $wholeData 5]" "Var6"
-    #GrSeriesAddSeries "" "[lindex [GrSeriesReadFile testdata/sine1k.dat] 0]" "Синус"
+    #GrSeriesAddSeries "" "[lindex [DataSeriesReadFile testdata/sine1k.dat] 0]" "Синус"
     #GrSeriesAddSeries "" "$func" "Func"
     GrSeriesWindow "" "Series plot"
     # testdata/r.dat
-    #puts [GrSeriesReadFile testdata/test.dat]
+    #puts [DataSeriesReadFile testdata/test.dat]
 }
