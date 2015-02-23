@@ -549,7 +549,7 @@ NaTransFunc::Load (NaDataStream& ds)
     switch(ut = StrToUnionTypeIO(szUT)){
     default:
     case __utNumber:
-        NaPrintLog("Can't parse '%s' in definition of transfer function\n.",
+        NaPrintLog("Cannot parse '%s' in definition of transfer function\n.",
                    szUT);
         break;
 

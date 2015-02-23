@@ -138,6 +138,19 @@ proc MenuProg5 {w label} {
     }
 }
 
+
+proc NewTerminal {} {
+    set workdir [UserBaseDir]
+    global curUserDir
+    if {[info exists curUserDir]} {
+	if {[file isdirectory $curUserDir]} {
+	    set workdir $curUserDir
+	}
+    }
+    exec xterm -e "cd $workdir; bash" &
+}
+
+
 pack [button $w.user_button \
 	  -text "Перед началом\nВыбор/создание нового пользователя" \
 	  -command "NewUser \"$w\""] -fill x -side top -expand yes -pady 2
@@ -153,10 +166,15 @@ foreach {label title} $menuContent {
 	      -command "CheckGoodEnv \"$w\" ; MenuProg$i \"$w\" \"$text\""] -fill x -side top -expand yes -pady 2
 }
 
-button $w.info_button -text "О программе" -command "AboutWindow \"$w\""
-button $w.quit_button -text "Выход" -command { removeTemporalFiles ; exit }
+if {$tcl_platform(platform) == "unix"} {
+    button $w.term_button -text "Консоль" -command NewTerminal
+    pack $w.term_button -fill x -side top -expand yes -pady 2
+}
 
+button $w.info_button -text "О программе" -command "AboutWindow \"$w\""
 pack $w.info_button -fill x -side top -expand yes -pady 2
+
+button $w.quit_button -text "Выход" -command { removeTemporalFiles ; exit }
 pack $w.quit_button -side top -expand yes -pady 2
 
 # End of file

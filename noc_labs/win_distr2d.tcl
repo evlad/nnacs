@@ -1,4 +1,4 @@
-package provide win_grseries 1.0
+package provide win_distr2d 1.0
 
 package require Tk
 package require Plotchart
@@ -6,21 +6,9 @@ package require data_file
 package require universal
 package require screenshot
 
-proc PlotSine {c} {
-    set s [::Plotchart::createXYPlot $c {5.0 25.0 5.0} {-1.5 1.5 0.25}]
-    $s dataconfig series1 -colour "red"
-    set xd 0.1
-    set xold 0.0
-    for { set i 0 } { $i < 200 } { incr i } {
-	set xnew [expr {$xold+$xd}]
-	set ynew [expr {sin($xnew)}]
-	$s plot series1 $xnew $ynew
-	set xold $xnew
-    }
-}
 
 # Calculate grid step by simple procedure
-proc GrSeriesGridStep {min max} {
+proc Distr2DGridStep {min max} {
     if {$min == $max} {
 	return 1.0
     }
@@ -31,7 +19,7 @@ proc GrSeriesGridStep {min max} {
 # step.  Changes grid step to reasonable value (to have at least 4
 # grid lines) and changes minimum and maximum values accordingly to
 # place them at grid point.  Ticks for grid are calculated too.
-proc GrSeriesAxis {minIn maxIn gridIn minOut maxOut gridOut ticksOut} {
+proc Distr2DAxis {minIn maxIn gridIn minOut maxOut gridOut ticksOut} {
     upvar $minOut min  $maxOut max  $gridOut grid  $ticksOut ticks
 
     #puts "min=$minIn max=$maxIn grid=$gridIn -> [expr int(abs($maxIn - $minIn) / $grid)]"
@@ -62,58 +50,51 @@ proc GrSeriesAxis {minIn maxIn gridIn minOut maxOut gridOut ticksOut} {
 }
 
 # Returns xmin xmax ymin ymax
-proc GrSeriesMinMax {dataSeries} {
+proc Distr2DMinMax {dataSeries} {
     set xmin 0
     set xmax 0
     for { set iS 0 } { $iS < [llength $dataSeries] } { incr iS } {
-	# find argument range
-	if { $xmax < [llength [lindex $dataSeries $iS 0]] } {
-	    set xmax [llength [lindex $dataSeries $iS 0]]
-	}
-	# find value range
-	if { [llength [lindex $dataSeries $iS]] > 1 && \
-		 [llength [lindex $dataSeries $iS 1]] >= 2 } {
-	    # there is a predefined {min max} pair
-	    if { [info exists ymin] } {
-		if { [lindex $dataSeries $iS 1 0] < $ymin } {
-		    set ymin [lindex $dataSeries $iS 1 0]
-		}
-	    } else {
-		set ymin [lindex $dataSeries $iS 1 0]
-	    }
-	    if { [info exists ymax] } {
-		if { [lindex $dataSeries $iS 1 1] > $ymax } {
-		    set ymax [lindex $dataSeries $iS 1 1]
-		}
-	    } else {
-		set ymax [lindex $dataSeries $iS 1 1]
+	# find X range
+	set iDim 0
+	if { [info exists xmin] } {
+	    if { [lindex $dataSeries $iS $iDim 1 0] < $xmin } {
+		set xmin [lindex $dataSeries $iS $iDim 1 0]
 	    }
 	} else {
-	    # no predefined {min max}, so let's scan the whole series
-	    if { ! [info exists ymin] } {
-		set ymin [lindex $dataSeries $iS 0 0]
+	    set xmin [lindex $dataSeries $iS $iDim 1 0]
+	}
+	if { [info exists xmax] } {
+	    if { [lindex $dataSeries $iS $iDim 1 1] > $xmax } {
+		set xmax [lindex $dataSeries $iS $iDim 1 1]
 	    }
-	    if { ! [info exists ymax] } {
-		set ymax [lindex $dataSeries $iS 0 0]
+	} else {
+	    set xmax [lindex $dataSeries $iS $iDim 1 1]
+	}
+	# find Y range considering min,max pair presents
+	set iDim 1
+	if { [info exists ymin] } {
+	    if { [lindex $dataSeries $iS $iDim 1 0] < $ymin } {
+		set ymin [lindex $dataSeries $iS $iDim 1 0]
 	    }
-	    foreach y [lindex $dataSeries $iS 0] {
-		if { $y < $ymin } {
-		    set ymin $y
-		}
-		if { $y > $ymax } {
-		    set ymax $y
-		}
+	} else {
+	    set ymin [lindex $dataSeries $iS $iDim 1 0]
+	}
+	if { [info exists ymax] } {
+	    if { [lindex $dataSeries $iS $iDim 1 1] > $ymax } {
+		set ymax [lindex $dataSeries $iS $iDim 1 1]
 	    }
+	} else {
+	    set ymax [lindex $dataSeries $iS $iDim 1 1]
 	}
     }
     return [list $xmin $xmax $ymin $ymax]
 }
 
-proc GrSeriesPlot {c} {
+proc Distr2DPlot {c} {
     global $c.props
     upvar #0 $c.props props
 
-    #puts "GrSeriesPlot $c"
+    #puts "Distr2DPlot $c"
 
     if { ! [info exists props(dataSeries)] } return
     set dataSeries $props(dataSeries)
@@ -124,7 +105,7 @@ proc GrSeriesPlot {c} {
     # xmin,xmax,ymin,ymax - outer bounding box of data series
     # $c.view_* - view area
 
-    unlist [GrSeriesMinMax $dataSeries] xmin xmax ymin ymax
+    unlist [Distr2DMinMax $dataSeries] xmin xmax ymin ymax
 
     #puts "outer x: $xmin $xmax"
     #puts "outer y: $ymin $ymax"
@@ -147,9 +128,9 @@ proc GrSeriesPlot {c} {
 	eval set props($v) \$$v
     }
 
-    #eval set ${v}grid [GrSeriesGridStep \$$c.view_${v}min \$$c.view_${v}max]
-    set xgrid [GrSeriesGridStep [set $c.view_xmin] [set $c.view_xmax]]
-    set ygrid [GrSeriesGridStep [set $c.view_ymin] [set $c.view_ymax]]
+    #eval set ${v}grid [Distr2DGridStep \$$c.view_${v}min \$$c.view_${v}max]
+    set xgrid [Distr2DGridStep [set $c.view_xmin] [set $c.view_xmax]]
+    set ygrid [Distr2DGridStep [set $c.view_ymin] [set $c.view_ymax]]
 
     if {[set $c.view_xmin] == [set $c.view_xmax]} {
 	set $c.view_xmin [expr [set $c.view_xmin] - $xgrid]
@@ -165,9 +146,9 @@ proc GrSeriesPlot {c} {
     #puts "ygrid: $ygrid"
     set xticks {}
     set yticks {}
-    GrSeriesAxis [set $c.view_xmin] [set $c.view_xmax] $xgrid \
+    Distr2DAxis [set $c.view_xmin] [set $c.view_xmax] $xgrid \
 	xmin xmax xgrid xticks
-    GrSeriesAxis [set $c.view_ymin] [set $c.view_ymax] $ygrid \
+    Distr2DAxis [set $c.view_ymin] [set $c.view_ymax] $ygrid \
 	ymin ymax ygrid yticks
 
     # Store slightly changed view limits back
@@ -201,6 +182,10 @@ proc GrSeriesPlot {c} {
     set s [::Plotchart::createXYPlot $c \
 	       [list $xmin $xmax $xgrid] \
 	       [list $ymin $ymax $ygrid]]
+
+    # line or rectangle - black anyway
+    #$s legendconfig -legendtype line
+
     # $xmin $xmax
     if { $bDrawGrid } {
 	$s grid ${xgrid_matrix} ${ygrid_matrix}
@@ -209,99 +194,58 @@ proc GrSeriesPlot {c} {
     for { set iS 0 } { $iS < [llength $dataSeries] } { incr iS } {
 	# Draw series iS
 	set iColor [expr {$iS % [llength $colors]}]
-	$s dataconfig series$iS -colour [lindex $colors $iColor]
+	$s dotconfig series$iS -colour [lindex $colors $iColor] \
+	    -scalebyvalue off -outline off
+	###$s dataconfig series$iS -colour [lindex $colors $iColor]
 	if { $bDrawLegend } {
-	    $s legend series$iS [lindex $dataSeries $iS 2 0]
+	    set xname [lindex $dataSeries $iS 0 2 0]
+	    set yname [lindex $dataSeries $iS 1 2 0]
+	    $s legend series$iS "$yname/$xname"
 	}
 
 	# considering the screen has limited number of pixels it's not
 	# wise to draw too much data points
-	set iStep [expr int([llength [lindex $dataSeries $iS 0]] / $pixwidth) - 1]
-	if { $iStep <= 0 } {
+	#set iStep [expr int([llength [lindex $dataSeries $iS 0]] / $pixwidth) - 1]
+	#if { $iStep <= 0 } {
 	    set iStep 1
-	}
+	#}
 	#puts "iSeries=$iS -> plotting step $iStep"
-	for { set i 0 ; set x $props(xmin) } \
-	    { $i < [llength [lindex $dataSeries $iS 0]] } \
-	    { incr i $iStep ; set x [expr {$props(xmin) + $i * $xstep}] } {
-		#puts "$i: x=$x y=[lindex $dataSeries $iS 0 $i]"
-		$s plot series$iS $x [lindex $dataSeries $iS 0 $i]
+	for { set i 0 } \
+	    { $i < [llength [lindex $dataSeries $iS 0 0]] && \
+		  $i < [llength [lindex $dataSeries $iS 1 0]] } \
+	    { incr i $iStep } {
+		$s dot series$iS \
+		    [lindex $dataSeries $iS 0 0 $i] \
+		    [lindex $dataSeries $iS 1 0 $i] \
+		    0
 	    }
 	#puts "Plotted $i points"
     }
 }
 
 # Force external redraw
-proc GrSeriesRedraw {p} {
+proc Distr2DRedraw {p} {
     set c $p.grseries.graphics.c
-    GrSeriesDoPlot $c
+    Distr2DDoPlot $c
 }
 
 
-proc GrSeriesDoPlot {c} {
+proc Distr2DDoPlot {c} {
     # Clean up the contents (see also the note below!)
     $c delete all
 
     # (Re)draw
-    GrSeriesPlot $c
+    Distr2DPlot $c
 }
 
-proc GrSeriesDoResize {c} {
-    global GrSeriesDoResize_redo
+proc Distr2DDoResize {c} {
+    global Distr2DDoResize_redo
     # To avoid redrawing the plot many times during resizing,
     # cancel the callback, until the last one is left.
-    if { [info exists GrSeriesDoResize_redo] } {
-        after cancel ${GrSeriesDoResize_redo}
+    if { [info exists Distr2DDoResize_redo] } {
+        after cancel ${Distr2DDoResize_redo}
     }
-    set redo [after 50 "GrSeriesDoPlot $c"]
-}
-
-
-# Update data of the series with given index.
-proc GrSeriesUpdateSeries {p ind series {name ""}} {
-    if {[llength $series] == 0} return
-
-    set c $p.grseries.graphics.c
-
-    global $c.props
-    upvar #0 $c.props props
-    if {$ind < 0 || $ind > [llength $props(dataSeries)]} return
-
-    if {$ind == [llength $props(dataSeries)]} {
-	lappend $props(dataSeries) {}
-    }
-
-    if {[llength $series] > 1 && [llength [lindex $series 0]] > 1 &&
-	[llength [lindex $series 1]] >= 2} {
-	# Thinking series has format {{data}{min max}...}
-	if {$ind == [llength $props(dataSeries)]} {
-	    lappend props(dataSeries) $series
-	} else {
-	    lset props(dataSeries) $ind $series
-	}
-	# Replace name if exact one is given
-	if {$name != ""} {
-	    lset props(dataSeries) $ind 2 $name
-	}
-    } else {
-	# Simple list {data}, so let's find min and max
-	set ymin [lindex $series 0]
-	set ymax [lindex $series 0]
-	foreach y $series {
-	    if { $y < $ymin } {
-		set ymin $y
-	    }
-	    if { $y > $ymax } {
-		set ymax $y
-	    }
-	}
-	set minmax [list $ymin $ymax]
-	if {$ind == [llength $props(dataSeries)]} {
-	    lappend props(dataSeries) "[list $series] [list $minmax] $name"
-	} else {
-	    lset props(dataSeries) $ind "[list $series] [list $minmax] $name"
-	}
-    }
+    set redo [after 50 "Distr2DDoPlot $c"]
 }
 
 
@@ -310,8 +254,8 @@ proc GrSeriesUpdateSeries {p ind series {name ""}} {
 # - utag is an unique tag which allows to prevent addition of the series
 # with the same tag.
 # Return index of the added series.  -1 means failure.
-proc GrSeriesAddSeries {p series {name ""} {utag ""}} {
-    if {[llength $series] == 0} {
+proc Distr2DAddSeriesXY {p xseries yseries {xname ""} {yname ""} {utag ""}} {
+    if {[llength $xseries] == 0 || [llength $yseries] == 0} {
 	puts "Can not add empty series"
 	return -1
     }
@@ -341,37 +285,53 @@ proc GrSeriesAddSeries {p series {name ""} {utag ""}} {
     } else {
 	set retindex 0
     }
-    if {[llength $series] > 1 && [llength [lindex $series 0]] > 1 &&
-	[llength [lindex $series 1]] >= 2} {
-	# Thinking series has format {{data}{min max}...}
-	lappend props(dataSeries) $series
-	# Replace name if exact one is given
-	if {$name != ""} {
-	    lset props(dataSeries) end 2 $name
+
+    if {[llength $xseries] > 1 && [llength [lindex $xseries 0]] > 1 &&
+	[llength [lindex $xseries 1]] >= 2} {
+	# Consider the series has format {{data}{min max}...}
+	set series1 $xseries
+	if {$xname != ""} {
+	    lset series1 2 $xname
 	}
     } else {
-	# Simple list {data}, so let's find min and max
-	set ymin [lindex $series 0]
-	set ymax [lindex $series 0]
-	foreach y $series {
-	    if { $y < $ymin } {
-		set ymin $y
-	    }
-	    if { $y > $ymax } {
-		set ymax $y
-	    }
-	}
-	#puts "[list $ymin $ymax] $name"
-	set minmax [list $ymin $ymax]
-	lappend props(dataSeries) "[list $series] [list $minmax] $name"
-	#puts "[lindex $props(dataSeries) end]"
+	set series1 $xseries
+	lappend series1 [Distr2DSeriesMinMax $xseries] $xname
     }
-    #puts "Add $c.props: [array get props]"
+
+    if {[llength $yseries] > 1 && [llength [lindex $yseries 0]] > 1 &&
+	[llength [lindex $yseries 1]] >= 2} {
+	# Consider the series has format {{data}{min max}...}
+	set series2 $yseries
+	if {$yname != ""} {
+	    lset series2 2 $yname
+	}
+    } else {
+	set series2 $yseries
+	lappend series2 [Distr2DSeriesMinMax $yseries] $yname
+    }
+
+    lappend props(dataSeries) [list $series1 $series2]
+
     set utags($utag) $retindex
     return $retindex
 }
 
-proc GrSeriesViewAll {c args} {
+proc Distr2DSeriesMinMax {series} {
+    # Let's find min and max
+    set vmin [lindex $series 0]
+    set vmax [lindex $series 0]
+    foreach v $series {
+	if { $v < $vmin } {
+	    set vmin $v
+	}
+	if { $v > $vmax } {
+	    set vmax $v
+	}
+    }
+    return [list $vmin $vmax]
+}
+
+proc Distr2DViewAll {c args} {
     global $c.props
     upvar #0 $c.props props
     set dim $args
@@ -389,10 +349,10 @@ proc GrSeriesViewAll {c args} {
 	# else
 	#   After the first plot they will be assigned
     }
-    #GrSeriesDoPlot $c
+    #Distr2DDoPlot $c
 }
 
-proc GrSeriesDestroy {w} {
+proc Distr2DDestroy {w} {
     set c $w.graphics.c
 
     global $c.props $c.utags $c.utagCounter
@@ -410,7 +370,7 @@ proc GrSeriesDestroy {w} {
 }
 
 # Return index of added series or -1 in case of failure.
-proc GrSeriesAddFile {p workDir {filePath ""}} {
+proc Distr2DAddFile {p workDir {filePath ""}} {
     set w $p.grseries
     if {$filePath != ""} {
 	if {![file exists $filePath]} {
@@ -428,16 +388,16 @@ proc GrSeriesAddFile {p workDir {filePath ""}} {
 	    return -1
 	}
     }
-    set wholeData [DataSeriesReadFile $filePath]
+    set wholeData [Distr2DReadFile $filePath]
     set label [SessionRelPath $workDir $filePath]
-    set retindex [GrSeriesAddSeries $p "[lindex $wholeData 0]" $label]
-    GrSeriesRedraw $p
+    set retindex [Distr2DAddSeries $p "[lindex $wholeData 0]" $label]
+    Distr2DRedraw $p
     return $retindex
 }
 
 
 # Check whether graphics series window exist for given parent.
-proc GrSeriesCheckPresence {p} {
+proc Distr2DCheckPresence {p} {
     set w $p.grseries
     if {[catch {$w cget -menu} rc]} {
 	# It's not a toplevel or does not exist
@@ -449,18 +409,18 @@ proc GrSeriesCheckPresence {p} {
 }
 
 # View the whole plot in both dimensions, x and y.
-proc GrSeriesZoomAll {p} {
+proc Distr2DZoomAll {p} {
     set c $p.grseries.graphics.c
-    GrSeriesViewAll $c x
-    GrSeriesViewAll $c y
-    GrSeriesDoPlot $c
+    Distr2DViewAll $c x
+    Distr2DViewAll $c y
+    Distr2DDoPlot $c
 }
 
 
 # p - parent widget
 # title - window title
 # path - first data file or working directory
-proc GrSeriesWindow {p title {path ""} {extproc ""}} {
+proc Distr2DWindow {p title {path ""} {extproc ""}} {
     #set dataByColumns = ReadSeries $filepath
     set w $p.grseries
     catch {destroy $w}
@@ -485,7 +445,7 @@ proc GrSeriesWindow {p title {path ""} {extproc ""}} {
 
     set c $w.graphics.c
     frame $w.graphics
-    grid [canvas $c -background white -width 600 -height 300] -sticky news
+    grid [canvas $c -background white -width 500 -height 500] -sticky news
     grid columnconfigure $w.graphics 0 -weight 1
     grid rowconfigure $w.graphics 0 -weight 1
     pack $w.graphics -expand yes -fill both -side top
@@ -496,7 +456,7 @@ proc GrSeriesWindow {p title {path ""} {extproc ""}} {
 	array set props {}
     }
     if { $filepath != "" } {
-	set props(dataSeries) [DataSeriesReadFile $filepath]
+	set props(dataSeries) [Distr2DReadFile $filepath]
     }
     #puts "Create $c.props: [array get props]"
 
@@ -516,7 +476,7 @@ proc GrSeriesWindow {p title {path ""} {extproc ""}} {
     global $c.bDrawGrid
     set $c.bDrawGrid 1
 
-    bind $c <Configure> "GrSeriesDoResize $c"
+    bind $c <Configure> "Distr2DDoResize $c"
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
@@ -528,24 +488,24 @@ proc GrSeriesWindow {p title {path ""} {extproc ""}} {
 	-direction below -menu $m -relief raised
     menu $m -tearoff 0
     $m add command -label "Добавить..." \
-	-command "GrSeriesAddFile $p \"$workDir\""
+	-command "Distr2DAddFile $p \"$workDir\""
     # To implement Delete action one needs to implement associative
     # indexing of data series based on utag.  Also,
-    # GrSeriesUpdateSeries must be considered.
+    # Distr2DUpdateSeries must be considered.
     # GUI part may start with next code:
     #$m add cascade -label "Удалить" -menu $m.delete
     #set d [menu $m.delete -tearoff 0]
-    #$m.delete add command -label "$label" -command "GrSeriesDeleteSeries $p \"$utag\""
+    #$m.delete add command -label "$label" -command "Distr2DDeleteSeries $p \"$utag\""
 
     set o $w.buttons.options
     frame $o
     checkbutton $o.grid -text "Сетка" \
-	-variable $c.bDrawGrid -command "GrSeriesDoPlot $c"
+	-variable $c.bDrawGrid -command "Distr2DDoPlot $c"
     checkbutton $o.legend -text "Легенда" \
-	-variable $c.bDrawLegend -command "GrSeriesDoPlot $c"
+	-variable $c.bDrawLegend -command "Distr2DDoPlot $c"
     global xmin xmax ymin ymax
-    button $o.xlabel -text "X:" -command "GrSeriesViewAll $c x" -pady 0
-    button $o.ylabel -text "Y:" -command "GrSeriesViewAll $c y" -pady 0
+    button $o.xlabel -text "X:" -command "Distr2DViewAll $c x" -pady 0
+    button $o.ylabel -text "Y:" -command "Distr2DViewAll $c y" -pady 0
     foreach v {xmin xmax ymin ymax} {
 	global $c.view_$v
 	#upvar 0 $c.view_$v view_$v
@@ -555,9 +515,9 @@ proc GrSeriesWindow {p title {path ""} {extproc ""}} {
     hint $o.ylabel "Press to set the whole Y range"
 
     # after entries to make exact focus order by Tab/Shift-Tab
-    button $w.buttons.redraw -text "Обновить" -command "GrSeriesDoPlot $c"
+    button $w.buttons.redraw -text "Обновить" -command "Distr2DDoPlot $c"
     button $w.buttons.close -text "Закрыть" \
-	-command "GrSeriesDestroy $w ; destroy $w"
+	-command "Distr2DDestroy $w ; destroy $w"
 
     grid $o.grid $o.xlabel $o.xmin $o.xmax -sticky w
     grid $o.legend $o.ylabel $o.ymin $o.ymax -sticky w
@@ -566,29 +526,13 @@ proc GrSeriesWindow {p title {path ""} {extproc ""}} {
 	$w.buttons.close -side left -expand 1
 }
 
-proc GrSeriesTest {} {
-    #GrSeriesWindow "" "Series plot" testdata/sine1k.dat
-    #GrSeriesWindow "" "Series plot"
-    # testdata/r.dat
+proc Distr2DTest {} {
+    set r1data [DataSeriesReadFile testdata/r1.dat]
+    set u1data [DataSeriesReadFile testdata/u1.dat]
 
-    set xd 1
-    set xold 0.0
-    set func {}
-    for { set i 0 } { $i < 1000 } { incr i } {
-	set xnew [expr {$xold+$xd}]
-	set ynew [expr {0.7*sin(0.02*$xnew)+pow(cos(0.01*$xnew), 2)}]
-	#set ynew $xnew
-	lappend func $ynew
-	set xold $xnew
-    }
+    set c3data [DataSeriesReadFile testdata/c3.dat]
 
-    set wholeData [DataSeriesReadFile testdata/r_short.dat]
-    GrSeriesAddSeries "" "[lindex $wholeData 0]" "Var1"
-    GrSeriesAddSeries "" "[lindex $wholeData 3]" "Var4"
-    GrSeriesAddSeries "" "[lindex $wholeData 5]" "Var6"
-    #GrSeriesAddSeries "" "[lindex [DataSeriesReadFile testdata/sine1k.dat] 0]" "Синус"
-    #GrSeriesAddSeries "" "$func" "Func"
-    GrSeriesWindow "" "Series plot"
-    # testdata/r.dat
-    #puts [DataSeriesReadFile testdata/test.dat]
+    Distr2DAddSeriesXY "" "[lindex $r1data 0]" "[lindex $u1data 0]" "r" "u"
+    Distr2DAddSeriesXY "" "[lindex $c3data 0]" "[lindex $c3data 1]" "c1" "c2"
+    Distr2DWindow "" "2D distribution plot"
 }

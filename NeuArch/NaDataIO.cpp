@@ -238,7 +238,7 @@ NaDataFile* OpenInputDataFile (const char* szPath)
         break;
 
     default:
-        NaPrintLog("Can't determine type of input data file '%s'\n",
+        NaPrintLog("Cannot determine type of input data file '%s'\n",
                    szPath);
         pDF = NULL;
         break;
@@ -286,7 +286,7 @@ NaDataFile* OpenOutputDataFile (const char* szPath,
         break;
 
     default:
-        NaPrintLog("Can't determine type of output data file '%s'\n",
+        NaPrintLog("Cannot determine type of output data file '%s'\n",
                    szPath);
         pDF = NULL;
         break;

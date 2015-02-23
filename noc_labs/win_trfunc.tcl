@@ -275,8 +275,8 @@ proc TrFuncProbe {w trFilePath probe} {
     puts "rc=$rc; dummy=$dummy"
     if { $rc == 0 } {
 	# Plot results
-	GrSeriesAddSeries $w "[lindex [GrSeriesReadFile $nameInput] 0]" "$probe"
-  	GrSeriesAddSeries $w "[lindex [GrSeriesReadFile $nameOutput] 0]" "f($probe)"
+	GrSeriesAddSeries $w "[lindex [DataSeriesReadFile $nameInput] 0]" "$probe"
+  	GrSeriesAddSeries $w "[lindex [DataSeriesReadFile $nameOutput] 0]" "f($probe)"
 	GrSeriesWindow $w "Probe and response plot" [file dirname $trFilePath]
     }
 }

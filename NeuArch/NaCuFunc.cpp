@@ -266,12 +266,12 @@ NaCustomFunc::Load (NaDataStream& ds)
 #ifdef WIN32
     so = LoadLibrary(filepath);
     if(NULL == so)
-      NaPrintLog("Can't find shared object '%s': 0x%08x\n",
+      NaPrintLog("Cannot find shared object '%s': 0x%08x\n",
 		 filepath, GetLastError());
 #else
     so = dlopen(filepath, RTLD_LAZY);
     if(NULL == so)
-      NaPrintLog("Can't find shared object '%s': %s\n",
+      NaPrintLog("Cannot find shared object '%s': %s\n",
 		 filepath, dlerror());
 #endif
     delete[] filepath;
