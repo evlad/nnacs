@@ -25,7 +25,7 @@
 //  - [Lmin, Lmax] - uniform distribution of length of constant amplitude
 // Lengths must be positive integer.
 //
-// See drandmea command line utility for the same behavior.
+// See drandmea command line utility for the same behaviour.
 
 class NaRandMeanderFunc : public NaExternFunc
 {

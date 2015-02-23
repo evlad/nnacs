@@ -10,7 +10,7 @@
 
 ///-----------------------------------------------------------------------
 /// Create local external function
-extern "C" NaExternFunc*
+EXPORTED NaExternFunc*
 NaCreateExternFunc (char* szOptions, NaVector& vInit)
 {
   return new NaWaterTankFunc(szOptions, vInit);

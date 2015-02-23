@@ -254,7 +254,7 @@ NaCustomFunc::Load (NaDataStream& ds)
     return;
   }
 
-  // Try to load shared object file
+  // Try to load shared object file at standard location
   if(NULL != getenv(NaEXFUNC_DIR_ENV)){
     char	*filepath = new char[strlen(getenv(NaEXFUNC_DIR_ENV))
 				    + strlen(szFile)
@@ -277,14 +277,20 @@ NaCustomFunc::Load (NaDataStream& ds)
     delete[] filepath;
   }
 
+  // Try to load shared object file by default system rule
   if(NULL == so){
-    NaPrintLog("Loading '%s' ...\n", szFile);
+    char	*filepath = new char[strlen(szFile)
+				    + strlen(NaEXFUNC_FILE_EXT) + 1];
+    sprintf(filepath, "%s%s", szFile, NaEXFUNC_FILE_EXT);
+
+    NaPrintLog("Loading '%s' ...\n", filepath);
 #ifdef WIN32
-    so = LoadLibrary(szFile);
+    so = LoadLibrary(filepath);
 #else
-    so = dlopen(szFile, RTLD_LAZY);
+    so = dlopen(filepath, RTLD_LAZY);
 #endif
-	}
+    delete[] filepath;
+  }
   if(NULL == so){
 #ifdef WIN32
     NaPrintLog("Failed to open '%s': 0x%08x\n", szFile, GetLastError());

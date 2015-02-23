@@ -12,7 +12,7 @@ static char rcsid[] = "$Id: sine.cpp,v 1.1 2006-03-27 18:44:13 evlad Exp $";
 
 //-----------------------------------------------------------------------
 // Create local external function
-extern "C" NaExternFunc*
+EXPORTED NaExternFunc*
 NaCreateExternFunc (char* szOptions, NaVector& vInit)
 {
   return new NaSineFunc(szOptions, vInit);

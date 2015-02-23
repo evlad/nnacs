@@ -32,10 +32,16 @@ public:
 typedef NaExternFunc*	(*NaCreateExternFuncProto)(char* szOptions,
 						   NaVector& vInit);
 
+#ifdef WIN32
+#define EXPORTED	extern "C" __declspec(dllexport)
+#else
+#define EXPORTED	extern "C"
+#endif
+						   
 #ifdef __NaSharedExternFunction
 
-extern "C" NaExternFunc*	NaCreateExternFunc (char* szOptions,
-						    NaVector& vInit);
+EXPORTED NaExternFunc*	NaCreateExternFunc (char* szOptions,
+					    NaVector& vInit);
 
 #else /* in the library */
 

@@ -347,7 +347,7 @@ NaCombinedFunc::Load (const char* szFileName)
   conf_file.AddPartitions(NaNUMBER(conf_list), conf_list);
   conf_file.LoadFromFile(szFileName);
 
-  // Ask for dimension of every item and check them for coinsidence
+  // Ask for dimension of every item and check them for matching
   NaTimedUnit	*tu = (NaTimedUnit*)pParts[0]->pSelfData;
   Assign(tu->pUnit->InputDim(), tu->pUnit->OutputDim());
   NaPrintLog("WARNING: %u parts of combined function defined, 1st: dim in=%d out=%d\n",

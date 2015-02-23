@@ -12,7 +12,7 @@
 
 ///-----------------------------------------------------------------------
 /// Create local external function
-extern "C" NaExternFunc*
+EXPORTED NaExternFunc*
 NaCreateExternFunc (char* szOptions, NaVector& vInit)
 {
   return new NaRandUnifiedFunc(szOptions, vInit);

@@ -9,7 +9,7 @@ static char rcsid[] = "$Id: deadzone.cpp,v 1.1 2002-02-16 21:34:41 vlad Exp $";
 
 //-----------------------------------------------------------------------
 // Create local external function
-extern "C" NaExternFunc*
+EXPORTED NaExternFunc*
 NaCreateExternFunc (char* szOptions, NaVector& vInit)
 {
   return new NaDeadZoneFunc(szOptions, vInit);

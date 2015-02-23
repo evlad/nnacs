@@ -715,7 +715,10 @@ NaConfigFile::GetLine ()
         if(szBuf[strlen(szBuf) - 1] == '\n'){
             szBuf[strlen(szBuf) - 1] = '\0';
         }
-        else if(strlen(szBuf) >= MaxConfigFileLine - 1){
+        if(szBuf[strlen(szBuf) - 1] == '\r'){
+            szBuf[strlen(szBuf) - 1] = '\0';
+        }
+        if(strlen(szBuf) >= MaxConfigFileLine - 1){
 	  /* possibly only head of line was read from file... */
 	  char    szHead[25];
 	  strncpy(szHead, szBuf, 24);
