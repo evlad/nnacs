@@ -31,21 +31,37 @@ set(EXFUNC_LIST
     randunified)
 
 add_library(cstr SHARED cstr.cpp)
+target_link_libraries(cstr ${LINK_WITH_LIBS})
+
 add_library(deadzone SHARED deadzone.cpp)
+target_link_libraries(deadzone ${LINK_WITH_LIBS})
+
 add_library(dummy SHARED dummy.cpp)
+target_link_libraries(dummy ${LINK_WITH_LIBS})
+
 add_library(luft SHARED luft.cpp)
+target_link_libraries(luft ${LINK_WITH_LIBS})
+
 add_library(polynomial SHARED polynomial.cpp)
+target_link_libraries(polynomial ${LINK_WITH_LIBS})
+
 add_library(randmeander SHARED randmeander.cpp)
+target_link_libraries(randmeander ${LINK_WITH_LIBS})
+
 add_library(randunified SHARED randunified.cpp)
+target_link_libraries(randunified ${LINK_WITH_LIBS})
+
 add_library(saturat SHARED saturat.cpp)
+target_link_libraries(saturat ${LINK_WITH_LIBS})
+
 add_library(sine SHARED sine.cpp)
+target_link_libraries(sine ${LINK_WITH_LIBS})
+
 add_library(watertank SHARED watertank.cpp)
+target_link_libraries(watertank ${LINK_WITH_LIBS})
 
 # Build without prefix lib
 set_target_properties(${EXFUNC_LIST} PROPERTIES PREFIX "")
-
-# Build with given library dependencies
-target_link_libraries(${EXFUNC_LIST} ${LINK_WITH_LIBS})
 
 # Install rule
 install(TARGETS ${EXFUNC_LIST} LIBRARY DESTINATION ${LIB_DEST_DIR} RUNTIME DESTINATION ${LIB_DEST_DIR})

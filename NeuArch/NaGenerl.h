@@ -46,19 +46,27 @@ extern FILE *fpNaLog;
 #define NaBOM_utf8	"\xEF\xBB\xBF"
 
 
+#ifdef _WIN32
+#  ifdef PNNA_EXPORTS
+#    define PNNA_API FOR_CXX __declspec(dllexport)
+#  else
+#    define PNNA_API FOR_CXX __declspec(dllimport)
+#  endif
+#else
+#  define PNNA_API
+#endif
+
 #ifdef WIN32
-#include <stdarg.h>
-#ifdef __cplusplus
+#  include <stdarg.h>
+#  ifdef __cplusplus
 extern "C" {
-#endif // C++
-int vsscanf(
-    const char  *buffer,
-    const char  *format,
-    va_list     argPtr
-);
-#ifdef __cplusplus
+#  endif // C++
+PNNA_API int vsscanf(const char  *buffer,
+		     const char  *format,
+		     va_list     argPtr);
+#  ifdef __cplusplus
 };
-#endif // C++
+#  endif // C++
 #endif // WIN32
 
 #endif /* NaGeneral.h */

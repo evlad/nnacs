@@ -61,46 +61,56 @@ typedef	double	**MATRIX;
 #define	UNIT_MATRIX 1
 
 #ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#define FOR_CXX		extern "C"
+#else
+#define FOR_CXX
+#endif
+
+#ifdef _WIN32
+#  ifdef MATRIX_EXPORTS
+#    define MATRIX_API FOR_CXX __declspec(dllexport)
+#  else
+#    define MATRIX_API FOR_CXX __declspec(dllimport)
+#  endif
+#else
+#  define MATRIX_API
+#endif
+
 
 /* prototypes of matrix package */
-MATRIX      mat_error (int);
-MATRIX      _mat_creat (int, int);
-MATRIX      mat_creat (int, int, int);
-MATRIX      mat_fill (MATRIX, int);
-int         mat_free (MATRIX);
-MATRIX      mat_copy (MATRIX);
-MATRIX      mat_colcopy1 (MATRIX, MATRIX, int, int);
-int         fgetmat (MATRIX, FILE *);
-MATRIX      mat_dump (MATRIX);
-MATRIX      mat_dumpf (MATRIX, char *);
-MATRIX      mat_fdump (MATRIX, FILE *);
-MATRIX      mat_fdumpf (MATRIX, char *, FILE *);
+MATRIX_API MATRIX      mat_error (int);
+MATRIX_API MATRIX      _mat_creat (int, int);
+MATRIX_API MATRIX      mat_creat (int, int, int);
+MATRIX_API MATRIX      mat_fill (MATRIX, int);
+MATRIX_API int         mat_free (MATRIX);
+MATRIX_API MATRIX      mat_copy (MATRIX);
+MATRIX_API MATRIX      mat_colcopy1 (MATRIX, MATRIX, int, int);
+MATRIX_API int         fgetmat (MATRIX, FILE *);
+MATRIX_API MATRIX      mat_dump (MATRIX);
+MATRIX_API MATRIX      mat_dumpf (MATRIX, char *);
+MATRIX_API MATRIX      mat_fdump (MATRIX, FILE *);
+MATRIX_API MATRIX      mat_fdumpf (MATRIX, char *, FILE *);
 
-MATRIX      mat_add (MATRIX, MATRIX);
-MATRIX      mat_sub (MATRIX, MATRIX);
-MATRIX      mat_mul (MATRIX, MATRIX);
-double      mat_diagmul (MATRIX);
-MATRIX      mat_tran (MATRIX);
-MATRIX      mat_inv (MATRIX);
-MATRIX      mat_SymToeplz (MATRIX);
+MATRIX_API MATRIX      mat_add (MATRIX, MATRIX);
+MATRIX_API MATRIX      mat_sub (MATRIX, MATRIX);
+MATRIX_API MATRIX      mat_mul (MATRIX, MATRIX);
+MATRIX_API double      mat_diagmul (MATRIX);
+MATRIX_API MATRIX      mat_tran (MATRIX);
+MATRIX_API MATRIX      mat_inv (MATRIX);
+MATRIX_API MATRIX      mat_SymToeplz (MATRIX);
 
-int         mat_lu (MATRIX, MATRIX);
-MATRIX      mat_backsubs1 (MATRIX, MATRIX, MATRIX, MATRIX, int);
-MATRIX      mat_lsolve (MATRIX, MATRIX);
+MATRIX_API int         mat_lu (MATRIX, MATRIX);
+MATRIX_API MATRIX      mat_backsubs1 (MATRIX, MATRIX, MATRIX, MATRIX, int);
+MATRIX_API MATRIX      mat_lsolve (MATRIX, MATRIX);
 
-MATRIX      mat_submat (MATRIX, int, int);
-double      mat_cofact (MATRIX, int, int);
-double      mat_det (MATRIX);
-double      mat_minor (MATRIX, int, int);
+MATRIX_API MATRIX      mat_submat (MATRIX, int, int);
+MATRIX_API double      mat_cofact (MATRIX, int, int);
+MATRIX_API double      mat_det (MATRIX);
+MATRIX_API double      mat_minor (MATRIX, int, int);
 
-MATRIX      mat_durbin (MATRIX);
-MATRIX      mat_lsolve_durbin (MATRIX, MATRIX);
+MATRIX_API MATRIX      mat_durbin (MATRIX);
+MATRIX_API MATRIX      mat_lsolve_durbin (MATRIX, MATRIX);
 
-#ifdef __cplusplus
-};
-#endif /* __cplusplus */
 
 #endif /* __matrix_h */
 

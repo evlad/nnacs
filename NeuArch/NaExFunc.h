@@ -32,10 +32,17 @@ public:
 typedef NaExternFunc*	(*NaCreateExternFuncProto)(char* szOptions,
 						   NaVector& vInit);
 
-#ifdef WIN32
-#define EXPORTED	extern "C" __declspec(dllexport)
+
+#ifdef __cplusplus
+#define FOR_CXX		extern "C"
 #else
-#define EXPORTED	extern "C"
+#define FOR_CXX
+#endif
+
+#ifdef WIN32
+#define EXPORTED	FOR_CXX __declspec(dllexport)
+#else
+#define EXPORTED	FOR_CXX
 #endif
 						   
 #ifdef __NaSharedExternFunction
