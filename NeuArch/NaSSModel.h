@@ -21,9 +21,9 @@
 
 //---------------------------------------------------------------------------
 // Class for state-space model
-class NaStateSpaceModel : public NaUnit, public NaConfigPart
+class PNNA_API NaStateSpaceModel : public NaUnit, public NaConfigPart
 {
-    friend class NaPNStateSpace;
+    friend class PNNA_API NaPNStateSpace;
 
 public:
 

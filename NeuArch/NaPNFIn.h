@@ -14,7 +14,7 @@
 // Has no input and the only output.  Reads given file value-by-value.
 
 //---------------------------------------------------------------------------
-class NaPNFileInput : public NaPetriNode
+class PNNA_API NaPNFileInput : public NaPetriNode
 {
 public:
 

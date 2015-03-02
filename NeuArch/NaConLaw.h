@@ -50,7 +50,7 @@ NaControlLawKind    StrToKindIO (const char* str);
 //---------------------------------------------------------------------------
 // Description of one control law item
 
-class NaControlLawItem : public NaConfigPart
+class PNNA_API NaControlLawItem : public NaConfigPart
 {
 public:
     NaControlLawItem ();
@@ -84,7 +84,7 @@ typedef NaDynAr<NaControlLawItem>   NaControlLawItems;
 
 //---------------------------------------------------------------------------
 // Control law general description and usage
-class NaControlLaw : public NaUnit, public NaConfigPart
+class PNNA_API NaControlLaw : public NaUnit, public NaConfigPart
 {
 public:
 

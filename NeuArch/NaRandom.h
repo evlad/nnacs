@@ -21,12 +21,12 @@ enum NaRandomDistribution
 
 //---------------------------------------------------------------------------
 // Serialize/deserialize NaRandomDistribution value
-const char*   RandomDistrToStrIO (NaRandomDistribution eRD);
-NaRandomDistribution    StrToRandomDistrIO (const char* str);
+PNNA_API const char*   RandomDistrToStrIO (NaRandomDistribution eRD);
+PNNA_API NaRandomDistribution    StrToRandomDistrIO (const char* str);
 
 //---------------------------------------------------------------------------
 // Class for random sequence generation
-class NaRandomSequence : public NaUnit, public NaConfigPart
+class PNNA_API NaRandomSequence : public NaUnit, public NaConfigPart
 {
 public:
 

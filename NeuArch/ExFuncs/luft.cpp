@@ -9,7 +9,7 @@ static char rcsid[] = "$Id: luft.cpp,v 1.1 2003-07-24 09:30:18 vlad Exp $";
 
 //-----------------------------------------------------------------------
 // Create local external function
-EXPORTED NaExternFunc*
+NaExternFunc*
 NaCreateExternFunc (char* szOptions, NaVector& vInit)
 {
   return new NaLuftAreaFunc(szOptions, vInit);

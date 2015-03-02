@@ -13,7 +13,7 @@
 
 //---------------------------------------------------------------------------
 // Class for STATISTICA data file manipulation as a set of variables
-class NaStatisticaFile : public NaDataFile
+class PNNA_API NaStatisticaFile : public NaDataFile
 {
 public:
 

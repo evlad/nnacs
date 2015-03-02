@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------------------
 // Class for discrete linear plant with state space model
-class NaDStateSpaceUnit : public NaUnit,
+class PNNA_API NaDStateSpaceUnit : public NaUnit,
                           public NaConfigPart
 {
 public:

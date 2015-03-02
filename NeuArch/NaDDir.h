@@ -20,7 +20,7 @@ enum NaDataDirIterKind {
 //---------------------------------------------------------------------------
 // Data flow control.  Must be used with related data storage object with
 // random access (by index).  Vector of items is an example. 
-class NaDataDirector {
+class PNNA_API NaDataDirector {
 public:
 
     NaDataDirector (unsigned nVolume, unsigned nFeedback = 0);

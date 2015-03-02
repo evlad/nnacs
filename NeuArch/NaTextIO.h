@@ -12,7 +12,7 @@
 
 //---------------------------------------------------------------------------
 // Class for simple text data file manipulation.
-class NaTextStreamFile : public NaDataFile
+class PNNA_API NaTextStreamFile : public NaDataFile
 {
 public:
 

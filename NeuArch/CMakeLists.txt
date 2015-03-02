@@ -7,6 +7,8 @@ project(NeuArch)			# Название проекта
 include_directories(.)			# Расположение заголовочных файлов
 include_directories(../Matrix.041)	# Расположение заголовочных файлов
 
+include(GenerateExportHeader)
+
 if(WIN32)
 set(LIB_DEST_DIR bin)
 else()
@@ -103,7 +105,13 @@ endif(WIN32)
 
 #add_library(pnna STATIC ${SOURCE_LIB})	# Создание статической библиотеки с именем pnna
 add_library(pnna SHARED ${SOURCE_LIB})	# Создание динамической библиотеки с именем pnna
+generate_export_header( pnna
+			EXPORT_MACRO_NAME PNNA_API
+			EXPORT_FILE_NAME pnna_api.h
+			STATIC_DEFINE PNNA_BUILT_AS_STATIC)
 target_link_libraries(pnna matrix)
+
+
 
 install(TARGETS pnna LIBRARY DESTINATION ${LIB_DEST_DIR} RUNTIME DESTINATION ${LIB_DEST_DIR})
 

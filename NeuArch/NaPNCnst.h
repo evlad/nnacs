@@ -14,7 +14,7 @@
 // Has the only output of adjustable dimension.
 
 //---------------------------------------------------------------------------
-class NaPNConstGen : public NaPetriNode
+class PNNA_API NaPNConstGen : public NaPetriNode
 {
 public:
 

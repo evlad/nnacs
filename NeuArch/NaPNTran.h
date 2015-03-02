@@ -14,7 +14,7 @@
 // Has one input and one output
 
 //---------------------------------------------------------------------------
-class NaPNTransfer : public NaPetriNode, public NaTimer
+class PNNA_API NaPNTransfer : public NaPetriNode, public NaTimer
 {
 public:
 

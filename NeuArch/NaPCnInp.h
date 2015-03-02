@@ -12,15 +12,15 @@
 // "Input" means reading data from source only when they are ready for
 // reading.  The only source is accepted.
 
-class NaPetriCnOutput;  // Adjoint connector
+class PNNA_API NaPetriCnOutput;  // Adjoint connector
 
 //---------------------------------------------------------------------------
 // Petri network node connector
 
 //---------------------------------------------------------------------------
-class NaPetriCnInput : public NaPetriConnector
+class PNNA_API NaPetriCnInput : public NaPetriConnector
 {
-    friend class NaPetriCnOutput;
+    friend class PNNA_API NaPetriCnOutput;
 
 public:
 

@@ -69,7 +69,7 @@ enum NaBinaryDataType
 
 //---------------------------------------------------------------------------
 // Class for data file manipulation as a set of variables
-class NaDataFile
+class PNNA_API NaDataFile
 {
 public:
 
@@ -164,9 +164,11 @@ protected:
 #endif
 
 // Create object (NaDataFile descendant) for reading given data file
+PNNA_API
 NaDataFile* OpenInputDataFile (const char* szPath);
 
 // Create object (NaDataFile descendant) for writing given data file
+PNNA_API
 NaDataFile* OpenOutputDataFile (const char* szPath,
 				NaBinaryDataType bdt = bdtAuto,
 				int var_num = 0);

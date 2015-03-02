@@ -11,7 +11,7 @@
 
 ///-----------------------------------------------------------------------
 /// Create local external function
-EXPORTED NaExternFunc*
+NaExternFunc*
 NaCreateExternFunc (char* szOptions, NaVector& vInit)
 {
   return new NaPolynomialFunc(szOptions, vInit);

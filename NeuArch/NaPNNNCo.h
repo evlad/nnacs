@@ -17,7 +17,7 @@
 // ATTENTION! Input dimension must be 2 and output dimension must be 1!
 
 //---------------------------------------------------------------------------
-class NaPNNNController : public NaPetriNode
+class PNNA_API NaPNNNController : public NaPetriNode
 {
 public:
 

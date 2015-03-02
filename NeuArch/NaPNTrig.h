@@ -16,7 +16,7 @@
 
 
 //---------------------------------------------------------------------------
-class NaPNTrigger : public NaPetriNode
+class PNNA_API NaPNTrigger : public NaPetriNode
 {
 public:
 

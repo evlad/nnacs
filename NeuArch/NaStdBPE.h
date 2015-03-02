@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------------------
 // Learning coefficients
-class NaStdBackPropParams : public NaLogging
+class PNNA_API NaStdBackPropParams : public NaLogging
 {
 public:
 
@@ -41,7 +41,7 @@ public:
 
 //---------------------------------------------------------------------------
 // Class for standard backpropagation learning environment
-class NaStdBackProp : virtual public NaStdBackPropParams
+class PNNA_API NaStdBackProp : virtual public NaStdBackPropParams
 {
 public:/* methods */
 

@@ -45,7 +45,7 @@
 
 //---------------------------------------------------------------------------
 // Class for custum function
-class NaCustomFunc : public NaUnit, public NaConfigPart
+class PNNA_API NaCustomFunc : public NaUnit, public NaConfigPart
 {
 public:
 

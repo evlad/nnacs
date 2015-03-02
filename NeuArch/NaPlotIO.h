@@ -73,7 +73,7 @@ Stop
 //---------------------------------------------------------------------------
 // Class for DPlot drawing data file writing (many variables are allowed)
 // Stream of the only variable values
-class NaDPlotFile : public NaDataFile
+class PNNA_API NaDPlotFile : public NaDataFile
 {
 public:
 

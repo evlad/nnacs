@@ -15,7 +15,7 @@
 // dimension output
 
 //---------------------------------------------------------------------------
-class NaPNFetcher : public NaPetriNode
+class PNNA_API NaPNFetcher : public NaPetriNode
 {
 public:
 

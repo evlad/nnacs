@@ -13,7 +13,7 @@
 
 //---------------------------------------------------------------------------
 // Class for matrix of real numbers storing and operations over it
-class NaMatrix
+class PNNA_API NaMatrix
 {
 public:
 

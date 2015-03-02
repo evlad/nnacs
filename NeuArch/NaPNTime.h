@@ -14,7 +14,7 @@
 // Has no input and the only output.  Reads given file value-by-value.
 
 //---------------------------------------------------------------------------
-class NaPNTimer : public NaPetriNode, public NaTimer
+class PNNA_API NaPNTimer : public NaPetriNode, public NaTimer
 {
 public:
 

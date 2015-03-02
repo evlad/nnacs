@@ -15,7 +15,7 @@
 // switchable information stand trace.
 
 //---------------------------------------------------------------------------
-class NaPNCheckPoint : public NaPNFileOutput
+class PNNA_API NaPNCheckPoint : public NaPNFileOutput
 {
 public:
 

@@ -13,7 +13,7 @@
 // Has no input and the only output.  Reads data to queue value-by-value.
 
 //---------------------------------------------------------------------------
-class NaPNQueueInput : public NaPetriNode
+class PNNA_API NaPNQueueInput : public NaPetriNode
 {
 public:
 

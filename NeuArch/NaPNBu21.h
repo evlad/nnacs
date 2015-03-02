@@ -13,7 +13,7 @@
 // Has two inputs: in1 and in2 and out output.  in1.dim()+in2.dim()=out.dim()
 
 //---------------------------------------------------------------------------
-class NaPNBus2i1o : public NaPetriNode
+class PNNA_API NaPNBus2i1o : public NaPetriNode
 {
 public:
 

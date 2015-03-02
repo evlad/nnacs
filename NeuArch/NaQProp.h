@@ -24,7 +24,7 @@
 
 //---------------------------------------------------------------------------
 // Learning coefficients
-class NaQuickPropParams : virtual public NaStdBackPropParams
+class PNNA_API NaQuickPropParams : virtual public NaStdBackPropParams
 {
 public:
 
@@ -53,7 +53,7 @@ public:
 
 //---------------------------------------------------------------------------
 // Class for standard backpropagation learning environment
-class NaQuickProp :
+class PNNA_API NaQuickProp :
     virtual public NaQuickPropParams,
     virtual public NaStdBackProp
 {

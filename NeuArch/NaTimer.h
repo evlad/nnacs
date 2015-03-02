@@ -9,7 +9,7 @@
 #include <NaGenerl.h>
 
 // Time samples counter
-class NaTimer
+class PNNA_API NaTimer
 {
 public:
 
@@ -42,7 +42,10 @@ private:
 /*************************************************************
  Main (default) timer.
 **************************************************************/
-extern NaTimer      TheTimer;
+#ifndef __NaTimerVars
+extern
+#endif
+PNNA_API NaTimer      TheTimer;
 
 
 //---------------------------------------------------------------------------

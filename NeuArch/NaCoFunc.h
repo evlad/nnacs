@@ -20,7 +20,7 @@
 
 //---------------------------------------------------------------------------
 // Class for combined function (sequence of NaUnits)
-class NaCombinedFunc : public NaUnit, public NaConfigPart
+class PNNA_API NaCombinedFunc : public NaUnit, public NaConfigPart
 {
 public:
 

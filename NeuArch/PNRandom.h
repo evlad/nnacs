@@ -10,7 +10,7 @@
 //---------------------------------------------------------------------------
 // Random number generator
 
-class NaPNRandomGen : public NaPetriNode
+class PNNA_API NaPNRandomGen : public NaPetriNode
 {
 public:
 

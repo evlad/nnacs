@@ -30,7 +30,7 @@ enum NaConfigLineKind {
 
 //---------------------------------------------------------------------------
 // Stream of data object
-class NaDataStream
+class PNNA_API NaDataStream
 {
 public:
 
@@ -82,7 +82,7 @@ private:
 //---------------------------------------------------------------------------
 // Configuration file partition object.  Abstract class.
 // Has generic name and instance name.
-class NaConfigPart
+class PNNA_API NaConfigPart
 {
 public:/* methods */
 
@@ -147,7 +147,7 @@ typedef NaDynAr<NaCPRegItem>	NaCPRegArray;
 // Has common methdos to read and write text configuration.  Consists of
 // many partitions.
 
-class NaConfigFile : public NaDataStream
+class PNNA_API NaConfigFile : public NaDataStream
 {
 public:
 

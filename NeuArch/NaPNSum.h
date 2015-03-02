@@ -13,7 +13,7 @@
 // Has two equal inputs and one output for resulting sum.
 
 //---------------------------------------------------------------------------
-class NaPNSum : public NaPetriNode
+class PNNA_API NaPNSum : public NaPetriNode
 {
 public:
 

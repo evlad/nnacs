@@ -17,7 +17,7 @@
 #define NaPARAM_LINE_MAX_LEN	1023
 
 //---------------------------------------------------------------------------
-class NaParams
+class PNNA_API NaParams
 {
 public:
 

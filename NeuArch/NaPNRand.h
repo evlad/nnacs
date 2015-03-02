@@ -15,7 +15,7 @@
 // Has no inputs and the only output
 
 //---------------------------------------------------------------------------
-class NaPNRandomGen : public NaPNGenerator
+class PNNA_API NaPNRandomGen : public NaPNGenerator
 {
 public:
 

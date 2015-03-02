@@ -9,22 +9,22 @@
 
 
 // Ask for real parameter
-NaReal	ask_user_real (const char* szPrompt, NaReal fDefault);
+PNNA_API NaReal	ask_user_real (const char* szPrompt, NaReal fDefault);
 
 // Ask for integer parameter
-int	ask_user_int (const char* szPrompt, int iDefault);
+PNNA_API int	ask_user_int (const char* szPrompt, int iDefault);
 
 // Ask for boolean parameter
-bool	ask_user_bool (const char* szPrompt, bool bDefault);
+PNNA_API bool	ask_user_bool (const char* szPrompt, bool bDefault);
 
 // Ask for string parameter
-char*	ask_user_string (const char* szPrompt, const char* szDefault = NULL);
+PNNA_API char*	ask_user_string (const char* szPrompt, const char* szDefault = NULL);
 
 // Ask for name parameter (space limited)
-char*	ask_user_name (const char* szPrompt, const char* szDefault = NULL);
+PNNA_API char*	ask_user_name (const char* szPrompt, const char* szDefault = NULL);
 
 // Ask for learning parameters
-void	ask_user_lpar (NaStdBackPropParams& lpar);
+PNNA_API void	ask_user_lpar (NaStdBackPropParams& lpar);
 
 
 #endif /* kbdif.h */

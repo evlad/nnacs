@@ -14,7 +14,7 @@
 // inputs.
 
 //---------------------------------------------------------------------------
-class NaPNComparator : public NaPetriNode
+class PNNA_API NaPNComparator : public NaPetriNode
 {
 public:
 

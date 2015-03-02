@@ -12,15 +12,15 @@
 // "Output" means writing data to few destinations (>=0) and waiting for
 // all of them have read the data.
 
-class NaPetriCnInput;  // Adjoint connector
+class PNNA_API NaPetriCnInput;  // Adjoint connector
 
 //---------------------------------------------------------------------------
 // Petri network node connector
 
 //---------------------------------------------------------------------------
-class NaPetriCnOutput : public NaPetriConnector
+class PNNA_API NaPetriCnOutput : public NaPetriConnector
 {
-    friend class NaPetriCnInput;
+    friend class PNNA_API NaPetriCnInput;
 
 public:
 

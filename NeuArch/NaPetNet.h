@@ -33,7 +33,7 @@ typedef enum
 // Petri network abstraction implementation
 
 //---------------------------------------------------------------------------
-class NaPetriNet
+class PNNA_API NaPetriNet
 {
 public:
 

@@ -12,7 +12,7 @@
 // NN controller unit for runtime processing.
 // Unit has (1;1;0) interface and delayed lines for setpoint,
 // control error (opt) and noise estimation (opt).
-class NaNNControllerUnit : public NaUnit
+class PNNA_API NaNNControllerUnit : public NaUnit
 {
 public:
 

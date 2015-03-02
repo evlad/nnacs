@@ -14,7 +14,7 @@
 
 //---------------------------------------------------------------------------
 // Class for general MIMO linear controller: u(t) = L*x(t)
-class NaControllerUnit : public NaUnit,
+class PNNA_API NaControllerUnit : public NaUnit,
                          public NaConfigPart
 {
 public:

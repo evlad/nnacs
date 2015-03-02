@@ -16,7 +16,7 @@
 // May has many inputs and many outputs
 
 //---------------------------------------------------------------------------
-class NaPNStateSpace : public NaPetriNode, public NaTimer
+class PNNA_API NaPNStateSpace : public NaPetriNode, public NaTimer
 {
 public:
 

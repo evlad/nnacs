@@ -11,7 +11,7 @@
 
 //---------------------------------------------------------------------------
 // Class for PID controller
-class NaPID : public NaUnit, public NaConfigPart
+class PNNA_API NaPID : public NaUnit, public NaConfigPart
 {
 public:
 

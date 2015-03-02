@@ -14,7 +14,7 @@
 // Has the only input and no output.  Writes given queue value-by-value.
 
 //---------------------------------------------------------------------------
-class NaPNQueueOutput : public NaPetriNode
+class PNNA_API NaPNQueueOutput : public NaPetriNode
 {
 public:
 

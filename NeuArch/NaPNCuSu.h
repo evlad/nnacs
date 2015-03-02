@@ -13,7 +13,7 @@
 // detection problem.  Detection of standard deviation change is performed.
 
 //---------------------------------------------------------------------------
-class NaPNCuSum : public NaPetriNode
+class PNNA_API NaPNCuSum : public NaPetriNode
 {
 public:
 

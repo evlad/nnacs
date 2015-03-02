@@ -14,7 +14,7 @@
 
 //---------------------------------------------------------------------------
 // Class for neural network representation based on NaNDescr.
-class NaNNUnit : public NaUnit, public NaConfigPart
+class PNNA_API NaNNUnit : public NaUnit, public NaConfigPart
 {
 public:
 

@@ -14,7 +14,7 @@
 // For time dependent objects implement relation with timer.
 
 //---------------------------------------------------------------------------
-class NaPNTimeDepend : public NaPetriNode, public NaTimer
+class PNNA_API NaPNTimeDepend : public NaPetriNode, public NaTimer
 {
 public:
 

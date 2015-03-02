@@ -31,7 +31,7 @@ NaLinearControlKind StrToLinControlKindIO (const char* s);
 
 //---------------------------------------------------------------------------
 // Class for linear control units
-class NaLinearUnit : public NaUnit, public NaConfigPart
+class PNNA_API NaLinearUnit : public NaUnit, public NaConfigPart
 {
 public:
 
@@ -82,7 +82,7 @@ protected:
 
 //---------------------------------------------------------------------------
 // Class for chain of linear control units
-class NaLinearUnitsChain :
+class PNNA_API NaLinearUnitsChain :
     public NaDynAr<NaLinearUnit>,
     public NaUnit,
     public NaConfigPart

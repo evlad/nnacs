@@ -30,7 +30,7 @@ struct NaTraceStruct
 
 
 //---------------------------------------------------------------------------
-class NaInfoStand
+class PNNA_API NaInfoStand
 {
 public:
 

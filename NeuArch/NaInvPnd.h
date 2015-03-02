@@ -10,7 +10,7 @@
  ***********************************************************************
  * Inverted pendulum on the cart linearized system implementation.
  ***********************************************************************/
-class NaInvPend : public NaUnit
+class PNNA_API NaInvPend : public NaUnit
 {
 public:
 

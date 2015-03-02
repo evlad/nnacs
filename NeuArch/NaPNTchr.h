@@ -16,7 +16,7 @@
 // Works in close collaboration with neural network to be learned.
 
 //---------------------------------------------------------------------------
-class NaPNTeacher : public NaPetriNode
+class PNNA_API NaPNTeacher : public NaPetriNode
 {
 public:
 

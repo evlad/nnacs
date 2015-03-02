@@ -14,7 +14,7 @@
 // Has no inputs and the only output
 
 //---------------------------------------------------------------------------
-class NaPNGenerator : public NaPetriNode
+class PNNA_API NaPNGenerator : public NaPetriNode
 {
 public:
 

@@ -10,12 +10,12 @@
 
 
 // Data file input/output
-class NaDataFile;
+class PNNA_API NaDataFile;
 
 
 //---------------------------------------------------------------------------
 // Class for vector of real numbers storing and operations over it
-class NaVector
+class PNNA_API NaVector
 {
 public:
 

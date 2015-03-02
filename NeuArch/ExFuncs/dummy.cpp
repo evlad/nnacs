@@ -9,7 +9,7 @@ static char rcsid[] = "$Id$";
 
 //-----------------------------------------------------------------------
 // Create local external function
-EXPORTED NaExternFunc*
+NaExternFunc*
 NaCreateExternFunc (char* szOptions, NaVector& vInit)
 {
   return new NaDummyFunc(szOptions, vInit);

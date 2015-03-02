@@ -14,7 +14,7 @@
 // Has one input and one output of the neural network unit.
 
 //---------------------------------------------------------------------------
-class NaPNNNUnit : public NaPetriNode
+class PNNA_API NaPNNNUnit : public NaPetriNode
 {
 public:
 

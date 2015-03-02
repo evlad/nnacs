@@ -11,7 +11,7 @@
 
 //---------------------------------------------------------------------------
 // Class for external function definition (mainly for shared objects)
-class NaExternFunc : public NaUnit
+class PNNA_API NaExternFunc : public NaUnit
 {
 public:
 
@@ -33,22 +33,24 @@ typedef NaExternFunc*	(*NaCreateExternFuncProto)(char* szOptions,
 						   NaVector& vInit);
 
 
+#ifdef __NaSharedExternFunction
+
 #ifdef __cplusplus
-#define FOR_CXX		extern "C"
-#else
-#define FOR_CXX
+extern "C" {
 #endif
 
 #ifdef WIN32
-#define EXPORTED	FOR_CXX __declspec(dllexport)
+#  define EXFUNC_EXPORTED __declspec(dllexport)
 #else
-#define EXPORTED	FOR_CXX
+#  define EXFUNC_EXPORTED
 #endif
-						   
-#ifdef __NaSharedExternFunction
 
-EXPORTED NaExternFunc*	NaCreateExternFunc (char* szOptions,
-					    NaVector& vInit);
+EXFUNC_EXPORTED NaExternFunc*	NaCreateExternFunc (char* szOptions,
+						    NaVector& vInit);
+
+#ifdef __cplusplus
+};
+#endif
 
 #else /* in the library */
 

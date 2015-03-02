@@ -12,20 +12,20 @@
 //extern FILE *fpNaLog;
 
 // Open log file
-void    NaOpenLogFile (const char* szFile);
+PNNA_API void    NaOpenLogFile (const char* szFile);
 
 // Close log file
-void    NaCloseLogFile ();
+PNNA_API void    NaCloseLogFile ();
 
 // Turn on/off logging
-void    NaSwitchLogFile (bool state);
+PNNA_API void    NaSwitchLogFile (bool state);
 
 // Prints a message to log file if it's open
-void    NaPrintLog (const char* fmt, ...);
+PNNA_API void    NaPrintLog (const char* fmt, ...);
 
 
 //---------------------------------------------------------------------------
-class NaLogging
+class PNNA_API NaLogging
 {
 public:
 

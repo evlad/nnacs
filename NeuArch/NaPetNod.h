@@ -9,13 +9,13 @@
 #include <NaDynAr.h>
 
 
-class NaPetriNet;
+class PNNA_API NaPetriNet;
 
 //---------------------------------------------------------------------------
 // Petri net node
 
 //---------------------------------------------------------------------------
-class NaPetriNode
+class PNNA_API NaPetriNode
 {
     friend class        NaPetriNet;
     friend class        NaPetriConnector;

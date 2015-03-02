@@ -13,7 +13,7 @@
 // samples by given value just before network operation.
 
 //---------------------------------------------------------------------------
-class NaPNFill : public NaPetriNode
+class PNNA_API NaPNFill : public NaPetriNode
 {
 public:
 

@@ -13,7 +13,7 @@
 // Accumation may be infinite or of limited depth.
 
 //---------------------------------------------------------------------------
-class NaPNAccumulator : public NaPetriNode
+class PNNA_API NaPNAccumulator : public NaPetriNode
 {
 public:
 

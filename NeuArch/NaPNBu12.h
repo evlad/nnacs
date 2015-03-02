@@ -14,7 +14,7 @@
 // in.dim()=out1.dim()+out2.dim() in required proportion
 
 //---------------------------------------------------------------------------
-class NaPNBus1i2o : public NaPetriNode
+class PNNA_API NaPNBus1i2o : public NaPetriNode
 {
 public:
 

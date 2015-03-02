@@ -13,7 +13,7 @@
 //   in1.dim()+in2.dim()+in3.dim()=out.dim()
 
 //---------------------------------------------------------------------------
-class NaPNBus3i1o : public NaPetriNode
+class PNNA_API NaPNBus3i1o : public NaPetriNode
 {
 public:
 

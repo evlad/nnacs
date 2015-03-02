@@ -14,7 +14,7 @@
 // Applied Petri net node: state-space object and Kalman filter.
 // Has three inputs: u, v, w and three outputs: y_obs, x_int, x_est.
 //---------------------------------------------------------------------------
-class NaPNKalman : public NaPetriNode
+class PNNA_API NaPNKalman : public NaPetriNode
 {
 public:
 

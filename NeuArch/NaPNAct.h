@@ -14,7 +14,7 @@
 typedef void (*NaActionProc)(void* pUserData);
 
 //---------------------------------------------------------------------------
-class NaPNActor : public NaPetriNode
+class PNNA_API NaPNActor : public NaPetriNode
 {
 public:
 

@@ -17,7 +17,7 @@
 
 //---------------------------------------------------------------------------
 // Class for polynomial fraction
-class NaPolyFrac : public NaUnit, public NaConfigPart
+class PNNA_API NaPolyFrac : public NaUnit, public NaConfigPart
 {
 public:
 
@@ -68,7 +68,7 @@ protected:
 };
 
 // Leading declaration
-class NaTransFunc;
+class PNNA_API NaTransFunc;
 
 //---------------------------------------------------------------------------
 // Array of units
@@ -81,7 +81,7 @@ typedef NaDynAr<NaTransFunc*>   NaTFAr;
 
 //---------------------------------------------------------------------------
 // Class for transfer function
-class NaTransFunc : public NaUnit, public NaConfigPart
+class PNNA_API NaTransFunc : public NaUnit, public NaConfigPart
 {
 public:
 

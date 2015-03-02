@@ -28,13 +28,13 @@
 extern "C" {
 
 // Setup random generator from the system timer
-void            reset_rand ();
+PNNA_API void            reset_rand ();
 
 // Unified destributed random number
-NaReal          rand_unified (NaReal fMin, NaReal fMax);
+PNNA_API NaReal          rand_unified (NaReal fMin, NaReal fMax);
 
 // Gaussian normal random number distribution
-NaReal          rand_gaussian (NaReal fMean, NaReal fStdDev);
+PNNA_API NaReal          rand_gaussian (NaReal fMean, NaReal fStdDev);
 
 };
 

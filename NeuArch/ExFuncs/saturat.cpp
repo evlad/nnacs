@@ -9,7 +9,7 @@ static char rcsid[] = "$Id: saturat.cpp,v 1.1 2003-07-24 06:26:35 vlad Exp $";
 
 //-----------------------------------------------------------------------
 // Create local external function
-EXPORTED NaExternFunc*
+NaExternFunc*
 NaCreateExternFunc (char* szOptions, NaVector& vInit)
 {
   return new NaSaturationFunc(szOptions, vInit);

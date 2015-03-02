@@ -12,7 +12,7 @@
  ***********************************************************************
  * Template class for dynamic array of any type.
  ***********************************************************************/
-template <class type> class NaDynAr
+template <class type> class PNNA_API NaDynAr
 {
 public:
 

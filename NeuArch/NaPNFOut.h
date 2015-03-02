@@ -14,7 +14,7 @@
 // Has the only input and no output.  Writes given file value-by-value.
 
 //---------------------------------------------------------------------------
-class NaPNFileOutput : public NaPetriNode
+class PNNA_API NaPNFileOutput : public NaPetriNode
 {
 public:
 

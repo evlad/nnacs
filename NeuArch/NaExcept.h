@@ -5,6 +5,7 @@
 #define __NaExcept_h
 
 #include <stdlib.h>
+#include <NaGenerl.h>
 
 //#ifndef unix
 
@@ -41,7 +42,7 @@ extern "C" {
 #endif /* C++ */
 
 /* Return text message instead of number identifier */
-const char* NaExceptionMsg (enum NaException exCode);
+PNNA_API const char* NaExceptionMsg (enum NaException exCode);
 
 #ifdef __cplusplus
 }

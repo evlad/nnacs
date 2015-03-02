@@ -14,7 +14,7 @@
 // Data output is set to in1 if control >0 and to in2 if control <0.
 
 //---------------------------------------------------------------------------
-class NaPNSwitcher : public NaPetriNode
+class PNNA_API NaPNSwitcher : public NaPetriNode
 {
 public:
 

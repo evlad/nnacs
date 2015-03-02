@@ -14,7 +14,7 @@
 // in->out2 and in2->out when turn is negative
 
 //---------------------------------------------------------------------------
-class NaPNSwapper : public NaPetriNode
+class PNNA_API NaPNSwapper : public NaPetriNode
 {
 public:
 

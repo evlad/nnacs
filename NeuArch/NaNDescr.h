@@ -52,7 +52,7 @@ NaActFuncKind   NaStrToActFuncIO (const char* s);
 
 //---------------------------------------------------------------------------
 // Class for neural network description
-class NaNeuralNetDescr: public NaLogging, public NaConfigPart
+class PNNA_API NaNeuralNetDescr: public NaLogging, public NaConfigPart
 {
 public:/* data */
 

@@ -12,7 +12,7 @@
 // System schema definition: feedback on/off, noise on/off, sampling rate,
 // object model (stub), controller model (stub).
 
-class NaSystemSchema : public NaConfigPart
+class PNNA_API NaSystemSchema : public NaConfigPart
 {
 public:/* methods */
 

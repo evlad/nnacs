@@ -11,7 +11,7 @@
 //---------------------------------------------------------------------------
 // Random number generator
 
-class NaPNPrinter : public NaPetriNode
+class PNNA_API NaPNPrinter : public NaPetriNode
 {
 public:
 

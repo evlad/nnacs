@@ -28,7 +28,7 @@
 
 //---------------------------------------------------------------------------
 // Class for simple binary data file manipulation
-class NaBinaryStreamFile : public NaDataFile
+class PNNA_API NaBinaryStreamFile : public NaDataFile
 {
 public:
 

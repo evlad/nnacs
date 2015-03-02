@@ -12,7 +12,7 @@
 // Allows to watch input data as well by overloaded method as external
 // function.
 //---------------------------------------------------------------------------
-class NaPNWatcher : public NaPetriNode
+class PNNA_API NaPNWatcher : public NaPetriNode
 {
 public:
 

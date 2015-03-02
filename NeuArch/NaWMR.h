@@ -13,7 +13,7 @@
  * Wheeled mobile robot: two wheels with independent motors and one
  * passive wheel.
  ***********************************************************************/
-class NaWMR : public NaUnit
+class PNNA_API NaWMR : public NaUnit
 {
 public:
 

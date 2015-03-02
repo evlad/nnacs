@@ -48,8 +48,8 @@
 
 
 // Stat identifier string<->id conversion
-const char*	NaStatIdToText (int stat_id);
-int		NaStatTextToId (const char* szStatText);
+PNNA_API const char*	NaStatIdToText (int stat_id);
+PNNA_API int		NaStatTextToId (const char* szStatText);
 
 
 //---------------------------------------------------------------------------
@@ -61,7 +61,7 @@ int		NaStatTextToId (const char* szStatText);
 // decision about stopping net computation (see halt_condition()).
 
 //---------------------------------------------------------------------------
-class NaPNStatistics : public NaPetriNode
+class PNNA_API NaPNStatistics : public NaPetriNode
 {
 public:
 

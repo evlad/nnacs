@@ -14,7 +14,7 @@
 //---------------------------------------------------------------------------
 // Unit for linear noise generation.  Unit consists of randomizer and linear
 // control block chain.
-class NaLinearNoiseGen : public NaUnit, public NaConfigPart
+class PNNA_API NaLinearNoiseGen : public NaUnit, public NaConfigPart
 {
 public:
 

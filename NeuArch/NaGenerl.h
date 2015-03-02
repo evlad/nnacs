@@ -46,12 +46,9 @@ extern FILE *fpNaLog;
 #define NaBOM_utf8	"\xEF\xBB\xBF"
 
 
+
 #ifdef _WIN32
-#  ifdef PNNA_EXPORTS
-#    define PNNA_API FOR_CXX __declspec(dllexport)
-#  else
-#    define PNNA_API FOR_CXX __declspec(dllimport)
-#  endif
+#  include <pnna_api.h>
 #else
 #  define PNNA_API
 #endif

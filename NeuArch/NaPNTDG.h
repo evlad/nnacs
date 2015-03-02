@@ -16,7 +16,7 @@
 // Has two data inputs, one boolean input and one boolean output.
 
 //---------------------------------------------------------------------------
-class NaPNTrainDataGath : public NaPetriNode
+class PNNA_API NaPNTrainDataGath : public NaPetriNode
 {
 public:
 

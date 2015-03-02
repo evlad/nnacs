@@ -13,7 +13,7 @@
 // values from the input stream.
 
 //---------------------------------------------------------------------------
-class NaPNSkip : public NaPetriNode
+class PNNA_API NaPNSkip : public NaPetriNode
 {
 public:
 

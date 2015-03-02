@@ -12,7 +12,7 @@
 // NN predictive model of object.  Unit for runtime processing.
 // Unit has (1;1;0) interface and delayed lines for previous real object
 // output and control signal.
-class NaNNPredictObjectUnit : public NaUnit
+class PNNA_API NaNNPredictObjectUnit : public NaUnit
 {
 public:
 

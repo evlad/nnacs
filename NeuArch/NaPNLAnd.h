@@ -14,7 +14,7 @@
 // +1(>0) - TRUE; -1(<=0) - FALSE
 
 //---------------------------------------------------------------------------
-class NaPNLogicalAND : public NaPetriNode
+class PNNA_API NaPNLogicalAND : public NaPetriNode
 {
 public:
 

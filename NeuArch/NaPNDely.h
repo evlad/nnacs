@@ -15,7 +15,7 @@
 // depended nodes (see NaPNTrigger). 
 
 //---------------------------------------------------------------------------
-class NaPNDelay : public NaPetriNode
+class PNNA_API NaPNDelay : public NaPetriNode
 {
 public:
 

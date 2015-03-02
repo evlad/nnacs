@@ -34,7 +34,7 @@ typedef enum
 // Petri network node connector
 
 //---------------------------------------------------------------------------
-class NaPetriConnector // : public NaVector
+class PNNA_API NaPetriConnector // : public NaVector
 {
 public:
 

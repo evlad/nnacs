@@ -19,7 +19,7 @@
 // Has no input and the only output.  Reads given file value-by-value.
 
 //---------------------------------------------------------------------------
-class NaAsyncPetriNet
+class PNNA_API NaAsyncPetriNet
 #ifdef __BORLANDC__
 // Borland C++ threads
 : public TThread

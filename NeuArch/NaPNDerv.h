@@ -13,7 +13,7 @@
 // Has one input and one output
 
 //---------------------------------------------------------------------------
-class NaPNDerivative : public NaPetriNode
+class PNNA_API NaPNDerivative : public NaPetriNode
 {
 public:
 

@@ -13,7 +13,7 @@
 
 //---------------------------------------------------------------------------
 // Common class for control scheme unit representation
-class NaUnit : public NaLogging
+class PNNA_API NaUnit : public NaLogging
 {
 public:
 

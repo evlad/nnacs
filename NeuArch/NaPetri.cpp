@@ -10,7 +10,7 @@ static char rcsid[] = "$Id$";
 // Comment...
 
 //---------------------------------------------------------------------------
-class NaPNTemplate : public NaPetriNode
+class PNNA_API NaPNTemplate : public NaPetriNode
 {
 public:
 
