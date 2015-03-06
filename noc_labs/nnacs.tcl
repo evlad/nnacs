@@ -24,6 +24,15 @@ if {![info exists env(NNACSSYSDIR)]} {
     puts "System directory: $SystemDirPath (taken from NNACSSYSDIR)"
 }
 
+# Let's find system directory
+if {![info exists env(NAEXFDIR)]} {
+    # Not defined - use default
+    set env(NAEXFDIR) [file join $SystemDirPath lib exfuncs]
+    puts "External functions directory: $env(NAEXFDIR) (use NAEXFDIR to override)"
+} else {
+    puts "External functions directory: $env(NAEXFDIR) (taken from NAEXFDIR)"
+}
+
 # Let's configure dynamic linkage
 if {$tcl_platform(platform) == "windows"} {
     # Nothing since common libraries are in bin
