@@ -63,7 +63,7 @@ NNACS - Neural network applications for control systems
 Кафедра Управления и информатики
 } center
 
-    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2014\nEmail: YeliseevVL@mpei.ac.ru\n" center
+    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2015\nEmail: YeliseevVL@mpei.ac.ru\n" center
 
     if {$tcl_platform(platform) == "windows"} {
         $w.text insert end {
@@ -139,7 +139,7 @@ proc MenuProg5 {w label} {
 }
 
 
-proc NewTerminal {} {
+proc ShowConsole {} {
     set workdir [UserBaseDir]
     global curUserDir
     if {[info exists curUserDir]} {
@@ -147,7 +147,7 @@ proc NewTerminal {} {
 	    set workdir $curUserDir
 	}
     }
-    exec xterm -e "cd $workdir; bash" &
+    console show
 }
 
 
@@ -166,10 +166,9 @@ foreach {label title} $menuContent {
 	      -command "CheckGoodEnv \"$w\" ; MenuProg$i \"$w\" \"$text\""] -fill x -side top -expand yes -pady 2
 }
 
-if {$tcl_platform(platform) == "unix"} {
-    button $w.term_button -text "Консоль" -command NewTerminal
-    pack $w.term_button -fill x -side top -expand yes -pady 2
-}
+bind . <C> {ShowConsole}
+#button $w.term_button -text "Консоль" -command ShowConsole
+#pack $w.term_button -fill x -side top -expand yes -pady 2
 
 button $w.info_button -text "О программе" -command "AboutWindow \"$w\""
 pack $w.info_button -fill x -side top -expand yes -pady 2
