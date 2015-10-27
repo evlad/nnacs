@@ -63,7 +63,7 @@ NNACS - Neural network applications for control systems
 Кафедра Управления и информатики
 } center
 
-    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2014\nEmail: YeliseevVL@mpei.ac.ru\n" center
+    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2015\nEmail: YeliseevVL@mpei.ac.ru\n" center
 
     if {$tcl_platform(platform) == "windows"} {
         $w.text insert end {
