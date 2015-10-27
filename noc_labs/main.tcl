@@ -1,4 +1,4 @@
-package require Tk
+﻿package require Tk
 
 set w ""
 wm title . "Main menu of laboratory works"
