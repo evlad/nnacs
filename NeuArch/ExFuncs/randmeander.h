@@ -4,6 +4,7 @@
 
 #include <NaExFunc.h>
 #include <NaDataIO.h>
+#include <NaDynAr.h>
 
 //---------------------------------------------------------------------------
 // Class for external function which implements random meander signal
@@ -66,20 +67,27 @@ public:
 
 protected:
 
+  struct DimDescr {
+
     /// Characteristics of amplitude uniform distribution
     NaReal	Amin, Amax;
 
     /// Characteristics of amplitude uniform distribution
     int		Lmin, Lmax;
 
-    /// Constant length of constant amplitude
-    int		Lconst;
-
     /// Internal counter for constant amplitude
     int		Lcounter;
 
     /// Internal storage for constant amplitude
     NaReal	Aconst;
+
+    DimDescr () : Amin(0.0), Amax(0.0), Lmin(0), Lmax(0),
+		  Lcounter(0), Aconst(0.0) {}
+
+  };
+
+  NaDynAr<DimDescr>	ddescr;
+
 };
 
 
