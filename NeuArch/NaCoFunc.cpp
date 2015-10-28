@@ -72,16 +72,21 @@ NaCombinedFunc::PrintLog (const char* szIndent) const
   for(i = 0; i < nParts; ++i){
     NaTimedUnit	*tu = (NaTimedUnit*)pParts[i]->pSelfData;
     if(0 == tu->nTimeRange[0] && NaInfinity == tu->nTimeRange[1])
-      NaPrintLog("%s  %s %s\n", indent,
+      NaPrintLog("%s  %s %s", indent,
 		 pParts[i]->GetType(), pParts[i]->GetInstance());
     else if(NaInfinity == tu->nTimeRange[1])
-      NaPrintLog("%s  %s %s  [%d..+oo]\n", indent,
+      NaPrintLog("%s  %s %s  [%d..+oo]", indent,
 		 pParts[i]->GetType(), pParts[i]->GetInstance(),
 		 tu->nTimeRange[0]);
     else
-      NaPrintLog("%s  %s %s  [%d..%d]\n", indent,
+      NaPrintLog("%s  %s %s  [%d..%d]", indent,
 		 pParts[i]->GetType(), pParts[i]->GetInstance(),
 		 tu->nTimeRange[0], tu->nTimeRange[1]);
+    if(NULL == tu->pUnit)
+      NaPrintLog("  null unit\n");
+    else
+      NaPrintLog("  unit dim: in=%u out=%u\n",
+		 tu->pUnit->InputDim(), tu->pUnit->OutputDim());
   }
 }
 
@@ -141,6 +146,7 @@ NaCombinedFunc::Function (NaReal* x, NaReal* y)
 	NaTimedUnit	*tu = (NaTimedUnit*)pParts[0]->pSelfData;
 	tu->pUnit->Function(x, y);
     } else {
+        // bad for MIMO!
 	NaReal	tmp = *x;
 
 	// Old behaviour with problems of combining MIMO units both in
@@ -350,6 +356,6 @@ NaCombinedFunc::Load (const char* szFileName)
   // Ask for dimension of every item and check them for matching
   NaTimedUnit	*tu = (NaTimedUnit*)pParts[0]->pSelfData;
   Assign(tu->pUnit->InputDim(), tu->pUnit->OutputDim());
-  NaPrintLog("WARNING: %u parts of combined function defined, 1st: dim in=%d out=%d\n",
+  NaPrintLog("WARNING: %u parts of combined function defined, 1st: dim in=%u out=%u\n",
 	     nParts, InputDim(), OutputDim());
 }

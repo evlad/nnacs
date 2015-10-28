@@ -319,4 +319,5 @@ NaCustomFunc::Load (NaDataStream& ds)
   }
 
   exfunc = (*create)(szOptions, vInitial);
+  Assign(exfunc->InputDim(), exfunc->OutputDim());
 }
