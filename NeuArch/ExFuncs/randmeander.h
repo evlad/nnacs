@@ -20,9 +20,9 @@
 //
 // Randomization parameters:
 //  - [Amin, Amax] - uniform distribution of amplitudes
-//  - Lconst       - constant length of constant amplitude
+//  - Lconst       - constant length of constant amplitude (dim=1)
 //                                or
-//  - [Lmin, Lmax] - uniform distribution of length of constant amplitude
+//  - [Lmin, Lmax] - uniform distribution of length of constant amplitude (dim>=1)
 // Lengths must be positive integer.
 //
 // See drandmea command line utility for the same behaviour.
@@ -37,13 +37,14 @@ public:
     /// Make function with given options and initial vector
     /// options (numbers): Amin Amax Lconst
     ///  or
-    /// options (numbers): Amin Amax Lmin Lmax
+    /// options (numbers): Amin1 Amax1 Lmin1 Lmax1 [Amin2 Amax2 Lmin2 Lmax2 ...]
     /// where:
-    ///  - Amin   - for uniform distribution of amplitudes
-    ///  - Amax   - for uniform distribution of amplitudes
-    ///  - Lmin   - for uniform distribution of length of constant amplitude
-    ///  - Lmax   - for uniform distribution of length of constant amplitude
+    ///  - AminN  - for uniform distribution of amplitudes
+    ///  - AmaxN  - for uniform distribution of amplitudes
+    ///  - LminN  - for uniform distribution of length of constant amplitude
+    ///  - LmaxN  - for uniform distribution of length of constant amplitude
     ///  - Lconst - constant length of constant amplitude
+    ///  - N      - dimension index for multiple outputs
     /// initial: not used
     NaRandMeanderFunc (char* szOptions, NaVector& vInit);
 

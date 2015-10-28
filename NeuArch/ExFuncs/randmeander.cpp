@@ -22,7 +22,7 @@ NaCreateExternFunc (char* szOptions, NaVector& vInit)
 ///-----------------------------------------------------------------------
 /// Make empty (y=x) function
 NaRandMeanderFunc::NaRandMeanderFunc ()
-    : Amin(0.0), Amax(0.0), Lconst(0), Lmin(0), Lmax(0),
+    : Amin(0.0), Amax(0.0), Lmin(0), Lmax(0),
       Lcounter(0), Aconst(0.0)
 {
 }
@@ -32,16 +32,17 @@ NaRandMeanderFunc::NaRandMeanderFunc ()
 /// Make function with given options and initial vector
 /// options (numbers): Amin Amax Lconst
 ///  or
-/// options (numbers): Amin Amax Lmin Lmax
+/// options (numbers): Amin1 Amax1 Lmin1 Lmax1 [Amin2 Amax2 Lmin2 Lmax2 ...]
 /// where:
-///  - Amin   - for uniform distribution of amplitudes
-///  - Amax   - for uniform distribution of amplitudes
-///  - Lmin   - for uniform distribution of length of constant amplitude
-///  - Lmax   - for uniform distribution of length of constant amplitude
+///  - AminN  - for uniform distribution of amplitudes
+///  - AmaxN  - for uniform distribution of amplitudes
+///  - LminN  - for uniform distribution of length of constant amplitude
+///  - LmaxN  - for uniform distribution of length of constant amplitude
 ///  - Lconst - constant length of constant amplitude
+///  - N      - dimension index for multiple outputs
 /// initial: not used
 NaRandMeanderFunc::NaRandMeanderFunc (char* szOptions, NaVector& vInit)
-    : Amin(0.0), Amax(0.0), Lconst(0), Lmin(0), Lmax(0),
+    : Amin(0.0), Amax(0.0), Lmin(0), Lmax(0),
       Lcounter(0), Aconst(0.0)
 {
     char	*szToken, *szRest, *szThis = strdup(szOptions);
@@ -65,16 +66,15 @@ NaRandMeanderFunc::NaRandMeanderFunc (char* szOptions, NaVector& vInit)
 
     szToken = strtok(NULL, " ");
     if(NULL == szToken) {
-	Lconst = Lmin;
-	Lmin = 0;
+	Lmax = Lmin;
     } else {
 	nTest = strtol(szToken, &szRest, 0);
 	if(szToken != szRest)
 	    Lmax = nTest;
     }
 
-    NaPrintLog("randmeander: Amin=%g Amax=%g Lmin=%d Lmax=%d Lconst=%d\n",
-	       Amin, Amax, Lmin, Lmax, Lconst);
+    NaPrintLog("randmeander: Amin=%g Amax=%g Lmin=%d Lmax=%d\n",
+	       Amin, Amax, Lmin, Lmax);
 
     free(szThis);
 }
@@ -111,8 +111,8 @@ NaRandMeanderFunc::Function (NaReal* x, NaReal* y)
 	return;
 
     if(Lcounter <= 0) {
-	if(Lconst > 0) {
-	    Lcounter = Lconst;
+	if(Lmin == Lmax) {
+	    Lcounter = Lmin;
 	} else {
 	    Lcounter = rand_unified(Lmin, Lmax + 1);
 	    if(Lcounter <= 0)
