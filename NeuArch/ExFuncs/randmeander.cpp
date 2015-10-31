@@ -115,6 +115,8 @@ NaRandMeanderFunc::NaRandMeanderFunc (char* szOptions, NaVector& vInit)
 		   i+1, ddescr[i].Amin, ddescr[i].Amax, ddescr[i].Lmin, ddescr[i].Lmax);
     }
 
+    Assign(1, ddescr.count());
+
     free(szThis);
 }
 
