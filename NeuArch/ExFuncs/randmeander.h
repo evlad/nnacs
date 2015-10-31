@@ -10,6 +10,8 @@
 // Class for external function which implements random meander signal
 // on output.  This object is not a function but a generator!
 //
+// Multidimensional output
+//
 //        <-L->
 // A ^    +---+
 //   |    |   |          +--+
