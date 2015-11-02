@@ -44,10 +44,6 @@ if {$tcl_platform(platform) == "windows"} {
 	  "[file join $SystemDirPath lib]:$env(LD_LIBRARY_PATH)"
       }
 }
-if {![info exists env(NAEXFDIR)]} {
-    # Not defined: produce from NNACSSYSDIR
-    set env(NAEXFDIR) [file join $SystemDirPath lib exfuncs]
-}
 
 # Let's find scripts
 set scriptsdir [file join $SystemDirPath scripts]

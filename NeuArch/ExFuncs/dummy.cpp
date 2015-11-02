@@ -37,6 +37,9 @@ NaDummyFunc::NaDummyFunc (char* szOptions,
 	NaPrintLog(" %g", vInit[i]);
     }
     NaPrintLog("\n");
+
+    Assign(2, 3);
+    NaPrintLog("dummy: dim in=%u out=%u\n", InputDim(), OutputDim());
 }
 
 

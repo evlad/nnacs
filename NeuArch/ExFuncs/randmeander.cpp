@@ -22,8 +22,6 @@ NaCreateExternFunc (char* szOptions, NaVector& vInit)
 ///-----------------------------------------------------------------------
 /// Make empty (y=x) function
 NaRandMeanderFunc::NaRandMeanderFunc ()
-    : Amin(0.0), Amax(0.0), Lconst(0), Lmin(0), Lmax(0),
-      Lcounter(0), Aconst(0.0)
 {
 }
 
@@ -32,49 +30,92 @@ NaRandMeanderFunc::NaRandMeanderFunc ()
 /// Make function with given options and initial vector
 /// options (numbers): Amin Amax Lconst
 ///  or
-/// options (numbers): Amin Amax Lmin Lmax
+/// options (numbers): Amin1 Amax1 Lmin1 Lmax1 [Amin2 Amax2 Lmin2 Lmax2 ...]
 /// where:
-///  - Amin   - for uniform distribution of amplitudes
-///  - Amax   - for uniform distribution of amplitudes
-///  - Lmin   - for uniform distribution of length of constant amplitude
-///  - Lmax   - for uniform distribution of length of constant amplitude
-///  - Lconst - constant length of constant amplitude
+///  - AminN  - for uniform distribution of amplitudes
+///  - AmaxN  - for uniform distribution of amplitudes
+///  - LminN  - for uniform distribution of length of constant amplitude
+///  - LmaxN  - for uniform distribution of length of constant amplitude
+///  - Lconst - constant length of constant amplitude (eq. LminN==LmaxN)
+///  - N      - dimension index for multiple outputs
 /// initial: not used
 NaRandMeanderFunc::NaRandMeanderFunc (char* szOptions, NaVector& vInit)
-    : Amin(0.0), Amax(0.0), Lconst(0), Lmin(0), Lmax(0),
-      Lcounter(0), Aconst(0.0)
 {
     char	*szToken, *szRest, *szThis = strdup(szOptions);
     NaReal	fTest;
     long	nTest;
 
+    DimDescr	dd;
+
     szToken = strtok(szThis, " ");
-    fTest = strtod(szToken, &szRest);
-    if(szToken != szRest)
-	Amin = fTest;
+    if(NULL != szToken) {
+	fTest = strtod(szToken, &szRest);
+	if(szToken != szRest)
+	    dd.Amin = fTest;
+    }
 
     szToken = strtok(NULL, " ");
-    fTest = strtod(szToken, &szRest);
-    if(szToken != szRest)
-	Amax = fTest;
+    if(NULL != szToken) {
+	fTest = strtod(szToken, &szRest);
+	if(szToken != szRest)
+	    dd.Amax = fTest;
+    }
 
     szToken = strtok(NULL, " ");
-    nTest = strtol(szToken, &szRest, 0);
-    if(szToken != szRest)
-	Lmin = nTest;
+    if(NULL != szToken) {
+	nTest = strtol(szToken, &szRest, 0);
+	if(szToken != szRest)
+	    dd.Lmin = nTest;
+    }
 
     szToken = strtok(NULL, " ");
     if(NULL == szToken) {
-	Lconst = Lmin;
-	Lmin = 0;
+	dd.Lmax = dd.Lmin;
     } else {
 	nTest = strtol(szToken, &szRest, 0);
 	if(szToken != szRest)
-	    Lmax = nTest;
+	    dd.Lmax = nTest;
     }
 
-    NaPrintLog("randmeander: Amin=%g Amax=%g Lmin=%d Lmax=%d Lconst=%d\n",
-	       Amin, Amax, Lmin, Lmax, Lconst);
+    ddescr.addh(dd);
+
+    // Rest dimensions
+    while(NULL != szToken) {
+
+	szToken = strtok(NULL, " ");
+	if(NULL == szToken) break;
+
+	fTest = strtod(szToken, &szRest);
+	if(szToken != szRest)
+	    dd.Amin = fTest;
+
+	szToken = strtok(NULL, " ");
+	if(NULL == szToken) break;
+	fTest = strtod(szToken, &szRest);
+	if(szToken != szRest)
+	    dd.Amax = fTest;
+
+	szToken = strtok(NULL, " ");
+	if(NULL == szToken) break;
+	nTest = strtol(szToken, &szRest, 0);
+	if(szToken != szRest)
+	    dd.Lmin = nTest;
+
+	szToken = strtok(NULL, " ");
+	if(NULL == szToken) break;
+	nTest = strtol(szToken, &szRest, 0);
+	if(szToken != szRest)
+	    dd.Lmax = nTest;
+
+	ddescr.addh(dd);
+    }
+
+    for(unsigned i = 0; i < ddescr.count(); ++i) {
+	NaPrintLog("randmeander: [%u] Amin=%g Amax=%g Lmin=%d Lmax=%d\n",
+		   i+1, ddescr[i].Amin, ddescr[i].Amax, ddescr[i].Lmin, ddescr[i].Lmax);
+    }
+
+    Assign(1, ddescr.count());
 
     free(szThis);
 }
@@ -97,7 +138,9 @@ NaRandMeanderFunc::Reset ()
     // See DRAND_SAFE to prevent dependent random series
     reset_rand();
 
-    Lcounter = 0;
+    for(unsigned i = 0; i < ddescr.count(); ++i) {
+	ddescr[i].Lcounter = 0;
+    }
 }
 
 
@@ -107,19 +150,21 @@ NaRandMeanderFunc::Reset ()
 void
 NaRandMeanderFunc::Function (NaReal* x, NaReal* y)
 {
-    if(NULL == x || NULL == y)
+    if(NULL == y)
 	return;
 
-    if(Lcounter <= 0) {
-	if(Lconst > 0) {
-	    Lcounter = Lconst;
-	} else {
-	    Lcounter = rand_unified(Lmin, Lmax + 1);
-	    if(Lcounter <= 0)
-		Lcounter = 1;
+    for(unsigned i = 0; i < ddescr.count(); ++i) {
+	if(ddescr[i].Lcounter <= 0) {
+	    if(ddescr[i].Lmin == ddescr[i].Lmax) {
+		ddescr[i].Lcounter = ddescr[i].Lmin;
+	    } else {
+		ddescr[i].Lcounter = rand_unified(ddescr[i].Lmin, ddescr[i].Lmax + 1);
+		if(ddescr[i].Lcounter <= 0)
+		    ddescr[i].Lcounter = 1;
+	    }
+	    ddescr[i].Aconst = rand_unified(ddescr[i].Amin, ddescr[i].Amax);
 	}
-	Aconst = rand_unified(Amin, Amax);
+	--ddescr[i].Lcounter;
+	y[i] = ddescr[i].Aconst;
     }
-    --Lcounter;
-    *y = Aconst;
 }

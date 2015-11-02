@@ -73,7 +73,7 @@ typedef	double	**MATRIX;
 #    define MATRIX_API FOR_CXX __declspec(dllimport)
 #  endif
 #else
-#  define MATRIX_API
+#  define MATRIX_API FOR_CXX
 #endif
 
 

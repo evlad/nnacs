@@ -4,11 +4,14 @@
 
 #include <NaExFunc.h>
 #include <NaDataIO.h>
+#include <NaDynAr.h>
 
 //---------------------------------------------------------------------------
 // Class for external function which implements random signal with
 // uniform distribution on output.  Maximum random step is limited by
 // preset value.  This object is not a function but a generator!
+//
+// Multidimensional output!
 //
 // Amax ^
 //      |   +-+
@@ -30,14 +33,15 @@ public:
     NaRandUnifiedFunc ();
 
     /// Make function with given options and initial vector
-    /// options (numbers): Amin Amax Amaxstep
+    /// options (numbers): Amin1 Amax1 Amaxstep1 [Amin2 Amax2 Amaxstep2 ...]
     /// where:
-    ///  - Amin     - low bound of output value
-    ///  - Amax     - high bound of output value
-    ///  - Amaxstep - maximum random step (absolute value)
-    /// initial: [Afirst]
-    ///  - Afirst   - to start with (middle point between Amin and
-    ///               Amax by default)
+    ///  - AminN     - low bound of output value
+    ///  - AmaxN     - high bound of output value
+    ///  - AmaxstepN - maximum random step (absolute value; 0.0 - no limit)
+    /// initial: Afirst1 [Afirst2 [Afirst3 ...]]
+    ///  - AfirstN   - to start with (middle point between Amin and
+    ///                Amax by default)
+    ///  - N      - dimension index for multiple outputs
     NaRandUnifiedFunc (char* szOptions, NaVector& vInit);
 
     /// Destructor
@@ -58,6 +62,8 @@ public:
 
 protected:
 
+  struct DimDescr {
+
     /// Characteristics of output uniform distribution
     NaReal	Amin, Amax;
 
@@ -69,6 +75,13 @@ protected:
 
     /// Previous value
     NaReal	Aprev;
+
+    DimDescr () : Amin(0.0), Amax(0.0), Amaxstep(0.0), Afirst(0.0), Aprev(0.0) {}
+
+  };
+
+  NaDynAr<DimDescr>	ddescr;
+
 };
 
 

@@ -4,10 +4,13 @@
 
 #include <NaExFunc.h>
 #include <NaDataIO.h>
+#include <NaDynAr.h>
 
 //---------------------------------------------------------------------------
 // Class for external function which implements random meander signal
 // on output.  This object is not a function but a generator!
+//
+// Multidimensional output
 //
 //        <-L->
 // A ^    +---+
@@ -20,9 +23,9 @@
 //
 // Randomization parameters:
 //  - [Amin, Amax] - uniform distribution of amplitudes
-//  - Lconst       - constant length of constant amplitude
+//  - Lconst       - constant length of constant amplitude (dim=1)
 //                                or
-//  - [Lmin, Lmax] - uniform distribution of length of constant amplitude
+//  - [Lmin, Lmax] - uniform distribution of length of constant amplitude (dim>=1)
 // Lengths must be positive integer.
 //
 // See drandmea command line utility for the same behaviour.
@@ -37,13 +40,14 @@ public:
     /// Make function with given options and initial vector
     /// options (numbers): Amin Amax Lconst
     ///  or
-    /// options (numbers): Amin Amax Lmin Lmax
+    /// options (numbers): Amin1 Amax1 Lmin1 Lmax1 [Amin2 Amax2 Lmin2 Lmax2 ...]
     /// where:
-    ///  - Amin   - for uniform distribution of amplitudes
-    ///  - Amax   - for uniform distribution of amplitudes
-    ///  - Lmin   - for uniform distribution of length of constant amplitude
-    ///  - Lmax   - for uniform distribution of length of constant amplitude
+    ///  - AminN  - for uniform distribution of amplitudes
+    ///  - AmaxN  - for uniform distribution of amplitudes
+    ///  - LminN  - for uniform distribution of length of constant amplitude
+    ///  - LmaxN  - for uniform distribution of length of constant amplitude
     ///  - Lconst - constant length of constant amplitude
+    ///  - N      - dimension index for multiple outputs
     /// initial: not used
     NaRandMeanderFunc (char* szOptions, NaVector& vInit);
 
@@ -65,20 +69,27 @@ public:
 
 protected:
 
+  struct DimDescr {
+
     /// Characteristics of amplitude uniform distribution
     NaReal	Amin, Amax;
 
     /// Characteristics of amplitude uniform distribution
     int		Lmin, Lmax;
 
-    /// Constant length of constant amplitude
-    int		Lconst;
-
     /// Internal counter for constant amplitude
     int		Lcounter;
 
     /// Internal storage for constant amplitude
     NaReal	Aconst;
+
+    DimDescr () : Amin(0.0), Amax(0.0), Lmin(0), Lmax(0),
+		  Lcounter(0), Aconst(0.0) {}
+
+  };
+
+  NaDynAr<DimDescr>	ddescr;
+
 };
 
 
