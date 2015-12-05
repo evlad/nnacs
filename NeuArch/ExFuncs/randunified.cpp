@@ -22,7 +22,23 @@ NaCreateExternFunc (char* szOptions, NaVector& vInit)
 ///-----------------------------------------------------------------------
 /// Make empty (y=x) function
 NaRandUnifiedFunc::NaRandUnifiedFunc ()
+	: n_ddescr(0), ddescr(NULL)
 {
+}
+
+
+///-----------------------------------------------------------------------
+/// Add new dimension descriptor to the array
+void
+NaRandUnifiedFunc::ddescr_addh (const DimDescr& dd)
+{
+	DimDescr	*pNew = new DimDescr[++n_ddescr];
+	if(n_ddescr > 0) {
+		memcpy(pNew, ddescr, sizeof(DimDescr) * (n_ddescr - 1));
+		delete[] ddescr;
+		ddescr = pNew;
+	}
+	ddescr[n_ddescr - 1] = dd;
 }
 
 
@@ -80,7 +96,7 @@ NaRandUnifiedFunc::NaRandUnifiedFunc (char* szOptions, NaVector& vInit)
     if(dd.Amaxstep <= 0.0)
       dd.Amaxstep = (dd.Amax - dd.Amin) * 0.5;
 
-    ddescr.addh(dd);
+    ddescr_addh(dd);
 
     // Rest dimensions
     while(NULL != szToken) {
@@ -107,23 +123,23 @@ NaRandUnifiedFunc::NaRandUnifiedFunc (char* szOptions, NaVector& vInit)
 
 	dd.Afirst = (dd.Amax + dd.Amin) * 0.5;
 
-	if(vInit.dim() >= ddescr.count()) {
-	  dd.Afirst = vInit[ddescr.count()];
+	if(vInit.dim() >= n_ddescr) {
+	  dd.Afirst = vInit[n_ddescr];
 	  if(dd.Afirst < dd.Amin)
 	    dd.Afirst = dd.Amin;
 	  if(dd.Afirst > dd.Amax)
 	    dd.Afirst = dd.Amax;
 	}
 
-	ddescr.addh(dd);
+	ddescr_addh(dd);
     }
 
-    for(unsigned i = 0; i < ddescr.count(); ++i) {
+    for(unsigned i = 0; i < n_ddescr; ++i) {
 	NaPrintLog("randunified: [%u] Amin=%g Amax=%g Amaxstep=%g Afirst=%g\n",
 		   i+1, ddescr[i].Amin, ddescr[i].Amax, ddescr[i].Amaxstep, ddescr[i].Afirst);
     }
 
-    Assign(1, ddescr.count());
+    Assign(1, n_ddescr);
 
     free(szThis);
 }
@@ -133,6 +149,7 @@ NaRandUnifiedFunc::NaRandUnifiedFunc (char* szOptions, NaVector& vInit)
 /// Destructor
 NaRandUnifiedFunc::~NaRandUnifiedFunc ()
 {
+	delete[] ddescr;
 }
 
 
@@ -146,7 +163,7 @@ NaRandUnifiedFunc::Reset ()
     // See DRAND_SAFE to prevent dependent random series
     reset_rand();
 
-    for(unsigned i = 0; i < ddescr.count(); ++i) {
+    for(unsigned i = 0; i < n_ddescr; ++i) {
 	ddescr[i].Aprev = ddescr[i].Afirst;
     }
 }
@@ -162,7 +179,7 @@ NaRandUnifiedFunc::Function (NaReal* x, NaReal* y)
 	return;
 
     // Current limits for random step
-    for(unsigned i = 0; i < ddescr.count(); ++i) {
+    for(unsigned i = 0; i < n_ddescr; ++i) {
 
       NaReal Alow = ddescr[i].Aprev - ddescr[i].Amaxstep;
       NaReal Ahigh = ddescr[i].Aprev + ddescr[i].Amaxstep;

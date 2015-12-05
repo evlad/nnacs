@@ -22,7 +22,23 @@ NaCreateExternFunc (char* szOptions, NaVector& vInit)
 ///-----------------------------------------------------------------------
 /// Make empty (y=x) function
 NaRandMeanderFunc::NaRandMeanderFunc ()
+	: n_ddescr(0), ddescr(NULL)
 {
+}
+
+
+///-----------------------------------------------------------------------
+/// Add new dimension descriptor to the array
+void
+NaRandMeanderFunc::ddescr_addh (const DimDescr& dd)
+{
+	DimDescr	*pNew = new DimDescr[++n_ddescr];
+	if(n_ddescr > 0) {
+		memcpy(pNew, ddescr, sizeof(DimDescr) * (n_ddescr - 1));
+		delete[] ddescr;
+		ddescr = pNew;
+	}
+	ddescr[n_ddescr - 1] = dd;
 }
 
 
@@ -77,7 +93,7 @@ NaRandMeanderFunc::NaRandMeanderFunc (char* szOptions, NaVector& vInit)
 	    dd.Lmax = nTest;
     }
 
-    ddescr.addh(dd);
+    ddescr_addh(dd);
 
     // Rest dimensions
     while(NULL != szToken) {
@@ -107,15 +123,15 @@ NaRandMeanderFunc::NaRandMeanderFunc (char* szOptions, NaVector& vInit)
 	if(szToken != szRest)
 	    dd.Lmax = nTest;
 
-	ddescr.addh(dd);
+	ddescr_addh(dd);
     }
 
-    for(unsigned i = 0; i < ddescr.count(); ++i) {
+    for(unsigned i = 0; i < n_ddescr; ++i) {
 	NaPrintLog("randmeander: [%u] Amin=%g Amax=%g Lmin=%d Lmax=%d\n",
 		   i+1, ddescr[i].Amin, ddescr[i].Amax, ddescr[i].Lmin, ddescr[i].Lmax);
     }
 
-    Assign(1, ddescr.count());
+    Assign(1, n_ddescr);
 
     free(szThis);
 }
@@ -125,6 +141,7 @@ NaRandMeanderFunc::NaRandMeanderFunc (char* szOptions, NaVector& vInit)
 /// Destructor
 NaRandMeanderFunc::~NaRandMeanderFunc ()
 {
+    delete[] ddescr;
 }
 
 
@@ -138,7 +155,7 @@ NaRandMeanderFunc::Reset ()
     // See DRAND_SAFE to prevent dependent random series
     reset_rand();
 
-    for(unsigned i = 0; i < ddescr.count(); ++i) {
+    for(unsigned i = 0; i < n_ddescr; ++i) {
 	ddescr[i].Lcounter = 0;
     }
 }
@@ -153,7 +170,7 @@ NaRandMeanderFunc::Function (NaReal* x, NaReal* y)
     if(NULL == y)
 	return;
 
-    for(unsigned i = 0; i < ddescr.count(); ++i) {
+    for(unsigned i = 0; i < n_ddescr; ++i) {
 	if(ddescr[i].Lcounter <= 0) {
 	    if(ddescr[i].Lmin == ddescr[i].Lmax) {
 		ddescr[i].Lcounter = ddescr[i].Lmin;

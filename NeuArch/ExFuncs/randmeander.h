@@ -4,7 +4,7 @@
 
 #include <NaExFunc.h>
 #include <NaDataIO.h>
-#include <NaDynAr.h>
+
 
 //---------------------------------------------------------------------------
 // Class for external function which implements random meander signal
@@ -88,8 +88,15 @@ protected:
 
   };
 
-  NaDynAr<DimDescr>	ddescr;
+  /// Array of dimension descriptors
+  DimDescr	*ddescr;
+  
+  /// Number of items in the array
+  unsigned	n_ddescr;
 
+  /// Add new dimension descriptor to the array
+  void		ddescr_addh (const DimDescr& dd);
+  
 };
 
 
