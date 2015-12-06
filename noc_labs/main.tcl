@@ -55,8 +55,8 @@ NNACS - Neural network applications for control systems
 } center
     global tcl_platform
     set platform [string totitle $tcl_platform(platform)]
-    $w.text insert end "Версия: 1.7c для $platform\n" center
-    $w.text insert end "Дата: 5 декабря 2015 года\n" center
+    $w.text insert end "Версия: 1.8.0 для $platform\n" center
+    $w.text insert end "Дата: 6 декабря 2015 года\n" center
     $w.text insert end {
 Национальный исследовательский университет "МЭИ"
 Институт Автоматики и вычислительной техники
@@ -147,6 +147,7 @@ proc ShowConsole {} {
 	    set workdir $curUserDir
 	}
     }
+
     console show
 }
 
@@ -166,9 +167,11 @@ foreach {label title} $menuContent {
 	      -command "CheckGoodEnv \"$w\" ; MenuProg$i \"$w\" \"$text\""] -fill x -side top -expand yes -pady 2
 }
 
-bind . <C> {ShowConsole}
-#button $w.term_button -text "Консоль" -command ShowConsole
-#pack $w.term_button -fill x -side top -expand yes -pady 2
+if {$tcl_platform(platform) == "windows"} {
+    bind . <C> {ShowConsole}
+    button $w.term_button -text "Консоль" -command ShowConsole
+    pack $w.term_button -fill x -side top -expand yes -pady 2
+}
 
 button $w.info_button -text "О программе" -command "AboutWindow \"$w\""
 pack $w.info_button -fill x -side top -expand yes -pady 2
