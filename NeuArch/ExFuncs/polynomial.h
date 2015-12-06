@@ -49,7 +49,7 @@ public:
 
 protected:
 
-    /// Characteristic of tank base area
+    /// Polynomial coefficients
     NaDynAr<NaReal>	vfK;
 };
 
