@@ -141,14 +141,25 @@ proc MenuProg5 {w label} {
 
 proc ShowConsole {} {
     set workdir [UserBaseDir]
-    global curUserDir
+    global curUserDir tcl_platform
     if {[info exists curUserDir]} {
 	if {[file isdirectory $curUserDir]} {
 	    set workdir $curUserDir
 	}
     }
 
-    console show
+    if {$tcl_platform(platform) == "windows"} {
+	console show
+    } elseif {$tcl_platform(os) == "Linux"} {
+	# Run terminal
+	foreach termprog xterm rxvt x-terminal-emulator {
+	    if { [catch {exec $termprog &}] } {
+		break
+	    }
+	    puts "Failed to run $termprog"
+	}
+	puts "Done"
+    }
 }
 
 
@@ -167,11 +178,9 @@ foreach {label title} $menuContent {
 	      -command "CheckGoodEnv \"$w\" ; MenuProg$i \"$w\" \"$text\""] -fill x -side top -expand yes -pady 2
 }
 
-if {$tcl_platform(platform) == "windows"} {
-    bind . <C> {ShowConsole}
-    button $w.term_button -text "Консоль" -command ShowConsole
-    pack $w.term_button -fill x -side top -expand yes -pady 2
-}
+bind . <C> {ShowConsole}
+button $w.term_button -text "Консоль" -command ShowConsole
+pack $w.term_button -fill x -side top -expand yes -pady 2
 
 button $w.info_button -text "О программе" -command "AboutWindow \"$w\""
 pack $w.info_button -fill x -side top -expand yes -pady 2
