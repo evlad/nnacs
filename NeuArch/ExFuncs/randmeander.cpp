@@ -56,6 +56,7 @@ NaRandMeanderFunc::ddescr_addh (const DimDescr& dd)
 ///  - N      - dimension index for multiple outputs
 /// initial: not used
 NaRandMeanderFunc::NaRandMeanderFunc (char* szOptions, NaVector& vInit)
+	: n_ddescr(0), ddescr(NULL)
 {
     char	*szToken, *szRest, *szThis = strdup(szOptions);
     NaReal	fTest;

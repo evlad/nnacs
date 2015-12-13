@@ -54,6 +54,7 @@ NaRandUnifiedFunc::ddescr_addh (const DimDescr& dd)
 ///                Amax by default)
 ///  - N      - dimension index for multiple outputs
 NaRandUnifiedFunc::NaRandUnifiedFunc (char* szOptions, NaVector& vInit)
+	: n_ddescr(0), ddescr(NULL)
 {
     char	*szToken, *szRest, *szThis = strdup(szOptions);
     NaReal	fTest;
