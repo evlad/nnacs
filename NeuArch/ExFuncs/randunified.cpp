@@ -33,11 +33,11 @@ void
 NaRandUnifiedFunc::ddescr_addh (const DimDescr& dd)
 {
 	DimDescr	*pNew = new DimDescr[++n_ddescr];
-	if(n_ddescr > 0) {
+	if(n_ddescr > 1) {
 		memcpy(pNew, ddescr, sizeof(DimDescr) * (n_ddescr - 1));
 		delete[] ddescr;
-		ddescr = pNew;
 	}
+	ddescr = pNew;
 	ddescr[n_ddescr - 1] = dd;
 }
 
@@ -54,6 +54,7 @@ NaRandUnifiedFunc::ddescr_addh (const DimDescr& dd)
 ///                Amax by default)
 ///  - N      - dimension index for multiple outputs
 NaRandUnifiedFunc::NaRandUnifiedFunc (char* szOptions, NaVector& vInit)
+	: n_ddescr(0), ddescr(NULL)
 {
     char	*szToken, *szRest, *szThis = strdup(szOptions);
     NaReal	fTest;
@@ -101,7 +102,7 @@ NaRandUnifiedFunc::NaRandUnifiedFunc (char* szOptions, NaVector& vInit)
     // Rest dimensions
     while(NULL != szToken) {
 
-	szToken = strtok(NULL, " ");
+        szToken = strtok(NULL, " ");
 	if(NULL == szToken) break;
 	fTest = strtod(szToken, &szRest);
 	if(szToken != szRest)
