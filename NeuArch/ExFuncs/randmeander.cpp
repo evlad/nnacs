@@ -33,11 +33,11 @@ void
 NaRandMeanderFunc::ddescr_addh (const DimDescr& dd)
 {
 	DimDescr	*pNew = new DimDescr[++n_ddescr];
-	if(n_ddescr > 0) {
+	if(n_ddescr > 1) {
 		memcpy(pNew, ddescr, sizeof(DimDescr) * (n_ddescr - 1));
 		delete[] ddescr;
-		ddescr = pNew;
 	}
+	ddescr = pNew;
 	ddescr[n_ddescr - 1] = dd;
 }
 
