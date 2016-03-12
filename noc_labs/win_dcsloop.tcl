@@ -90,7 +90,7 @@ proc dcsloopCheckPoint {p chkpnt sessionDir fileName label} {
 	# Try to display all columns of data
 	foreach oneColData $wholeData {
 	    incr i
-	    if {0 > [GrSeriesAddSeries $p "$oneColData" "$label\($i\)" \
+	    if {0 > [GrSeriesAddSeries $p "$oneColData" "$label[subscriptString $i]" \
 			 [lindex $oneColData 2]]} {
 		incr failed
 	    }
