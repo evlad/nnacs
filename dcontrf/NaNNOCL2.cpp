@@ -76,6 +76,7 @@ NaNNOptimContrLearnClosedLoop::NaNNOptimContrLearnClosedLoop::link_net ()
 	net.link(&cerrcomp.cmp, &bus_c.in2);
 	net.link(&bus_c.out, &nncontr.x);
 	break;
+	/// TO REMOVE!!!
       case NaNeuralContrDelayedE:
 	net.link(&setpnt_gen.out, &cerrcomp.main);
 	net.link(&cerrcomp.cmp, &delay_c.in);

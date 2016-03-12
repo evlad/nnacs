@@ -251,6 +251,7 @@ int main(int argc, char **argv)
       ckind = NaNeuralContrERSumE;
     else if(!strcmp(nnc_mode, "e+de"))
       ckind = NaNeuralContrEdE;
+    /// TO REMOVE!!!
     else if(!strcmp(nnc_mode, "e+e+..."))
       ckind = NaNeuralContrDelayedE;
     else if(!strcmp(nnc_mode, "r+e+e+..."))
@@ -502,7 +503,7 @@ int main(int argc, char **argv)
 
     switch(ckind)
       {
-      case NaNeuralContrDelayedE:
+      case NaNeuralContrDelayedE:  /// TO REMOVE!!!
       case NaNeuralContrEdE:
 	// Nothing special
 	break;

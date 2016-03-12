@@ -59,6 +59,7 @@ NaNNContrPreLearn::link_net ()
 
 	switch(eContrKind)
 	  {
+	      /// TO REMOVE!!!
 	  case NaNeuralContrDelayedE:
 	    net.link(&in_e.out, &delay.in);
 	    net.link(&delay.dout, &nncontr.x);
@@ -92,6 +93,7 @@ NaNNContrPreLearn::link_net ()
 	  {
 	    net.link(&nncontr.y, &nnteacher.nnout);
 
+	    /// TO REMOVE!!!
 	    if(NaNeuralContrDelayedE == eContrKind)
 	      net.link(&trigger.out, &nnteacher.desout);
 	    else
@@ -101,6 +103,7 @@ NaNNContrPreLearn::link_net ()
         net.link(&nncontr.y, &errcomp.aux);
 	switch(eContrKind)
 	  {
+	      /// TO REMOVE!!!
 	  case NaNeuralContrDelayedE:
 	    net.link(&nncontr.y, &switcher.in1);
 	    net.link(&in_u.out, &switcher.in2);

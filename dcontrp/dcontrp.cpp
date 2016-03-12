@@ -65,6 +65,7 @@ int main(int argc, char **argv)
       ckind = NaNeuralContrERSumE;
     else if(!strcmp(nnc_mode, "e+de"))
       ckind = NaNeuralContrEdE;
+    /// TO REMOVE!!!
     else if(!strcmp(nnc_mode, "e+e+..."))
       ckind = NaNeuralContrDelayedE;
     else if(!strcmp(nnc_mode, "r+e+e+..."))
@@ -96,6 +97,7 @@ int main(int argc, char **argv)
 	// Nothing special
 	break;
 
+	/// TO REMOVE!!!
       case NaNeuralContrDelayedE:
 	nncpl.delay.set_delay(au_nnc.descr.nInputsRepeat - 1);
 	nncpl.delay.set_sleep_value(0.0);
@@ -103,6 +105,7 @@ int main(int argc, char **argv)
 	nncpe.delay.set_sleep_value(0.0);
 	break;
 
+	/// TO REMOVE!!!
       case NaNeuralContrRDelayedE:
 	nncpl.delay.set_delay(au_nnc.descr.nInputsRepeat - 2);
 	nncpl.delay.set_sleep_value(0.0);

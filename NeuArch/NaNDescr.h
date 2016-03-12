@@ -18,10 +18,10 @@
 enum NaControllerKind
 {
   NaLinearContr,
-  NaNeuralContrDelayedE,
+  NaNeuralContrDelayedE,	/// TO REMOVE!!!
   NaNeuralContrER,
   NaNeuralContrEdE,
-  NaNeuralContrRDelayedE,
+  NaNeuralContrRDelayedE,	/// TO REMOVE!!!
   NaNeuralContrERSumE,
 };
 

@@ -132,6 +132,7 @@ NaNNOptimContrLearn::link_net ()
 	net.link(&err_acc.sum, &bus3_c.in3);
 	net.link(&bus3_c.out, &nncontr.x);
 	break;
+	/// TO REMOVE!!!
       case NaNeuralContrDelayedE:
 	if(0 == nSeriesLen){
 	  net.link_1n(&setpnt_inp.out,
