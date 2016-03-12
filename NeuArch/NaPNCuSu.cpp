@@ -146,9 +146,11 @@ NaPNCuSum::relate_connectors ()
 bool
 NaPNCuSum::verify ()
 {
-  return 1 == x.data().dim()
-    && 1 == d.data().dim()
-    && 1 == sum.data().dim();
+    if(x.data().dim() > 1)
+	NaPrintLog("WARNING! NaPNCuSum '%s' is used with vector input but it is capable only for scalar", name());
+    return x.data().dim() >= 1
+	&& 1 == d.data().dim()
+	&& 1 == sum.data().dim();
 }
 
 
