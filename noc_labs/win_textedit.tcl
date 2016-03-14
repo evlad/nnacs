@@ -90,7 +90,18 @@ proc TextSyntaxHighlight {ftype t} {
 
 # w - parent;
 # title - text to show;
-# filepath - name of variable where to store filename;
+# dirpath - path to the directory with file located;
+# filevar - name of variable where filename is stored;
+# onSave - command to execute when file were saved.
+proc TextEditWindowFileVar {p title dirpath filevar {onSave {}}} {
+    upvar #0 $filevar filename
+    TextEditWindow $p $title [SessionAbsPath $dirpath $filename] $onSave
+}
+
+
+# w - parent;
+# title - text to show;
+# filepath - path to the file to edit;
 # onSave - command to execute when file were saved.
 proc TextEditWindow {p title filepath {onSave {}}} {
     if { [file exists $filepath] && ! [file isfile $filepath] } {
