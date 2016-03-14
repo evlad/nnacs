@@ -102,7 +102,10 @@ proc NNPlantWindow {p sessionDir arref nnp_in nnp_out} {
 	-command "NNPlantViewNNFile $w \"$sessionDir\" var_nnp_in"
     button $f.in_fcreate -text "Создать..." \
 	-command "NNPlantCreateNNFile $w \"$sessionDir\" var_nnp_in"
-    grid $f.in_fcreate -row 1 -column 3
+    button $f.in_fedit -text "Как текст..." \
+	-command "TextEditWindowFileVar $w \"NN plant model editor\" \"$sessionDir\" var_nnp_in"
+    grid $f.in_fcreate -row 1 -column 2
+    grid $f.in_fedit -row 1 -column 3
     grid $f.in_fl $f.in_fe $f.in_fsel $f.in_fview
     grid $f.in_fl -sticky e
 

@@ -102,6 +102,8 @@ proc NNContrWindow {p sessionDir arref nnc_in nnc_out nncinputs} {
 	-command "NNContrViewNNFile $w \"$sessionDir\" var_nnc_in"
     button $f.in_fcreate -text "Создать..." \
 	-command "NNContrCreateNNFile $w \"$sessionDir\" var_nnc_in var_nncinputs"
+    button $f.in_fedit -text "Как текст..." \
+	-command "TextEditWindowFileVar $w \"NN controller editor\" \"$sessionDir\" var_nnc_in"
     label $f.inp_l -text "Входы:"
     frame $f.inputs
     # ...  eee "e+e+..." ede "e+de"
@@ -109,9 +111,7 @@ proc NNContrWindow {p sessionDir arref nnc_in nnc_out nncinputs} {
 	radiobutton $f.inputs.$n -variable var_nncinputs -value $v -text $v
 	pack $f.inputs.$n -padx 2 -side left
     }
-    grid $f.inp_l -row 1 -column 0
-    grid $f.inputs -row 1 -column 1 -columnspan 2
-    grid $f.in_fcreate -row 1 -column 3
+    grid $f.inp_l $f.inputs $f.in_fcreate $f.in_fedit
     grid $f.in_fl $f.in_fe $f.in_fsel $f.in_fview
     grid $f.in_fl -sticky e
     grid $f.inp_l -sticky e
