@@ -282,7 +282,7 @@ proc array_equal {a1_ a2_} {
 #    -2 "Второй подзаголовок"
 #    par_c "Третий параметр"
 #}
-#ParametersWindow .main.subwin array_params $TestParameters
+#ParametersWindow .main.subwin array_params $TestParameters $TestParSpecifications
 #...
 #puts [array get array_params]
 
@@ -290,8 +290,11 @@ proc array_equal {a1_ a2_} {
 # - p - parent widget;
 # - arref - name of global array variable where to store settings
 #           under names mentioned in parlist;
-# - parlist - list of parameters and their labels.
-proc ParametersWindow {p arref parlist} {
+# - parlist - list of parameters and their labels;
+# - parspec - list of spcification for some parameters;
+#    Examples for parspec:
+#     {parname1 {oneof Value1 Value2 Value3}}
+proc ParametersWindow {p arref parlist {parspec {}}} {
     upvar $arref arvar
 
     set w $p.nntpar
@@ -301,6 +304,7 @@ proc ParametersWindow {p arref parlist} {
 
     global $w.parvalue
     array set pardescr $parlist
+    array set parspecar $parspec
 
     # Make local copy
     foreach par [array names pardescr] {
@@ -326,9 +330,31 @@ proc ParametersWindow {p arref parlist} {
 		grid $f.title$par -row $row -column 0 -columnspan 2
 	    }
 	    default {
-		label $f.label_$par -text $pardescr($par) -anchor w
-		entry $f.entry_$par -textvariable $w.parvalue($par) -width 10
-		grid $f.label_$par $f.entry_$par -sticky nw
+		if {![info exists parspecar($par)]} {
+		    label $f.label_$par -text $pardescr($par) -anchor w
+		    entry $f.entry_$par -textvariable $w.parvalue($par) -width 10
+		    grid $f.label_$par $f.entry_$par -sticky nw
+		} else {
+		    switch -glob -- [lindex $parspecar($par) 0] {
+			oneof {
+			    label $f.label_$par -text $pardescr($par) -anchor w
+			    set optname [tk_optionMenu $f.menu_$par $w.parvalue($par) XX]
+			    $optname delete 0
+			    set i 0
+			    foreach item [lrange $parspecar($par) 1 end] {
+				$optname insert $i radiobutton -label $item -command \
+				    "set $w.parvalue($par) $item"
+				incr i
+			    }
+			    grid $f.label_$par $f.menu_$par -sticky nw
+			}
+			default {
+			    label $f.label_$par -text "$pardescr($par) ???" -anchor w
+			    entry $f.entry_$par -textvariable $w.parvalue($par) -width 10
+			    grid $f.label_$par $f.entry_$par -sticky nw
+			}
+		    }
+		}
 	    }
 	}
 	incr row
