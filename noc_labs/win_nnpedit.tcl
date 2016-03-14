@@ -8,6 +8,8 @@ package require screenshot
 
 proc NNPEditSave {w filepath} {
     set f $w.nnarch
+    upvar #0 $f.inputdim_var inputdim
+    upvar #0 $f.outputdim_var outputdim
     upvar #0 $f.inputrep_var inputrep
     upvar #0 $f.outputrep_var outputrep
     upvar #0 $f.numlayers_var numlayers
@@ -18,11 +20,18 @@ proc NNPEditSave {w filepath} {
     upvar #0 $f.inputlabels_var inputlabels
     upvar #0 $f.outputlabels_var outputlabels
 
+    if {$inputdim == {}} {
+	set inputdim 1
+    }
+    if {$outputdim == {}} {
+	set outputdim 1
+    }
+
     set args {}
-    lappend args 1 $inputrep
+    lappend args $inputdim $inputrep
 
     array set act {linear 0 tanh 1}
-    lappend args 1 $outputrep 0 $act($outputfunc) $numlayers
+    lappend args $outputdim $outputrep 0 $act($outputfunc) $numlayers
     for {set iL 1} {$iL <= $numlayers} {incr iL} {
 	eval lappend args \$numneurons$iL
     }
@@ -54,6 +63,8 @@ proc NNPEditDoPlot {w} {
     set c $w.nnpicture.c
     set f $w.nnarch
 
+    upvar #0 $f.inputdim_var inputdim
+    upvar #0 $f.outputdim_var outputdim
     upvar #0 $f.inputrep_var inputrep
     upvar #0 $f.outputrep_var outputrep
     upvar #0 $f.numlayers_var numlayers
@@ -64,36 +75,18 @@ proc NNPEditDoPlot {w} {
     upvar #0 $f.inputlabels_var inputlabels
     upvar #0 $f.outputlabels_var outputlabels
 
-    # Common output of any neural controller
-    set outputlabels {"y'(k+1)"}
-
-    for {set i 0} {$i < $inputrep} {incr i} {
-	if {$i == 0} {
-	    set inputlabels "u(k)"
-	} else {
-	    lappend inputlabels "u(k-$i)"
-	}
-    }
-    for {set i 0} {$i < $outputrep} {incr i} {
-	if {$i == 0} {
-	    lappend inputlabels "y(k)"
-	} else {
-	    lappend inputlabels "y(k-$i)"
-	}
-    }
-
-    set inputs [expr $inputrep + $outputrep]
+    set inputs [expr $inputrep * $inputdim + $outputrep * $outputdim]
     set nnarch {}
-    lappend nnarch [list $inputs $inputlabels]
+    lappend nnarch [list $inputs]
     lappend nnarch [expr $numlayers + 1]
     for {set i 1} {$i <= $numlayers} {incr i} {
 	eval set numneurons \$numneurons$i
 	lappend nnarch "$numneurons tanh"
     }
-    lappend nnarch [list 1 $outputfunc $outputlabels]
+    lappend nnarch [list $outputdim $outputfunc]
 
     # Let's append map of inputs
-    lappend nnarch [list "idim" 1 "irep" $inputrep "odim" 1 "orep" $outputrep]
+    lappend nnarch [list "idim" $inputdim "irep" $inputrep "odim" $outputdim "orep" $outputrep]
 
     # Let's append limits
     set limits {}
@@ -106,7 +99,7 @@ proc NNPEditDoPlot {w} {
     # nnarch = {Inputs NumLayers {HidNeurons1 HidType1} {HidNeurons2 HidType2} ...
     # {Outputs OutputType}}, where type is "linear" or "tanh"
     #puts "nnpedit: $nnarch"
-    DrawNeuralNetArch $c $nnarch
+    DrawNeuralNetArch $c [NNPDecorateNNArch $nnarch]
 }
 
 
@@ -207,6 +200,15 @@ proc NNPEditWindow {p title filepath} {
     }
     set $f.inputlabels_var {i1 i2 i3 i4 i5 i6 i7 i8 i9}
     set $f.outputlabels_var {o1 o2 o3 o4 o5 o6 o7 o8 o9}
+
+    grid [label $f.inputdim_l -text "Размерность входа" -justify left] \
+	[spinbox $f.inputdim -from 1 -to 10 -width 4 -validate key \
+	     -justify right -textvariable $f.inputdim_var \
+	     -vcmd "NNPEditFieldChange $w %P"]
+    grid [label $f.outputdim_l -text "Размерность выхода" -justify left] \
+	[spinbox $f.outputdim -from 1 -to 10 -width 4 -validate key \
+	     -justify right -textvariable $f.outputdim_var \
+	     -vcmd "NNPEditFieldChange $w %P"]
 
     grid [label $f.inputrep_l -text "Входы (с повтором)" -justify left] \
 	[spinbox $f.inputrep -from 1 -to 100 -width 4 -validate key \
