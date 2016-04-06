@@ -132,8 +132,9 @@ int main(int argc, char **argv)
     NaCombinedFunc	noise_tf;
     NaCombinedFunc	au_linplant;
     NaCombinedFunc	au_lincontr;
+    NaStateSpaceModel	au_ssmcontr;
     NaStateSpaceModel	au_ssmplant;
-    enum { TForCOF, SSModel } ePlantType;
+    enum { TForCOF, SSModel } ePlantType, eContrType;
     NaNNUnit		au_nnc, au_nnp;
 
 
@@ -158,15 +159,26 @@ int main(int argc, char **argv)
     switch(contr_kind)
       {
       case linear_contr:
-        au_lincontr.Load(par("lincontr_tf"));
+        {
+	    // Load plant
+	    const char *szFileName = par("lincontr_tf");
+	    if(!strcmp(szFileName + strlen(szFileName) - 4, ".ssm")) {
+		au_ssmcontr.Load(szFileName);
+		eContrType = SSModel;
+	    } else {
+		// Otherwise let's try combined/transfer function
+		au_lincontr.Load(szFileName);
+		eContrType = TForCOF;
+	    }
 
-	vInitial.init_zero();
-	if(par.CheckParam("cerror_initial_value"))
-	  vInitial.init_value(atof(par("cerror_initial_value")));
-	else if(par.CheckParam("plant_initial_state"))
-	  // old and wrong name for cerror_initial_value semantics
-	  vInitial.init_value(atof(par("plant_initial_state")));
-	ckind = NaLinearContr;
+	    vInitial.init_zero();
+	    if(par.CheckParam("cerror_initial_value"))
+		vInitial.init_value(atof(par("cerror_initial_value")));
+	    else if(par.CheckParam("plant_initial_state"))
+		// old and wrong name for cerror_initial_value semantics
+		vInitial.init_value(atof(par("plant_initial_state")));
+	    ckind = NaLinearContr;
+	}
 	break;
 
       case neural_contr:
@@ -238,6 +250,10 @@ int main(int argc, char **argv)
 	    csm.set_plant_ss_model(au_ssmplant);
 	    if(par.CheckParam("out_x"))
 	      csm.plant_x.set_output_filename(par("out_x"));
+	    else {
+		NaPrintLog("Warning: 'out_x' parameter is not defined, 'out_x_default.dat' file is used");
+		csm.plant_x.set_output_filename("out_x_default.dat");
+	    }
 	    break;
 	  }
 
@@ -428,8 +444,12 @@ int main(int argc, char **argv)
 	switch(contr_kind)
 	  {
 	  case linear_contr:
-	    csm.controller.set_transfer_func(&au_lincontr);
+	    if(SSModel == eContrType)
+		csm.controller.set_transfer_func(&au_ssmcontr);
+	    else
+		csm.controller.set_transfer_func(&au_lincontr);
 	    break;
+
 	  case neural_contr:
 	    csm.controller.set_transfer_func(&au_nnc);
 
