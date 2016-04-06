@@ -71,6 +71,7 @@ proc SignalSelectFiltFile {p sessionDir var} {
     set trfuncfiletypes {
 	{"Линейные звенья" {.tf}}
 	{"Произвольные функции" {.cof}}
+	{"Модели в пространстве состояний" {.ssm}}
 	{"Все файлы" *}
     }
     set fileName [fileSelectionBox $p open $fileName $trfuncfiletypes]

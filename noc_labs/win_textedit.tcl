@@ -121,7 +121,8 @@ proc TextEditWindow {p title filepath {onSave {}}} {
 	    set ftype LogFile
 	}
 	".tf" -
-	".cof" {
+	".cof" -
+	".ssm" {
 	    set ftype TrFunc
 	}
 	".nnp" -
