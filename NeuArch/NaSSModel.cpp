@@ -311,16 +311,16 @@ NaStateSpaceModel::Function (NaReal* pU, NaReal* pY)
 
     NaVector    x1(n), x2(n), y1(m);
 
+    // y(t) = C*x(t) + D*u(t)
+    C.multiply(x, y);            // y = C * x
+    D.multiply(u, y1);           // y1 = D * u
+    y.add(y1);                   // y += y1
+
     // x(t+1) = A*x(t) + B*u(t)
     A.multiply(x, x1);           // x1 = A * x
     B.multiply(u, x2);           // x2 = B * u
     x.copy(x1);                  // x = x1
     x.add(x2);                   // x += x2
-
-    // y(t) = C*x(t) + D*u(t)
-    C.multiply(x, y);            // y = C * x
-    D.multiply(u, y1);           // y1 = D * u
-    y.add(y1);                   // y += y1
 
     if(pY != NULL) {
 	for(unsigned i = 0; i < y.dim(); ++i)
