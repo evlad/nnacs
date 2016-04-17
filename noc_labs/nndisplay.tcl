@@ -58,6 +58,9 @@ Options:
   --nntype|-t <Type>    - type of neural network: auto,plant,controller,general
   --width <PixWidth>    - width of window to display neural network schema
   --height <PixHeight>  - height of window to display neural network schema
+  --inlabel <InName>    - name of the input signal (x by default)
+  --outlabel <OutName>  - name of the output signal (y by default)
+  --scalers [on|off]    - show scalers (on by default)
   --verbose             - produce verbose output}
     exit 0
 }
@@ -71,6 +74,28 @@ if {$bVerbose} {
     }
     puts "Script directory: $scriptsdir"
 }
+
+# Optional: name of the input signal
+getopt argv (--inlabel) inlabel "x"
+
+# Optional: name of the input signal
+getopt argv (--outlabel) outlabel "y"
+
+# Optional: show scalers
+getopt argv (--scalers) scalers "on"
+switch -exact $scalers {
+    on {
+      set showScalers 1
+    }
+    off {
+      set showScalers 0
+    }
+    default {
+	puts "Wrong argument to show scalers or not; on or off are expected"
+	exit 2
+    }
+}
+
 
 # Optional: type of neural network to display
 getopt argv (-t|--nntype) nnType auto
@@ -170,7 +195,7 @@ switch -exact $nnType {
 	set nnPictRoot "nncarch"
     }
     general {
-	set nnArchDecor [ANNDecorateNNArch [ReadNeuralNetFile $nnFilePath]]
+	set nnArchDecor [ANNDecorateNNArch [ReadNeuralNetFile $nnFilePath] $inlabel $outlabel]
 	set nnPictRoot "nn_arch"
     }
 }
@@ -192,6 +217,6 @@ button $w.close -text "Закрыть" -command "destroy ."
 ScreenshotButton . $w.print_button $w.c [file dirname $nnFilePath] $nnPictRoot
 pack $w.print_button $w.close -side left
 
-DrawNeuralNetArch $w.c $nnArchDecor
+DrawNeuralNetArch $w.c $nnArchDecor $showScalers
 
 # End of file

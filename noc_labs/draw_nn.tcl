@@ -116,7 +116,7 @@ proc ReadNeuralNetFile {filepath} {
 # For exmaple:
 # 3 3 {5 tanh} {3 tanh} {1 linear} {idim 1 irep 1 odim 1 orep 2 name Plant}
 # {{-1 1} {-1 1} {-1 1} {-1 1}}
-proc DrawNeuralNetArch {c nnarch} {
+proc DrawNeuralNetArch {c nnarch {drawscaler 1}} {
     set totalW [winfo width $c]
     set totalH [winfo height $c]
     if { $totalW <= 1 && $totalH <= 1} {
@@ -218,15 +218,17 @@ proc DrawNeuralNetArch {c nnarch} {
 		    $c create text [expr $HalfLD - $labelHorOffset] $finalY \
 			-justify right -anchor e -text $label
 		}
-		set minLimit [lindex $limits $iLimit 0]
-		$c create text [expr $HalfLD + $labelHorOffset] \
-		    [expr $finalY + $limitVerOffset] \
-		    -justify left -anchor nw -fill "DarkBlue" -text $minLimit
-		set maxLimit [lindex $limits $iLimit 1]
-		$c create text [expr $HalfLD + $labelHorOffset] \
-		    [expr $finalY - $limitVerOffset] \
-		    -justify left -anchor sw -fill "DarkRed" -text $maxLimit
-		incr iLimit
+		if {$drawscaler == 1} {
+		    set minLimit [lindex $limits $iLimit 0]
+		    $c create text [expr $HalfLD + $labelHorOffset] \
+			[expr $finalY + $limitVerOffset] \
+			-justify left -anchor nw -fill "DarkBlue" -text $minLimit
+		    set maxLimit [lindex $limits $iLimit 1]
+		    $c create text [expr $HalfLD + $labelHorOffset] \
+			[expr $finalY - $limitVerOffset] \
+			-justify left -anchor sw -fill "DarkRed" -text $maxLimit
+		    incr iLimit
+		}
 	    }
 	} else {
 	    set yP [expr $y + ($totalH - $NeuronSize * (2 * $prevNum - 1)) / 2]
@@ -257,15 +259,17 @@ proc DrawNeuralNetArch {c nnarch} {
 	    $c create text [expr $startX + $HalfLD + $labelHorOffset] $startY \
 		-justify left -anchor w -text $label
 	}
-	set minLimit [lindex $limits $iLimit 0]
-	$c create text [expr $startX + $HalfLD - $labelHorOffset] \
-	    [expr $startY + $limitVerOffset] \
-	    -justify left -anchor ne -fill "DarkBlue" -text $minLimit
-	set maxLimit [lindex $limits $iLimit 1]
-	$c create text [expr $startX + $HalfLD - $labelHorOffset] \
-	    [expr $startY - $limitVerOffset] \
-	    -justify left -anchor se -fill "DarkRed" -text $maxLimit
-	incr iLimit
+	if {$drawscaler == 1} {
+	    set minLimit [lindex $limits $iLimit 0]
+	    $c create text [expr $startX + $HalfLD - $labelHorOffset] \
+		[expr $startY + $limitVerOffset] \
+		-justify left -anchor ne -fill "DarkBlue" -text $minLimit
+	    set maxLimit [lindex $limits $iLimit 1]
+	    $c create text [expr $startX + $HalfLD - $labelHorOffset] \
+		[expr $startY - $limitVerOffset] \
+		-justify left -anchor se -fill "DarkRed" -text $maxLimit
+	    incr iLimit
+	}
     }
 
     # Draw neurons
@@ -361,7 +365,7 @@ proc TestDrawNeuralNetArch {{nnarch {6 {7 "tanh"} {4 "tanh"} {3 "linear"}}}} {
 # Decorate labels as for general (abstract) NN.
 # Takes on input an NN architecture without labels.
 # Return architecture in format acceptable for DrawNeuralNetArch.
-proc ANNDecorateNNArch {nnarch} {
+proc ANNDecorateNNArch {nnarch {inlabel "x"} {outlabel "y"}} {
     #puts "nnarch: $nnarch"
     set ninputs [lindex $nnarch 0 0]
     set nlayers [lindex $nnarch 1]
@@ -376,38 +380,51 @@ proc ANNDecorateNNArch {nnarch} {
     set outputDim $props(odim)
     set outputRep $props(orep)
 
+    set seriesFlag 0
+    if {$inputRep > 1 || $outputRep > 0} {
+	set seriesFlag 1
+    }
+
     set inputlabels {}
     for {set i 0} {$i < $inputRep} {incr i} {
 	if {$inputDim > 1} {
 	    for {set j 1} {$j <= $inputDim} {incr j} {
-		if {$i == 0} {
-		    lappend inputlabels "x[subscriptString $j](k)"
+		if {$seriesFlag == 0} {
+		    lappend inputlabels "$inlabel[subscriptString $j]"
+		} elseif {$i == 0} {
+		    lappend inputlabels "$inlabel[subscriptString $j](k)"
 		} else {
-		    lappend inputlabels "x[subscriptString $j](k-$i)"
+		    lappend inputlabels "$inlabel[subscriptString $j](k-$i)"
 		}
 	    }
 	} else {
-	    if {$i == 0} {
-		lappend inputlabels "x(k)"
+	    if {$seriesFlag == 0} {
+		lappend inputlabels "$inlabel"
+	    } elseif {$i == 0} {
+		lappend inputlabels "$inlabel\(k\)"
 	    } else {
-		lappend inputlabels "x(k-$i)"
+		lappend inputlabels "$inlabel\(k-$i\)"
 	    }
 	}
     }
     for {set i 0} {$i < $outputRep} {incr i} {
 	if {$outputDim > 1} {
 	    for {set j 1} {$j <= $outputDim} {incr j} {
-		if {$i == 0} {
-		    lappend inputlabels "y[subscriptString $j](k)"
+		if {$seriesFlag == 0} {
+		    lappend inputlabels "$outlabel[subscriptString $j]"
+		} elseif {$i == 0} {
+		    lappend inputlabels "$outlabel[subscriptString $j](k)"
 		} else {
-		    lappend inputlabels "y[subscriptString $j](k-$i)"
+		    lappend inputlabels "$outlabel[subscriptString $j](k-$i)"
 		}
 	    }
 	} else {
-	    if {$i == 0} {
-		lappend inputlabels "y(k)"
+	    if {$seriesFlag == 0} {
+		lappend inputlabels "$outlabel"
+	    } elseif {$i == 0} {
+		lappend inputlabels "$outlabel\(k\)"
 	    } else {
-		lappend inputlabels "y(k-$i)"
+		lappend inputlabels "$outlabel\(k-$i\)"
 	    }
 	}
     }
@@ -416,10 +433,18 @@ proc ANNDecorateNNArch {nnarch} {
     set outputlabels {}
     if {$outputDim > 1} {
 	for {set j 1} {$j <= $outputDim} {incr j} {
-	    lappend outputlabels "y[subscriptString $j]'(k+1)"
+	    if {$seriesFlag == 0} {
+		lappend outputlabels "$outlabel[subscriptString $j]'"
+	    } else {
+		lappend outputlabels "$outlabel[subscriptString $j]'(k+1)"
+	    }
 	}
     } else {
-	lappend outputlabels "y'(k+1)"
+	if {$seriesFlag == 0} {
+	    lappend outputlabels "$outlabel'"
+	} else {
+	    lappend outputlabels "$outlabel'(k+1)"
+	}
     }
 
     lappend newarch [list $ninputs $inputlabels]
