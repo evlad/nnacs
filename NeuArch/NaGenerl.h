@@ -33,7 +33,7 @@ typedef double	NaReal;
 /*************************************************************
  * Maximum number of hidden layers in neural network.
  *************************************************************/
-#define NaMAX_HIDDEN    3
+#define NaMAX_HIDDEN    10
 
 
 /*************************************************************

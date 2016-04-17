@@ -152,15 +152,16 @@ int main(int argc, char **argv)
         (NaActFuncKind) ask_user_int("Output activation (0-linear; 1-sigmoid)",
 				     nnd.eLastActFunc);
 
+    char szHidLayNumQuestion[100];
+    sprintf(szHidLayNumQuestion, "Number of hidden layers (0-%u)", NaMAX_HIDDEN);
     if(argn > 0)
       {
 	--argn;		/* used argument */
 	nnd.nHidLayers = atoi(args[0]);  ++args;
-	printf("Number of hidden layers (0-3): %d\n", nnd.nHidLayers);
+	printf("%s: %u\n", szHidLayNumQuestion, nnd.nHidLayers);
       }
     else
-      nnd.nHidLayers = ask_user_int("Number of hidden layers (0-3)",
-				    nnd.nHidLayers);
+      nnd.nHidLayers = ask_user_int(szHidLayNumQuestion, nnd.nHidLayers);
 
     if(nnd.nHidLayers > NaMAX_HIDDEN){
         printf("Not more than %u layers are allowed.\n", NaMAX_HIDDEN);
