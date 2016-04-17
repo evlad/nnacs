@@ -60,6 +60,8 @@ Options:
   --height <PixHeight>  - height of window to display neural network schema
   --inlabel <InName>    - name of the input signal (x by default)
   --outlabel <OutName>  - name of the output signal (y by default)
+  --instartindex <Num>  - start index of input subscripts (1 by default)
+  --outstartindex <Num> - start index of output subscripts (1 by default)
   --scalers [on|off]    - show scalers (on by default)
   --verbose             - produce verbose output}
     exit 0
@@ -80,6 +82,13 @@ getopt argv (--inlabel) inlabel "x"
 
 # Optional: name of the input signal
 getopt argv (--outlabel) outlabel "y"
+
+# Optional: start index of input subscripts
+getopt argv (--instartindex) instartindex 1
+
+# Optional: start index of output subscripts
+getopt argv (--outstartindex) outstartindex 1
+
 
 # Optional: show scalers
 getopt argv (--scalers) scalers "on"
@@ -195,7 +204,7 @@ switch -exact $nnType {
 	set nnPictRoot "nncarch"
     }
     general {
-	set nnArchDecor [ANNDecorateNNArch [ReadNeuralNetFile $nnFilePath] $inlabel $outlabel]
+	set nnArchDecor [ANNDecorateNNArch [ReadNeuralNetFile $nnFilePath] $inlabel $outlabel $instartindex $outstartindex]
 	set nnPictRoot "nn_arch"
     }
 }

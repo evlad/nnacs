@@ -402,9 +402,15 @@ proc ParametersWindow {p arref parlist {parspec {}}} {
 # Return string as a decimal representation in subscript unicode characters.
 proc subscriptString {index} {
     #set decnum [format "%u" $index]
+
+    set prefix ""
+    if {$index < 0} {
+	set prefix \u208b
+	set index [expr -$index]
+    }
     set subscriptMap {
 	0 \u2080 1 \u2081 2 \u2082 3 \u2083 4 \u2084
 	5 \u2085 6 \u2086 7 \u2087 8 \u2088 9 \u2089
     } 
-    return [string map $subscriptMap $index]
+    return "$prefix[string map $subscriptMap $index]"
 }

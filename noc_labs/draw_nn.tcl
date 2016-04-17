@@ -365,7 +365,8 @@ proc TestDrawNeuralNetArch {{nnarch {6 {7 "tanh"} {4 "tanh"} {3 "linear"}}}} {
 # Decorate labels as for general (abstract) NN.
 # Takes on input an NN architecture without labels.
 # Return architecture in format acceptable for DrawNeuralNetArch.
-proc ANNDecorateNNArch {nnarch {inlabel "x"} {outlabel "y"}} {
+proc ANNDecorateNNArch {nnarch {inlabel "x"} {outlabel "y"} \
+			    {instartindex 1} {outstartindex 1}} {
     #puts "nnarch: $nnarch"
     set ninputs [lindex $nnarch 0 0]
     set nlayers [lindex $nnarch 1]
@@ -388,14 +389,16 @@ proc ANNDecorateNNArch {nnarch {inlabel "x"} {outlabel "y"}} {
     set inputlabels {}
     for {set i 0} {$i < $inputRep} {incr i} {
 	if {$inputDim > 1} {
+	    set inindex $instartindex
 	    for {set j 1} {$j <= $inputDim} {incr j} {
 		if {$seriesFlag == 0} {
-		    lappend inputlabels "$inlabel[subscriptString $j]"
+		    lappend inputlabels "$inlabel[subscriptString $inindex]"
 		} elseif {$i == 0} {
-		    lappend inputlabels "$inlabel[subscriptString $j](k)"
+		    lappend inputlabels "$inlabel[subscriptString $inindex](k)"
 		} else {
-		    lappend inputlabels "$inlabel[subscriptString $j](k-$i)"
+		    lappend inputlabels "$inlabel[subscriptString $inindex](k-$i)"
 		}
+		incr inindex
 	    }
 	} else {
 	    if {$seriesFlag == 0} {
@@ -409,14 +412,16 @@ proc ANNDecorateNNArch {nnarch {inlabel "x"} {outlabel "y"}} {
     }
     for {set i 0} {$i < $outputRep} {incr i} {
 	if {$outputDim > 1} {
+	    set outindex $outstartindex
 	    for {set j 1} {$j <= $outputDim} {incr j} {
 		if {$seriesFlag == 0} {
-		    lappend inputlabels "$outlabel[subscriptString $j]"
+		    lappend inputlabels "$outlabel[subscriptString $outindex]"
 		} elseif {$i == 0} {
-		    lappend inputlabels "$outlabel[subscriptString $j](k)"
+		    lappend inputlabels "$outlabel[subscriptString $outindex](k)"
 		} else {
-		    lappend inputlabels "$outlabel[subscriptString $j](k-$i)"
+		    lappend inputlabels "$outlabel[subscriptString $outindex](k-$i)"
 		}
+		incr outindex
 	    }
 	} else {
 	    if {$seriesFlag == 0} {
@@ -432,12 +437,14 @@ proc ANNDecorateNNArch {nnarch {inlabel "x"} {outlabel "y"}} {
     set newarch {}
     set outputlabels {}
     if {$outputDim > 1} {
+	set outindex $outstartindex
 	for {set j 1} {$j <= $outputDim} {incr j} {
 	    if {$seriesFlag == 0} {
-		lappend outputlabels "$outlabel[subscriptString $j]'"
+		lappend outputlabels "$outlabel[subscriptString $outindex]'"
 	    } else {
-		lappend outputlabels "$outlabel[subscriptString $j]'(k+1)"
+		lappend outputlabels "$outlabel[subscriptString $outindex]'(k+1)"
 	    }
+	    incr outindex
 	}
     } else {
 	if {$seriesFlag == 0} {
