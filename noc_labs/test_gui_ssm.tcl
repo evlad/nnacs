@@ -1,5 +1,6 @@
 package require Tk
 
+source balloon/balloon.tcl
 
 proc SSModelDisplayData {f varN varM varK x0 A B C D} {
     upvar #0 $varN n
@@ -10,10 +11,15 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 
     frame $f
 
-    set r 0
+    # resource values
+    set cellwidth 8
+    set defvalue 0
+    array set bgc {A pink B LightCyan C Lavender D PaleGreen x0 Bisque}
 
+    set r 0
     set c 0
-    label $f.lA -text "A:"
+
+    label $f.lA -text "A:" -background $bgc(A)
     grid $f.lA -row $r -column $c
     incr c
     for {set j 0} {$j < $n} {incr j} {
@@ -22,17 +28,23 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	    if $debugCells {
 		set $f.A_${j}_$i "A\[$j,$i\]"
 	    } elseif {![info exist $f.A_${j}_$i]} {
-		set $f.A_${j}_$i [lindex $A $j $i]
+		set cellval [lindex $A $j $i]
+		if {{} == $cellval} {
+		    set $f.A_${j}_$i $defvalue
+		} else {
+		    set $f.A_${j}_$i $cellval
+		}
 	    }
-	    entry $f.eA_${j}_$i -width 10 \
+	    entry $f.eA_${j}_$i -width $cellwidth \
 		-validate key -vcmd {string is double %P} \
 		-textvariable $f.A_${j}_$i
+	    balloon $f.eA_${j}_$i -text "A([expr 1+$j],[expr 1+$i])"
 	    grid $f.eA_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
     }
 
     incr c $n
-    label $f.lB -text "B:"
+    label $f.lB -text "B:" -background $bgc(B)
     grid $f.lB -row $r -column [expr $c]
     incr c
     for {set j 0} {$j < $n} {incr j} {
@@ -41,11 +53,17 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	    if $debugCells {
 		set $f.B_${j}_$i "B\[$j,$i\]"
 	    } elseif {![info exist $f.B_${j}_$i]} {
-		set $f.B_${j}_$i [lindex $B $j $i]
+		set cellval [lindex $B $j $i]
+		if {{} == $cellval} {
+		    set $f.B_${j}_$i $defvalue
+		} else {
+		    set $f.B_${j}_$i $cellval
+		}
 	    }
-	    entry $f.eB_${j}_$i -width 10 \
+	    entry $f.eB_${j}_$i -width $cellwidth \
 		-validate key -vcmd {string is double %P} \
 		-textvariable $f.B_${j}_$i
+	    balloon $f.eB_${j}_$i -text "B([expr 1+$j],[expr 1+$i])"
 	    grid $f.eB_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
     }
@@ -53,7 +71,7 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 
     incr r
     set c 0
-    label $f.lC -text "C:"
+    label $f.lC -text "C:" -background $bgc(C)
     grid $f.lC -row $r -column $c
     incr c
     for {set j 0} {$j < $m} {incr j} {
@@ -62,17 +80,23 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	    if $debugCells {
 		set $f.C_${j}_$i "C\[$j,$i\]"
 	    } elseif {![info exist $f.C_${j}_$i]} {
-		set $f.C_${j}_$i [lindex $C $j $i]
+		set cellval [lindex $C $j $i]
+		if {{} == $cellval} {
+		    set $f.C_${j}_$i $defvalue
+		} else {
+		    set $f.C_${j}_$i $cellval
+		}
 	    }
-	    entry $f.eC_${j}_$i -width 10 \
+	    entry $f.eC_${j}_$i -width $cellwidth \
 		-validate key -vcmd {string is double %P} \
 		-textvariable $f.C_${j}_$i
+	    balloon $f.eC_${j}_$i -text "C([expr 1+$j],[expr 1+$i])"
 	    grid $f.eC_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
     }
 
     incr c $n
-    label $f.lD -text "D:"
+    label $f.lD -text "D:" -background $bgc(D)
     grid $f.lD -row $r -column [expr $c]
     incr c
     for {set j 0} {$j < $m} {incr j} {
@@ -81,18 +105,24 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	    if $debugCells {
 		set $f.D_${j}_$i "D\[$j,$i\]"
 	    } elseif {![info exist $f.D_${j}_$i]} {
-		set $f.D_${j}_$i [lindex $D $j $i]
+		set cellval [lindex $D $j $i]
+		if {{} == $cellval} {
+		    set $f.D_${j}_$i $defvalue
+		} else {
+		    set $f.D_${j}_$i $cellval
+		}
 	    }
-	    entry $f.eD_${j}_$i -width 10 \
+	    entry $f.eD_${j}_$i -width $cellwidth \
 		-validate key -vcmd {string is double %P} \
 		-textvariable $f.D_${j}_$i
+	    balloon $f.eD_${j}_$i -text "D([expr 1+$j],[expr 1+$i])"
 	    grid $f.eD_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
     }
     incr r $m
 
     set c 0
-    label $f.lx0 -text "x0:"
+    label $f.lx0 -text "x0:" -background $bgc(x0)
     grid $f.lx0 -row $r -column $c
     incr c
     for {set i 0} {$i < $n} {incr i} {
@@ -100,11 +130,17 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	if $debugCells {
 	    set $f.x0_$i "x0\[$i\]"
 	} elseif {![info exist $f.x0_$i]} {
-	    set $f.x0_$i [lindex $x0 $i]
+	    set cellval [lindex $x0 $j $i]
+	    if {{} == $cellval} {
+		set $f.x0_${j}_$i $defvalue
+	    } else {
+		set $f.x0_${j}_$i $cellval
+	    }
 	}
-	entry $f.ex0_$i -width 10 \
+	entry $f.ex0_$i -width $cellwidth \
 	    -validate key -vcmd {string is double %P} \
 	    -textvariable $f.x0_$i
+	balloon $f.ex0_$i -text "x0([expr 1+$i])"
 	grid $f.ex0_$i -row [expr $r] -column [expr $c + $i]
     }
     incr r
