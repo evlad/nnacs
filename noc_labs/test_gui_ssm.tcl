@@ -1,6 +1,6 @@
 package require Tk
 
-source balloon/balloon.tcl
+source balloon.tcl
 
 proc SSModelDisplayData {f varN varM varK x0 A B C D} {
     upvar #0 $varN n
@@ -37,7 +37,8 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	    }
 	    entry $f.eA_${j}_$i -width $cellwidth \
 		-validate key -vcmd {string is double %P} \
-		-textvariable $f.A_${j}_$i
+		-textvariable $f.A_${j}_$i \
+		-background $bgc(A)
 	    balloon $f.eA_${j}_$i -text "A([expr 1+$j],[expr 1+$i])"
 	    grid $f.eA_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
@@ -62,7 +63,8 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	    }
 	    entry $f.eB_${j}_$i -width $cellwidth \
 		-validate key -vcmd {string is double %P} \
-		-textvariable $f.B_${j}_$i
+		-textvariable $f.B_${j}_$i \
+		-background $bgc(B)
 	    balloon $f.eB_${j}_$i -text "B([expr 1+$j],[expr 1+$i])"
 	    grid $f.eB_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
@@ -89,7 +91,8 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	    }
 	    entry $f.eC_${j}_$i -width $cellwidth \
 		-validate key -vcmd {string is double %P} \
-		-textvariable $f.C_${j}_$i
+		-textvariable $f.C_${j}_$i \
+		-background $bgc(C)
 	    balloon $f.eC_${j}_$i -text "C([expr 1+$j],[expr 1+$i])"
 	    grid $f.eC_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
@@ -114,7 +117,8 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	    }
 	    entry $f.eD_${j}_$i -width $cellwidth \
 		-validate key -vcmd {string is double %P} \
-		-textvariable $f.D_${j}_$i
+		-textvariable $f.D_${j}_$i \
+		-background $bgc(D)
 	    balloon $f.eD_${j}_$i -text "D([expr 1+$j],[expr 1+$i])"
 	    grid $f.eD_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
@@ -130,16 +134,17 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	if $debugCells {
 	    set $f.x0_$i "x0\[$i\]"
 	} elseif {![info exist $f.x0_$i]} {
-	    set cellval [lindex $x0 $j $i]
+	    set cellval [lindex $x0 $i]
 	    if {{} == $cellval} {
-		set $f.x0_${j}_$i $defvalue
+		set $f.x0_$i $defvalue
 	    } else {
-		set $f.x0_${j}_$i $cellval
+		set $f.x0_$i $cellval
 	    }
 	}
 	entry $f.ex0_$i -width $cellwidth \
 	    -validate key -vcmd {string is double %P} \
-	    -textvariable $f.x0_$i
+	    -textvariable $f.x0_$i \
+	    -background $bgc(x0)
 	balloon $f.ex0_$i -text "x0([expr 1+$i])"
 	grid $f.ex0_$i -row [expr $r] -column [expr $c + $i]
     }
@@ -151,7 +156,7 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 # Display parameters of the object
 # - p - parent widget
 # - thisvar - name of the array in calling context to list name=value pairs
-# Returns: 1 - if there were changes; 0 - there were not changes in
+# Returns: 1 - if there were changes; 0 - there were no changes in
 # parameters
 proc SSModelEditor {p thisvar} {
     set w $p.ssmodel
@@ -211,9 +216,11 @@ proc SSModelEditor {p thisvar} {
 }
 
 set ssm {
-    name "ssm1" states 2 inputs 1 outputs 2
-    a {{1 0.5} {0 2}} b {0 1} c {{1 0} {0 1}} d {0 0} x0 {0 0}
+x0 {0 0 0 0 0 0 0 0} d {{0 0} {0 0}} outputs 2 states 8 a {{1.828 -0.8344 0 0 0 0 0 0} {1 0 0 0 0 0 0 0} {0 0 1.929 -0.9315 0 0 0 0} {0 0 1 0 0 0 0 0} {0 0 0 0 1.936 -0.938 0 0} {0 0 0 0 1 0 0 0} {0 0 0 0 0 0 1.791 -0.8009} {0 0 0 0 0 0 1 0}} name {} b {{0.5 0} {0 0} {0.25 0} {0 0} {0 0.25} {0 0} {0 0.25} {0 0}} version 1.0 c {{0.2401 0.2261 0 0 0.2291 0.2242 0 0} {0 0 0.207 0.2022 0 0 0.1858 0.1726}} inputs 2
 }
+
+#    name "ssm1" states 2 inputs 1 outputs 2
+#    a {{1 0.5} {0 2}} b {0 1} c {{1 0} {0 1}} d {0 0} x0 {0 0}
 
 array set ssmAr $ssm
 
