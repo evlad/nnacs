@@ -1,6 +1,6 @@
 package require Tk
 
-source balloon.tcl
+#source balloon.tcl
 
 proc SSModelDisplayData {f varN varM varK x0 A B C D} {
     upvar #0 $varN n
@@ -14,7 +14,8 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
     # resource values
     set cellwidth 8
     set defvalue 0
-    array set bgc {A pink B LightCyan C Lavender D PaleGreen x0 Bisque}
+    #array set bgc {A pink B LightCyan C Lavender D PaleGreen x0 Bisque}
+    array set bgc {A MistyRose B Lavender C Lavender D MistyRose x0 Honeydew}
 
     set r 0
     set c 0
@@ -39,7 +40,7 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 		-validate key -vcmd {string is double %P} \
 		-textvariable $f.A_${j}_$i \
 		-background $bgc(A)
-	    balloon $f.eA_${j}_$i -text "A([expr 1+$j],[expr 1+$i])"
+	    #balloon $f.eA_${j}_$i -text "A([expr 1+$j],[expr 1+$i])"
 	    grid $f.eA_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
     }
@@ -65,7 +66,7 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 		-validate key -vcmd {string is double %P} \
 		-textvariable $f.B_${j}_$i \
 		-background $bgc(B)
-	    balloon $f.eB_${j}_$i -text "B([expr 1+$j],[expr 1+$i])"
+	    #balloon $f.eB_${j}_$i -text "B([expr 1+$j],[expr 1+$i])"
 	    grid $f.eB_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
     }
@@ -93,7 +94,7 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 		-validate key -vcmd {string is double %P} \
 		-textvariable $f.C_${j}_$i \
 		-background $bgc(C)
-	    balloon $f.eC_${j}_$i -text "C([expr 1+$j],[expr 1+$i])"
+	    #balloon $f.eC_${j}_$i -text "C([expr 1+$j],[expr 1+$i])"
 	    grid $f.eC_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
     }
@@ -119,7 +120,7 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 		-validate key -vcmd {string is double %P} \
 		-textvariable $f.D_${j}_$i \
 		-background $bgc(D)
-	    balloon $f.eD_${j}_$i -text "D([expr 1+$j],[expr 1+$i])"
+	    #balloon $f.eD_${j}_$i -text "D([expr 1+$j],[expr 1+$i])"
 	    grid $f.eD_${j}_$i -row [expr $r + $j] -column [expr $c + $i]
 	}
     }
@@ -145,7 +146,7 @@ proc SSModelDisplayData {f varN varM varK x0 A B C D} {
 	    -validate key -vcmd {string is double %P} \
 	    -textvariable $f.x0_$i \
 	    -background $bgc(x0)
-	balloon $f.ex0_$i -text "x0([expr 1+$i])"
+	#balloon $f.ex0_$i -text "x0([expr 1+$i])"
 	grid $f.ex0_$i -row [expr $r] -column [expr $c + $i]
     }
     incr r
