@@ -122,11 +122,11 @@ proc SSModelEditor {p thisvar} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" -command "[set $save_all_vars] destroy $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.ok -text [mc "OK"] -command "[set $save_all_vars] destroy $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
 
     set m $w.buttons.probe.m
-    menubutton $w.buttons.probe -text "Отклик" \
+    menubutton $w.buttons.probe -text [mc "Response"] \
 	-direction below -menu $m -relief raised
     menu $m -tearoff 0
     foreach probesignal {pulse step sin_4 sin_10 sin_20} {

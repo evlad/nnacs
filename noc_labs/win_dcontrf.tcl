@@ -22,20 +22,20 @@ proc dcontrfDrawPanel {this c} {
     #set textFont -*-helvetica-bold-r-*-*-14-*-*-*-*-*-koi8-r
     set textFont [option get $c fontLargeBlock ""]
 
-    $c create text 0.5c 0.6c -text "Обучение нейронной сети регулятора (НС-Р) в контуре:" \
+    $c create text 0.5c 0.6c -text [mc "Neural network controller training (NN-C) in the loop:"] \
 	-justify left -anchor nw -fill black -font "$textFont"
 
-    DrawLargeBlock $c reference "Уставка" 1.8c 4.5c
+    DrawLargeBlock $c reference [mc "Reference"] 1.8c 4.5c
     DrawSmallBlock $c checkpoint_r "r" 3.5c 4.5c
     DrawGather $c cerr 4.5c 4.5c "s"
     DrawSmallBlock $c checkpoint_e "e" 5.4c 4.5c
-    DrawLargeBlock $c teacher "Обучение" 7.5c 2.2c
-    DrawLargeBlock $c controller "  НС-Р  " 7.1c 4.5c
+    DrawLargeBlock $c teacher [mc "Training"] 7.5c 2.2c
+    DrawLargeBlock $c controller [mc "  NN-C  "] 7.1c 4.5c
     DrawSmallBlock $c checkpoint_u "u" 8.8c 4.5c
-    DrawLargeBlock $c plant "Объект" 10.4c 4.5c
-    DrawLargeBlock $c nnplant "  НС-О  " 10.4c 3c
+    DrawLargeBlock $c plant [mc "Plant"] 10.4c 4.5c
+    DrawLargeBlock $c nnplant [mc "  NN-P  "] 10.4c 3c
     DrawGather $c nadd 12c 4.5c "none"
-    DrawLargeBlock $c noise "Помеха" 9.4c 5.5c
+    DrawLargeBlock $c noise [mc "Noise"] 9.4c 5.5c
     DrawSmallBlock $c checkpoint_y "y" 13c 4.5c
     DrawSmallBlock $c checkpoint_n "n" 11c 5.5c
     DrawSmallBlock $c checkpoint_nny "y'" 12c 3c
@@ -265,7 +265,7 @@ proc dcontrfCreateWindow {p title sessionDir} {
     set hl $w.headline
     frame $hl
     set titleFont [option get $hl headlineFont ""]
-    button $hl.s -text "Сеанс $sessionDir" \
+    button $hl.s -text [SessionDirLabel $sessionDir] \
 	-relief flat -padx 0 -pady 0 \
 	-justify left -anchor nw -fg DarkGreen -font $titleFont \
 	-command "TextEditWindow $w \"$parFile\" \"$parFile\" dcontrfLoadParams"
@@ -278,7 +278,7 @@ proc dcontrfCreateWindow {p title sessionDir} {
     set uc $w.usercomment
     frame $uc
     set titleFont [option get $hl headlineFont ""]
-    label $uc.l -text "Описание:" \
+    label $uc.l -text [mc "Description:"] \
 	-justify left -anchor nw -fg DarkGreen -font $titleFont
     entry $uc.e -textvariable dcontrf_params(comment) \
 	-width 30 -relief flat -font $titleFont -bg white
@@ -294,12 +294,12 @@ proc dcontrfCreateWindow {p title sessionDir} {
     set c $w.frame.c
     ScreenshotButton $w $w.controls.print $c [SessionDir $curSessionDir] "dcontrf"
 
-    button $w.controls.run -text "Запустить" \
+    button $w.controls.run -text [mc "Run"] \
 	-command "dcontrfRun $w \"$curSessionDir\" \"$parFile\""
-    button $w.controls.log -text "Протокол"
-    button $w.controls.series -text "Графики" \
+    button $w.controls.log -text [mc "Log"]
+    button $w.controls.series -text [mc "Graphics"] \
 	-command "GrSeriesWindow $w \"NN-C in-loop training series plot\" \"[SessionDir $curSessionDir]\""
-    button $w.controls.close -text "Закрыть" \
+    button $w.controls.close -text [mc "Close"] \
 	-command "array set dcontrf_params {} ; destroy $w"
     pack $w.controls.print $w.controls.run $w.controls.log \
 	$w.controls.series $w.controls.close -side left -expand 1

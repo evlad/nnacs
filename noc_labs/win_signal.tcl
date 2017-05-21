@@ -130,37 +130,37 @@ proc SignalWindow {p sessionDir signal arref sigsrc datafile filtfile filtlen} {
     switch -exact $signal {
 	refer {
 	    wm title $w "Reference settings"
-	    label $f.title -text "Сигнал уставки"
+	    label $f.title -text [mc "Reference signal"]
 	}
 	noise {
 	    wm title $w "Noise settings"
-	    label $f.title -text "Сигнал помехи"
+	    label $f.title -text [mc "Noise signal"]
 	}
 	default {
 	    wm title $w "Signal settings"
-	    label $f.title -text "Сигнал"
+	    label $f.title -text [mc "Signal"]
 	}
     }
 
     grid $f.title
     grid $f.title -row 0 -column 0 -columnspan 4
 
-    radiobutton $f.data_rb -text "Произвольный ряд в файле" \
+    radiobutton $f.data_rb -text [mc "Time series from file"] \
 	-variable var_sigsrc -value "file"
-    label $f.data_fl -text "Имя файла:"
+    label $f.data_fl -text [mc "File name:"]
     entry $f.data_fe -width 30 -textvariable var_datafile_$signal
-    button $f.data_fsel -text "Выбор..." \
+    button $f.data_fsel -text [mc "Choice..."] \
 	-command "SignalSelectDataFile $w \"$sessionDir\" var_datafile_$signal"
 
     set m $f.data_foper.m
-    menubutton $f.data_foper -text "Операции" \
+    menubutton $f.data_foper -text [mc "Operations"] \
 	-direction below -menu $m -relief raised
     menu $m -tearoff 0
-    $m add command -label "Показать..." \
+    $m add command -label [mc "Display..."] \
 	-command "SignalViewDataFile $w \"$sessionDir\" var_datafile_$signal"
-    $m add command -label "Создать..." \
+    $m add command -label [mc "Create..."] \
 	-command "SignalGenWindow $w \"$sessionDir\" var_datafile_$signal"
-    $m add command -label "Статистика..." \
+    $m add command -label [mc "Statistics..."] \
 	-command "SignalStatAnDataFile $w \"$sessionDir\" var_datafile_$signal"
 
 #SignalViewDataFile $w $sessionDir var_datafile_$signal
@@ -170,26 +170,26 @@ proc SignalWindow {p sessionDir signal arref sigsrc datafile filtfile filtlen} {
     grid $f.data_rb -sticky nw
     grid $f.data_fl -sticky e
 
-    radiobutton $f.filt_rb -text "Фильтр на белый шум" \
+    radiobutton $f.filt_rb -text [mc "Filter on white noise"] \
 	-variable var_sigsrc -value "stream"
-    label $f.filt_fl -text "Имя файла:" -anchor w
+    label $f.filt_fl -text [mc "File name:"] -anchor w
     entry $f.filt_fe -width 30 -textvariable var_filtfile_$signal
-    button $f.filt_fsel -text "Выбор..." \
+    button $f.filt_fsel -text [mc "Choice..."] \
 	-command "SignalSelectFiltFile $w \"$sessionDir\" var_filtfile_$signal"
 
     set m $f.filt_fedit.m
-    menubutton $f.filt_fedit -text "Изменить..." -underline 0 \
+    menubutton $f.filt_fedit -text [mc "Change..."] -underline 0 \
 	-direction below -menu $m -relief raised
 
     menu $m -tearoff 0
-    $m add command -label "Тип звена" \
+    $m add command -label [mc "Block type"] \
 	-command "TrFuncEdit $w \"$sessionDir\" [set var_filtfile_$signal] @var_filtfile_$signal true"
-    $m add command -label "Параметры" \
+    $m add command -label [mc "Parameters"] \
 	-command "TrFuncEdit $w \"$sessionDir\" [set var_filtfile_$signal] @var_filtfile_$signal"
-    $m add command -label "Как текст" \
+    $m add command -label [mc "As text"] \
 	-command "TrFuncEdit $w \"$sessionDir\" [set var_filtfile_$signal] @var_filtfile_$signal false true"
 
-    label $f.filt_ll -text "Длина ряда:" -anchor w
+    label $f.filt_ll -text [mc "Series length:"] -anchor w
     entry $f.filt_le -width 8 -textvariable var_filtlen
 
     grid $f.filt_rb
@@ -204,9 +204,9 @@ proc SignalWindow {p sessionDir signal arref sigsrc datafile filtfile filtlen} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" \
+    button $w.buttons.ok -text [mc "OK"] \
 	-command "set $w.applyChanges 1 ; destroy $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
     pack $w.buttons.ok $w.buttons.cancel -side left -expand 1
 
     tkwait window $w

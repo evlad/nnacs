@@ -31,16 +31,16 @@ proc ModelWindow {p sessionDir arref nnpfile} {
     set f $w.p
     frame $f
 
-    label $f.title -text "Модель объекта"
+    label $f.title -text [mc "Plant model"]
     grid $f.title
     grid $f.title -row 0 -column 0 -columnspan 4
 
-    label $f.nnp_title -text "Нейросетевая модель"
-    label $f.nnp_fl -text "Имя файла:"
+    label $f.nnp_title -text [mc "Neural network model"]
+    label $f.nnp_fl -text [mc "File name:"]
     entry $f.nnp_fe -width 30 -textvariable var_nnpfile
-    button $f.nnp_fsel -text "Выбор..." \
+    button $f.nnp_fsel -text [mc "Choice..."] \
 	-command "NNPlantSelectNNFile $w \"$sessionDir\" var_nnpfile"
-    button $f.nnp_fview -text "Показать..." \
+    button $f.nnp_fview -text [mc "Display..."] \
 	-command "NNPlantViewNNFile $w \"$sessionDir\" var_nnpfile"
 
     grid $f.nnp_fl $f.nnp_fe $f.nnp_fsel $f.nnp_fview
@@ -50,9 +50,9 @@ proc ModelWindow {p sessionDir arref nnpfile} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" \
+    button $w.buttons.ok -text [mc "OK"] \
 	-command "set $w.applyChanges 1 ; destroy $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
     pack $w.buttons.ok $w.buttons.cancel -side left -expand 1
 
     tkwait window $w

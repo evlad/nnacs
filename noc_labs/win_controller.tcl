@@ -124,26 +124,26 @@ proc ContrWindow {p sessionDir arref ckind trcfile nncfile nncinputs} {
     set f $w.p
     frame $f
 
-    label $f.title -text "Регулятор"
+    label $f.title -text [mc "Controller"]
     grid $f.title
     grid $f.title -row 0 -column 0 -columnspan 4
 
-    radiobutton $f.lin_rb -text "Традиционный регулятор" \
+    radiobutton $f.lin_rb -text [mc "Traditional controller"] \
 	-variable var_ckind -value lin
-    label $f.lin_fl -text "Имя файла:" -anchor w
+    label $f.lin_fl -text [mc "File name:"] -anchor w
     entry $f.lin_fe -width 30 -textvariable var_trcfile
-    button $f.lin_fsel -text "Выбор..." \
+    button $f.lin_fsel -text [mc "Choice..."] \
 	-command "ContrSelectTrFile $w \"$sessionDir\" var_trcfile"
 
     set m $f.lin_fedit.m
-    menubutton $f.lin_fedit -text "Изменить..."  -underline 0 \
+    menubutton $f.lin_fedit -text [mc "Change..."]  -underline 0 \
 	-direction below -menu $m -relief raised
     menu $m -tearoff 0
-    $m add command -label "Тип звена" \
+    $m add command -label [mc "Block type"] \
 	-command "TrFuncEdit $w \"$sessionDir\" \"$var_trcfile\" @var_trcfile true"
-    $m add command -label "Параметры" \
+    $m add command -label [mc "Parameters"] \
 	-command "TrFuncEdit $w \"$sessionDir\" \"$var_trcfile\" @var_trcfile"
-    $m add command -label "Как текст" \
+    $m add command -label [mc "As text"] \
 	-command "TrFuncEdit $w \"$sessionDir\" \"$var_trcfile\" @var_trcfile false true"
 
     grid $f.lin_rb
@@ -151,15 +151,15 @@ proc ContrWindow {p sessionDir arref ckind trcfile nncfile nncinputs} {
     grid $f.lin_rb -sticky nw
     grid $f.lin_fl -sticky e
 
-    radiobutton $f.nnc_rb -text "Нейросетевой регулятор" \
+    radiobutton $f.nnc_rb -text [mc "Nueral network controller"] \
 	-variable var_ckind -value nnc
-    label $f.nnc_fl -text "Имя файла:"
+    label $f.nnc_fl -text [mc "File name:"]
     entry $f.nnc_fe -width 30 -textvariable var_nncfile
-    button $f.nnc_fsel -text "Выбор..." \
+    button $f.nnc_fsel -text [mc "Choice..."] \
 	-command "ContrSelectNNFile $w \"$sessionDir\" var_nncfile"
-    button $f.nnc_fview -text "Показать..." \
+    button $f.nnc_fview -text [mc "Display..."] \
 	-command "ContrViewNNFile $w \"$sessionDir\" var_nncfile"
-    label $f.inp_l -text "Входы:"
+    label $f.inp_l -text [mc "Inputs:"]
     frame $f.inputs
     # ...  eee "e+e+..." ede "e+de"
     foreach {n v} {re "e+r" reSe "e+r+se"} {
@@ -179,9 +179,9 @@ proc ContrWindow {p sessionDir arref ckind trcfile nncfile nncinputs} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" \
+    button $w.buttons.ok -text [mc "OK"] \
 	-command "set $w.applyChanges 1 ; destroy $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
     pack $w.buttons.ok $w.buttons.cancel -side left -expand 1
 
     tkwait window $w

@@ -2,6 +2,16 @@ package provide universal 1.0
 
 package require Tk
 
+package require msgcat
+
+# For somewhat reason 
+#namespace import msgcat::mc
+# does not work: causes silent error on pkg_mkIndex and absence of universal in pkgIndex.tcl
+proc mc {s} {
+    return [::msgcat::mc $s]
+}
+
+
 # unlist listValue outVar0 outVar1 ...
 # Implies [lindex $listValue 0] -> outVar0
 #         [lindex $listValue 1] -> outVar1
@@ -196,10 +206,10 @@ proc StatAnDataFile {p sessionDir fileRelPath} {
     toplevel $w
     wm title $w "Statistics: $fileRelPath"
     set f $w
-    label $f.l -text "Статистика по файлу:"
+    label $f.l -text [mc "File statistics файлу:"]
     pack $f.l
 
-    button $f.b -text "Закрыть" -command "destroy $w"
+    button $f.b -text [mc "Close"] -command "destroy $w"
     pack $f.b -side bottom
 
     set font [option get $w fontMono ""]
@@ -365,9 +375,9 @@ proc ParametersWindow {p arref parlist {parspec {}}} {
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
 
-    button $w.buttons.ok -text "OK" \
+    button $w.buttons.ok -text [mc "OK"] \
 	-command "set $w.applyChanges 1 ; destroy $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
     pack $w.buttons.ok $w.buttons.cancel -side left -expand 1
 
     global $w.applyChanges

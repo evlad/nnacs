@@ -484,24 +484,24 @@ proc Distr2DWindow {p title {path ""} {extproc ""}} {
     ScreenshotButton $w $w.buttons.print $c $workDir "grplot"
 
     set m $w.buttons.curves.m
-    menubutton $w.buttons.curves -text "Ряды" \
+    menubutton $w.buttons.curves -text [mc "Series"] \
 	-direction below -menu $m -relief raised
     menu $m -tearoff 0
-    $m add command -label "Добавить..." \
+    $m add command -label [mc "Add..."] \
 	-command "Distr2DAddFile $p \"$workDir\""
     # To implement Delete action one needs to implement associative
     # indexing of data series based on utag.  Also,
     # Distr2DUpdateSeries must be considered.
     # GUI part may start with next code:
-    #$m add cascade -label "Удалить" -menu $m.delete
+    #$m add cascade -label [mc "Remove"] -menu $m.delete
     #set d [menu $m.delete -tearoff 0]
     #$m.delete add command -label "$label" -command "Distr2DDeleteSeries $p \"$utag\""
 
     set o $w.buttons.options
     frame $o
-    checkbutton $o.grid -text "Сетка" \
+    checkbutton $o.grid -text [mc "Grid"] \
 	-variable $c.bDrawGrid -command "Distr2DDoPlot $c"
-    checkbutton $o.legend -text "Легенда" \
+    checkbutton $o.legend -text [mc "Legend"] \
 	-variable $c.bDrawLegend -command "Distr2DDoPlot $c"
     global xmin xmax ymin ymax
     button $o.xlabel -text "X:" -command "Distr2DViewAll $c x" -pady 0
@@ -515,8 +515,8 @@ proc Distr2DWindow {p title {path ""} {extproc ""}} {
     hint $o.ylabel "Press to set the whole Y range"
 
     # after entries to make exact focus order by Tab/Shift-Tab
-    button $w.buttons.redraw -text "Обновить" -command "Distr2DDoPlot $c"
-    button $w.buttons.close -text "Закрыть" \
+    button $w.buttons.redraw -text [mc "Update"] -command "Distr2DDoPlot $c"
+    button $w.buttons.close -text [mc "Close"] \
 	-command "Distr2DDestroy $w ; destroy $w"
 
     grid $o.grid $o.xlabel $o.xmin $o.xmax -sticky w

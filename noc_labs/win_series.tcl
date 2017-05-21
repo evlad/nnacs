@@ -20,6 +20,6 @@ proc seriesCreateWindow {p title} {
     wm title $w "Series visualization, analysis and edit tool"
     wm iconname $w "Series$seriesInstance"
 
-    button $w.close -text "Закрыть" -command "destroy $w"
+    button $w.close -text [mc "Close"] -command "destroy $w"
     pack $w.close
 }

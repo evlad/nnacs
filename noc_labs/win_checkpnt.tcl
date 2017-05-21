@@ -88,10 +88,10 @@ proc CheckPntWindow {p title var} {
     wm title $w $title
 
     frame $w.file
-    label $w.file.label -text "File name:" -anchor w
+    label $w.file.label -text [mc "File name:"] -anchor w
     entry $w.file.entry -width 40 -textvariable fileName
     $w.file.entry insert 0 $fileName
-    button $w.file.button -text "Browse..." \
+    button $w.file.button -text [mc "Browse..."] \
 	-command "CheckPntFileDialog $w $w.file.entry open $fileName"
     pack $w.file.label $w.file.entry -side left
     pack $w.file.button -side left -pady 5 -padx 10
@@ -99,14 +99,14 @@ proc CheckPntWindow {p title var} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" \
+    button $w.buttons.ok -text [mc "OK"] \
 	-command "CheckPntWindowOk $w $w.file.entry globalFileName"
-    button $w.buttons.apply -text "Apply" \
+    button $w.buttons.apply -text [mc "Apply"] \
 	-command "CheckPntWindowApply $w $w.file.entry globalFileName"
-    button $w.buttons.edit -text "Edit..." \
+    button $w.buttons.edit -text [mc "Edit..."] \
 	-command "TextEditWindow $w TITLE \$fileName"
-    button $w.buttons.view -text "View..."
-    button $w.buttons.cancel -text "Cancel" -command "destroy $w"
+    button $w.buttons.view -text [mc "View..."]
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
     pack $w.buttons.ok $w.buttons.apply $w.buttons.edit $w.buttons.view \
 	$w.buttons.cancel -side left -expand 1
 

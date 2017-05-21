@@ -90,19 +90,19 @@ proc NNPlantWindow {p sessionDir arref nnp_in nnp_out} {
     set f $w.p
     frame $f
 
-    label $f.title -text "Нейросетевая модель объекта"
+    label $f.title -text [mc "Neural network plant model"]
     grid $f.title
     grid $f.title -row 0 -column 0 -columnspan 4
 
-    label $f.in_fl -text "Исходная нейронная сеть:"
+    label $f.in_fl -text [mc "Initial neural network:"]
     entry $f.in_fe -width 30 -textvariable var_nnp_in
-    button $f.in_fsel -text "Выбор..." \
+    button $f.in_fsel -text [mc "Choice..."] \
 	-command "NNPlantSelectNNFile $w \"$sessionDir\" var_nnp_in"
-    button $f.in_fview -text "Показать..." \
+    button $f.in_fview -text [mc "Display..."] \
 	-command "NNPlantViewNNFile $w \"$sessionDir\" var_nnp_in"
-    button $f.in_fcreate -text "Создать..." \
+    button $f.in_fcreate -text [mc "Create..."] \
 	-command "NNPlantCreateNNFile $w \"$sessionDir\" var_nnp_in"
-    button $f.in_fedit -text "Как текст..." \
+    button $f.in_fedit -text [mc "As text..."] \
 	-command "TextEditWindowFileVar $w \"NN plant model editor\" \"$sessionDir\" var_nnp_in"
     grid $f.in_fcreate -row 1 -column 2
     grid $f.in_fedit -row 1 -column 3
@@ -110,11 +110,11 @@ proc NNPlantWindow {p sessionDir arref nnp_in nnp_out} {
     grid $f.in_fl -sticky e
 
     if {$nnp_out != {}} {
-	label $f.out_fl -text "Результат обучения:"
+	label $f.out_fl -text [mc "Training result:"]
 	entry $f.out_fe -width 30 -textvariable var_nnp_out
-	button $f.out_fsel -text "Выбор..." \
+	button $f.out_fsel -text [mc "Choice..."] \
 	    -command "NNPlantSelectNNFile $w \"$sessionDir\" var_nnp_out"
-	button $f.out_fview -text "Показать..." \
+	button $f.out_fview -text [mc "Display..."] \
 	    -command "NNPlantViewNNFile $w \"$sessionDir\" var_nnp_out"
 	grid $f.out_fl $f.out_fe $f.out_fsel $f.out_fview
 	grid $f.out_fl -sticky e
@@ -123,9 +123,9 @@ proc NNPlantWindow {p sessionDir arref nnp_in nnp_out} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" \
+    button $w.buttons.ok -text [mc "OK"] \
 	-command "set $w.applyChanges 1 ; destroy $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
     pack $w.buttons.ok $w.buttons.cancel -side left -expand 1
 
     tkwait window $w

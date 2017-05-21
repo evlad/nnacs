@@ -220,17 +220,17 @@ proc SignalGenExtGrSeries {cmd p} {
 	create {
 	    frame $f
 	    set buttons {
-		clear_series "Очистить ряд"
-		rnd_gauss "Случайный нормальный"
-		rnd_unified "Случайный равномерный"
-		rnd_meander "Случайный меандр"
-		constant "Постоянное значение"
-		meander "Меандр"
-		harmonic "Синусоида"
-#		delta_pulse "Дельта-импульсы"
+		clear_series "Clear series"
+		rnd_gauss "Random Gaussian"
+		rnd_unified "Random unified"
+		rnd_meander "Random meander"
+		constant "Constant value"
+		meander "Meander"
+		harmonic "Sine"
 	    }
+	    #	delta_pulse "Delta impulses"
 	    foreach {n t} $buttons {
-		button $f.$n -text $t -command "SignalGenAction $p $n"
+		button $f.$n -text [mc $t] -command "SignalGenAction $p $n"
 		global $n.par_initial
 		if {[info exists $n.par_initial]} {
 		    puts "$n.par_initial => $n.par_arr"

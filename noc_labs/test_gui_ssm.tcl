@@ -188,9 +188,9 @@ proc SSModelEditor {p thisvar} {
 
     frame $w.info.dimensions
     set f $w.info.dimensions
-    label $f.lstates -text "States:"
-    label $f.linputs -text "Inputs:"
-    label $f.loutputs -text "Outputs:"
+    label $f.lstates -text [mc "States:"]
+    label $f.linputs -text [mc "Inputs:"]
+    label $f.loutputs -text [mc "Outputs:"]
 
     foreach x {states inputs outputs} {
 	spinbox $f.e$x -width 3 -from 1 -to 10 -textvariable $w.$x \

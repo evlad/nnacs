@@ -13,19 +13,19 @@ package require screenshot
 proc dcontrpDrawPanel {this c} {
     set textFont [option get $c fontLargeBlock ""]
 
-    $c create text 0.5c 0.8c -text "Обучение нейронной сети (НС-Р):" \
+    $c create text 0.5c 0.8c -text [mc "Neural network training (NN-C):"] \
 	-justify left -anchor nw -fill black -font "$textFont"
 
-    DrawLargeBlock $c learn_reference "Уставка" 2.5c 2c
+    DrawLargeBlock $c learn_reference [mc "Reference"] 2.5c 2c
     DrawSmallBlock $c learn_checkpoint_r "r" 4.1c 2c
-    DrawLargeBlock $c learn_error "Ошибка" 2.5c 3c
+    DrawLargeBlock $c learn_error [mc "Error"] 2.5c 3c
     DrawSmallBlock $c learn_checkpoint_e "e" 4.1c 3c
-    DrawLargeBlock $c learn_nnc "\nНС-Р\n" 5.5c 2.5c
+    DrawLargeBlock $c learn_nnc [mc "\nNN-C\n"] 5.5c 2.5c
     DrawSmallBlock $c learn_checkpoint_nu "u'" 7c 2.5c
     DrawGather $c learn_cmp 8c 2.5c "w"
     DrawSmallBlock $c learn_checkpoint_u "u" 9c 2.5c
-    DrawLargeBlock $c learn_control "Управление" 11c 2.5c
-    DrawLargeBlock $c learn_training "Обучение" 8c 4c
+    DrawLargeBlock $c learn_control [mc "Control"] 11c 2.5c
+    DrawLargeBlock $c learn_training [mc "Training"] 8c 4c
 
     DrawDirection $c learn_reference "e" learn_checkpoint_r "w" last
     DrawDirection $c learn_checkpoint_r "e" learn_nnc "w" horOnly
@@ -38,19 +38,19 @@ proc dcontrpDrawPanel {this c} {
     DrawDirection $c learn_cmp "s" learn_training "n" last
     DrawDirection $c learn_training "w" learn_nnc "se" last {color "red"}
 
-    $c create text 0.5c 4.8c -text "Проверка нейронной сети (НС-Р):" \
+    $c create text 0.5c 4.8c -text [mc "Neural network verification (NN-C):"] \
 	-justify left -anchor nw -fill black -font "$textFont"
 
-    DrawLargeBlock $c test_reference "Уставка" 2.5c 6c
+    DrawLargeBlock $c test_reference [mc "Reference"] 2.5c 6c
     DrawSmallBlock $c test_checkpoint_r "r" 4.1c 6c
-    DrawLargeBlock $c test_error "Ошибка" 2.5c 7c
+    DrawLargeBlock $c test_error [mc "Error"] 2.5c 7c
     DrawSmallBlock $c test_checkpoint_e "e" 4.1c 7c
-    DrawLargeBlock $c test_nnc "\nНС-Р\n" 5.5c 6.5c
+    DrawLargeBlock $c test_nnc [mc "\nNN-C\n"] 5.5c 6.5c
     DrawSmallBlock $c test_checkpoint_nu "u'" 7c 6.5c
     DrawGather $c test_cmp 8c 6.5c "w"
     DrawSmallBlock $c test_checkpoint_u "u" 9c 6.5c
-    DrawLargeBlock $c test_control "Управление" 11c 6.5c
-    DrawLargeBlock $c test_training "Проверка" 8c 8c
+    DrawLargeBlock $c test_control [mc "Control"] 11c 6.5c
+    DrawLargeBlock $c test_training [mc "Check"] 8c 8c
 
     DrawDirection $c test_reference "e" test_checkpoint_r "w" last
     DrawDirection $c test_checkpoint_r "e" test_nnc "w" horOnly
@@ -253,7 +253,7 @@ proc dcontrpCreateWindow {p title sessionDir} {
     set hl $w.headline
     frame $hl
     set titleFont [option get $hl headlineFont ""]
-    button $hl.s -text "Сеанс $sessionDir" \
+    button $hl.s -text [SessionDirLabel $sessionDir] \
 	-relief flat -padx 0 -pady 0 \
 	-justify left -anchor nw -fg DarkGreen -font $titleFont \
 	-command "TextEditWindow $w \"$parFile\" \"$parFile\" dcontrpLoadParams"
@@ -266,7 +266,7 @@ proc dcontrpCreateWindow {p title sessionDir} {
     set uc $w.usercomment
     frame $uc
     set titleFont [option get $hl headlineFont ""]
-    label $uc.l -text "Описание:" \
+    label $uc.l -text [mc "Description:"] \
 	-justify left -anchor nw -fg DarkGreen -font $titleFont
     entry $uc.e -textvariable dcontrp_params(comment) \
 	-width 30 -relief flat -font $titleFont -bg white
@@ -282,12 +282,12 @@ proc dcontrpCreateWindow {p title sessionDir} {
     set c $w.frame.c
     ScreenshotButton $w $w.controls.print $c [SessionDir $curSessionDir] "dcontrp"
 
-    button $w.controls.run -text "Запустить" \
+    button $w.controls.run -text [mc "Run"] \
 	-command "dcontrpRun $w \"$curSessionDir\" \"$parFile\""
-    button $w.controls.log -text "Протокол"
-    button $w.controls.series -text "Графики" \
+    button $w.controls.log -text [mc "Log"]
+    button $w.controls.series -text [mc "Graphics"] \
 	-command "GrSeriesWindow $w \"NN-C out-of-loop training series plot\" \"[SessionDir $curSessionDir]\""
-    button $w.controls.close -text "Закрыть" \
+    button $w.controls.close -text [mc "Close"] \
 	-command "array set dcontrp_params {} ; destroy $w"
     pack $w.controls.print $w.controls.run $w.controls.log \
 	$w.controls.series $w.controls.close -side left -expand 1

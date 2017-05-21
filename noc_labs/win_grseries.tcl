@@ -524,24 +524,24 @@ proc GrSeriesWindow {p title {path ""} {extproc ""}} {
     ScreenshotButton $w $w.buttons.print $c $workDir "grplot"
 
     set m $w.buttons.curves.m
-    menubutton $w.buttons.curves -text "Ряды" \
+    menubutton $w.buttons.curves -text [mc "Series"] \
 	-direction below -menu $m -relief raised
     menu $m -tearoff 0
-    $m add command -label "Добавить..." \
+    $m add command -label [mc "Add..."] \
 	-command "GrSeriesAddFile $p \"$workDir\""
     # To implement Delete action one needs to implement associative
     # indexing of data series based on utag.  Also,
     # GrSeriesUpdateSeries must be considered.
     # GUI part may start with next code:
-    #$m add cascade -label "Удалить" -menu $m.delete
+    #$m add cascade -label [mc "Remove"] -menu $m.delete
     #set d [menu $m.delete -tearoff 0]
     #$m.delete add command -label "$label" -command "GrSeriesDeleteSeries $p \"$utag\""
 
     set o $w.buttons.options
     frame $o
-    checkbutton $o.grid -text "Сетка" \
+    checkbutton $o.grid -text [mc "Grid"] \
 	-variable $c.bDrawGrid -command "GrSeriesDoPlot $c"
-    checkbutton $o.legend -text "Легенда" \
+    checkbutton $o.legend -text [mc "Legend"] \
 	-variable $c.bDrawLegend -command "GrSeriesDoPlot $c"
     global xmin xmax ymin ymax
     button $o.xlabel -text "X:" -command "GrSeriesViewAll $c x" -pady 0
@@ -555,8 +555,8 @@ proc GrSeriesWindow {p title {path ""} {extproc ""}} {
     hint $o.ylabel "Press to set the whole Y range"
 
     # after entries to make exact focus order by Tab/Shift-Tab
-    button $w.buttons.redraw -text "Обновить" -command "GrSeriesDoPlot $c"
-    button $w.buttons.close -text "Закрыть" \
+    button $w.buttons.redraw -text [mc "Update"] -command "GrSeriesDoPlot $c"
+    button $w.buttons.close -text [mc "Close"] \
 	-command "GrSeriesDestroy $w ; destroy $w"
 
     grid $o.grid $o.xlabel $o.xmin $o.xmax -sticky w

@@ -34,7 +34,7 @@ proc CusumWindow {p sessionDir arref sigma0 sigma1 h_sol k_const det_int} {
     set f $w.p
     frame $f
 
-    label $f.title -text "Параметры алгоритма кумулятивных сумм"
+    label $f.title -text [mc "CUSUM algorithm parameters"]
     grid $f.title
     grid $f.title -row 0 -column 0 -columnspan 4
 
@@ -54,12 +54,12 @@ proc CusumWindow {p sessionDir arref sigma0 sigma1 h_sol k_const det_int} {
     #	    -vcmd {string is double %P}]] \
     #   -sticky e
 
-    grid [label $f.l_h_sol -text "Решающая граница"] \
+    grid [label $f.l_h_sol -text [mc "Threshold barrier"]] \
 	[entry $f.e_h_sol -textvariable var_h_sol \
 	     -vcmd {string is double %P}] \
 	-sticky e
 
-    grid [label $f.l_det_int -text "Интервал второго срабатывания"] \
+    grid [label $f.l_det_int -text [mc "Second hit interval"]] \
 	[entry $f.e_det_int -textvariable var_det_int \
 	     -vcmd {string is integer %P}] \
 	-sticky e
@@ -74,9 +74,9 @@ proc CusumWindow {p sessionDir arref sigma0 sigma1 h_sol k_const det_int} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" \
+    button $w.buttons.ok -text [mc "OK"] \
 	-command "set $w.applyChanges 1 ; destroy $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
     pack $w.buttons.ok $w.buttons.cancel -side left -expand 1
 
     tkwait window $w

@@ -222,7 +222,7 @@ set w ""
 canvas $w.c -background white -width $winWidth -height $winHeight
 pack $w.c -fill both -expand yes -side top
 
-button $w.close -text "Закрыть" -command "destroy ."
+button $w.close -text [mc "Close"] -command "destroy ."
 ScreenshotButton . $w.print_button $w.c [file dirname $nnFilePath] $nnPictRoot
 pack $w.print_button $w.close -side left
 

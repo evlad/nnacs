@@ -64,7 +64,7 @@ proc ScreenshotAction {w c workDir rootName type} {
 # rootName - name of the file with appended number and file extension
 proc ScreenshotButton {w b c workDir rootName} {
     set m $b.m
-    menubutton $b -text "Снимок окна" -direction below -menu $m -relief raised
+    menubutton $b -text [mc "Window screenshot"] -direction below -menu $m -relief raised
     menu $m -tearoff 0
     # These formats presents in raw Tk
     set imgfmts {postscript gif}

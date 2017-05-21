@@ -19,17 +19,17 @@ proc dplantidDrawPanel {this c} {
     set delaynimg [image create photo -file \
 		       [file join [SystemDir] templates simple_delayn.gif] ]
 
-    $c create text 0.5c 0.8c -text "Обучение нейронной сети (НС-О):" \
+    $c create text 0.5c 0.8c -text [mc "Neural network training (NN-P):"] \
 	-justify left -anchor nw -fill black -font "$textFont"
 
-    DrawLargeBlock $c learn_control "Управление" 3c 2c
+    DrawLargeBlock $c learn_control [mc "Control"] 3c 2c
     DrawSmallBlock $c learn_checkpoint_u "u" 5.1c 2c
-    DrawLargeBlock $c learn_observ "Наблюдение" 3c 3c
+    DrawLargeBlock $c learn_observ [mc "Observation"] 3c 3c
     DrawSmallBlock $c learn_checkpoint_y "y" 5.1c 3c
-    DrawLargeBlock $c learn_nnp "\nНС-О\n" 6.5c 2.5c
+    DrawLargeBlock $c learn_nnp [mc "\nNN-P\n"] 6.5c 2.5c
     DrawSmallBlock $c learn_checkpoint_nny "y'" 8c 2.5c
     DrawGather $c learn_cmp 8c 4.1c "n"
-    DrawLargeBlock $c learn_training "Обучение" 9c 1c
+    DrawLargeBlock $c learn_training [mc "Training"] 9c 1c
     DrawImageBlock $c learn_delayn $delaynimg 5.1c 4.1c
     DrawSmallBlock $c learn_checkpoint_yd "y\"" 6.5c 4.1c
 
@@ -45,17 +45,17 @@ proc dplantidDrawPanel {this c} {
     DrawDirection $c learn_cmp "e" learn_training "s" hor
     DrawDirection $c learn_training "sw" learn_nnp "ne" last {color "red"}
 
-    $c create text 0.5c 4.8c -text "Проверка нейронной сети (НС-О):" \
+    $c create text 0.5c 4.8c -text [mc "Neural network verification (NN-P):"] \
      	-justify left -anchor nw -fill black -font "$textFont"
 
-    DrawLargeBlock $c test_control "Управление" 3c 6c
+    DrawLargeBlock $c test_control [mc "Control"] 3c 6c
     DrawSmallBlock $c test_checkpoint_u "u" 5.1c 6c
-    DrawLargeBlock $c test_observ "Наблюдение" 3c 7c
+    DrawLargeBlock $c test_observ [mc "Observation"] 3c 7c
     DrawSmallBlock $c test_checkpoint_y "y" 5.1c 7c
-    DrawLargeBlock $c test_nnp "\nНС-О\n" 6.5c 6.5c
+    DrawLargeBlock $c test_nnp [mc "\nNN-P\n"] 6.5c 6.5c
     DrawSmallBlock $c test_checkpoint_nny "y'" 8c 6.5c
     DrawGather $c test_cmp 8c 8.1c "n"
-    DrawLargeBlock $c test_check "Проверка" 10c 8.1c
+    DrawLargeBlock $c test_check [mc "Check"] 10c 8.1c
     DrawImageBlock $c test_delayn $delaynimg 5.1c 8.1c
     DrawSmallBlock $c test_checkpoint_yd "y\"" 6.5c 8.1c
 
@@ -262,7 +262,7 @@ proc dplantidCreateWindow {p title sessionDir} {
     set hl $w.headline
     frame $hl
     set titleFont [option get $hl headlineFont ""]
-    button $hl.s -text "Сеанс $sessionDir" \
+    button $hl.s -text [SessionDirLabel $sessionDir] \
 	-relief flat -padx 0 -pady 0 \
 	-justify left -anchor nw -fg DarkGreen -font $titleFont \
 	-command "TextEditWindow $w \"$parFile\" \"$parFile\" dplantidLoadParams"
@@ -275,7 +275,7 @@ proc dplantidCreateWindow {p title sessionDir} {
     set uc $w.usercomment
     frame $uc
     set titleFont [option get $hl headlineFont ""]
-    label $uc.l -text "Описание:" \
+    label $uc.l -text [mc "Description:"] \
 	-justify left -anchor nw -fg DarkGreen -font $titleFont
     entry $uc.e -textvariable dplantid_params(comment) \
 	-width 30 -relief flat -font $titleFont -bg white
@@ -292,12 +292,12 @@ proc dplantidCreateWindow {p title sessionDir} {
     set c $w.frame.c
     ScreenshotButton $w $w.controls.print $c [SessionDir $curSessionDir] "dplantid"
 
-    button $w.controls.run -text "Запустить" \
+    button $w.controls.run -text [mc "Run"] \
 	-command "dplantidRun $w \"$curSessionDir\" \"$parFile\""
-    button $w.controls.log -text "Протокол"
-    button $w.controls.series -text "Графики" \
+    button $w.controls.log -text [mc "Log"]
+    button $w.controls.series -text [mc "Graphics"] \
 	-command "GrSeriesWindow $w \"NN-P out-of-loop training series plot\" \"[SessionDir $curSessionDir]\""
-    button $w.controls.close -text "Закрыть" \
+    button $w.controls.close -text [mc "Close"] \
 	-command "array set dplantid_params {} ; destroy $w"
     pack $w.controls.print $w.controls.run $w.controls.log \
 	$w.controls.series $w.controls.close -side left -expand 1

@@ -6,7 +6,10 @@ wm iconname . "Labs main menu"
 wm geometry . +100+100
 
 package require files_loc
+
 package require universal
+::msgcat::mcload [file join [file dirname [info script]] msgs]
+
 package require win_dcsloop
 package require win_dcontrp
 package require win_dplantid
@@ -19,11 +22,11 @@ set ScriptsDir [file join [SystemDir] scripts]
 option readfile [file join $ScriptsDir nnacs.ad]
 
 set menuContent {
-    "dcsloop" "Моделирование системы автоматического управления"
-    "dcontrp" "Обучение нейросетевого регулятора вне контура"
-    "dplantid" "Обучение нейросетевой модели объекта управления"
-    "dcontrf" "Обучение нейросетевого регулятора в контуре"
-    "dcsloop" "Обнаружение разладки объекта в контуре"
+    "dcsloop" "Control System Loop Modeling"
+    "dcontrp" "Neural Network Controller Offline Training"
+    "dplantid" "Neural Network Plant Model Offline Training"
+    "dcontrf" "Neural Network Controller Online Training"
+    "dcsloop" "Online Plant Changes Detection"
 }
 
 proc AboutWindow {p} {
@@ -35,7 +38,7 @@ proc AboutWindow {p} {
     wm geometry $w +300+300
 
     ## See Code / Dismiss buttons
-    button $w.dismiss -text "OK" -command "destroy $w"
+    button $w.dismiss -text [mc "OK"] -command "destroy $w"
     pack $w.dismiss -side bottom
 
     text $w.text -yscrollcommand [list $w.scroll set] -setgrid 1 \
@@ -50,25 +53,18 @@ proc AboutWindow {p} {
     $w.text tag configure moreinfo  -spacing1 3p -font "$family 10"
 
     $w.text insert 0.0 \
-	{Учебно-исследовательский программый пакет "Нейросетевые системы автоматического управления"
-NNACS - Neural network applications for control systems
-} center
+	[format "%s\nNNACS - Neural Network Applications For Control Systems\n" [mc "progtitle"] ] center
     global tcl_platform
     set platform [string totitle $tcl_platform(platform)]
-    $w.text insert end "Версия: 1.8.2 для $platform\n" center
-    $w.text insert end "Дата: 13 апреля 2016 года\n" center
-    $w.text insert end {
-Национальный исследовательский университет "МЭИ"
-Институт Автоматики и вычислительной техники
-Кафедра Управления и информатики
-} center
+    $w.text insert end [format [mc "Version: %s for %s\n"] "1.8.2" $platform] center
+    $w.text insert end [format [mc "Date: %s\n"] "13-04-2016"] center
+    $w.text insert end [mc "mpeititle"] center
 
-    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2016\nEmail: YeliseevVL@mpei.ac.ru\n" center
+    $w.text insert end "\n\uf8e9 [mc authorname], 2001-2016\nEmail: YeliseevVL@mpei.ac.ru\n" center
 
     if {$tcl_platform(platform) == "windows"} {
+        $w.text insert end [mc "vsscanfdiscl"]
         $w.text insert end {
-В версии пакета на платформе Windows используется фунция vsscanf:
-
 This software is provided 'as-is', without any express or implied
 warranty.  In no event will the authors be held liable for any damages
 arising from the use of this software.
@@ -164,7 +160,7 @@ proc ShowConsole {} {
 
 
 pack [button $w.user_button \
-	  -text "Перед началом\nВыбор/создание нового пользователя" \
+	  -text [mc "Before start\nSelect/create user"] \
 	  -command "NewUser \"$w\""] -fill x -side top -expand yes -pady 2
 
 #set curUserDir "/home/user/labworks/EliseevVL"
@@ -172,20 +168,20 @@ pack [button $w.user_button \
 set i 0
 foreach {label title} $menuContent {
     incr i
-    #set text "$label\n$title"
-    set text "$title"
+    set text [mc "$title"]
+    #set text "$label\n$text"
     pack [button $w.lab${i}_button -text "$text" \
 	      -command "CheckGoodEnv \"$w\" ; MenuProg$i \"$w\" \"$text\""] -fill x -side top -expand yes -pady 2
 }
 
 bind . <C> {ShowConsole}
-button $w.term_button -text "Консоль" -command ShowConsole
+button $w.term_button -text [mc "Console"] -command ShowConsole
 pack $w.term_button -fill x -side top -expand yes -pady 2
 
-button $w.info_button -text "О программе" -command "AboutWindow \"$w\""
+button $w.info_button -text [mc "About"] -command "AboutWindow \"$w\""
 pack $w.info_button -fill x -side top -expand yes -pady 2
 
-button $w.quit_button -text "Выход" -command { removeTemporalFiles ; exit }
+button $w.quit_button -text [mc "Exit"] -command { removeTemporalFiles ; exit }
 pack $w.quit_button -side top -expand yes -pady 2
 
 # End of file

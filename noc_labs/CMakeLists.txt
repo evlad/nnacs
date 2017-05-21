@@ -80,8 +80,13 @@ set(TEMPLATES
 	templates/dcsloop_cusum.par
 	templates/dplantid.par)
 
+set(MESSAGES
+	msgs/en.msg
+	msgs/ru_ru.msg)
+
 install(FILES ${TCL_SCRIPTS} nnacs.ad DESTINATION scripts)
 install(FILES ${TEMPLATES} DESTINATION templates)
+install(FILES ${MESSAGES} DESTINATION scripts/msgs)
 
 install(DIRECTORY labworks/Examples DESTINATION labworks
         PATTERN ".svn" EXCLUDE)

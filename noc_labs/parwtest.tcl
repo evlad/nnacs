@@ -23,5 +23,5 @@ set TestParSpecifications {
   par_e {dummytype}
 }
 
-button .b -text "Press me" -command { ParametersWindow .b array_params $TestParameters $TestParSpecifications ; puts [array get array_params] }
+button .b -text [mc "Press me"] -command { ParametersWindow .b array_params $TestParameters $TestParSpecifications ; puts [array get array_params] }
 pack .b

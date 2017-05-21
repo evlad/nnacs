@@ -328,7 +328,7 @@ proc DisplayNeuralNetArch {p title nnFilePath} {
 
     wm title $w $title
 
-    button $w.close -text "Закрыть" -command "destroy $w"
+    button $w.close -text [mc "Close"] -command "destroy $w"
     canvas $w.c -width 500 -height 250
     pack $w.close -side bottom -expand 1
     pack $w.c -fill both -expand yes

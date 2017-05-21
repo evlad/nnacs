@@ -35,7 +35,7 @@ proc RtSeriesWindow {p title rtreader rtparam rtseries} {
 
     ScreenshotButton $w $w.print_button $c [setdef $rtparam workDir [pwd]] "rtplot"
 
-    button $w.stop_button -text "Остановить" \
+    button $w.stop_button -text [mc "Stop"] \
 	-command "RtSeriesStop $w \"$par(stopCmd)\" ; set $w.stop_flag 1"
     pack $w.print_button $w.stop_button -side left
 
@@ -103,7 +103,7 @@ proc RtSeriesWindow {p title rtreader rtparam rtseries} {
 	incr i
 	set tcur [expr {$tcur + $dt}]
     }
-    $w.stop_button configure -text "Закрыть" -command "destroy $w"
+    $w.stop_button configure -text [mc "Close"] -command "destroy $w"
     # reader returned {} or break occured
 }
 
@@ -112,7 +112,7 @@ proc RtSeriesWindow {p title rtreader rtparam rtseries} {
 proc RtSeriesStop {w cmd} {
     eval $cmd
     # The next button event will close the window
-    $w.stop_button configure -text "Закрыть" -command "destroy $w"
+    $w.stop_button configure -text [mc "Close"] -command "destroy $w"
 }
 
 
@@ -152,7 +152,7 @@ proc RtSeriesTest {} {
     #set c $w.c
     #pack [canvas $c -background white -width 600 -height 300] \
 #	-expand yes -fill both -side top
-    #button $w.stop -text "Остановить" -command "RtSeriesStop {} {puts STOP}"
+    #button $w.stop -text [mc "Stop"] -command "RtSeriesStop {} {puts STOP}"
     #pack $w.stop
 
     set fname "testdata/nncp_trace.dat"

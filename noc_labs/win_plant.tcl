@@ -85,24 +85,24 @@ proc PlantWindow {p sessionDir arref plantfile} {
     set f $w.p
     frame $f
 
-    label $f.title -text "Объект управления"
+    label $f.title -text [mc "Plant of control"]
     grid $f.title
     grid $f.title -row 0 -column 0 -columnspan 4
 
-    label $f.lin_fl -text "Имя файла:" -anchor w
+    label $f.lin_fl -text [mc "File name:"] -anchor w
     entry $f.lin_fe -width 30 -textvariable var_plantfile
-    button $f.lin_fsel -text "Выбор..." \
+    button $f.lin_fsel -text [mc "Choice..."] \
 	-command "PlantSelectTrFile $w \"$sessionDir\" var_plantfile"
 
     set m $f.lin_fedit.m
-    menubutton $f.lin_fedit -text "Изменить..."  -underline 0 \
+    menubutton $f.lin_fedit -text [mc "Change..."]  -underline 0 \
 	-direction below -menu $m -relief raised
     menu $m -tearoff 0
-    $m add command -label "Тип звена" \
+    $m add command -label [mc "Block type"] \
 	-command "TrFuncEdit $w \"$sessionDir\" \"$var_plantfile\" @var_plantfile true"
-    $m add command -label "Параметры" \
+    $m add command -label [mc "Parameters"] \
 	-command "TrFuncEdit $w \"$sessionDir\" \"$var_plantfile\" @var_plantfile"
-    $m add command -label "Как текст" \
+    $m add command -label [mc "As text"] \
 	-command "TrFuncEdit $w \"$sessionDir\" \"$var_plantfile\" @var_plantfile false true"
 
 
@@ -113,9 +113,9 @@ proc PlantWindow {p sessionDir arref plantfile} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" \
+    button $w.buttons.ok -text [mc "OK"] \
 	-command "set $w.applyChanges 1 ; destroy $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
     pack $w.buttons.ok $w.buttons.cancel -side left -expand 1
 
     tkwait window $w

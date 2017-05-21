@@ -7,8 +7,8 @@ proc ProgressBarCreate {w} {
     pack $w.c -padx 10 -pady 10 -side top
 }
 
-button .reset -text "Reset" -command "ProgressBarReset"
-button .run -text "Run" -command "Run"
+button .reset -text [mc "Reset"] -command "ProgressBarReset"
+button .run -text [mc "Run"] -command "Run"
 
 ProgressBarCreate ""
 pack .reset .run -side left

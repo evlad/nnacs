@@ -343,12 +343,12 @@ proc CoFuncTFChangeType {w configvar descrvar {parwidget {}}  {typewidget {}}} {
 proc CoFuncEditorTableCreate {g} {
     frame $g
     # Headline
-    grid [label $g.sel_hl -text "Выбор"] \
-	[label $g.name_hl -text "Имя"] \
-	[label $g.type_hl -text "Тип"] \
-	[label $g.params_hl -text "Параметры"] \
-	[label $g.from_hl -text "От"] \
-	[label $g.to_hl -text "До"]
+    grid [label $g.sel_hl -text [mc "Choice"]] \
+	[label $g.name_hl -text [mc "Name"]] \
+	[label $g.type_hl -text [mc "Type"]] \
+	[label $g.params_hl -text [mc "Parameters"]] \
+	[label $g.from_hl -text [mc "From"]] \
+	[label $g.to_hl -text [mc "To"]]
 }
 
 # Set number of rows
@@ -400,7 +400,7 @@ proc CoFuncEditorTableSetRows {g num} {
 	checkbutton $g.sel_${i} -text "" -variable $g.var_${i}_sel
 	entry $g.name_${i} -textvariable $g.var_${i}_name \
 	    -width 16 -relief sunken
-	button $g.type_${i} -text "No type" -relief flat -pady 0
+	button $g.type_${i} -text [mc "No type"] -relief flat -pady 0
 	button $g.params_${i} -relief flat -pady 0
 	entry $g.from_${i} -textvariable $g.var_${i}_from \
 	    -width 6 -relief sunken
@@ -798,8 +798,8 @@ proc CoFuncEditorRefresh {w} {
 		    "puts N/A"
 	    }
 	    default {
-		$g.type_${i} configure -text "Неизвестен" -command {}
-		$g.params_${i} configure -text "Неизвестны" -command {}
+		$g.type_${i} configure -text [mc "Unknown"] -command {}
+		$g.params_${i} configure -text [mc "Undefined"] -command {}
 	    }
 	}
     }
@@ -889,15 +889,15 @@ proc CoFuncEditor {p thisvar} {
     set a $w.actions
     frame $a
 
-    button $a.append -text "Добавить" \
+    button $a.append -text [mc "Add"] \
 	-command "CoFuncEditorTableAddRow $w ; CoFuncEditorRefresh $w"
-    button $a.duplicate -text "Дублировать" \
+    button $a.duplicate -text [mc "Duplicate"] \
 	-command "CoFuncEditorTableDupLastRow $w ; CoFuncEditorRefresh $w"
-    button $a.delete -text "Удалить" \
+    button $a.delete -text [mc "Remove"] \
 	-command "CoFuncEditorTableDeleteRows $w ; CoFuncEditorRefresh $w"
-    button $a.up -text "Вверх" \
+    button $a.up -text [mc "Up"] \
 	-command "CoFuncEditorTableRowsMoveUp $g ; CoFuncEditorRefresh $w"
-    button $a.down -text "Вниз" \
+    button $a.down -text [mc "Down"] \
 	-command "CoFuncEditorTableRowsMoveDown $g ; CoFuncEditorRefresh $w"
 
     pack $a.append $a.duplicate $a.delete $a.up $a.down -side left -expand 1
@@ -906,11 +906,11 @@ proc CoFuncEditor {p thisvar} {
     set b $w.buttons
     frame $b
 
-    button $b.ok -text "OK" \
+    button $b.ok -text [mc "OK"] \
 	-command "set $p.cof_result \[CoFuncEditorExport $w\] ; destroy $w"
-    #button $b.schema -text "Схема" \
+    #button $b.schema -text [mc "Schema"] \
 	#-command "CoFuncEditorDisplaySchema $w"
-    button $b.cancel -text "Отмена" -command "destroy $w"
+    button $b.cancel -text [mc "Cancel"] -command "destroy $w"
 
     pack $b.ok $b.cancel -side left -expand 1
     pack $b -side right

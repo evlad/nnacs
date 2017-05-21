@@ -90,21 +90,21 @@ proc NNContrWindow {p sessionDir arref nnc_in nnc_out nncinputs} {
     set f $w.p
     frame $f
 
-    label $f.title -text "Нейросетевой регулятор"
+    label $f.title -text [mc "Nueral network controller"]
     grid $f.title
     grid $f.title -row 0 -column 0 -columnspan 4
 
-    label $f.in_fl -text "Исходная нейронная сеть:"
+    label $f.in_fl -text [mc "Initial neural network:"]
     entry $f.in_fe -width 30 -textvariable var_nnc_in
-    button $f.in_fsel -text "Выбор..." \
+    button $f.in_fsel -text [mc "Choice..."] \
 	-command "NNContrSelectNNFile $w \"$sessionDir\" var_nnc_in"
-    button $f.in_fview -text "Показать..." \
+    button $f.in_fview -text [mc "Display..."] \
 	-command "NNContrViewNNFile $w \"$sessionDir\" var_nnc_in"
-    button $f.in_fcreate -text "Создать..." \
+    button $f.in_fcreate -text [mc "Create..."] \
 	-command "NNContrCreateNNFile $w \"$sessionDir\" var_nnc_in var_nncinputs"
-    button $f.in_fedit -text "Как текст..." \
+    button $f.in_fedit -text [mc "As text..."] \
 	-command "TextEditWindowFileVar $w \"NN controller editor\" \"$sessionDir\" var_nnc_in"
-    label $f.inp_l -text "Входы:"
+    label $f.inp_l -text [mc "Inputs:"]
     frame $f.inputs
     # ...  eee "e+e+..." ede "e+de"
     foreach {n v} {re "e+r" reSe "e+r+se"} {
@@ -117,11 +117,11 @@ proc NNContrWindow {p sessionDir arref nnc_in nnc_out nncinputs} {
     grid $f.inp_l -sticky e
     grid $f.inputs -sticky w
 
-    label $f.out_fl -text "Результат обучения:"
+    label $f.out_fl -text [mc "Training result:"]
     entry $f.out_fe -width 30 -textvariable var_nnc_out
-    button $f.out_fsel -text "Выбор..." \
+    button $f.out_fsel -text [mc "Choice..."] \
 	-command "NNContrSelectNNFile $w \"$sessionDir\" var_nnc_out"
-    button $f.out_fview -text "Показать..." \
+    button $f.out_fview -text [mc "Display..."] \
 	-command "NNContrViewNNFile $w \"$sessionDir\" var_nnc_out"
     grid $f.out_fl $f.out_fe $f.out_fsel $f.out_fview
     grid $f.out_fl -sticky e
@@ -130,9 +130,9 @@ proc NNContrWindow {p sessionDir arref nnc_in nnc_out nncinputs} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" \
+    button $w.buttons.ok -text [mc "OK"] \
 	-command "set $w.applyChanges 1 ; destroy $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
     pack $w.buttons.ok $w.buttons.cancel -side left -expand 1
 
     tkwait window $w

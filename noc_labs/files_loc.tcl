@@ -1,6 +1,6 @@
 package provide files_loc 1.0
 
-package require universal
+#package require universal
 
 # Strip absolute path to the relative one if possible.
 # Examples:
@@ -240,11 +240,11 @@ proc ChooseUserLabWorkDir {p basedir} {
     set fc $w.fctrl
     frame $fc
     pack $fc -side right -fill y
-    button $fc.ok -text "Выбрать" -command "SelectUserLabDir $w $l"
-    button $fc.create -text "Создать" -command "CreateUserLabDir $l \"$basedir\" \[set $w.newdir\]"
+    button $fc.ok -text [mc "Select"] -command "SelectUserLabDir $w $l"
+    button $fc.create -text [mc "Create"] -command "CreateUserLabDir $l \"$basedir\" \[set $w.newdir\]"
     entry $fc.newdir -textvariable $w.newdir
-    button $fc.remove -text "Удалить" -command "DeleteUserLabDir $l \"$basedir\""
-    button $fc.cancel -text "Отмена" -command "set $w.seldir {}; destroy $w"
+    button $fc.remove -text [mc "Remove"] -command "DeleteUserLabDir $l \"$basedir\""
+    button $fc.cancel -text [mc "Cancel"] -command "set $w.seldir {}; destroy $w"
 
     pack $fc.cancel -side bottom -fill x
     foreach b {ok create newdir remove} {
@@ -323,10 +323,11 @@ proc NewSession {p markfile {title ""}} {
 	    global curSessionDir
 	    set curSessionDir {}
 
+	    set choicetext [mc "Select session:"]
 	    if {$title != ""} {
-		label $w.title -text "$title\nВыберите сеанс:"
+		label $w.title -text "$title\n$choicetext"
 	    } else {
-		label $w.title -text "Выберите сеанс:"
+		label $w.title -text $choicetext
 	    }
 	    pack $w.title -side top -fill x
 
@@ -348,10 +349,10 @@ proc NewSession {p markfile {title ""}} {
 
 	    frame $w.buttons
 	    pack $w.buttons -side bottom -fill x -pady 2m
-	    button $w.buttons.ok -text "OK" -command "NewSessionOk $w $l"
-	    button $w.buttons.new -text "Новый" -command "set curSessionDir NEW ; destroy $w"
-	    button $w.buttons.copy -text "Копия" -command "NewSessionCopy $w $l"
-	    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+	    button $w.buttons.ok -text [mc "OK"] -command "NewSessionOk $w $l"
+	    button $w.buttons.new -text [mc "New"] -command "set curSessionDir NEW ; destroy $w"
+	    button $w.buttons.copy -text [mc "Copy"] -command "NewSessionCopy $w $l"
+	    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
 	    pack $w.buttons.ok $w.buttons.new $w.buttons.copy $w.buttons.cancel -side left -expand 1
 	    bind $l <Double-1> "NewSessionOk $w $l"
 
@@ -380,4 +381,9 @@ proc NewSession {p markfile {title ""}} {
     }
     #puts "==> curSessionDir=$curSessionDir"
     return $curSessionDir
+}
+
+# L10n feature
+proc SessionDirLabel {sessionDir} {
+    return "[mc "Session"] $sessionDir"
 }

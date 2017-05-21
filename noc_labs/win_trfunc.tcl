@@ -371,11 +371,11 @@ proc TrFuncEditor {p thisvar descr} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" -command "[set $save_all_vars] destroy $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.ok -text [mc "OK"] -command "[set $save_all_vars] destroy $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
 
     set m $w.buttons.probe.m
-    menubutton $w.buttons.probe -text "Отклик" \
+    menubutton $w.buttons.probe -text [mc "Response"] \
 	-direction below -menu $m -relief raised
     menu $m -tearoff 0
     foreach probesignal {pulse step sin_4 sin_10 sin_20} {
@@ -450,7 +450,7 @@ proc TrFuncSelect {p} {
     wm title $w "Function selection"
 
     frame $w.common
-    label $w.common.title -text "Выберите тип функции" -anchor w
+    label $w.common.title -text [mc "Select type of function"] -anchor w
     listbox $w.common.funclist -width $width -height $height \
 	-selectmode single
     foreach trflabel [lsort [array names label2idname]] {
@@ -462,8 +462,8 @@ proc TrFuncSelect {p} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" -command "TrFuncSelectOk $w"
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.ok -text [mc "OK"] -command "TrFuncSelectOk $w"
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
 
     pack $w.buttons.ok $w.buttons.cancel -side left -expand 1
 

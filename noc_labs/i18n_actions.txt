@@ -1,0 +1,25 @@
+# 1: Extract all -text lines
+grep -nH -e "-text *\"" *.tcl | grep -e "-text *\"" *.tcl >all-text
+
+# 2: Extract text contents of all -text lines
+sed 's/^.*-text *"\([^"]*\)".*$/"\1"/' all-text >all-text-labels
+
+# 3: Manually remove all bad lines (short math expressions mostly)
+
+# 4: Sort and remove all duplicates
+sort -u all-text-labels >uniq-labels
+
+# 5: Duplicate each label
+./dup-labels.sh <uniq-labels >dup-uniq-labels
+
+# 6: Translate to english: replace the first Russian label by English one
+
+# 7: Replace all Russian labels in *.tcl by English ones and add [mc ...]
+./insert_mc.sh
+
+# 8: Add all labels with mc prefix
+./labels2msg.sh <dup-uniq-labels >>msgs/ru_ru.msg
+
+# 9: Fix problems with multiline and %s containing labels
+
+# 10: Copy ru_ru.msg to en.msg and translate rest labels (static ones)

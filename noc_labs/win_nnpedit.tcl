@@ -151,9 +151,9 @@ proc NNPEditWindow {p title filepath} {
 
     frame $w.buttons
     pack $w.buttons -side bottom -fill x -pady 2m
-    button $w.buttons.ok -text "OK" -command "NNPEditOk $w \"$filepath\""
-    button $w.buttons.save -text "Сохранить" -command "NNPEditSave $w \"$filepath\""
-    button $w.buttons.cancel -text "Отмена" -command "destroy $w"
+    button $w.buttons.ok -text [mc [mc "OK"]] -command "NNPEditOk $w \"$filepath\""
+    button $w.buttons.save -text [mc "Save"] -command "NNPEditSave $w \"$filepath\""
+    button $w.buttons.cancel -text [mc "Cancel"] -command "destroy $w"
     pack $w.buttons.ok $w.buttons.save $w.buttons.cancel -side left -expand 1
 
     set f [frame $w.nnarch]
@@ -201,29 +201,29 @@ proc NNPEditWindow {p title filepath} {
     set $f.inputlabels_var {i1 i2 i3 i4 i5 i6 i7 i8 i9}
     set $f.outputlabels_var {o1 o2 o3 o4 o5 o6 o7 o8 o9}
 
-    grid [label $f.inputdim_l -text "Размерность входа" -justify left] \
+    grid [label $f.inputdim_l -text [mc "Input dimension"] -justify left] \
 	[spinbox $f.inputdim -from 1 -to 10 -width 4 -validate key \
 	     -justify right -textvariable $f.inputdim_var \
 	     -vcmd "NNPEditFieldChange $w %P"]
-    grid [label $f.outputdim_l -text "Размерность выхода" -justify left] \
+    grid [label $f.outputdim_l -text [mc "Output dimension"] -justify left] \
 	[spinbox $f.outputdim -from 1 -to 10 -width 4 -validate key \
 	     -justify right -textvariable $f.outputdim_var \
 	     -vcmd "NNPEditFieldChange $w %P"]
 
-    grid [label $f.inputrep_l -text "Входы (с повтором)" -justify left] \
+    grid [label $f.inputrep_l -text [mc "Inputs (w/repeat)"] -justify left] \
 	[spinbox $f.inputrep -from 1 -to 100 -width 4 -validate key \
 	     -justify right -textvariable $f.inputrep_var \
 	     -vcmd "NNPEditFieldChange $w %P"]
-    grid [label $f.outputrep_l -text "Выходы (с повтором)" -justify left] \
+    grid [label $f.outputrep_l -text [mc "Outputs (w/repeat)"] -justify left] \
 	[spinbox $f.outputrep -from 1 -to 100 -width 4 -validate key \
 	     -justify right -textvariable $f.outputrep_var \
 	     -vcmd "NNPEditFieldChange $w %P"]
-    grid [label $f.numlayers_l -text "Скрытые слои" -justify left] \
+    grid [label $f.numlayers_l -text [mc "Hidden layers"] -justify left] \
 	[spinbox $f.numlayers -from 0 -to 3 -width 4 -validate key \
 	     -textvariable $f.numlayers_var -justify right]
     upvar 0 $f.numlayers_var numlayers
     foreach i {1 2 3} {
-	grid [label $f.numneurons${i}_l -text "Скрытый слой №$i" \
+	grid [label $f.numneurons${i}_l -text [format [mc "Hidden layer #%d"] $i] \
 		  -justify left] \
 	    [spinbox $f.numneurons${i} -from 1 -to 100 -width 4 -validate key \
 		 -justify right -textvariable $f.numneurons${i}_var \
@@ -234,13 +234,13 @@ proc NNPEditWindow {p title filepath} {
 	}
     }
     $f.numlayers configure -vcmd "NNPEditHiddenLayersChange $w %P"
-    grid [labelframe $f.outputfunc -text "Выходная функция"] \
+    grid [labelframe $f.outputfunc -text [mc "Output function"]] \
 	-column 0 -columnspan 2 -sticky we
 
-    radiobutton $f.outputfunc.linear -text "Линейная" \
+    radiobutton $f.outputfunc.linear -text [mc "Linear"] \
 	-variable $f.outputfunc_var -value "linear" -justify left \
 	-command "NNPEditDoPlot $w"
-    radiobutton $f.outputfunc.sigmoid -text "Сигмоида" \
+    radiobutton $f.outputfunc.sigmoid -text [mc "Sigmoid"] \
 	-variable $f.outputfunc_var -value "tanh" -justify left \
 	-command "NNPEditDoPlot $w"
     pack $f.outputfunc.linear $f.outputfunc.sigmoid -side top -fill x
@@ -359,7 +359,7 @@ proc NNPDisplayNeuralNetArch {p title nnFilePath} {
     canvas $w.c -background white -width 500 -height 200
     pack $w.c -fill both -expand yes -side top
 
-    button $w.close -text "Закрыть" -command "destroy $w"
+    button $w.close -text [mc "Close"] -command "destroy $w"
     ScreenshotButton $w $w.print_button $w.c [file dirname $nnFilePath] "nncarch"
     pack $w.print_button $w.close -side left
 
