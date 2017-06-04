@@ -66,8 +66,8 @@ typedef	double	**MATRIX;
 #define FOR_CXX
 #endif
 
-#ifdef _WIN32
-#  ifdef MATRIX_EXPORTS
+#if defined(__WIN32__) || defined(WIN32)
+#  ifdef matrix_EXPORTS
 #    define MATRIX_API FOR_CXX __declspec(dllexport)
 #  else
 #    define MATRIX_API FOR_CXX __declspec(dllimport)
