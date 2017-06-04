@@ -111,7 +111,7 @@
 ::msgcat::mcset ru_RU "Random series with unitied distribution" "Равномерно распределенный случайный ряд"
 ::msgcat::mcset ru_RU "Random unified" "Случайный равномерный"
 ::msgcat::mcset ru_RU "Reference signal" "Сигнал уставки"
-::msgcat::mcset ru_RU "Referru_RUce" "Уставка"
+::msgcat::mcset ru_RU "Reference" "Уставка"
 ::msgcat::mcset ru_RU "Remove" "Удалить"
 ::msgcat::mcset ru_RU "Reset" "Сброс"
 ::msgcat::mcset ru_RU "Response" "Отклик"
