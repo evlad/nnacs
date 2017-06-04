@@ -2,7 +2,7 @@
 [TransferFunction]
 ; idname:  integral
 ; type:    TransferFunction
-; label:   Суммирующее звено
+; label:   Integrator block
 ; key_pos: K 0 d 3
 ; formula: K/(z-d)
 product 2

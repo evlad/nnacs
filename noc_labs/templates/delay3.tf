@@ -2,7 +2,7 @@
 [TransferFunction]
 ; idname:  delay3
 ; type:    TransferFunction
-; label:   Задержка на 3 такта
+; label:   Delay for 3 time samples
 ; key_pos: K 0
 ; formula: K/z^3
 polyfrac 0

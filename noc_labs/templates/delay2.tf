@@ -2,7 +2,7 @@
 [TransferFunction]
 ; idname:  delay2
 ; type:    TransferFunction
-; label:   Задержка на 2 такта
+; label:   Delay for 2 time samples
 ; key_pos: K 0
 ; formula: K/z^2
 polyfrac 0

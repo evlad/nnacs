@@ -2,7 +2,7 @@
 [TransferFunction]
 ; idname:  1st_order
 ; type:    TransferFunction
-; label:   Звено 1-го порядка
+; label:   The 1st order linear block
 ; key_pos: K 0 d1 0 d2 1 d3 4
 ; formula: K*(d1*z+d2)/(z+d3)
 product 2

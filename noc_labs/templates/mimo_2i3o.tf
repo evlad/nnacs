@@ -4,7 +4,7 @@
 ; Пример объекта с 2 входами и 3 выходами
 ; idname:  mimo_2i3o
 ; type:    TransferFunction
-; label:   Многосвязный объект
+; label:   Multiple-input multiple-output block
 ; key_pos:
 ; formula:
 inoutdim 2 3     ; 2 inputs, 3 outputs

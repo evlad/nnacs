@@ -2,7 +2,7 @@
 [TransferFunction]
 ; idname:  pid_kkk
 ; type:    TransferFunction
-; label:   ПИД регулятор (Kp Ki Kd)
+; label:   PID controller (Kp Ki Kd)
 ; key_pos: Kp 0 Ki 0 Kd 0
 ; formula: Kp + Ki*(z/z-1) + Kd*(z2-2z+1/z(z-1))
 sum 3

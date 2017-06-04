@@ -328,7 +328,7 @@ proc TrFuncEditor {p thisvar descr} {
     wm title $w "$idname parameters"
 
     frame $w.common
-    label $w.common.main_label -text $label -anchor w
+    label $w.common.main_label -text [mc $label] -anchor w
     pack $w.common.main_label
 
     # Let's find image to illustrate the function
@@ -431,7 +431,7 @@ proc TrFuncSelect {p} {
 	    #puts "$trf - ok"
 	    # Proper template must contain idname, label, type and key_pos
 	    set idname [lindex $descr 0]
-	    set label [lindex $descr 2]
+	    set label [mc [lindex $descr 2]]
 	    incr height
 	    set len [string length $label]
 	    if {$width < $len} {

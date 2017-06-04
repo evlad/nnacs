@@ -2,7 +2,7 @@
 [TransferFunction]
 ; idname:  gain
 ; type:    TransferFunction
-; label:   Усилительное звено
+; label:   Gain block
 ; key_pos: K 0
 ; formula: K
 polyfrac 0
