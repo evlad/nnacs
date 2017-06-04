@@ -69,7 +69,7 @@ proc focusAndFlash {W fg bg {count 9}} {
 # - filepath - predefined file path;
 # - types - { {label extension} ... } (OPTIONAL).
 # Return: selected file path
-proc fileSelectionBox {w operation filepath {types {{"Все файлы" *}}}} {
+proc fileSelectionBox {w operation filepath {types {{[mc "All files"] *}}}} {
     if {[file isdirectory $filepath]} {
 	set initdir $filepath
 	set initfile ""

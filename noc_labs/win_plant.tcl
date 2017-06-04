@@ -50,10 +50,10 @@ proc PlantSelectTrFile {p sessionDir var} {
     upvar #0 $var fileRelPath
     set fileName [SessionAbsPath $sessionDir $fileRelPath]
     set trfuncfiletypes {
-	{"Линейные звенья" {.tf}}
-	{"Произвольные функции" {.cof}}
-	{"Модели в пространстве состояний" {.ssm}}
-	{"Все файлы" *}
+	{[mc "Linear transfer functions"] {.tf}}
+	{[mc "Combined functions"] {.cof}}
+	{[mc "State-space models"] {.ssm}}
+	{[mc "All files"] *}
     }
     set fileName [fileSelectionBox $p open $fileName $trfuncfiletypes]
     if {$fileName != {}} {
