@@ -332,22 +332,22 @@ proc ParametersWindow {p arref parlist {parspec {}}} {
     foreach {par parlabel} $parlist {
 	switch -glob -- $par {
 	    -0 { # Window title
-		wm title $w $pardescr($par)
+		wm title $w [mc $pardescr($par)]
 	    }
 	    -* { # Title
-		label $f.title$par -text $pardescr($par)
+		label $f.title$par -text [mc $pardescr($par)]
 		grid $f.title$par
 		grid $f.title$par -row $row -column 0 -columnspan 2
 	    }
 	    default {
 		if {![info exists parspecar($par)]} {
-		    label $f.label_$par -text $pardescr($par) -anchor w
+		    label $f.label_$par -text [mc $pardescr($par)] -anchor w
 		    entry $f.entry_$par -textvariable $w.parvalue($par) -width 10
 		    grid $f.label_$par $f.entry_$par -sticky nw
 		} else {
 		    switch -glob -- [lindex $parspecar($par) 0] {
 			oneof {
-			    label $f.label_$par -text $pardescr($par) -anchor w
+			    label $f.label_$par -text [mc $pardescr($par)] -anchor w
 			    set optname [tk_optionMenu $f.menu_$par $w.parvalue($par) XX]
 			    $optname delete 0
 			    set i 0

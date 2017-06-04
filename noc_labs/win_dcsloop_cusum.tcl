@@ -39,7 +39,7 @@ proc dcsloopCusumDrawPanel {this c} {
 
     # discrepancy
     DrawSmallBlock $c checkpoint_d "d" 14c 2.5c
-    DrawLargeBlock $c cusum "АКС" 15.3c 2.5c
+    DrawLargeBlock $c cusum [mc "CUSUM"] 15.3c 2.5c
     DrawSmallBlock $c checkpoint_ip "ip" 15.3c 3.7c
 
     DrawDirection $c reference "e" checkpoint_r "w" last

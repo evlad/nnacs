@@ -1,9 +1,8 @@
 package provide win_signalgen 1.0
 
 package require Tk
-#package require tcllib
 package require win_grseries
-package require win_nntpar
+package require universal
 
 # What is to do to generate the series with given parameters?
 proc clear_series.gen {p arref filepath} {
@@ -20,10 +19,10 @@ proc clear_series.gen {p arref filepath} {
 
 # What is to enter?
 set rnd_gauss.par_gui {
-    -1 "Нормально распределенный случайный ряд"
-    length "Длина ряда"
-    mean "Среднее значение"
-    variance "Среднеквадратическое отклонение"
+    -1 "Random series with Gaussian distribution"
+    length "Series length"
+    mean "Average value"
+    variance "Variance value"
 }
 
 # Which values are default ones? (==> *_par_arr)
@@ -50,10 +49,10 @@ proc rnd_gauss.gen {p arref filepath} {
 
 # What is to enter?
 set rnd_unified.par_gui {
-    -1 "Равномерно распределенный случайный ряд"
-    length "Длина ряда"
-    minampl "Минимальное значение амплитуды"
-    maxampl "Максимальное значение амплитуды"
+    -1 "Random series with unitied distribution"
+    length "Series length"
+    minampl "Minimum amplitude value"
+    maxampl "Maximum amplitude value"
 }
 
 # Which values are default ones? (==> *_par_arr)
@@ -79,12 +78,12 @@ proc rnd_unified.gen {p arref filepath} {
 
 # What is to enter?
 set rnd_meander.par_gui {
-    -1 "Равномерно распределенный случайный меандр"
-    length "Длина ряда"
-    minhalfper "Минимальная длина ступени"
-    maxhalfper "Максимальная длина ступени"
-    minampl "Минимальное значение амплитуды"
-    maxampl "Максимальное значение амплитуды"
+    -1 "Random meander with unitied distribution"
+    length "Series length"
+    minhalfper "Minimum length of step"
+    maxhalfper "Maximum length of step"
+    minampl "Minimum amplitude value"
+    maxampl "Maximum amplitude value"
 }
 
 # Which values are default ones? (==> *_par_arr)
@@ -114,10 +113,10 @@ proc rnd_meander.gen {p arref filepath} {
 
 # What is to enter?
 set meander.par_gui {
-    -1 "Меандр"
-    length "Длина ряда"
-    halfperiod "Полупериод"
-    phaseshift "Фазовый сдвиг"
+    -1 "Meander"
+    length "Series length"
+    halfperiod "Half-cycle"
+    phaseshift "Phase shift"
 }
 
 # Which values are default ones? (==> *_par_arr)
@@ -143,10 +142,10 @@ proc meander.gen {p arref filepath} {
 
 # What is to enter?
 set harmonic.par_gui {
-    -1 "Синусоида"
-    length "Длина ряда"
-    period "Период"
-    phaseshift "Фазовый сдвиг"
+    -1 "Sine"
+    length "Series length"
+    period "Period"
+    phaseshift "Phase shift"
 }
 
 # Which values are default ones? (==> *_par_arr)
@@ -172,9 +171,9 @@ proc harmonic.gen {p arref filepath} {
 
 # What is to enter?
 set constant.par_gui {
-    -1 "Постоянное значение"
-    length "Длина ряда"
-    ampl "Амплитуда"
+    -1 "Constant value"
+    length "Series length"
+    ampl "Amplitude"
 }
 
 # Which values are default ones? (==> *_par_arr)

@@ -53,17 +53,17 @@ proc AboutWindow {p} {
     $w.text tag configure moreinfo  -spacing1 3p -font "$family 10"
 
     $w.text insert 0.0 \
-	[format "%s\nNNACS - Neural Network Applications For Control Systems\n" [mc "progtitle"] ] center
+	[format "%s\nNNACS - Neural Network Applications For Control Systems\n" [mc "_progtitle"] ] center
     global tcl_platform
     set platform [string totitle $tcl_platform(platform)]
     $w.text insert end [format [mc "Version: %s for %s\n"] "1.8.2" $platform] center
     $w.text insert end [format [mc "Date: %s\n"] "13-04-2016"] center
-    $w.text insert end [mc "mpeititle"] center
+    $w.text insert end [mc "_mpeititle"] center
 
-    $w.text insert end "\n\uf8e9 [mc authorname], 2001-2016\nEmail: YeliseevVL@mpei.ac.ru\n" center
+    $w.text insert end "\n\uf8e9 [mc _authorname], 2001-2016\nEmail: YeliseevVL@mpei.ac.ru\n" center
 
     if {$tcl_platform(platform) == "windows"} {
-        $w.text insert end [mc "vsscanfdiscl"]
+        $w.text insert end [mc "_vsscanfdiscl"]
         $w.text insert end {
 This software is provided 'as-is', without any express or implied
 warranty.  In no event will the authors be held liable for any damages
