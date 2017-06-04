@@ -379,8 +379,8 @@ proc Distr2DAddFile {p workDir {filePath ""}} {
 	}
     } else {
 	set dataFileTypes {
-	    {[mc "Space separated data files"] {.dat}}
-	    {[mc "All files"] *}
+	    {"Space separated data files" {.dat}}
+	    {"All files" *}
 	}
 	set filePath [fileSelectionBox $w open [file join $workDir ""] $dataFileTypes]
 	if {$filePath == ""} {

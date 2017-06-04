@@ -69,10 +69,10 @@ proc SignalSelectFiltFile {p sessionDir var} {
     #puts "fileRelPath=$fileRelPath"
     set fileName [SessionAbsPath $sessionDir $fileRelPath]
     set trfuncfiletypes {
-	{[mc "Linear transfer functions"] {.tf}}
-	{[mc "Combined functions"] {.cof}}
-	{[mc "State-space models"] {.ssm}}
-	{[mc "All files"] *}
+	{"Linear transfer functions" {.tf}}
+	{"Combined functions" {.cof}}
+	{"State-space models" {.ssm}}
+	{"All files" *}
     }
     set fileName [fileSelectionBox $p open $fileName $trfuncfiletypes]
     if {$fileName != {}} {
@@ -88,8 +88,8 @@ proc SignalSelectDataFile {p sessionDir var} {
     upvar #0 $var fileRelPath
     set fileName [SessionAbsPath $sessionDir $fileRelPath]
     set datafiletypes {
-	{[mc "Space separated data files"] {.dat}}
-	{[mc "All files"] *}
+	{"Space separated data files" {.dat}}
+	{"All files" *}
     }
     set fileName [fileSelectionBox $p open $fileName $datafiletypes]
     if {$fileName != {}} {

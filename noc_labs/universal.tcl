@@ -12,6 +12,19 @@ proc mc {s} {
 }
 
 
+# Replace filetype in the list of pairs "filetype fileext" by its
+# local text using [mc $filetype]
+# Input: { {"Linear transfer functions" {.tf}} {"All files" *} }
+# Output: { {[mc "Linear transfer functions"] {.tf}} {[mc "All files"] *} }
+proc mc_pairs_list {plist} {
+    set newplist {}
+    foreach {item} $plist {
+	lappend newplist [list [mc [lindex $item 0] ] [lrange $item 1 end] ]
+    }
+    return $newplist
+}
+
+
 # unlist listValue outVar0 outVar1 ...
 # Implies [lindex $listValue 0] -> outVar0
 #         [lindex $listValue 1] -> outVar1
@@ -69,7 +82,8 @@ proc focusAndFlash {W fg bg {count 9}} {
 # - filepath - predefined file path;
 # - types - { {label extension} ... } (OPTIONAL).
 # Return: selected file path
-proc fileSelectionBox {w operation filepath {types {{[mc "All files"] *}}}} {
+proc fileSelectionBox {w operation filepath {types {{"All files" *}}}} {
+    set types [mc_pairs_list $types]
     if {[file isdirectory $filepath]} {
 	set initdir $filepath
 	set initfile ""

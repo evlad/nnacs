@@ -204,11 +204,11 @@ proc dcontrpDataFile {p sessionDir arrayName arrayIndex} {
     upvar #0 $arrayName ar
     set fileRelPath $ar($arrayIndex)
     set filePath [SessionAbsPath $sessionDir $fileRelPath]
-    set dataFileTypes {
-	{[mc "Space separated data files"] {.dat}}
-	{[mc "All files"] *}
+    set datafiletypes {
+	{"Space separated data files" {.dat}}
+	{"All files" *}
     }
-    set filePath [fileSelectionBox $p open $filePath $dataFileTypes]
+    set fileName [fileSelectionBox $p open $fileName $datafiletypes]
     if {$filePath == {}} {
 	return ""
     }

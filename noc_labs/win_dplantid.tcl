@@ -214,8 +214,8 @@ proc dplantidDataFile {p sessionDir arrayName arrayIndex} {
     set fileRelPath $ar($arrayIndex)
     set filePath [SessionAbsPath $sessionDir $fileRelPath]
     set dataFileTypes {
-	{[mc "Space separated data files"] {.dat}}
-	{[mc "All files"] *}
+	{"Space separated data files" {.dat}}
+	{"All files" *}
     }
     set filePath [fileSelectionBox $p open $filePath $dataFileTypes]
     if {$filePath == {}} {

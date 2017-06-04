@@ -54,10 +54,10 @@ proc ContrSelectTrFile {p sessionDir var} {
     #puts "fileRelPath=$fileRelPath"
     set fileName [SessionAbsPath $sessionDir $fileRelPath]
     set trfuncfiletypes {
-	{[mc "Linear transfer functions"] {.tf}}
-	{[mc "Combined functions"] {.cof}}
-	{[mc "State-space models"] {.ssm}}
-	{[mc "All files"] *}
+	{"Linear transfer functions" {.tf}}
+	{"Combined functions" {.cof}}
+	{"State-space models" {.ssm}}
+	{"All files" *}
     }
     set fileName [fileSelectionBox $p open $fileName $trfuncfiletypes]
     if {$fileName != {}} {
@@ -73,8 +73,8 @@ proc ContrSelectNNFile {p sessionDir var} {
     upvar #0 $var fileRelPath
     set fileName [SessionAbsPath $sessionDir $fileRelPath]
     set nnfiletypes {
-	{[mc "NNACS v.1.* neural network files"] {.nn}}
-	{[mc "All files"] *}
+	{"NNACS v.1.* neural network files" {.nn}}
+	{"All files" *}
     }
     set fileName [fileSelectionBox $p open [file join SessionDir $fileName] $nnfiletypes]
     if {$fileName != {}} {

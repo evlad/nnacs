@@ -38,8 +38,8 @@ proc NNPlantSelectNNFile {p sessionDir var} {
     upvar #0 $var fileRelPath
     set fileName [SessionAbsPath $sessionDir $fileRelPath]
     set nnfiletypes {
-	{[mc "NNACS v.1.* neural network files"] {.nn}}
-	{[mc "All files"] *}
+	{"NNACS v.1.* neural network files" {.nn}}
+	{"All files" *}
     }
     set fileName [fileSelectionBox $p open [file join SessionDir $fileName] $nnfiletypes]
     if {$fileName != {}} {
