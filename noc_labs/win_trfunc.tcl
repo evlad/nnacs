@@ -7,6 +7,7 @@ package require universal
 package require win_grseries
 package require win_textedit
 package require win_cofunc
+package require win_ssmodel
 
 # ; idname: 
 # ; label: Bla-bla-bla
@@ -498,6 +499,14 @@ proc TrFuncNewType {p sessionDir fileRelPath {force false}} {
 	    }
 	    TrFuncUseTemplate $idname $fileName
 	}
+	*.ssm {
+	    puts "StateSpaceModel file type"
+	    set ftype undefined
+	}
+	*.cof {
+	    puts "CombinedFunction file type"
+	    set ftype undefined
+	}
 	default {
 	    set ftype undefined
 	    puts "TrFuncNewType: - undefined"
@@ -558,6 +567,9 @@ proc TrFuncEdit {p sessionDir title fileRelPath {forceNew false} {asText false}}
 	*.cof {
 	    set ftype cofunc
 	}
+	*.ssm {
+	    set ftype ssmodel
+	}
 	default {
 	    set ftype undefined
 	}
@@ -605,6 +617,21 @@ proc TrFuncEdit {p sessionDir title fileRelPath {forceNew false} {asText false}}
 		# Save
 		puts "SAVE: $fileName [array get cof]"
 		CoFuncComposeFile $fileName [array get cof]
+	    }
+	    # otherwise no changes took place
+	}
+	ssmodel {
+	    # Load
+	    set ssmlist {
+		name "DefaultSSM" version "1.0" states 1 inputs 1 outputs 1
+		a {{1}} b {{1}} c {{1}} d {{0}} x0 {0}
+	    }
+	    catch {set ssmlist [SSModelParseFile $fileName]}
+	    array set ssm $ssmlist
+	    # Edit
+	    if {[SSModelEditor $p ssm]} {
+		# Save
+		SSModelComposeFile $fileName [array get ssm]
 	    }
 	    # otherwise no changes took place
 	}
