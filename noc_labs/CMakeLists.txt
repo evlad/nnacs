@@ -17,11 +17,13 @@ set(TCL_SCRIPTS data_file.tcl
 	draw_nn.tcl
 	draw_prim.tcl
 	files_loc.tcl
+	balloon.tcl
 	main.tcl
 	nnio.tcl
 	par_file.tcl
 	progressbar.tcl
 	screenshot.tcl
+	ssm_file.tcl
 	universal.tcl
 	getoptbyrs.tcl
 	win_checkpnt.tcl
@@ -46,6 +48,7 @@ set(TCL_SCRIPTS data_file.tcl
 	win_series.tcl
 	win_signal.tcl
 	win_signalgen.tcl
+	win_ssmodel.tcl
 	win_textedit.tcl
 	win_trfunc.tcl)
 
@@ -73,6 +76,7 @@ set(TEMPLATES
 	templates/mimo_2i3o.gif
 
 	templates/simple_delayn.gif
+	templates/ssmodel.gif
 
 	templates/dcontrf.par
 	templates/dcontrp.par
