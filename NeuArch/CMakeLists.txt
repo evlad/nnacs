@@ -96,6 +96,7 @@ set(SOURCE_LIB NaConLaw.cpp
 	NaPNAccu.cpp
 	NaInvPnd.cpp
 	NaWMR.cpp
+	NaLM.cpp
 	kbdif.cpp)			# Установка переменной со списком исходников для библиотеки
 
 if(WIN32)
