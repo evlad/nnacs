@@ -47,206 +47,204 @@ void NaLM::SetNSamples_LM(int n)
     J_LM.init_zero();
     Errors_LM.init_zero();
 }
-void NaLM::GetErrors(unsigned nSamples,NaReal *pTar,NaReal *pOut)
+
+void NaLM::SetOutputError (unsigned iSample, NaReal *pTar, NaReal *pOut)
 {
-    for(unsigned i=0; i<nd.nOutNeurons; ++i)
+  // TODO: What to do with with iSample > nSamples_LM ???
+  for(unsigned i = 0; i < nd.nOutNeurons; ++i)
     {
-        Errors_LM[nSamples*nd.nOutNeurons+i]=(pTar[i] - pOut[i]);
-    }
-}
-void NaLM::Get_COR(NaReal *pTar,NaReal *pOut,unsigned nOUT)
-{
-    // вычисление  поправок для выходного слоя
-    for(unsigned iNeuron=0; iNeuron<nd.nOutNeurons; ++iNeuron)
-    {
-        if(iNeuron!=nOUT)
-        {
-            COR_LM[nd.OutputLayer()][iNeuron]=0;
-
-        }
-        else
-        {
-            if(nd.eLastActFunc== afkLinear)
-            {
-
-
-                COR_LM[nd.OutputLayer()][iNeuron]=-nn().DerivActFunc(nd.OutputLayer(), nn().Znet[nd.OutputLayer()][iNeuron]);
-            }
-            else
-            {
-                COR_LM[nd.OutputLayer()][iNeuron]=-2*nn().DerivActFunc(nd.OutputLayer(), nn().Znet[nd.OutputLayer()][iNeuron]);
-            }
-        }
-    }
-    //вычисление поправок скрытых слоев
-    for(int iLayer=nd.OutputLayer()-1; iLayer>=0; --iLayer)
-    {
-        for(unsigned iNeuron=0; iNeuron<nd.Neurons(iLayer); ++iNeuron)
-        {
-            if(iLayer==nd.OutputLayer()-1)// поправки для последнего скрытого слоя
-            {
-                NaReal buf=0;
-                for(unsigned iNeuronOut=0; iNeuronOut<nd.nOutNeurons; ++iNeuronOut)
-                {
-                    buf+=COR_LM[nd.OutputLayer()][iNeuronOut]*nn().weight[nd.OutputLayer()](iNeuronOut,iNeuron);
-                }
-                COR_LM[iLayer][iNeuron]=nn().DerivActFunc(iLayer, nn().Znet[iLayer][iNeuron])*buf;
-            }
-            else // поправки доя остальных скрытых слоев
-            {
-                NaReal buf=0;
-                for(unsigned iNeuronPrev=0; iNeuronPrev<nd.Neurons(iLayer+1); ++iNeuronPrev)
-                {
-                    buf+=COR_LM[iLayer+1][iNeuronPrev]*nn().weight[iLayer+1](iNeuronPrev,iNeuron);
-                }
-                COR_LM[iLayer][iNeuron]=nn().DerivActFunc(iLayer, nn().Znet[iLayer][iNeuron])*buf;
-
-            }
-        }
+      Errors_LM[iSample * nd.nOutNeurons + i] = (pTar[i] - pOut[i]);
     }
 }
 
-void NaLM::GetJ(unsigned i,NaReal *pIn,NaReal *pTar,NaReal *pOut)// заполнение матрицы якобиана построчно
+void NaLM::CalcOutNeuronCorrection (NaReal *pTar, NaReal *pOut, unsigned iOut)
 {
-    for(unsigned k=0; k<nd.nOutNeurons; ++k)
+  // вычисление  поправок для выходного слоя
+  COR_LM[nd.OutputLayer()].init_zero();
+
+  // Calulate correction for the exact output neuron
+  if(nd.eLastActFunc == afkLinear)
     {
-        Get_COR(pTar,pOut,k);
-        unsigned I_J=0;
-        for(int iLayer=nd.OutputLayer(); iLayer>=0; --iLayer)
+      COR_LM[nd.OutputLayer()][iOut]=-nn().DerivActFunc(nd.OutputLayer(), nn().Znet[nd.OutputLayer()][iOut]);
+    }
+  else
+    {
+      // TODO: 2* ???
+      COR_LM[nd.OutputLayer()][iOut]=-2*nn().DerivActFunc(nd.OutputLayer(), nn().Znet[nd.OutputLayer()][iOut]);
+    }
+
+  //вычисление поправок скрытых слоев
+  for(int iLayer = nd.OutputLayer() - 1; iLayer >= 0; --iLayer)
+    {
+      for(unsigned iNeuron = 0; iNeuron < nd.Neurons(iLayer); ++iNeuron)
+	{
+	  if(iLayer == nd.OutputLayer()-1)// поправки для последнего скрытого слоя
+	    {
+	      NaReal buf = 0;
+	      for(unsigned iNeuronOut = 0; iNeuronOut < nd.nOutNeurons; ++iNeuronOut)
+		{
+		  buf += COR_LM[nd.OutputLayer()][iNeuronOut]*nn().weight[nd.OutputLayer()](iNeuronOut,iNeuron);
+		}
+	      COR_LM[iLayer][iNeuron] = nn().DerivActFunc(iLayer, nn().Znet[iLayer][iNeuron])*buf;
+	    }
+	  else // поправки доя остальных скрытых слоев
+	    {
+	      NaReal buf = 0;
+	      for(unsigned iNeuronPrev = 0; iNeuronPrev < nd.Neurons(iLayer+1); ++iNeuronPrev)
+		{
+		  buf += COR_LM[iLayer+1][iNeuronPrev]*nn().weight[iLayer+1](iNeuronPrev,iNeuron);
+		}
+	      COR_LM[iLayer][iNeuron] = nn().DerivActFunc(iLayer, nn().Znet[iLayer][iNeuron]) * buf;
+
+	    }
+	}
+    }
+}
+
+void NaLM::SetTrainingPair (unsigned iSample, NaReal *pIn, NaReal *pTar, NaReal *pOut)
+{
+  // заполнение матрицы якобиана построчно
+  for(unsigned iOut = 0; iOut < nd.nOutNeurons; ++iOut)
+    {
+      CalcOutNeuronCorrection(pTar,pOut,iOut);
+      unsigned I_J=0;
+      for(int iLayer = nd.OutputLayer(); iLayer>=0; --iLayer)
         {
-            if(iLayer!=0)
+	  if(iLayer!=0)
             {
-                for(unsigned iNeuron=0; iNeuron<nn().Neurons(iLayer); ++iNeuron)
+	      for(unsigned iNeuron=0; iNeuron<nn().Neurons(iLayer); ++iNeuron)
                 {
-                    J_LM[i*nd.nOutNeurons+k][I_J]=COR_LM[iLayer][iNeuron];
-                    I_J+=1;
-                    for(unsigned iNeuron_prev=0; iNeuron_prev<nn().Neurons(iLayer-1); ++iNeuron_prev)
+		  J_LM[iSample*nd.nOutNeurons+iOut][I_J]=COR_LM[iLayer][iNeuron];
+		  ++I_J;
+		  for(unsigned iNeuron_prev=0; iNeuron_prev<nn().Neurons(iLayer-1); ++iNeuron_prev)
                     {
-                        J_LM[i*nd.nOutNeurons+k][I_J]=COR_LM[iLayer][iNeuron]*nn().Yout[iLayer-1][iNeuron_prev];
-                        I_J+=1;
+		      J_LM[iSample*nd.nOutNeurons+iOut][I_J]=COR_LM[iLayer][iNeuron]*nn().Yout[iLayer-1][iNeuron_prev];
+		      ++I_J;
                     }
                 }
             }
-            else
+	  else
             {
-                for(unsigned iNeuron=0; iNeuron<nn().Neurons(iLayer); ++iNeuron)
+	      for(unsigned iNeuron=0; iNeuron<nn().Neurons(iLayer); ++iNeuron)
                 {
-                    J_LM[i*nd.nOutNeurons+k][I_J]=COR_LM[iLayer][iNeuron];
-                    I_J+=1;
-                    for(unsigned iInput=0; iInput<nn().Inputs(iLayer); ++iInput)
+		  J_LM[iSample*nd.nOutNeurons+iOut][I_J]=COR_LM[iLayer][iNeuron];
+		  ++I_J;
+		  for(unsigned iInput=0; iInput<nn().Inputs(iLayer); ++iInput)
                     {
-                        J_LM[i*nd.nOutNeurons+k][I_J]=COR_LM[iLayer][iNeuron]*pIn[iInput];
-                        I_J+=1;
+		      J_LM[iSample*nd.nOutNeurons+iOut][I_J]=COR_LM[iLayer][iNeuron]*pIn[iInput];
+		      ++I_J;
                     }
                 }
 
             }
         }
-        for(unsigned iLayer = nd.InputLayer(); iLayer <= nd.OutputLayer(); ++iLayer)
+      for(unsigned iLayer = nd.InputLayer(); iLayer <= nd.OutputLayer(); ++iLayer)
         {
-            COR_LM[iLayer].init_zero();
+	  COR_LM[iLayer].init_zero();
         }
     }
 }
+
 void NaLM::Init_Zero_LM()
 {
     J_LM.init_zero();
     Errors_LM.init_zero();
+    dW_LM.init_zero();
+
+    // TODO: For what reason?
+    // See init_zero() in the begin of CalcOutNeuronCorrection()
     for(unsigned iLayer = nd.InputLayer(); iLayer <= nd.OutputLayer(); ++iLayer)
     {
         COR_LM[iLayer].init_zero();
     }
-    dW_LM.init_zero();
 }
-void NaLM::Get_dW(NaReal ALPHA_LM)
+
+void NaLM::CalcWeightAdj (NaReal fAlphaLM)
 {
-    NaMatrix JT_LM;
-    JT_LM.new_dim(I_LM,nSamples_LM*nd.nOutNeurons);
-    J_LM.trans(JT_LM);
-    NaMatrix JTJ_LM;
-    JTJ_LM.new_dim(I_LM,I_LM);
-    JT_LM.multiply(J_LM,JTJ_LM);
-    for(unsigned i=0; i<I_LM; ++i)
+  // Transform Jacobian J_LM and Errors_LM to dW_LM:
+
+  // 1. JTJ=((J^T)*J+\alpha*E)
+  NaMatrix JT_LM(I_LM, nSamples_LM*nd.nOutNeurons);
+  J_LM.trans(JT_LM);   // ***
+
+  NaMatrix JTJ_LM(I_LM, I_LM);
+  JT_LM.multiply(J_LM, JTJ_LM);
+
+  // Add alpha to the diagonal cells
+  for(unsigned i = 0; i < I_LM; ++i)
     {
-        JTJ_LM[i][i]+=ALPHA_LM;
+      JTJ_LM[i][i] += fAlphaLM;
     }
-    NaMatrix JTJ_INV_LM;
-    JTJ_INV_LM.new_dim(I_LM,I_LM);
-    JTJ_LM.inv(JTJ_INV_LM);
-    NaMatrix TOTAL_LM;
-    TOTAL_LM.new_dim(I_LM,nSamples_LM*nd.nOutNeurons);
-    J_LM.trans(JT_LM);
-    JTJ_INV_LM.multiply(JT_LM,TOTAL_LM);
-    TOTAL_LM.multiply(Errors_LM,dW_LM);
+
+  // 2.   dW = ((JTJ^{-1})^T * J) * Errors
+  NaMatrix JTJ_INV_LM(I_LM, I_LM);
+  JTJ_LM.inv(JTJ_INV_LM);
+
+  NaMatrix TOTAL_LM(I_LM, nSamples_LM*nd.nOutNeurons);
+  J_LM.trans(JT_LM);    // TODO:  already calculated at *** ????
+  JTJ_INV_LM.multiply(JT_LM, TOTAL_LM);
+  TOTAL_LM.multiply(Errors_LM, dW_LM);
 }
+
+void NaLM::ApplyWeightAdj (bool bUndo)
+{
+  unsigned I_J = 0;
+  for(int iLayer = nd.OutputLayer(); iLayer >= 0; --iLayer)
+    {
+      if(iLayer != 0)
+        {
+	  for(unsigned iNeuron = 0; iNeuron < nn().Neurons(iLayer); ++iNeuron)
+            {
+	      if(bUndo)
+		nn().bias[iLayer][iNeuron] += dW_LM[I_J];
+	      else
+		nn().bias[iLayer][iNeuron] -= dW_LM[I_J];
+
+	      ++I_J;
+	      for(unsigned iNeuron_prev = 0; iNeuron_prev < nn().Neurons(iLayer-1); ++iNeuron_prev)
+                {
+		  if(bUndo)
+		    nn().weight[iLayer][iNeuron][iNeuron_prev] += dW_LM[I_J];
+		  else
+		    nn().weight[iLayer][iNeuron][iNeuron_prev] -= dW_LM[I_J];
+		  ++I_J;
+                }
+            }
+        }
+      else
+        {
+	  for(unsigned iNeuron = 0; iNeuron < nn().Neurons(iLayer); ++iNeuron)
+            {
+	      if(bUndo)
+		nn().bias[iLayer][iNeuron] += dW_LM[I_J];
+	      else
+		nn().bias[iLayer][iNeuron] -= dW_LM[I_J];
+
+	      ++I_J;
+	      for(unsigned iInput = 0; iInput < nd.nInputsNumber; ++iInput)
+                {
+		  if(bUndo)
+		    nn().weight[iLayer][iNeuron][iInput] += dW_LM[I_J];
+		  else
+		    nn().weight[iLayer][iNeuron][iInput] -= dW_LM[I_J];
+		  ++I_J;
+                }
+            }
+        }
+    }
+}
+
+
 void NaLM::UpdateNN_LM()
 {
-    unsigned I_J=0;
-    for(int iLayer=nd.OutputLayer(); iLayer>=0; --iLayer)
-    {
-        if(iLayer!=0)
-        {
-            for(unsigned iNeuron=0; iNeuron<nn().Neurons(iLayer); ++iNeuron)
-            {
-                nn().bias[iLayer][iNeuron]-=dW_LM[I_J];
-                I_J+=1;
-                for(unsigned iNeuron_prev=0; iNeuron_prev<nn().Neurons(iLayer-1); ++iNeuron_prev)
-                {
-                    nn().weight[iLayer][iNeuron][iNeuron_prev]-=dW_LM[I_J];
-                    I_J+=1;
-                }
-            }
-        }
-        else
-        {
-            for(unsigned iNeuron=0; iNeuron<nn().Neurons(iLayer); ++iNeuron)
-            {
-                nn().bias[iLayer][iNeuron]-=dW_LM[I_J];
-                I_J+=1;
-                for(unsigned iInput=0; iInput<nd.nInputsNumber; ++iInput)
-                {
-                    nn().weight[iLayer][iNeuron][iInput]-=dW_LM[I_J];
-                    I_J+=1;
-                }
-            }
-
-        }
-    }
+  ApplyWeightAdj();
 }
+
 void NaLM::DegradeNN_LM()
 {
-    unsigned I_J=0;
-    for(int iLayer=nd.OutputLayer(); iLayer>=0; --iLayer)
-    {
-        if(iLayer!=0)
-        {
-            for(unsigned iNeuron=0; iNeuron<nn().Neurons(iLayer); ++iNeuron)
-            {
-                nn().bias[iLayer][iNeuron]+=dW_LM[I_J];
-                I_J+=1;
-                for(unsigned iNeuron_prev=0; iNeuron_prev<nn().Neurons(iLayer-1); ++iNeuron_prev)
-                {
-                    nn().weight[iLayer][iNeuron][iNeuron_prev]+=dW_LM[I_J];
-                    I_J+=1;
-                }
-            }
-        }
-        else
-        {
-            for(unsigned iNeuron=0; iNeuron<nn().Neurons(iLayer); ++iNeuron)
-            {
-                nn().bias[iLayer][iNeuron]+=dW_LM[I_J];
-                I_J+=1;
-                for(unsigned iInput=0; iInput<nd.nInputsNumber; ++iInput)
-                {
-                    nn().weight[iLayer][iNeuron][iInput]+=dW_LM[I_J];
-                    I_J+=1;
-                }
-            }
-
-        }
-    }
+  ApplyWeightAdj(/* undo */true);
 }
+
 //-------------------------------------------------------------------------
 // Prepare object to work with given neural network architecture.
 // Most operations are disabled until attaching neural network data.

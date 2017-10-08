@@ -97,11 +97,13 @@ int main (int argc, char* argv[])
         /* Let's start the learning */
         int	iEpoch = 0, iLayer, j;
 
-        char		*szLMAlpha = getenv("LM_NSAMPLES");
-        if(NULL != szLMAlpha)
+	// Size of base to calculate jacobian for LM
+	// Should be equal to size of the training set
+        char		*szLMBaseSize = getenv("LM_NSAMPLES");
+        if(NULL != szLMBaseSize)
         {
 
-            nnteacher->SetNSamples_LM( atoi(szLMAlpha));
+            nnteacher->SetNSamples_LM(atoi(szLMBaseSize));
             bLMCycle = true;
             NaReal ALPHA_LM=0.001;
             NaReal E_LM_OLD;
@@ -126,38 +128,45 @@ int main (int argc, char* argv[])
                         for(j = 0; j < nn.descr.nOutNeurons; ++j)
                             pTar[j] = dfLeOut->GetValue(j);
                         //проходим через сеть в прямом направлении
+			// Forward propagation of the data through NN
                         nn.Function(pIn, pOut);
+
                         /* Compute sum of squared error */
                         for(j = 0; j < nn.descr.nOutNeurons; ++j)
                         {
                             pLeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
                         }
+
                         //
-                        nnteacher->GetErrors(nSamples,pTar,pOut);
-                        nnteacher->GetJ(nSamples,pIn,pTar,pOut);
+                        nnteacher->SetOutputError(nSamples, pTar, pOut);
+                        nnteacher->SetTrainingPair(nSamples, pIn, pTar, pOut);
                         ++nSamples;
                     }
                     while(dfLeIn->GoNextRecord() && dfLeOut->GoNextRecord());
                     //
                     /* Compute mean squared error */
                     /* Reset error counters */
-                    E_LM_OLD=0;
+                    E_LM_OLD = 0;
                     for(j = 0; j < nn.descr.nOutNeurons; ++j)
                     {
 
                         pLeMSE[j] /= nSamples;
-                        E_LM_OLD+=pLeMSE[j];
+                        E_LM_OLD += pLeMSE[j];
                     }
                 }// прохождение по всей выборке
-// посчитали якобиан и ошибку
+
+		// посчитали якобиан и ошибку
+		// Jacobian and error are ready
 
                 do
                 {
                     /* Reset error counters */
                     for(j = 0; j < nn.descr.nOutNeurons; ++j)
                         pLeMSE[j] = pTeMSE[j] = 0.0;
-                    nnteacher->Get_dW(ALPHA_LM);
+
+                    nnteacher->CalcWeightAdj(ALPHA_LM);
                     nnteacher->UpdateNN_LM();
+
                     //считаем новую ошибку
                     // прохождение по всей выборке
                     if(dfLeIn->GoStartRecord() && dfLeOut->GoStartRecord())

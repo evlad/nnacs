@@ -123,15 +123,33 @@ public:/* methods */
 
     // Return true if there is a need to prohibit bias change.
     virtual bool    DontTouchBias ();
-    //
-    virtual void GetJ(unsigned i,NaReal *pIn,NaReal *pTar,NaReal *pOut);
-    virtual void GetErrors(unsigned nSamples,NaReal *pTar,NaReal *pOut);
-    virtual void Get_COR(NaReal *pTar,NaReal *pOut,unsigned nOUT);
-    virtual void Get_dW(NaReal ALPHA_LM);
+
+    // -------------------------------
+    // LM specifics:
+
+    /// Assign current data pair and target result to calculate output error
+    virtual void SetTrainingPair (unsigned iSample, NaReal *pIn,
+				  NaReal *pTar, NaReal *pOut);
+
+    /// Assign output error of the NN for iSample input
+    virtual void SetOutputError (unsigned iSample, NaReal *pTar, NaReal *pOut);
+
+    /// Calculate correction for iOut output neuron 
+    virtual void CalcOutNeuronCorrection (NaReal *pTar, NaReal *pOut, unsigned iOut);
+
+    /// Calculate LM weight adjustments considering given Alpha
+    virtual void CalcWeightAdj (NaReal fAlphaLM);
+
+    /// Apply weight adjustments or undo them
+    virtual void ApplyWeightAdj (bool bUndo = false);
+
     virtual void UpdateNN_LM();
     virtual void DegradeNN_LM();
     virtual void Init_Zero_LM();
+
+    // Set number of input,output pairs to calculate Jacobian
     virtual void SetNSamples_LM(int n);
+
     NaReal Error_NEW;
 
     //public:/* data */
@@ -158,12 +176,19 @@ protected:
     // Previous step of change: (w(t-1) - w(t-2))
     NaMatrix    psWeight[NaMAX_HIDDEN+1];
     NaVector    psBias[NaMAX_HIDDEN+1];
-    //метод левенберга маркдвардта
+
+    //---------------------------------------
+    // Leverberg-Marquardt method specifics:
+    // [метод левенберга маркдвардта]
+
     NaMatrix J_LM;// матрица якобиана размерностью
     //[все веса+все начальные смещения][количество обучающих пар*количество выходов]
     unsigned I_LM;//количество оптимизируемых параметров матрицы якобиана
     //[все веса+все начальные смещения]
-    unsigned nSamples_LM;// [количество обучающих пар]
+
+    /// Number of training pairs (base size of the LM)
+    unsigned nSamples_LM;   // [количество обучающих пар]
+
     NaVector Errors_LM;//  ошибки на выходе pTar[i]-pOut[i];
     NaVector dW_LM;//изменения весовых коэффициентов
     NaVector COR_LM[NaMAX_HIDDEN+1];// вектор начальных поправок,поправки нужны для подсчета матрицы якобиана
