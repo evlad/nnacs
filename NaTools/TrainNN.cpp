@@ -253,7 +253,6 @@ int main (int argc, char* argv[])
                 }
 //
                 /* Display epoch number, learning and testing errors */
-                printf("\n");
                 printf("%d\t", iEpoch);
                 for(j = 0; j < nn.descr.nOutNeurons; ++j)
                     printf(" %g", pLeMSE[j]);
@@ -269,6 +268,7 @@ int main (int argc, char* argv[])
                     printf(" %g", pTeMSE[j]);
                 if(iEpoch > nMaxEpochs)
                     bTerminate = true;
+                putchar('\n');
             }
         }
         while(!bTerminate&!bLMCycle)
