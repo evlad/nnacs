@@ -270,119 +270,121 @@ int main (int argc, char* argv[])
                     bTerminate = true;
                 putchar('\n');
             }
-        }
-        while(!bTerminate&!bLMCycle)
-        {
+	} // End of training by LM method
+	else {
+	    // Begin Backpropagations of error
+	    while(!bTerminate&!bLMCycle) {
 
-            ++iEpoch;
+		++iEpoch;
 
-            /* Reset error counters */
-            for(j = 0; j < nn.descr.nOutNeurons; ++j)
-                pLeMSE[j] = pTeMSE[j] = 0.0;
+		/* Reset error counters */
+		for(j = 0; j < nn.descr.nOutNeurons; ++j)
+		    pLeMSE[j] = pTeMSE[j] = 0.0;
 
-            /* Learning epoch */
-            if(dfLeIn->GoStartRecord() && dfLeOut->GoStartRecord())
-            {
-                int	nSamples = 0;
+		/* Learning epoch */
+		if(dfLeIn->GoStartRecord() && dfLeOut->GoStartRecord())
+		    {
+			int	nSamples = 0;
 
-                do
-                {
-                    /* Read the learning pair */
-                    for(j = 0; j < nn.descr.InputsNumber(); ++j)
-                        pIn[j] = dfLeIn->GetValue(j);
-                    for(j = 0; j < nn.descr.nOutNeurons; ++j)
-                        pTar[j] = dfLeOut->GetValue(j);
+			do
+			    {
+				/* Read the learning pair */
+				for(j = 0; j < nn.descr.InputsNumber(); ++j)
+				    pIn[j] = dfLeIn->GetValue(j);
+				for(j = 0; j < nn.descr.nOutNeurons; ++j)
+				    pTar[j] = dfLeOut->GetValue(j);
 
-                    /* Pass through the net in forward direction */
-                    //проходим через сеть в прямом направлении
-                    nn.Function(pIn, pOut);
-                    //
+				/* Pass through the net in forward direction */
+				//проходим через сеть в прямом направлении
+				nn.Function(pIn, pOut);
+				//
 
-                    // Use bLMCycle
-                    if(bLMCycle)
-                        NaPrintLog("LM cycle\n");
+				// Use bLMCycle
+				if(bLMCycle)
+				    NaPrintLog("LM cycle\n");
 
-                    /* Compute sum of squared error */
-                    for(j = 0; j < nn.descr.nOutNeurons; ++j)
-                        pLeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
-                    //
-                    /* Pass through the net in backward direction */
-                    for(iLayer = nn.OutputLayer(); iLayer >= 0; --iLayer)
-                    {
-                        if(nn.OutputLayer() == iLayer)
-                            /* Output layer */
-                            nnteacher->DeltaRule(pTar);
-                        else
-                            /* Hidden layer */
-                            nnteacher->DeltaRule(iLayer, iLayer + 1);
-                    }
+				/* Compute sum of squared error */
+				for(j = 0; j < nn.descr.nOutNeurons; ++j)
+				    pLeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
+				//
+				/* Pass through the net in backward direction */
+				for(iLayer = nn.OutputLayer(); iLayer >= 0; --iLayer)
+				    {
+					if(nn.OutputLayer() == iLayer)
+					    /* Output layer */
+					    nnteacher->DeltaRule(pTar);
+					else
+					    /* Hidden layer */
+					    nnteacher->DeltaRule(iLayer, iLayer + 1);
+				    }
 
-                    ++nSamples;
+				++nSamples;
 
-                }
-                while(dfLeIn->GoNextRecord() && dfLeOut->GoNextRecord());
+			    }
+			while(dfLeIn->GoNextRecord() && dfLeOut->GoNextRecord());
 
-                /* Compute mean squared error */
-                E_LM_NEW=0;
-                for(j = 0; j < nn.descr.nOutNeurons; ++j)
-                {
+			/* Compute mean squared error */
+			E_LM_NEW=0;
+			for(j = 0; j < nn.descr.nOutNeurons; ++j)
+			    {
 
-                    pLeMSE[j] /= nSamples;
-                    E_LM_NEW+=pLeMSE[j];
-                }
-            }
+				pLeMSE[j] /= nSamples;
+				E_LM_NEW+=pLeMSE[j];
+			    }
+		    }
 
-            /* Testing epoch */
-            if(dfTeIn->GoStartRecord() && dfTeOut->GoStartRecord())
-            {
-                int	nSamples = 0;
+		/* Testing epoch */
+		if(dfTeIn->GoStartRecord() && dfTeOut->GoStartRecord())
+		    {
+			int	nSamples = 0;
 
-                do
-                {
-                    /* Read the learning pair */
-                    for(j = 0; j < nn.descr.InputsNumber(); ++j)
-                        pIn[j] = dfTeIn->GetValue(j);
-                    for(j = 0; j < nn.descr.nOutNeurons; ++j)
-                        pTar[j] = dfTeOut->GetValue(j);
+			do
+			    {
+				/* Read the learning pair */
+				for(j = 0; j < nn.descr.InputsNumber(); ++j)
+				    pIn[j] = dfTeIn->GetValue(j);
+				for(j = 0; j < nn.descr.nOutNeurons; ++j)
+				    pTar[j] = dfTeOut->GetValue(j);
 
-                    /* Pass through the net in forward direction */
-                    nn.Function(pIn, pOut);
+				/* Pass through the net in forward direction */
+				nn.Function(pIn, pOut);
 
-                    /* Compute sum of squared error */
-                    for(j = 0; j < nn.descr.nOutNeurons; ++j)
-                        pTeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
+				/* Compute sum of squared error */
+				for(j = 0; j < nn.descr.nOutNeurons; ++j)
+				    pTeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
 
-                    ++nSamples;
+				++nSamples;
 
-                }
-                while(dfTeIn->GoNextRecord() && dfTeOut->GoNextRecord());
+			    }
+			while(dfTeIn->GoNextRecord() && dfTeOut->GoNextRecord());
 
-                /* Compute mean squared error */
-                for(j = 0; j < nn.descr.nOutNeurons; ++j)
-                    pTeMSE[j] /= nSamples;
-            }
+			/* Compute mean squared error */
+			for(j = 0; j < nn.descr.nOutNeurons; ++j)
+			    pTeMSE[j] /= nSamples;
+		    }
 
-            /* Update the NN weights at the end of each epoch */
-            nnteacher->UpdateNN();
+		/* Update the NN weights at the end of each epoch */
+		nnteacher->UpdateNN();
 
-            /* Display epoch number, learning and testing errors */
-            printf("%d\t", iEpoch);
+		/* Display epoch number, learning and testing errors */
+		printf("%d\t", iEpoch);
 
-            for(j = 0; j < nn.descr.nOutNeurons; ++j)
-                printf(" %g", pLeMSE[j]);
-            TIME_NN <<"("<<((clock()-start_time)/1000)<<";"<<E_LM_NEW<<")\n";
-            putchar('\t');
-            printf("%g",(clock()-start_time)/1000);
+		for(j = 0; j < nn.descr.nOutNeurons; ++j)
+		    printf(" %g", pLeMSE[j]);
+		TIME_NN <<"("<<((clock()-start_time)/1000)<<";"<<E_LM_NEW<<")\n";
+		putchar('\t');
+		printf("%g",(clock()-start_time)/1000);
 
-            for(j = 0; j < nn.descr.nOutNeurons; ++j)
-                printf(" %g", pTeMSE[j]);
+		for(j = 0; j < nn.descr.nOutNeurons; ++j)
+		    printf(" %g", pTeMSE[j]);
 
-            putchar('\n');
+		putchar('\n');
 
-            if(iEpoch > nMaxEpochs)
-                bTerminate = true;
+		if(iEpoch > nMaxEpochs)
+		    bTerminate = true;
 
-        }/* End of learning loop */
+	    }/* End of learning loop */
+	} // End of the BPE mode
 
         if(argc > 6)
             nn.Save(argv[6]);
