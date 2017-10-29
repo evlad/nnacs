@@ -608,7 +608,7 @@ NaNNUnit::DerivActFunc (unsigned iLayer, NaReal z)
     }
     else /* sigmoid */{
         f = ActFunc(iLayer, z);
-        f = 0.5 * (1. - f * f);
+        f = 1. - f * f;
     }
     return f;
 }

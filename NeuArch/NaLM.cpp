@@ -63,15 +63,7 @@ void NaLM::CalcOutNeuronCorrection (NaReal *pTar, NaReal *pOut, unsigned iOut)
   COR_LM[nd.OutputLayer()].init_zero();
 
   // Calulate correction for the exact output neuron
-  if(nd.eLastActFunc == afkLinear)
-    {
-      COR_LM[nd.OutputLayer()][iOut]=-nn().DerivActFunc(nd.OutputLayer(), nn().Znet[nd.OutputLayer()][iOut]);
-    }
-  else
-    {
-      // TODO: 2* ???
-      COR_LM[nd.OutputLayer()][iOut]=-2*nn().DerivActFunc(nd.OutputLayer(), nn().Znet[nd.OutputLayer()][iOut]);
-    }
+  COR_LM[nd.OutputLayer()][iOut]=-nn().DerivActFunc(nd.OutputLayer(), nn().Znet[nd.OutputLayer()][iOut]);
 
   //вычисление поправок скрытых слоев
   for(int iLayer = nd.OutputLayer() - 1; iLayer >= 0; --iLayer)
