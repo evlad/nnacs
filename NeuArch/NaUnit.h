@@ -10,6 +10,7 @@
 #include <NaTimer.h>
 #include <NaDynAr.h>
 #include <NaLogFil.h>
+#include <NaVector.h>
 
 //---------------------------------------------------------------------------
 // Common class for control scheme unit representation
@@ -17,39 +18,48 @@ class PNNA_API NaUnit : public NaLogging
 {
 public:
 
-    // Construct the object
+    /// Construct the object
     NaUnit (unsigned nInDim_ = 1, unsigned nOutDim_ = 1,
             unsigned nFbDepth_ = 0);
 
-    // Copying construct the object
+    /// Copying construct the object
     NaUnit (const NaUnit& rUnit);
 
-    // Destroy the object
+    /// Destroy the object
     virtual ~NaUnit ();
 
-    // Assign the object
+    /// Assign the object
     NaUnit&     operator= (const NaUnit& rUnit);
+
+    /// Assign the object
     NaUnit&     Assign (unsigned nInDim_ = 1, unsigned nOutDim_ = 1,
                         unsigned nFbDepth_ = 0);
 
-    // Access to timer
+    /// Access to timer
     virtual NaTimer&    Timer () const;
 
-    // Setup timer
+    /// Setup timer
     virtual void        SetupTimer (NaTimer* pTimer_);
 
-    // Reset operations, that must be done before new modelling
-    // session will start.  It's guaranteed that this reset will be
-    // called just after Timer().ResetTime().
+    /// Reset operations, that must be done before new modelling
+    /// session will start.  It's guaranteed that this reset will be
+    /// called just after Timer().ResetTime().
     virtual void    Reset () = 0;
 
-    // ATTENTION!  It's guaranteed that this->Function() will be called
-    // only once for each time step.  Index of the time step and current
-    // time can be got from Timer().
+    /// ATTENTION!  It's guaranteed that this->Function() will be called
+    /// only once for each time step.  Index of the time step and current
+    /// time can be got from Timer().
 
-    // Compute output on the basis of internal parameters,
-    // stored state and external input: y=F(x,t,p)
+    /// Compute output on the basis of internal parameters,
+    /// stored state and external input: y=F(x,t,p)
     virtual void    Function (NaReal* x, NaReal* y) = 0;
+
+    /// Apply function repeatedly for the given input vectors, putting the
+    /// result to output ones.  Reset() is not called inside.
+    /// \return true in case of success and false if size of input
+    /// vector of function does not match to the size of input vector
+    /// in data set.
+    virtual bool    Function (NaDynAr<NaVector>& rVecIn, NaDynAr<NaVector>& rVecOut);
 
     // ATTENTION!  Feedback loop is organized in derived class
     // internally.  NaUnit does not provide standard methods as
@@ -58,22 +68,22 @@ public:
     // initial values.  Next two methods provide standard way for
     // supplying an object with initial values.
 
-    // Supply unit with feedback values on the starting steps of
-    // unit perfomance.  Number of values can be got from NeedFeedback().
-    // Needs to be redefined to get meaningful feedback property.
+    /// Supply unit with feedback values on the starting steps of
+    /// unit perfomance.  Number of values can be got from NeedFeedback().
+    /// Needs to be redefined to get meaningful feedback property.
     virtual void    FeedbackValues (NaReal* fb);
 
-    // Dimension of feedback vector needed by unit at current time step.
-    // 0 means no feedback is needed.  Does not need to be redefined.
+    /// Dimension of feedback vector needed by unit at current time step.
+    /// 0 means no feedback is needed.  Does not need to be redefined.
     virtual unsigned    NeedFeedback ();
 
-    // Return input dimension
+    /// Return input dimension
     virtual unsigned    InputDim () const;
 
-    // Return output dimension
+    /// Return output dimension
     virtual unsigned    OutputDim () const;
 
-    // Return feedback depth
+    /// Return feedback depth
     virtual unsigned    FeedbackDepth () const;
 
     /*=====================*
@@ -84,16 +94,16 @@ public:
 
 private:
 
-    // Reference to timer object
+    /// Reference to timer object
     NaTimer     *pTimer;
 
-    // Dimensions of input and output
+    /// Dimensions of input and output
     unsigned    nInDim, nOutDim;
 
-    // Depth of the internal feedback loop
-    // 0 - means no feedback
-    // 1 - means using Out(t) = Func(In(t), Out(t-1)
-    // n - means using Out(t) = Func(In(t), Out(t-1), ...Out(t-n))
+    /// Depth of the internal feedback loop
+    /// 0 - means no feedback
+    /// 1 - means using Out(t) = Func(In(t), Out(t-1)
+    /// n - means using Out(t) = Func(In(t), Out(t-1), ...Out(t-n))
     unsigned    nFbDepth;
 };
 

@@ -33,8 +33,8 @@ NaVector::NaVector (const NaVector& rVect)
 }
 
 //---------------------------------------------------------------------------
-// Create vector of n items
-NaVector::NaVector (unsigned n)
+// Create vector of n items (providing their values optionally)
+NaVector::NaVector (unsigned n, const NaReal* pVect_)
 {
     // Create the vector
     bOwnStorage = true;
@@ -42,7 +42,10 @@ NaVector::NaVector (unsigned n)
     nDim = n;
 
     // Initialize items by zero
-    init_zero();
+    if(NULL == pVect)
+	init_zero();
+    else
+	memcpy(pVect, pVect_, sizeof(NaReal) * nDim);
 }
 
 //---------------------------------------------------------------------------

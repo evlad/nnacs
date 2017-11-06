@@ -26,8 +26,8 @@ public:
     // Coping constructor
     NaVector (const NaVector& rVect);
 
-    // Create vector of n items
-    NaVector (unsigned n = 0);
+    // Create vector of n items (providing their values optionally)
+    NaVector (unsigned n = 0, const NaReal* pVect = NULL);
 
     // Destroying the vector
     virtual ~NaVector ();

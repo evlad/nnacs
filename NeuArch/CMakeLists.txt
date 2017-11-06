@@ -20,6 +20,7 @@ set(SOURCE_LIB NaConLaw.cpp
 	NaDDir.cpp
 	NaDataIO.cpp
 	NaBinrIO.cpp
+	NaDataSet.cpp
 	NaDynAr.cpp
 	NaExcept.cpp
 	NaInfoSt.cpp

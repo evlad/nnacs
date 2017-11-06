@@ -134,4 +134,25 @@ NaUnit::PrintLog () const
 }
 
 //---------------------------------------------------------------------------
+/// Apply function repeatedly for the given input vectors, putting the
+/// result to output ones.  Reset() is not called inside.
+/// \return true in case of success and false if size of input
+/// vector of function does not match to the size of input vector
+/// in data set.
+bool
+NaUnit::Function (NaDynAr<NaVector>& rVecIn, NaDynAr<NaVector>& rVecOut)
+{
+    rVecOut.clean();
+    NaVector	vResult(OutputDim());
+    NaReal	*pOut = &vResult.fetch(0);
+    for(unsigned i = 0; i < rVecIn.count(); ++i) {
+	if(InputDim() != rVecIn[i].dim())
+	    return false;
+	NaReal	*pIn = &rVecIn[i].fetch(0);
+	Function(pIn, pOut);
+	rVecOut.addh(vResult);
+    }
+    return true;
+}
 
+//---------------------------------------------------------------------------
