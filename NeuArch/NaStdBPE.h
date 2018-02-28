@@ -88,9 +88,16 @@ public:/* methods */
     // computed changes.
     virtual void    UpdateNN ();
 
+    // Perform the whole backpropagation step for the only pair
+    // Ytarg is desired vector needs to be compared with Yout
+    // of the output layer or error value already computed.
+    // If bError==true then Ytarg means error ready to use without Yout.
+    // If bError==false then Ytarg means Ydes to compare with Yout.
+    virtual void    BackPropagationOfError (const NaReal* Ytarg, bool bError = false);
+
     // Delta rule for the last layer.
     // Ytarg is desired vector needs to be compared with Yout
-    // of the output layer or error value already computed..
+    // of the output layer or error value already computed.
     // If bError==true then Ytarg means error ready to use without Yout.
     // If bError==false then Ytarg means Ydes to compare with Yout.
     virtual void    DeltaRule (const NaReal* Ytarg, bool bError = false);

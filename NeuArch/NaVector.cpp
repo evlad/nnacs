@@ -248,10 +248,11 @@ NaVector::min_max (NaReal& vMin, NaReal& vMax) const
     }
 }
 
+
 //---------------------------------------------------------------------------
-// Get average value of the vector
+// Calculate sum of items of the vector
 NaReal
-NaVector::average () const
+NaVector::sum () const
 {
     if(0 == dim())
         return 0.0;
@@ -261,7 +262,15 @@ NaVector::average () const
     for(i = 0; i < dim(); ++i){
         sum += pVect[i];
     }
-    return sum / dim();
+    return sum;
+}
+
+//---------------------------------------------------------------------------
+// Get average value of the vector
+NaReal
+NaVector::average () const
+{
+    return sum() / dim();
 }
 
 //---------------------------------------------------------------------------

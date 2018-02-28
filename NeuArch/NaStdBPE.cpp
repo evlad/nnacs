@@ -240,6 +240,31 @@ NaStdBackProp::ApplyDelta (unsigned iLayer)
 
 
 //---------------------------------------------------------------------------
+// Perform the whole backpropagation step for the only pair
+// Ytarg is desired vector needs to be compared with Yout
+// of the output layer or error value already computed.
+// If bError==true then Ytarg means error ready to use without Yout.
+// If bError==false then Ytarg means Ydes to compare with Yout.
+void
+NaStdBackProp::BackPropagationOfError (const NaReal* Ytarg, bool bError)
+{
+    if(NULL == NN())
+	// Disabled until the first valid attach
+	return;
+
+    /* Pass through the net in backward direction */
+    for(int iLayer = nn().OutputLayer(); iLayer >= 0; --iLayer)
+	{
+	    if(nn().OutputLayer() == iLayer)
+		/* Output layer */
+		DeltaRule(Ytarg, bError);
+	    else
+		/* Hidden layer */
+		DeltaRule(iLayer, iLayer + 1);
+	}
+}
+
+//---------------------------------------------------------------------------
 // Delta rule for the last layer.
 // Ytarg is desired vector needs to be compared with Yout
 // of the output layer or error value already computed..

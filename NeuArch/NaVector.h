@@ -77,6 +77,9 @@ public:
     // Get minimum and maximum values of the vector
     virtual void        min_max (NaReal& vMin, NaReal& vMax) const;
 
+    // Calculate sum of items of the vector
+    virtual NaReal	sum () const;
+
     // Get average value of the vector
     virtual NaReal      average () const;
 
