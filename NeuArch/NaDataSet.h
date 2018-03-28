@@ -6,6 +6,7 @@
 
 #include <NaDynAr.h>
 #include <NaVector.h>
+#include <NaUnit.h>
 #include <NaExcept.h>
 
 
@@ -57,6 +58,12 @@ class PNNA_API NaDataSet
 
   /// Get size of the output vector.
   unsigned	GetOutputSize () const;
+
+  /// Calculate MSE for the output of the unit (may be NN also) and
+  /// the desired output provided in the data set.  Calculated actual
+  /// output of the unit is stored in optional pDSOut array of vector.
+  /// @return MSE
+  NaVector	CalcOutputMSE (NaUnit& unit, NaDynAr<NaVector>* pDSOut = NULL);
 
  private:
 

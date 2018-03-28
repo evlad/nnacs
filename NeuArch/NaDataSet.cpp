@@ -1,4 +1,4 @@
-/* NaPNNNUn.cpp */
+/* NaDataSet.cpp */
 static char rcsid[] = "$Id$";
 //---------------------------------------------------------------------------
 
@@ -128,4 +128,37 @@ unsigned
 NaDataSet::GetOutputSize () const
 {
     return m_nOutSize;
+}
+
+
+//---------------------------------------------------------------------------
+/// Calculate MSE for the output of the unit (may be NN also) and
+/// the desired output provided in the data set.  Calculated actual
+/// output of the unit is stored in optional pDSOut array of vector.
+/// @return MSE
+NaVector
+NaDataSet::CalcOutputMSE (NaUnit& unit, NaDynAr<NaVector>* pDSOut)
+{
+  NaVector	vMSE(unit.InputDim());
+  NaVector	vOut(unit.OutputDim());
+
+  vMSE.init_zero();
+
+  // Iterate through the whole dataset
+  for(unsigned i = 0; i < NumberOfPairs(); ++i)
+    {
+      NaVector	&vIn = m_vIn[i];
+      NaVector	&vTar = m_vOut[i];
+
+      // Forward propagation of the data through NN
+      unit.Function(&vIn[0], &vOut[0]);
+      if(NULL != pDSOut)
+	pDSOut->addh(vOut);
+
+      // Compute sum of squared error
+      for(unsigned j = 0; j < unit.OutputDim(); ++j)
+	vMSE[j] += (vTar[j] - vOut[j]) * (vTar[j] - vOut[j]);
+    }
+
+  return vMSE;
 }
