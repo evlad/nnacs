@@ -53,8 +53,12 @@ set(SOURCE_FileCvt FileCvt.cpp)
 add_executable(FileCvt ${SOURCE_FileCvt})
 target_link_libraries(FileCvt ${LIST_LIBS})
 
+set(SOURCE_ErrInvNN ErrInvNN.cpp)
+add_executable(ErrInvNN ${SOURCE_ErrInvNN})
+target_link_libraries(ErrInvNN ${LIST_LIBS})
+
 #set(SOURCE_% %.cpp)
 #add_executable(% ${SOURCE_%})
 #target_link_libraries(% ${LIST_LIBS})
 
-install(TARGETS StatAn Distr2D Distr1D MakeNN ResetNN EvalNN BackNN TrainNN UNGen FileCvt RUNTIME DESTINATION bin)
+install(TARGETS StatAn Distr2D Distr1D MakeNN ResetNN EvalNN BackNN TrainNN UNGen FileCvt ErrInvNN RUNTIME DESTINATION bin)

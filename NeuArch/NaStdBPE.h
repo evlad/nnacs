@@ -101,6 +101,11 @@ public:/* methods */
     // Usually iPrevLayer=iLayer+1.
     virtual void    DeltaRule (unsigned iLayer, unsigned iPrevLayer);
 
+    // Delta rule for the input layer
+    // fInErr - vector of InputDim()/InputsNumber() elements with error propagated
+    //          from the output layer to the input and scaled appropriately.
+    virtual void    DeltaRuleOnInput (NaReal* fInErr);
+
     // Part of delta rule for the hidden layer
     // Computes sum of products outcoming weights and target deltas
     // on given layer and for given input

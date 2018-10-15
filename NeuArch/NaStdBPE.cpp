@@ -3,6 +3,7 @@ static char rcsid[] = "$Id$";
 //---------------------------------------------------------------------------
 #include "NaLogFil.h"
 #include "NaStdBPE.h"
+#include "NaNNUnit.h"
 
 //---------------------------------------------------------------------------
 // Initialize the object on the basic of preset nd
@@ -375,6 +376,44 @@ NaStdBackProp::DeltaRule (unsigned iLayer, unsigned iPrevLayer)
 
     // Apply common delta - accumulate it in dWeight and dBias
     ApplyDelta(iLayer);
+}
+
+
+//---------------------------------------------------------------------------
+// Delta rule for the input layer
+// fInErr - vector of nd.InputsNumber() elements with error propagated
+//          from the output layer to the input and scaled appropriately.
+void
+NaStdBackProp::DeltaRuleOnInput (NaReal* fInErr)
+{
+    if(NULL == NN())
+	// Disabled until the first valid attach
+	return;
+
+    if(NULL == fInErr)
+	throw(na_null_pointer);
+
+    unsigned    iInput;
+    NaVector	vDelta(nd.InputsNumber());
+    vDelta.init_zero();
+
+    if(nDebugLvl >= 2)
+	NaPrintLog("+++ Standard delta rule for input layer +++\n");
+
+    // For each neuron of the current layer...
+    for(iInput = 0; iInput < nd.InputsNumber(); ++iInput){
+
+        // Initialize delta...
+        vDelta[iInput] = PartOfDeltaRule(0/* the first hidden */, iInput);
+
+	if(nDebugLvl >= 2)
+	    NaPrintLog("    * delta[%u]= %g,  Xinp0= %g\n",
+		       iInput, vDelta[iInput], nn().Xinp0[iInput]);
+    }
+
+    // Scale input error back to the original input range
+    NN()->ScaleData(NN()->StdInputRange, NN()->InputScaler,
+		    &vDelta[0], fInErr, NN()->InputDim());
 }
 
 
