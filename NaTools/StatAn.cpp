@@ -106,5 +106,6 @@ int main(int argc, char **argv)
         NaPrintLog("EXCEPTION: %s\n", NaExceptionMsg(ex));
     }
 
+    NaCloseLogFile();
     return 0;
 }
