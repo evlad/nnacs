@@ -1,0 +1,59 @@
+;NeuCon NeuralNet 1.1
+[NeuralNet Undefined]
+; Neural network architecture definition
+2 1	 ; Number of inputs and their repeat factor
+0	 ; Output repeat factor on the input
+0	 ; Feedback depth
+2	 ; Number of hidden layers
+5	 ; Hidden layer
+3	 ; Hidden layer
+tanh 1	 ; Output layer
+; Input delays:
+0
+; Output delays:
+; Neural network:
+; Layer #0  (2 inputs, 5 neurons)
+0.0343372	 ; Neuron #0 (bias / weights):
+0.196687
+0.199945
+0.0902969	 ; Neuron #1 (bias / weights):
+0.145778
+-0.152994
+-0.0303855	 ; Neuron #2 (bias / weights):
+0.0668061
+0.17004
+-0.136502	 ; Neuron #3 (bias / weights):
+-0.173187
+-0.0615038
+-0.196518	 ; Neuron #4 (bias / weights):
+-0.123613
+-0.0346884
+; Layer #1  (5 inputs, 3 neurons)
+0.162898	 ; Neuron #0 (bias / weights):
+0.116934
+0.0130605
+0.0972972
+-0.108013
+0.169349
+-0.196462	 ; Neuron #1 (bias / weights):
+-0.152607
+-0.113678
+0.0865328
+-0.11162
+-0.103247
+-0.0601336	 ; Neuron #2 (bias / weights):
+0.0546774
+0.100783
+-0.0221129
+-0.193148
+-0.0600783
+; Layer #2  (3 inputs, 1 neurons)
+0.0787157	 ; Neuron #0 (bias / weights):
+0.108676
+-0.149456
+-0.193327
+; Input scaler:
+-1 1	 ; min max
+-1 1	 ; min max
+; Output scaler:
+-1 1	 ; min max
