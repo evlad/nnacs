@@ -5,11 +5,13 @@ static char rcsid[] = "$Id$";
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <algorithm>
 //#include <unistd.h>
 
 #include <NaLogFil.h>
 #include <NaGenerl.h>
 #include <NaExcept.h>
+#include <NaVector.h>
 
 #include <NaDataIO.h>
 
@@ -26,7 +28,7 @@ int main (int argc, char* argv[])
       return 1;
     }
 
-  int		i, n = argc - 1;
+  int		i, n = argc - 1, nColumns = 0;
   NaDataFile	**dfSeries = new NaDataFile*[n];
 
   NaOpenLogFile("dsum.log");
@@ -35,8 +37,21 @@ int main (int argc, char* argv[])
     {
       try{
 	dfSeries[i] = OpenInputDataFile(argv[1+i]);
-	if(NULL != dfSeries[i])
+	if(NULL != dfSeries[i]) {
 	  dfSeries[i]->GoStartRecord();
+
+	  int	nVar;
+	  char	**pszVarNames;
+	  dfSeries[i]->GetVarNameList(nVar, pszVarNames);
+
+	  nColumns = std::max(nColumns, nVar);
+	  NaPrintLog("File '%s', variables: %d\n", argv[1+i], nVar);
+	  for(int j = 0; j < nVar; ++j) {
+	      NaPrintLog("  Var '%s'\n", pszVarNames[j]);
+	      delete[] pszVarNames[j];
+	  }
+	  delete[] pszVarNames;
+	}
       }
       catch(NaException& ex){
 	NaPrintLog("Failed to open '%s' due to %s\n",
@@ -46,22 +61,33 @@ int main (int argc, char* argv[])
     }
 
   try{
-    NaReal	fSum;
+    NaVector	fSum(nColumns);
     bool	bEOF = false;
     do{
-      fSum = 0.0;
+	fSum.init_zero();
 
-      for(i = 0; i < n; ++i)
-	if(NULL != dfSeries[i])
-	  {
-	    fSum += dfSeries[i]->GetValue();
-	    if(!dfSeries[i]->GoNextRecord())
-	      bEOF = true;
-	  }
+	for(i = 0; i < n; ++i)
+	    if(NULL != dfSeries[i]) {
+		for(int j = 0; j < nColumns; ++j) {
+		    try{
+			fSum[j] += dfSeries[i]->GetValue(j);
+		    }
+		    catch(...) {
+			// skip na_out_of_range
+		    }
+		}
+		if(!dfSeries[i]->GoNextRecord())
+		    bEOF = true;
+	    }
 
-      printf("%g\n", fSum);
+	for(int j = 0; j < nColumns; ++j) {
+	    if(j == nColumns - 1)
+		printf("%g\n", fSum[j]);
+	    else
+		printf("%g\t", fSum[j]);
+	}
 
-    }while(!bEOF);
+    } while(!bEOF);
 
     for(i = 0; i < n; ++i)
       delete dfSeries[i];
@@ -71,6 +97,8 @@ int main (int argc, char* argv[])
   catch(NaException& ex){
     NaPrintLog("EXCEPTION: %s\n", NaExceptionMsg(ex));
   }
+
+  NaCloseLogFile();
 
   return 0;
 }
