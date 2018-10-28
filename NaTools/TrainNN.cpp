@@ -183,7 +183,7 @@ int main (int argc, char* argv[])
 
 	putchar('\n');
 
-	if(iEpoch > nMaxEpochs)
+	if(iEpoch > nMaxEpochs && nMaxEpochs > 0)
 	    bTerminate = true;
 
       }/* End of learning loop */
