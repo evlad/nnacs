@@ -16,6 +16,12 @@ io_dist = np.loadtxt('xor5_in_out_dist.dat')
 InErr=io_dist[:,1]
 OutErr=io_dist[:,2]
 
+InMSE=np.square(InErr).mean()
+OutMSE=np.square(OutErr).mean()
+# Equal to
+#TarNN=np.loadtxt('xor5_out.dat')
+#OutMSE=np.square(TarNN - OutNN).mean()
+
 ie=InErr.reshape(5,5)
 oe=OutErr.reshape(5,5)
 
@@ -31,7 +37,7 @@ fig=plt.figure()
 plt.suptitle('XOR input and output errors', fontsize=16)
 
 plt.subplot(2,2,1)
-plt.title('Input pairs and desired input pairs')
+plt.title('NN output, input pairs and desired input pairs')
 plt.contourf(mx,my,nno,20,cmap='RdBu')
 for i in np.arange(0,25):
     plt.arrow(ix[i,0], ix[i,1], dx[i,0], dx[i,1])
@@ -43,7 +49,7 @@ plt.yticks(ticks)
 plt.colorbar()
 
 plt.subplot(2,2,2)
-plt.title('Input error')
+plt.title('Input error (MSE={:g})'.format(InMSE))
 plt.contourf(mx,my,ie,20,cmap='jet')
 plt.grid()
 plt.xticks(ticks)
@@ -51,7 +57,7 @@ plt.yticks(ticks)
 plt.colorbar()
 
 plt.subplot(2,2,4)
-plt.title('Output error')
+plt.title('Output error (MSE={:g})'.format(OutMSE))
 plt.contourf(mx,my,oe,20,cmap='jet')
 plt.grid()
 plt.xticks(ticks)
@@ -59,8 +65,8 @@ plt.yticks(ticks)
 plt.colorbar()
 
 plt.subplot(2,2,3)
-plt.title('NN output')
-plt.contourf(mx,my,nno,20,cmap='RdBu')
+plt.title('Input error/output error ratio')
+plt.contourf(mx,my,ie/oe,20,cmap='YlGn')
 plt.grid()
 plt.xticks(ticks)
 plt.yticks(ticks)
