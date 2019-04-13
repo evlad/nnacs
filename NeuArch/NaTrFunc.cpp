@@ -513,7 +513,7 @@ NaTransFunc::Save (NaDataStream& ds)
 void
 NaTransFunc::Load (NaDataStream& ds)
 {
-    char    szUT[100];
+    char    szUT[101];
     int     i, j, nItems = 0;
     unsigned nInput = 0, nOutput = 0;
 
@@ -538,10 +538,10 @@ NaTransFunc::Load (NaDataStream& ds)
 
     switch(i) {
     case 2:
-      sscanf(szData, "%s %d", szUT, &nItems);
+      sscanf(szData, "%100s %d", szUT, &nItems);
       break;
     case 3:
-      sscanf(szData, "%s %u %u", szUT, &nInput, &nOutput);
+      sscanf(szData, "%100s %u %u", szUT, &nInput, &nOutput);
       break;
     default:
       NaPrintLog("Wrong number of tokens in definition of transfer function\n.");
