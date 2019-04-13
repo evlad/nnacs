@@ -189,7 +189,7 @@ public:
     NaTFAr      items;  // Subtrees if utSum, utProduct; input-output
 			// link functions (InputDim()*OutputDim()) in
 			// rows - all inputs for the first output,
-			// then all inputs for thesecond etc.
+			// then all inputs for the second etc.
     NaPolyFrac  pf;     // Numerator, denumerator if utLeaf
 
     // Input/output operations

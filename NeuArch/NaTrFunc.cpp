@@ -471,6 +471,8 @@ NaTransFunc::ScalarFunction (unsigned i, unsigned j)
 {
   if(i >= InputDim() || j >= OutputDim())
     return NULL;
+  if(utPolyFrac == ut && 0 == i && 0 == j)
+      return this;
 
   return items[j * InputDim() + i];
 }
