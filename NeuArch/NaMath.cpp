@@ -125,3 +125,129 @@ uint32_t rand_cmwc(void) {
         return Q[i];
 }
 */
+
+
+/// Correlate two vectors of length with given width xc[2*width+1]
+extern "C" void
+xcfunction (NaReal* a, NaReal* b, unsigned len, NaReal* xc, unsigned width)
+{
+    unsigned i, j;
+    for(j = 0; j <= 2 * width; ++j)
+	xc[j] = 0.0;
+
+    for(i = width; i < len - width; ++i) {
+	
+    }
+
+}
+
+
+/** Cross correlation function calculation between F1 and F2 with
+    result vector placed to B.
+
+    Input:
+    - F1[n] - first vector;
+    - F2[n] - second vector;
+    - n - number of samples in F1 and F2;
+    - ip - maximum shift (recommended value: 0 < ip <= n/2);
+    - ind1 - type of CCF: 0-simple CCF; 1-normalized CCF;
+    - ind2 - balancing input vectors to average zero level: 0-off, 1-on;
+
+    Output:
+    - B[2*ip+1] - resulting CCF;
+
+    
+    - ierr - error code; 0 means OK.
+*/
+extern "C" int
+ccf1c (NaReal F1[], NaReal F2[], int n, NaReal B[], int ip, int ind1, int ind2)
+{
+    int	imax, ierr, i, j, k;
+    NaReal sum, average1, average2, b0, r01, r02, zero = 1e-6;
+
+    // Absent data
+    if(NULL == F1 || NULL == F2 || NULL == B)
+      return 1;
+
+    // Illegal dimension
+    if(n <= 0 || ip <= 0)
+      return 2;
+
+    // Wrong dimension
+    if(2*ip + 1 >= n)
+      return 3;
+	
+    if (ind2 != 0) {
+	average1 = 0;
+	average2 = 0;
+
+	for(j = 0; j < n; ++j) {
+	    average1 += F1[j];
+	    average2 += F2[j];
+	}
+	average1 /= n;
+	average2 /= n;
+
+	// Minus average
+	for(j = 0; j < n; ++j) {
+	    F1[j] -= average1;
+	    F2[j] -= average2;
+	}
+    }
+
+    if (ind1 == 0) {
+	for(k = 1; k <= ip; ++k) {
+	    sum = 0;
+	    for(i = 0; i < n-k; ++i)
+		sum += F1[i+k] * F2[i];
+
+	    B[ip-k] = sum / (n-k);
+	}
+
+	for(k = 0; k <= ip; ++k) {
+	    sum = 0;
+	    for(i = 0; i < n-k; ++i)
+		sum += F1[i] * F2[i+k];
+
+	    B[ip+k] = sum / (n-k);
+	}
+    }
+    else {
+      // Normalized CCF
+      for(k = 0; k < ip; ++k) {
+	sum = 0.0;
+	r01 = 0.0;
+	r02 = 0.0;
+
+	for(i = 0; i < n-k; +i) {
+	  sum = sum + F1[i+k] * F2[i];
+	  r01 += F1[i+k] * F1[i+k];
+	  r02 += F2[i] * F2[i];
+	}
+
+	b0 = sqrt(r01*r02);
+	if(b0 < zero) b0 = zero;
+
+	B[ip-k] = sum / b0;
+      }
+
+      for(k = 0; k <= ip; ++k) {
+	sum = 0.0;
+	r01 = 0.0;
+	r02 = 0.0;
+
+	for(i = 0; i < n-k; +i) {
+	  sum = sum + F1[i] * F2[i+k];
+	  r01 += F1[i] * F1[i];
+	  r02 += F2[i+k] * F2[i+k];
+	}
+
+	b0 = sqrt(r01*r02);
+	if(b0 < zero) b0 = zero;
+
+	B[ip+k] = sum / b0;
+      }
+    }
+
+    return 0;
+}
