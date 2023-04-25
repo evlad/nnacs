@@ -1,0 +1,126 @@
+﻿initialization
+//создадим новый файл нейросети в формате NNACS
+//;NeuCon NeuralNet 1.1
+//[NeuralNet]
+//; Neural network architecture definition
+//2 1	 ; Number of inputs and their repeat factor
+//0	 ; Output repeat factor on the input
+//0	 ; Feedback depth
+//0	 ; Number of hidden layers
+//linear 1	 ; Output layer
+//; Input delays:
+//0
+//; Output delays:
+//; Neural network:
+//; Layer #0  (2 inputs, 1 neurons)
+//0.486739	 ; Neuron #0 (bias / weights):
+//0.0112465
+//0.0111136
+//; Input scaler:
+//-1 1	 ; min max
+//-1 1	 ; min max
+//; Output scaler:
+//0 0	 ; min max
+
+f_id = createfile("test1.nn", -1);
+//запишем в него строку сигнатуры файла, начала блока описания и комментарий
+writeln(f_id, ";NeuCon NeuralNet 1.1" + chr(10) + "[NeuralNet]" + chr(10) + "; Neural network architecture definition");
+var
+nInputsNumber:integer=2,
+nInputsRepeat:integer=1,
+nOutputsRepeat:integer=0,
+nFeedbackDepth:integer=0,
+nHidLayers:integer=0,
+eLastActFunc:integer=0,  {0-linear, 1-tanh}
+nOutNeurons:integer=1;
+
+writetext(f_id, nInputsNumber, " ", nInputsRepeat);
+writeln(f_id, "	 ; Number of inputs and their repeat factor");
+writetext(f_id, nOutputsRepeat);
+writeln(f_id, "	 ; Output repeat factor on the input");
+writetext(f_id, nFeedbackDepth);
+writeln(f_id, "	 ; Feedback depth");
+writetext(f_id, nHidLayers);
+writeln(f_id, "	 ; Number of hidden layers");
+if eLastActFunc=0 then writetext(f_id, "linear");
+if eLastActFunc=1 then writetext(f_id, "tanh");
+if eLastActFunc>1 then writetext(f_id, "unknown");
+writetext(f_id, " ", nOutNeurons);
+writeln(f_id, "  ; Output layer");
+// запись таблицы задержек
+var vInputDelays:intarray=vector(nInputsRepeat);
+writeln(f_id, "; Input delays:");
+for(i=1,lengthofm(vInputDelays)) writetext(f_id, vInputDelays[i], chr(10));
+var vOutputDelays:intarray=vector(nOutputsRepeat);
+writeln(f_id, "; Output delays:");
+for(i=1,lengthofm(vOutputDelays)) writetext(f_id, vOutputDelays[i], chr(10));
+writeln(f_id, "; Neural network:");
+// запись весовых коэффициентов нейросети
+// matrix(rows,cols)
+bias=vector(nOutNeurons);
+weight=matrix(nOutNeurons,nInputsNumber*nInputsRepeat);
+bias[1]=0.486739;
+weight[1,1]=0.0112465;
+weight[1,2]=0.0111136;
+for(iNeuron=1,nOutNeurons)
+begin
+	writetext(f_id, bias[iNeuron], "	 ; Neuron #", iNeuron-1);
+	writeln(f_id, " (bias / weights):");
+	for(iInput=1,nInputsNumber*nInputsRepeat)
+	begin
+		writetext(f_id, weight[iNeuron,iInput]);
+		writeln(f_id, "");
+	end;
+end;
+// инициализируем параметры масштабирования: min, max
+vInputScaler=matrix(nInputsNumber*nInputsRepeat,2);
+for(i=1,nInputsNumber*nInputsRepeat)
+begin
+	vInputScaler[i,1]=-1;
+	vInputScaler[i,2]=1;
+end;
+vOutputScaler=matrix(nOutNeurons,2);
+for(i=1,nOutNeurons)
+begin
+	vOutputScaler[i,1]=-1;
+	vOutputScaler[i,2]=1;
+end;
+// запись таблиц масштабирования входов и выходов
+writeln(f_id, "; Input scaler:");
+for(i=1,nInputsNumber*nInputsRepeat)
+begin
+	writetext(f_id, vInputScaler[i, 1], " ", vInputScaler[i, 2]);
+  writeln(f_id, "  ; min max");
+end;
+writeln(f_id, "; Output scaler:");
+for(i=1,nOutNeurons)
+begin
+	writetext(f_id, vOutputScaler[i, 1], " ", vOutputScaler[i, 2]);
+  writeln(f_id, "  ; min max");
+end;
+
+// закроем файл
+freeobject(f_id);
+
+//testblock = getobj(1);  // id блока
+var testblock:integer;
+testblock = findobjectbyname("LangBlock22");
+idx = getparameterindex(testblock, "weights");  // индекс существующего параметра
+if idx >= 0 then deleteparameter(testblock, idx);  // удаление существующего параметра    
+addparameter(testblock, -1,  13{matrix}, "weights", "Весовые коэффициенты", "", weight);  // добавление нового параметра в конец списка
+idx = getparameterindex(testblock, "bias");
+if idx >= 0 then deleteparameter(testblock, idx);    
+addparameter(testblock, -1,  5, "bias", "Смещение", "", bias);
+idx = getparameterindex(testblock, "inputscaler");
+if idx >= 0 then deleteparameter(testblock, idx);    
+addparameter(testblock, -1,  13{matrix}, "inputscaler", "Масштабирование входов", "", vInputScaler);
+idx = getparameterindex(testblock, "outputscaler");
+if idx >= 0 then deleteparameter(testblock, idx);    
+addparameter(testblock, -1,  13{matrix}, "outputscaler", "Масштабирование выходов", "", vOutputScaler);
+idx = getparameterindex(testblock, "inputdelays");
+if idx >= 0 then deleteparameter(testblock, idx);    
+addparameter(testblock, -1,  12{intvector}, "inputdelays", "Задержки входов", "", vInputDelays);
+idx = getparameterindex(testblock, "outputdelays");
+if idx >= 0 then deleteparameter(testblock, idx);    
+addparameter(testblock, -1,  12{intvector}, "outputdelays", "Задержки выходов", "", vOutputDelays);
+end;

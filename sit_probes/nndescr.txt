@@ -1,0 +1,17 @@
+nInputsNumber=2
+nInputsRepeat=1
+nOutputsRepeat=0
+nFeedbackDepth=0
+nHidLayers=0
+eLastActFunc=0
+nOutNeurons=1
+vInputDelays: 0 
+vOutputDelays: 
+Neural network (bias/weights): 
+Neuron #0 (bias / weights): 0.486739
+ 0.0112465 0.0111136
+vInputScaler:
+-1 1
+-1 1
+vOutputScaler:
+-1 1

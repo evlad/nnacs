@@ -1,0 +1,292 @@
+﻿// возвращает следующую значимую строку для разбора после удаления комментария
+function GetNextLine (f_id:integer):string
+  // прочитаем последовательно все числа, не обращая внимания на комментарии ";"
+  var bEOF:integer=0, sLine:string, sBeforeComment:string=0; 
+	repeat
+	  // читаем всю строку целиком
+		sLine=readln(f_id);
+		if length(sLine)=0 then
+		  begin // если строка пустая, то это конец файла
+			  sBeforeComment="";
+				bEOF=1;
+			end
+		else
+		  begin // если строка не пустая, то удалим незначимые пробелы и комментарии 
+				// берем подстроку до комментария и удаляем пробелы слева и справа
+				sBeforeComment=trim(getsubstring(sLine, ";", 1));
+				// если в результате получилась не пустая строка, выходим
+				if length(sBeforeComment)>0 then goto BREAK_GetNextLine;
+				// иначе в строке ничего нет и идем читать следующую строку из файла  
+		  end;
+	until bEOF>0;
+BREAK_GetNextLine:
+  GetNextLine=sBeforeComment;
+end;
+
+// возвращает следующую значимую строку для разбора после удаления комментария
+procedure DuplicateNN (sInputPathNN:string, sOutputPathNN:string, bNoComments:integer)
+  if 0=fileexists(sInputPathNN) then
+	  begin
+		  setrunerror(1);
+		  seterrorstr("Файл "+sInputPathNN+" не может быть прочитан");
+		  exit;
+	  end;
+  f_id = createfile(sInputPathNN, 0{read});
+
+  // прочитаем последовательно все числа, не обращая внимания на комментарии ";"
+  f_out = createfile(sOutputPathNN, -1{create});
+	//writeln(f_out, "#+++#"); 
+	var sLine:string;
+  repeat
+	  if bNoComments>0 then
+		  sLine=GetNextLine(f_id)
+		else
+	  	sLine=readln(f_id);
+		if length(sLine)>0 then writeln(f_out, sLine);
+		//writeln(f_out, "#---#"); 
+  until length(sLine)=0;
+
+  // закроем файл
+  freeobject(f_id);
+
+  // закроем файл
+  freeobject(f_out);
+end;
+
+// Сообщить об ошибке и выйти из программы
+procedure ErrorMsg (sMsg:string, iErrCode:integer=1)
+	setrunerror(iErrCode);
+	seterrorstr(sMsg);
+	exit
+end;
+
+initialization
+//прочитаем файл нейросети в формате NNACS
+//;NeuCon NeuralNet 1.1
+//[NeuralNet]
+//; Neural network architecture definition
+//2 1	 ; Number of inputs and their repeat factor
+//0	 ; Output repeat factor on the input
+//0	 ; Feedback depth
+//0	 ; Number of hidden layers
+//linear 1	 ; Output layer
+//; Input delays:
+//0
+//; Output delays:
+//; Neural network:
+//; Layer #0  (2 inputs, 1 neurons)
+//0.486739	 ; Neuron #0 (bias / weights):
+//0.0112465
+//0.0111136
+//; Input scaler:
+//-1 1	 ; min max
+//-1 1	 ; min max
+//; Output scaler:
+//0 0	 ; min max
+
+// прочитаем последовательно все числа, не обращая внимания на комментарии ";"
+DuplicateNN("test2.nn", "test2dup1_readln.txt", 0{копия строка за строкой});
+DuplicateNN("test2.nn", "test2dup1_GetNextLine.txt", 1{только значения});
+
+// Теперь просто читаем все строки последовательно в порядке формата файла .nn
+var sInputPathNN:string = "test2.nn";
+if 0=fileexists(sInputPathNN) then
+  ErrorMsg("Файл "+sInputPathNN+" не может быть прочитан", 1);
+
+f_id = createfile(sInputPathNN, 0{read});
+
+var
+	nInputsNumber:integer=2,
+	nInputsRepeat:integer=1,
+	nOutputsRepeat:integer=0,
+	nFeedbackDepth:integer=0,
+	nHidLayers:integer=0,
+	eLastActFunc:integer=0,  {0-linear, 1-tanh}
+	nOutNeurons:integer=1;
+var
+	sLine:string,
+	iErrCode:integer;
+
+// читаем Number of inputs and their repeat factor
+sLine=GetNextLine(f_id);
+if length(sLine)=0 then goto BREAK_ReadNN;
+var sInputsNumber:string=getsubstring(sLine, " ", 1);
+var sInputsRepeat:string=getsubstring(sLine, " ", 2);
+nInputsNumber=vali(sInputsNumber, iErrCode);
+if iErrCode>0 then
+  ErrorMsg("Ошибка чтения nInputsNumber в строке '"+sLine+"'", 1);
+nInputsRepeat=vali(sInputsRepeat, iErrCode);
+if iErrCode>0 then
+  ErrorMsg("Ошибка чтения nInputsRepeat в строке '"+sLine+"'", 1);
+
+// читаем Output repeat factor on the input
+sLine=GetNextLine(f_id);
+if length(sLine)=0 then goto BREAK_ReadNN;
+var sOutputsRepeat:string=getsubstring(sLine, " ", 1);
+nOutputsRepeat=vali(sOutputsRepeat, iErrCode);
+if iErrCode>0 then
+  ErrorMsg("Ошибка чтения nOutputsRepeat в строке '"+sLine+"'", 1);
+
+// читаем Feedback depth
+sLine=GetNextLine(f_id);
+if length(sLine)=0 then goto BREAK_ReadNN;
+var sFeedbackDepth:string=getsubstring(sLine, " ", 1);
+nFeedbackDepth=vali(sFeedbackDepth, iErrCode);
+if iErrCode>0 then
+  ErrorMsg("Ошибка чтения nFeedbackDepth в строке '"+sLine+"'", 1);
+
+// читаем Number of hidden layers
+sLine=GetNextLine(f_id);
+if length(sLine)=0 then goto BREAK_ReadNN;
+var sHidLayers:string=getsubstring(sLine, " ", 1);
+nHidLayers=vali(sHidLayers, iErrCode);
+if iErrCode>0 then
+  ErrorMsg("Ошибка чтения nHidLayers в строке '"+sLine+"'", 1);
+
+// читаем Output layer
+sLine=GetNextLine(f_id);
+if length(sLine)=0 then goto BREAK_ReadNN;
+var sLastActFunc:string=getsubstring(sLine, " ", 1);
+var sOutNeurons:string=getsubstring(sLine, " ", 2);
+eLastActFunc=-1; // ошибка
+if sLastActFunc="linear" then eLastActFunc=0;
+if sLastActFunc="tanh" then eLastActFunc=1;
+if eLastActFunc<0 then
+  ErrorMsg("Ошибка чтения eLastActFunc в строке '"+sLine+"'", 1);
+nOutNeurons=vali(sOutNeurons, iErrCode);
+if iErrCode>0 then
+  ErrorMsg("Ошибка чтения nOutNeurons в строке '"+sLine+"'", 1);
+
+// читаем Input delays:
+var vInputDelays:intarray=vector(nInputsRepeat);
+for(i=1,nInputsRepeat)
+  begin
+		sLine=GetNextLine(f_id);
+		if length(sLine)=0 then goto BREAK_ReadNN;
+		var sDelay:string=getsubstring(sLine, " ", 1);
+		iDelay=vali(sDelay, iErrCode);
+		if iErrCode>0 then
+  		ErrorMsg("Ошибка чтения vInputDelays в строке '"+sLine+"'", 1);
+		vInputDelays[i]=iDelay;
+	end;
+
+// читаем Output delays:
+var vOutputDelays:intarray=vector(nOutputsRepeat);
+for(i=1,nOutputsRepeat)
+  begin
+		sLine=GetNextLine(f_id);
+		if length(sLine)=0 then goto BREAK_ReadNN;
+		var sDelay:string=getsubstring(sLine, " ", 1);
+		iDelay=vali(sDelay, iErrCode);
+		if iErrCode>0 then
+  		ErrorMsg("Ошибка чтения vOutputDelays в строке '"+sLine+"'", 1);
+		vOutputDelays[i]=iDelay;
+	end;
+
+// читаем Neural network:
+bias=vector(nOutNeurons);
+weight=matrix(nOutNeurons,nInputsNumber*nInputsRepeat);
+for(iNeuron=1,nOutNeurons)
+	begin
+		// bias
+		sLine=GetNextLine(f_id);
+		if length(sLine)=0 then goto BREAK_ReadNN;
+		var sBias:string=getsubstring(sLine, " ", 1);
+		fBias=valf(sBias, iErrCode);
+		if iErrCode>0 then
+  		ErrorMsg("Ошибка чтения fBias в строке '"+sLine+"'", 1);
+		bias[iNeuron]=fBias;
+
+		for(iInput=1,nInputsNumber*nInputsRepeat)
+			begin
+				// weight
+				sLine=GetNextLine(f_id);
+				if length(sLine)=0 then goto BREAK_ReadNN;
+				var sWeight:string=getsubstring(sLine, " ", 1);
+				fWeight=valf(sWeight, iErrCode);
+				if iErrCode>0 then
+  				ErrorMsg("Ошибка чтения fWeight в строке '"+sLine+"'", 1);
+				weight[iNeuron,iInput]=fWeight;
+			end;
+	end;
+
+// читаем Input scaler
+vInputScaler=matrix(nInputsNumber*nInputsRepeat,2);
+for(i=1,nInputsNumber*nInputsRepeat)
+	begin
+		sLine=GetNextLine(f_id);
+		if length(sLine)=0 then goto BREAK_ReadNN;
+		var sMin:string=getsubstring(sLine, " ", 1);
+		var sMax:string=getsubstring(sLine, " ", 2);
+		fMin=valf(sMin, iErrCode);
+		if iErrCode>0 then
+  		ErrorMsg("Ошибка чтения vInputScaler:min в строке '"+sLine+"'", 1);
+		fMax=valf(sMax, iErrCode);
+		if iErrCode>0 then
+  		ErrorMsg("Ошибка чтения vInputScaler:max в строке '"+sLine+"'", 1);
+		vInputScaler[i,1]=fMin;
+		vInputScaler[i,2]=fMax;
+	end;
+
+vOutputScaler=matrix(nOutNeurons,2);
+for(i=1,nOutNeurons)
+	begin
+		sLine=GetNextLine(f_id);
+		if length(sLine)=0 then goto BREAK_ReadNN;
+		var sMin:string=getsubstring(sLine, " ", 1);
+		var sMax:string=getsubstring(sLine, " ", 2);
+		fMin=valf(sMin, iErrCode);
+		if iErrCode>0 then
+  		ErrorMsg("Ошибка чтения vOutputScaler:min в строке '"+sLine+"'", 1);
+		fMax=valf(sMax, iErrCode);
+		if iErrCode>0 then
+  		ErrorMsg("Ошибка чтения vOutputScaler:max в строке '"+sLine+"'", 1);
+		vOutputScaler[i,1]=fMin;
+		vOutputScaler[i,2]=fMax;
+	end;
+
+// распечатаем полученные значения из файла
+f_out = createfile("nndescr.txt", -1{create});
+writeln(f_out, "nInputsNumber=", nInputsNumber);
+writeln(f_out, "nInputsRepeat=", nInputsRepeat);
+writeln(f_out, "nOutputsRepeat=", nOutputsRepeat);
+writeln(f_out, "nFeedbackDepth=", nFeedbackDepth);
+writeln(f_out, "nHidLayers=", nHidLayers);
+writeln(f_out, "eLastActFunc=", eLastActFunc);
+writeln(f_out, "nOutNeurons=", nOutNeurons);
+writetext(f_out, "vInputDelays: ");
+for(i=1,lengthofm(vInputDelays)) writetext(f_out, vInputDelays[i], " ")
+writeln(f_out, "");
+writetext(f_out, "vOutputDelays: ");
+for(i=1,lengthofm(vOutputDelays)) writetext(f_out, vOutputDelays[i], " ")
+writeln(f_out, "");
+writeln(f_out, "Neural network (bias/weights): ");
+for(iNeuron=1,nOutNeurons)
+	begin
+		writeln(f_out, "Neuron #", iNeuron-1, " (bias / weights): ", bias[iNeuron]);
+		for(iInput=1,nInputsNumber*nInputsRepeat)
+			begin
+				writetext(f_out, " ", weight[iNeuron,iInput]);
+			end;
+		writeln(f_out, "");
+	end;
+writeln(f_out, "vInputScaler:");
+for(i=1,nInputsNumber*nInputsRepeat)
+	begin
+		writeln(f_out, vInputScaler[i, 1], " ", vInputScaler[i, 2]);
+	end;
+writeln(f_out, "vOutputScaler:");
+for(i=1,nOutNeurons)
+	begin
+		writeln(f_out, vOutputScaler[i, 1], " ", vOutputScaler[i, 2]);
+	end;
+
+// закроем файл
+freeobject(f_out);
+
+BREAK_ReadNN:
+
+// закроем файл
+freeobject(f_id);
+
+end;
