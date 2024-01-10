@@ -1,0 +1,8 @@
+# dtf parameters
+
+# Input and output files
+in_file = u.dat
+out_file = y.dat
+
+# Linear (or combined) plant transfer function or state-space model.
+plant_tf = plant.tf

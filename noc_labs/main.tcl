@@ -12,6 +12,7 @@ package require win_dcontrp
 package require win_dplantid
 package require win_dcontrf
 package require win_dcsloop_cusum
+package require win_dtf
 #package require win_series
 
 set ScriptsDir [file join [SystemDir] scripts]
@@ -24,6 +25,7 @@ set menuContent {
     "dplantid" "Обучение нейросетевой модели объекта управления"
     "dcontrf" "Обучение нейросетевого регулятора в контуре"
     "dcsloop" "Обнаружение разладки объекта в контуре"
+    "dtf"     "Моделирование объекта в дискретном времени"
 }
 
 proc AboutWindow {p} {
@@ -39,7 +41,7 @@ proc AboutWindow {p} {
     pack $w.dismiss -side bottom
 
     text $w.text -yscrollcommand [list $w.scroll set] -setgrid 1 \
-	-width 65  -height 13 -undo 1 -autosep 1 -wrap word
+	-width 70  -height 13 -undo 1 -autosep 1 -wrap word
     scrollbar $w.scroll -command [list $w.text yview]
     pack $w.scroll -side right -fill y
     pack $w.text -expand yes -fill both
@@ -55,15 +57,15 @@ NNACS - Neural network applications for control systems
 } center
     global tcl_platform
     set platform [string totitle $tcl_platform(platform)]
-    $w.text insert end "Версия: 1.8.2 для $platform\n" center
-    $w.text insert end "Дата: 13 апреля 2016 года\n" center
+    $w.text insert end "Версия: 1.8.3 для $platform\n" center
+    $w.text insert end "Дата: 11 января 2024 года\n" center
     $w.text insert end {
 Национальный исследовательский университет "МЭИ"
-Институт Автоматики и вычислительной техники
-Кафедра Управления и информатики
+Институт информационных и вычислительных технологий (ИВТИ, ранее АВТИ)
+Кафедра Управления и интеллектуальных технологий
 } center
 
-    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2016\nEmail: YeliseevVL@mpei.ac.ru\n" center
+    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2024\nEmail: YeliseevVL@mpei.ac.ru\n" center
 
     if {$tcl_platform(platform) == "windows"} {
         $w.text insert end {
@@ -135,6 +137,17 @@ proc MenuProg5 {w label} {
     puts "Program: $prog,  session directory: [SessionDir $sessionDir]"
     if {$sessionDir != {}} {
 	dcsloopCusumCreateWindow $w "$title" "$sessionDir"
+    }
+}
+
+proc MenuProg6 {w label} {
+    # Create or use session directory and remember it
+    set prog [lindex [split "$label" \n] 0]
+    set title [lindex [split "$label" \n] 1]
+    set sessionDir [NewSession $w "dtf.par" "$title"]
+    puts "Program: $prog,  session directory: [SessionDir $sessionDir]"
+    if {$sessionDir != {}} {
+	dtfCreateWindow $w "$title" "$sessionDir"
     }
 }
 

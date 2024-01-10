@@ -36,6 +36,7 @@ set(TCL_SCRIPTS data_file.tcl
 	win_dcsloop_cusum.tcl
 	win_distr2d.tcl
 	win_dplantid.tcl
+	win_dtf.tcl
 	win_grseries.tcl
 	win_nncedit.tcl
 	win_nncontr.tcl
@@ -82,7 +83,8 @@ set(TEMPLATES
 	templates/dcontrp.par
 	templates/dcsloop.par
 	templates/dcsloop_cusum.par
-	templates/dplantid.par)
+	templates/dplantid.par
+	templates/dtf.par)
 
 install(FILES ${TCL_SCRIPTS} nnacs.ad DESTINATION scripts)
 install(FILES ${TEMPLATES} DESTINATION templates)
