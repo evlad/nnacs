@@ -139,7 +139,7 @@ bool        NaDataDirector::GoNextIndex ()
     case ddikRandomized:
         do{
             iIndex = (unsigned)(GetEpochLen() *
-				((double) rand() / (RAND_MAX + 1)));
+				((double) rand() / (RAND_MAX + (double)1)));
             if(iIndex >= GetEpochLen())
                 continue;
         }while(bUsed[iIndex]);
