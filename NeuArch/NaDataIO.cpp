@@ -116,6 +116,8 @@ NaFileFormat NaDataFile::GuessFileFormatByName (const char* szFName)
             return ffStatistica;
         else if(!stricmp(szFName + len - 4, NaIO_BINARY_STREAM_EXT))
             return ffBinaryStream;
+        else if(!stricmp(szFName + len - 4, NaIO_SIMINTECH_DATA_EXT))
+	    return ffSimInTechData;
         else if(!stricmp(szFName + len - 4, NaIO_DPLOT_EXT))
             return ffDPlot;
     }
@@ -180,6 +182,28 @@ NaFileFormat NaDataFile::GuessFileFormatByMagic (const char* szFName)
         }
     }
 
+    // SimInTech binary data
+    // int32, float64, ..., float64
+    {
+        unsigned    numrec = 0;
+	long	    fsize = -1;
+
+        if(!fseek(fp, 0, SEEK_END))
+	    fsize = ftell(fp);
+	if(fsize >= 4) {
+	    if(!fseek(fp, 0, SEEK_SET)) {
+		// read number of records (float64 each one)
+		if(4 == fread(&numrec, 1, 4, fp)) {
+		    // Check for proper file size
+		    if(fsize == 4 + numrec * 8)
+			// It seems looks like SimInTech binary data
+			guess = ffSimInTechData;
+		    goto END;
+		}
+	    }
+	}
+    }
+
     // Other data file
     guess = ffUnknown;
 
@@ -236,6 +260,9 @@ NaDataFile* OpenInputDataFile (const char* szPath)
         NaPrintLog("DPlot input data file '%s'\n",
                    szPath);
         break;
+
+    case ffSimInTechData:
+	break;
 
     default:
         NaPrintLog("Cannot determine type of input data file '%s'\n",
