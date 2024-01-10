@@ -18,6 +18,7 @@ static char rcsid[] = "$Id$";
 #include <NaDataIO.h>
 #include <NaTimer.h>
 #include <NaSSModel.h>
+#include <NaParams.h>
 
 
 /***********************************************************************
@@ -26,16 +27,25 @@ static char rcsid[] = "$Id$";
  ***********************************************************************/
 int main (int argc, char* argv[])
 {
-  if(argc != 4)
-    {
-      fprintf(stderr, "Error: need 3 arguments\n");
-      printf("Usage: dtf DiscrTrFunc InSeries OutSeries\n");
-      return 1;
-    }
+    char	*dtf_file = NULL, *in_file = NULL, *out_file = NULL, *par_file = NULL;
 
-  char	*dtf_file = argv[1];
-  char	*in_file = argv[2];
-  char	*out_file = argv[3];
+  switch(argc){
+  case 2:
+      par_file = argv[1];
+      break;
+
+  case 4:
+      dtf_file = argv[1];
+      in_file = argv[2];
+      out_file = argv[3];
+      break;
+
+  default:
+      fprintf(stderr, "Error: need 1 or 3 arguments:\n");
+      printf("Usage: dtf DiscrTrFunc InSeries OutSeries\n"	\
+	     "  or   dtf ParFile\n");
+      return 1;
+  }
 
   NaOpenLogFile("dtf.log");
 
@@ -44,6 +54,17 @@ int main (int argc, char* argv[])
     NaCombinedFunc	dcof;
     NaTransFunc		dtf;
     NaStateSpaceModel	dssm;
+
+    if(NULL != par_file){
+	NaParams	par(par_file, 0, NULL);
+
+	NaPrintLog("Run dtf with %s\n", par_file);
+
+	par.ListOfParamsToLog();
+	dtf_file = strdup(par("plant_tf"));
+	in_file = strdup(par("in_file"));
+	out_file = strdup(par("out_file"));
+    }
 
     int	len = strlen(dtf_file);
     if(len >= 3 && !strcmp(dtf_file + len - 3, ".tf")){
