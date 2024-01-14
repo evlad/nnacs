@@ -82,8 +82,12 @@ int main (int argc, char* argv[])
     }
 
     NaDataFile	*dfIn = OpenInputDataFile(in_file);
+    if(NULL == dfIn)
+	throw(na_cant_open_file);
     NaDataFile	*dfOut = OpenOutputDataFile(out_file, bdtAuto,
 					    func->OutputDim());
+    if(NULL == dfOut)
+	throw(na_cant_open_file);
 
     dfIn->GoStartRecord();
     func->Reset();
