@@ -281,6 +281,11 @@ NaCombinedFunc::Load (NaDataStream& ds)
       pParts[i] = p;
       tu->pUnit = p;
       pParts[i]->pSelfData = tu;
+#if 0
+      if(p->Empty())
+	  // Definition of the custom function is not found (.so/.dll was not found usually)
+	  throw(na_not_found);
+#endif
     }
     pParts[i]->SetInstance(items[i].szInstance);
 
