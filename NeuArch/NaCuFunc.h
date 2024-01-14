@@ -24,6 +24,10 @@
 #define NaCF_options		"options"
 #define NaCF_initial		"initial"
 
+// Relative to $NNACSSYSDIR for future use
+#define NaEXFUNC_DIR_NAME	"exfuncs"
+
+
 #define NaEXFUNC_DIR_ENV	"NAEXFDIR"
 
 #if defined(unix)
