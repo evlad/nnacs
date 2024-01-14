@@ -129,7 +129,7 @@ NaFileFormat NaDataFile::GuessFileFormatByName (const char* szFName)
 // Guess file format by quick file observe (read magic)
 NaFileFormat NaDataFile::GuessFileFormatByMagic (const char* szFName)
 {
-    NaFileFormat    guess; // = ffUnknown;
+    NaFileFormat    guess = ffUnknown;
 
     if(NULL == szFName)
         throw(na_null_pointer);
@@ -182,6 +182,7 @@ NaFileFormat NaDataFile::GuessFileFormatByMagic (const char* szFName)
         }
     }
 
+#if 0
     // SimInTech binary data
     // int32, float64, ..., float64
     {
@@ -190,6 +191,7 @@ NaFileFormat NaDataFile::GuessFileFormatByMagic (const char* szFName)
 
         if(!fseek(fp, 0, SEEK_END))
 	    fsize = ftell(fp);
+// Not implemented, really - fix the code below!
 	if(fsize >= 4) {
 	    if(!fseek(fp, 0, SEEK_SET)) {
 		// read number of records (float64 each one)
@@ -203,6 +205,7 @@ NaFileFormat NaDataFile::GuessFileFormatByMagic (const char* szFName)
 	    }
 	}
     }
+#endif
 
     // Other data file
     guess = ffUnknown;
@@ -218,7 +221,7 @@ END:
 NaDataFile* OpenInputDataFile (const char* szPath)
 {
     NaDataFile  *pDF;
-    NaFileFormat    guess; // = ffUnknown;
+    NaFileFormat    guess = ffUnknown;
 
     try{
         guess = NaDataFile::GuessFileFormatByMagic(szPath);
@@ -262,6 +265,8 @@ NaDataFile* OpenInputDataFile (const char* szPath)
         break;
 
     case ffSimInTechData:
+        NaPrintLog("SimInTech binary data file '%s'\n",
+                   szPath);
 	break;
 
     default:
