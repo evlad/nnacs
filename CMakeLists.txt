@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 2.8)	 # Проверка версии CMake.
 
 project(NNACS)			# Название проекта
 
+#set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_INSTALL_PREFIX _debug_)
+
 set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_INSTALL_PREFIX _release_)
 
