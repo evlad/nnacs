@@ -139,13 +139,16 @@ NaStdBackProp::Reset ()
 
 //---------------------------------------------------------------------------
 // Update the current neural network parameters on the basis of
-// computed changes.
+// computed changes.  fCoef defines the direction and the
+// magnification of weight change application.
 void
-NaStdBackProp::UpdateNN ()
+NaStdBackProp::UpdateNN (double fCoef)
 {
     if(NULL == NN())
 	// Disabled until the first valid attach
 	return;
+
+    NaPrintLog("NaStdBackProp::UpdateNN(%g):\n", fCoef);
 
     unsigned    iInput, iNeuron, iLayer;
     bool        bProhibitBiasChange = DontTouchBias();
@@ -168,24 +171,24 @@ NaStdBackProp::UpdateNN ()
 
             for(iInput = 0; iInput < nd.Inputs(iLayer); ++iInput){
                 psWeight[iLayer][iNeuron][iInput] =
-                    dWeight[iLayer](iNeuron, iInput);
+                    fCoef * dWeight[iLayer](iNeuron, iInput);
                 nn().weight[iLayer][iNeuron][iInput] +=
-                    dWeight[iLayer](iNeuron, iInput);
+                    fCoef * dWeight[iLayer](iNeuron, iInput);
 
 		if(nDebugLvl >= 1)
 		    NaPrintLog("    * W[%u]= %g\t%+g\t--> %g\n",
 			       iInput, old_w(iNeuron, iInput),
-			       dWeight[iLayer](iNeuron, iInput),
+			       fCoef * dWeight[iLayer](iNeuron, iInput),
 			       nn().weight[iLayer](iNeuron, iInput));
             }
-            psBias[iLayer][iNeuron] = dBias[iLayer][iNeuron];
+            psBias[iLayer][iNeuron] = fCoef * dBias[iLayer][iNeuron];
 
 	    if(!bProhibitBiasChange){
-		nn().bias[iLayer][iNeuron] += dBias[iLayer][iNeuron];
+		nn().bias[iLayer][iNeuron] += fCoef * dBias[iLayer][iNeuron];
 
 		if(nDebugLvl >= 1)
 		    NaPrintLog("    * B= %g\t%+g\t--> %g\n",
-			       old_b[iNeuron], dBias[iLayer][iNeuron],
+			       old_b[iNeuron], fCoef * dBias[iLayer][iNeuron],
 			       nn().bias[iLayer][iNeuron]);
 	    }else{
 		if(nDebugLvl >= 1)

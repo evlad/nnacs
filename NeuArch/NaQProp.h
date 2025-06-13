@@ -65,8 +65,10 @@ public:/* methods */
     // Reset computed changes
     virtual void    Reset ();
 
-    // Update network parameters on the basis of computed changes
-    virtual void    UpdateNN ();
+    // Update network parameters on the basis of computed changes.
+    // fCoef defines the direction and the magnification of weight
+    // change application.
+    virtual void    UpdateNN (double fCoef = 1.0);
 
     // Compute delta of exact w[i,j,k]
     virtual NaReal  DeltaWeight (unsigned iLayer, unsigned iNeuron,

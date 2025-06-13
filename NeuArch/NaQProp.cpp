@@ -133,15 +133,17 @@ void    NaQuickProp::Reset ()
 }
 
 //---------------------------------------------------------------------------
-// Update network parameters on the basis of computed changes
-void    NaQuickProp::UpdateNN ()
+// Update the current neural network parameters on the basis of
+// computed changes.  fCoef defines the direction and the
+// magnification of weight change application.
+void    NaQuickProp::UpdateNN (double fCoef)
 {
-    NaStdBackProp::UpdateNN();
+    NaStdBackProp::UpdateNN(fCoef);
 
     unsigned    iInput, /*iNeuron,*/ iLayer;
 
     // Store Xinp from previous step
-    NaPrintLog("NaQuickProp::UpdateNN():\n");
+    NaPrintLog("NaQuickProp::UpdateNN(%g):\n", fCoef);
     for(iLayer = nd.InputLayer(); iLayer <= nd.OutputLayer(); ++iLayer){
         for(iInput = 0; iInput < nd.Inputs(iLayer); ++iInput){
             Xinp_prev[iLayer][iInput] = nn().Xinp(iLayer)[iInput];

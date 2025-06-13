@@ -41,6 +41,10 @@ set(SOURCE_TrainNN TrainNN.cpp)
 add_executable(TrainNN ${SOURCE_TrainNN})
 target_link_libraries(TrainNN ${LIST_LIBS})
 
+set(SOURCE_AnTrainNN AnTrainNN.cpp)
+add_executable(AnTrainNN ${SOURCE_AnTrainNN})
+target_link_libraries(AnTrainNN ${LIST_LIBS})
+
 set(SOURCE_BackNN BackNN.cpp)
 add_executable(BackNN ${SOURCE_BackNN})
 target_link_libraries(BackNN ${LIST_LIBS})

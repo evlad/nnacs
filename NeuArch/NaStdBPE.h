@@ -85,8 +85,9 @@ public:/* methods */
     virtual void    Reset ();
 
     // Update the current neural network parameters on the basis of
-    // computed changes.
-    virtual void    UpdateNN ();
+    // computed changes.  fCoef defines the direction and the
+    // magnification of weight change application.
+    virtual void    UpdateNN (double fCoef = 1.0);
 
     // Delta rule for the last layer.
     // Ytarg is desired vector needs to be compared with Yout
