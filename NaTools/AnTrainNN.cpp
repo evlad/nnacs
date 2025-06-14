@@ -282,7 +282,6 @@ int main (int argc, char* argv[])
 
 		/* Update the NN weights at the end of native course */
 		nnteacher->UpdateNN();
-		nnteacher->Reset();
 
 		/* Compute mean squared error */
 		for(j = 0; j < nn.descr.nOutNeurons; ++j)
@@ -364,7 +363,6 @@ int main (int argc, char* argv[])
 
 		/* Update the NN weights at the end of antagonistic course */
 		nnteacher->UpdateNN(fAntGain);
-		nnteacher->Reset();
 
 		NaPrintLog("Total %d antagonistic samples\n", nSamples);
 	    }

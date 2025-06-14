@@ -176,7 +176,6 @@ int main (int argc, char* argv[])
 
 	/* Update the NN weights at the end of each epoch */
 	nnteacher->UpdateNN();
-	nnteacher->Reset();
 
 	/* Display epoch number, learning and testing errors */
 	printf("%d\t", iEpoch);
