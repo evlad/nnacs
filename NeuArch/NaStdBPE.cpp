@@ -204,8 +204,9 @@ NaStdBackProp::UpdateNN (double fCoef)
 
 //---------------------------------------------------------------------------
 // Compute delta weights based on common delta (see DeltaRule)
+// fCoef defines the direction and the magnification of weight change application.
 void
-NaStdBackProp::ApplyDelta (unsigned iLayer)
+NaStdBackProp::ApplyDelta (unsigned iLayer, double fCoef)
 {
     unsigned    iNeuron, iInput;
 
@@ -226,14 +227,14 @@ NaStdBackProp::ApplyDelta (unsigned iLayer)
 
         for(iInput = 0; iInput < nd.Inputs(iLayer); ++iInput){
             dWeight[iLayer][iNeuron][iInput] +=
-                DeltaWeight(iLayer, iNeuron, iInput);
+                fCoef * DeltaWeight(iLayer, iNeuron, iInput);
 
 	    if(nDebugLvl >= 2)
 		NaPrintLog("    * dW[%u]= %g\t--> %g\n",
 			   iInput, old_dW(iNeuron, iInput),
 			   dWeight[iLayer](iNeuron, iInput));
         }
-        dBias[iLayer][iNeuron] += DeltaBias(iLayer, iNeuron);
+        dBias[iLayer][iNeuron] += fCoef * DeltaBias(iLayer, iNeuron);
 
 	if(nDebugLvl >= 2)
 	    NaPrintLog("    * dB= %g\t--> %g\n",
@@ -248,8 +249,9 @@ NaStdBackProp::ApplyDelta (unsigned iLayer)
 // of the output layer or error value already computed..
 // If bError==true then Ytarg means error ready to use without Yout.
 // If bError==false then Ytarg means Ydes to compare with Yout.
+// fCoef defines the direction and the magnification of weight change application.
 void
-NaStdBackProp::DeltaRule (const NaReal* Ytarg, bool bError)
+NaStdBackProp::DeltaRule (const NaReal* Ytarg, bool bError, double fCoef)
 {
     if(NULL == NN())
 	// Disabled until the first valid attach
@@ -305,7 +307,7 @@ NaStdBackProp::DeltaRule (const NaReal* Ytarg, bool bError)
     }
 
     // Apply common delta - accumulate it in dWeight and dBias
-    ApplyDelta(iLayer);
+    ApplyDelta(iLayer, fCoef);
 }
 
 
@@ -342,8 +344,9 @@ NaStdBackProp::PartOfDeltaRule (unsigned iPrevLayer, unsigned iInput)
 // Delta rule for the hidden layer
 // iLayer - index of target layer delta computation on the basis of previous
 // layer's delta and linked weights.  Usually iPrevLayer=iLayer+1.
+// fCoef defines the direction and the magnification of weight change application.
 void
-NaStdBackProp::DeltaRule (unsigned iLayer, unsigned iPrevLayer)
+NaStdBackProp::DeltaRule (unsigned iLayer, unsigned iPrevLayer, double fCoef)
 {
     if(NULL == NN())
 	// Disabled until the first valid attach
@@ -377,7 +380,7 @@ NaStdBackProp::DeltaRule (unsigned iLayer, unsigned iPrevLayer)
     }
 
     // Apply common delta - accumulate it in dWeight and dBias
-    ApplyDelta(iLayer);
+    ApplyDelta(iLayer, fCoef);
 }
 
 

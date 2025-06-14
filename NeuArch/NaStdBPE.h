@@ -94,13 +94,15 @@ public:/* methods */
     // of the output layer or error value already computed..
     // If bError==true then Ytarg means error ready to use without Yout.
     // If bError==false then Ytarg means Ydes to compare with Yout.
-    virtual void    DeltaRule (const NaReal* Ytarg, bool bError = false);
+    // fCoef defines the direction and the magnification of weight change application.
+    virtual void    DeltaRule (const NaReal* Ytarg, bool bError = false, double fCoef = 1.0);
 
     // Delta rule for the hidden layer
     // iLayer - index of target layer delta computation on the basis
     // of previous layer's delta and linked weights.
     // Usually iPrevLayer=iLayer+1.
-    virtual void    DeltaRule (unsigned iLayer, unsigned iPrevLayer);
+    // fCoef defines the direction and the magnification of weight change application.
+    virtual void    DeltaRule (unsigned iLayer, unsigned iPrevLayer, double fCoef = 1.0);
 
     // Part of delta rule for the hidden layer
     // Computes sum of products outcoming weights and target deltas
@@ -108,7 +110,8 @@ public:/* methods */
     virtual NaReal  PartOfDeltaRule (unsigned iPrevLayer, unsigned iInput);
 
     // Compute delta weights based on common delta (see DeltaRule)
-    virtual void    ApplyDelta (unsigned iLayer);
+    // fCoef defines the direction and the magnification of weight change application.
+    virtual void    ApplyDelta (unsigned iLayer, double fCoef = 1.0);
 
     // Compute delta of exact w[i,j,k]
     virtual NaReal  DeltaWeight (unsigned iLayer, unsigned iNeuron,
