@@ -58,6 +58,7 @@ handle_sigint (int signo)
    MAX_EPOCHS - number of epochs for training (unlimited if not set)
    ANTAGONISM - the gain of antagonistic training application (no
                 antagonistic training if not set)
+   BPE_DEBUG  - NaStdBPE::SetDdebugLevel
 */
 int main (int argc, char* argv[])
 {
@@ -121,6 +122,11 @@ int main (int argc, char* argv[])
 	NaQuickProp		qpe(nn);
 	NaStdBackProp	*nnteacher = &bpe;
 
+	char	*szDebugLevel = getenv("BPE_DEBUG");
+	if(NULL != szDebugLevel) {
+	    nnteacher->SetDebugLevel(atoi(szDebugLevel));
+	}
+
 	char		*szQPropMu = getenv("QPROP_MU");
 	if(NULL != szQPropMu) {
 	    qpe.mu = atof(szQPropMu);
@@ -132,8 +138,9 @@ int main (int argc, char* argv[])
 	NaReal	*pTar = new NaReal[nn.descr.nOutNeurons];
 	NaReal	*pOut = new NaReal[nn.descr.nOutNeurons];
 
-	NaReal	*pLeMSE = new NaReal[nn.descr.nOutNeurons];
-	NaReal	*pTeMSE = new NaReal[nn.descr.nOutNeurons];
+	NaReal	*pLeMSE = new NaReal[nn.descr.nOutNeurons];	/* training native error */
+	NaReal	*pAntMSE = new NaReal[nn.descr.nOutNeurons];	/* training antagonistic error */
+	NaReal	*pTeMSE = new NaReal[nn.descr.nOutNeurons];	/* validation error */
 
 	/* Let's start the learning */
 	int	iEpoch = 0, iLayer, j;
@@ -144,15 +151,51 @@ int main (int argc, char* argv[])
 
 	    /* Reset error counters */
 	    for(j = 0; j < nn.descr.nOutNeurons; ++j)
-		pLeMSE[j] = pTeMSE[j] = 0.0;
+		pLeMSE[j] = pTeMSE[j] = pAntMSE[j] = 0.0;
 
-	    /* Learning epoch for every class */
+	    /*******************************
+	     * Validation epoch
+	     *******************************/
+	    if(dfTeIn->GoStartRecord() && dfTeOut->GoStartRecord())
+		{
+		    int	nSamples = 0;
+
+		    do{
+			/* Read the learning pair */
+			for(j = 0; j < nn.descr.InputsNumber(); ++j)
+			    pIn[j] = dfTeIn->GetValue(j);
+			for(j = 0; j < nn.descr.nOutNeurons; ++j)
+			    pTar[j] = dfTeOut->GetValue(j);
+
+			/* Pass through the net in forward direction */
+			nn.Function(pIn, pOut);
+
+			/* Compute sum of squared error */
+			for(j = 0; j < nn.descr.nOutNeurons; ++j)
+			    pTeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
+
+			++nSamples;
+
+		    }while(dfTeIn->GoNextRecord() && dfTeOut->GoNextRecord());
+
+		    /* Compute mean squared error */
+		    for(j = 0; j < nn.descr.nOutNeurons; ++j)
+			pTeMSE[j] /= nSamples;
+		}
+
+	    /************************************
+	     * Training epoch for native classes
+	     ************************************/
 	    int iClass = 0;
 	    if(dfLeOut->GoStartRecord()) {
 		int	nSamples = 0;
+		int	nNativeSamples = 0;
+		int	nAntSamples = 0;
+
+		NaPrintLog("###\n### Training epoch for native classes\n###\n");
 
 		do{
-		    NaPrintLog("### Start with class %d ###\n", iClass+1);
+		    NaPrintLog("### Training for class %d ###\n", iClass+1);
 
 		    /* Read the target class value vector */
 		    for(j = 0; j < nn.descr.nOutNeurons; ++j)
@@ -164,7 +207,6 @@ int main (int argc, char* argv[])
 
 		    /* Read the native input data */
 		    if(dfInDS[iClass]->GoStartRecord()) {
-			int	nNativeSamples = 0;
 
 			do {
 			    for(j = 0; j < nn.descr.InputsNumber(); ++j)
@@ -196,100 +238,136 @@ int main (int argc, char* argv[])
 			NaPrintLog("  has %d native samples\n", nNativeSamples);
 		    }
 
-		    /* Update the NN weights at the end of native course */
-		    nnteacher->UpdateNN();
-
-		    /* Compute mean squared error */
-		    for(j = 0; j < nn.descr.nOutNeurons; ++j)
-			pLeMSE[j] /= nSamples;
-
 		    /*
 		     *  Antagonistic course
 		     */
-		    if(fAntGain < 0.0)
-			for(int iAntClass = 0; iAntClass < nClass; ++iAntClass) {
+		    for(int iAntClass = 0; iAntClass < nClass; ++iAntClass) {
 
-			    if(iAntClass == iClass)
-				/* By definition of an antagonistic class */
-				continue;
+			if(iAntClass == iClass)
+			    /* By definition of an antagonistic class */
+			    continue;
 
-			    NaPrintLog("### Antagonistic class %d ###\n", iAntClass+1);
+			/* Read the antagonistic input data */
+			if(dfInDS[iAntClass]->GoStartRecord()) {
 
-			    /* Read the antagonistic input data */
-			    if(dfInDS[iAntClass]->GoStartRecord()) {
-				int	nAntSamples = 0;
+			    do {
+				for(j = 0; j < nn.descr.InputsNumber(); ++j)
+				    pIn[j] = dfInDS[iAntClass]->GetValue(j);
 
-				do {
-				    for(j = 0; j < nn.descr.InputsNumber(); ++j)
-					pIn[j] = dfInDS[iAntClass]->GetValue(j);
+				/* Pass through the net in forward direction */
+				nn.Function(pIn, pOut);
 
-				    /* Pass through the net in forward direction */
-				    nn.Function(pIn, pOut);
+				/* Compute sum of squared error
+				   between actual output and expected
+				   native class output */
+				for(j = 0; j < nn.descr.nOutNeurons; ++j)
+				    pAntMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
 
-				    /* Compute sum of squared error */
-				    //for(j = 0; j < nn.descr.nOutNeurons; ++j)
-				    //    pLeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
+				++nAntSamples;
+				++nSamples;
 
-				    /* Pass through the net in backward direction */
-				    for(iLayer = nn.OutputLayer(); iLayer >= 0; --iLayer)
-					{
-					    if(nn.OutputLayer() == iLayer)
-						/* Output layer */
-						nnteacher->DeltaRule(pTar);
-					    else
-						/* Hidden layer */
-						nnteacher->DeltaRule(iLayer, iLayer + 1);
-					}
+			    }while(dfInDS[iAntClass]->GoNextRecord());
 
-				    ++nAntSamples;
-				    ++nSamples;
-
-				}while(dfInDS[iAntClass]->GoNextRecord());
-
-				NaPrintLog("  has %d antagonistic samples\n", nAntSamples);
-			    }
-
-			    /* Update the NN weights at the end of antagonistic course */
-			    nnteacher->UpdateNN(fAntGain);
+			    NaPrintLog("  has %d antagonistic samples\n", nAntSamples);
 			}
+		    }
+
+ 		    /* Compute mean squared error for antagonistic samples */
+		    for(j = 0; j < nn.descr.nOutNeurons; ++j)
+			pAntMSE[j] /= (nSamples - nNativeSamples);
 
 		    ++iClass;
 
 		}while(dfLeOut->GoNextRecord());
 
-		NaPrintLog("Total %d samples\n", nSamples);
+		/* Update the NN weights at the end of native course */
+		nnteacher->UpdateNN();
+		nnteacher->Reset();
+
+		/* Compute mean squared error */
+		for(j = 0; j < nn.descr.nOutNeurons; ++j)
+		    pLeMSE[j] /= nNativeSamples;
+
+		/* Compute mean squared error for antagonistic samples */
+		for(j = 0; j < nn.descr.nOutNeurons; ++j)
+		    pAntMSE[j] /= nAntSamples;
+
+		NaPrintLog("Total %d native samples\n", nNativeSamples);
 	    }
 
-	    /* Testing epoch */
-	    if(dfTeIn->GoStartRecord() && dfTeOut->GoStartRecord())
-		{
-		    int	nSamples = 0;
 
-		    do{
-			/* Read the learning pair */
-			for(j = 0; j < nn.descr.InputsNumber(); ++j)
-			    pIn[j] = dfTeIn->GetValue(j);
-			for(j = 0; j < nn.descr.nOutNeurons; ++j)
-			    pTar[j] = dfTeOut->GetValue(j);
+	    /************************************
+	     * Antagonistic training epoch
+	     ************************************/
 
-			/* Pass through the net in forward direction */
-			nn.Function(pIn, pOut);
+	    /* Traning epoch for every class */
+	    iClass = 0;
+	    if(fAntGain < 0.0 && dfLeOut->GoStartRecord()) {
 
-			/* Compute sum of squared error */
-			for(j = 0; j < nn.descr.nOutNeurons; ++j)
-			    pTeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
+		int nSamples = 0;
 
-			++nSamples;
+		NaPrintLog("###\n### Antagonistic training epoch\n###\n");
 
-		    }while(dfTeIn->GoNextRecord() && dfTeOut->GoNextRecord());
+		do{
+		    NaPrintLog("### Antagonistic training for class %d ###\n", iClass+1);
 
-		    /* Compute mean squared error */
+		    /* Read the target class value vector */
 		    for(j = 0; j < nn.descr.nOutNeurons; ++j)
-			pTeMSE[j] /= nSamples;
-		}
+			pTar[j] = dfLeOut->GetValue(j);
 
-	    ///* Update the NN weights at the end of each epoch */
-	    //nnteacher->UpdateNN();
+		    /*
+		     *  Antagonistic course
+		     */
+		    for(int iAntClass = 0; iAntClass < nClass; ++iAntClass) {
+
+			if(iAntClass == iClass)
+			    /* By definition of an antagonistic class */
+			    continue;
+
+			NaPrintLog("### Antagonistic class %d ###\n", iAntClass+1);
+
+			/* Read the antagonistic input data */
+			if(dfInDS[iAntClass]->GoStartRecord()) {
+
+			    int	nAntSamples = 0;
+
+			    do {
+				++nAntSamples;
+				++nSamples;
+
+				for(j = 0; j < nn.descr.InputsNumber(); ++j)
+				    pIn[j] = dfInDS[iAntClass]->GetValue(j);
+
+				/* Pass through the net in forward direction */
+				nn.Function(pIn, pOut);
+
+				/* Pass through the net in backward direction */
+				for(iLayer = nn.OutputLayer(); iLayer >= 0; --iLayer)
+				    {
+					if(nn.OutputLayer() == iLayer)
+					    /* Output layer */
+					    nnteacher->DeltaRule(pTar);
+					else
+					    /* Hidden layer */
+					    nnteacher->DeltaRule(iLayer, iLayer + 1);
+				    }
+
+			    }while(dfInDS[iAntClass]->GoNextRecord());
+
+			    NaPrintLog("  has %d antagonistic samples\n", nAntSamples);
+			}
+		    }
+
+		    ++iClass;
+
+		}while(dfLeOut->GoNextRecord());
+
+		/* Update the NN weights at the end of antagonistic course */
+		nnteacher->UpdateNN(fAntGain);
+		nnteacher->Reset();
+
+		NaPrintLog("Total %d antagonistic samples\n", nSamples);
+	    }
 
 	    /* Display epoch number, learning and testing errors */
 	    printf("%d\t", iEpoch);
@@ -301,6 +379,11 @@ int main (int argc, char* argv[])
 
 	    for(j = 0; j < nn.descr.nOutNeurons; ++j)
 		printf(" %g", pTeMSE[j]);
+
+	    putchar('\t');
+
+	    for(j = 0; j < nn.descr.nOutNeurons; ++j)
+		printf(" %g", pAntMSE[j]);
 
 	    putchar('\n');
 
