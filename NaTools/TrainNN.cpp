@@ -107,6 +107,34 @@ int main (int argc, char* argv[])
 	for(j = 0; j < nn.descr.nOutNeurons; ++j)
 	  pLeMSE[j] = pTeMSE[j] = 0.0;
 
+	/* Validation epoch */
+	if(dfTeIn->GoStartRecord() && dfTeOut->GoStartRecord())
+	  {
+	    int	nSamples = 0;
+
+	    do{
+	      /* Read the learning pair */
+	      for(j = 0; j < nn.descr.InputsNumber(); ++j)
+		pIn[j] = dfTeIn->GetValue(j);
+	      for(j = 0; j < nn.descr.nOutNeurons; ++j)
+		pTar[j] = dfTeOut->GetValue(j);
+
+	      /* Pass through the net in forward direction */
+	      nn.Function(pIn, pOut);
+
+	      /* Compute sum of squared error */
+	      for(j = 0; j < nn.descr.nOutNeurons; ++j)
+		pTeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
+
+	      ++nSamples;
+
+	    }while(dfTeIn->GoNextRecord() && dfTeOut->GoNextRecord());
+
+	    /* Compute mean squared error */
+	    for(j = 0; j < nn.descr.nOutNeurons; ++j)
+	      pTeMSE[j] /= nSamples;
+	  }
+
 	/* Learning epoch */
 	if(dfLeIn->GoStartRecord() && dfLeOut->GoStartRecord())
 	  {
@@ -146,36 +174,9 @@ int main (int argc, char* argv[])
 	      pLeMSE[j] /= nSamples;
 	  }
 
-	/* Testing epoch */
-	if(dfTeIn->GoStartRecord() && dfTeOut->GoStartRecord())
-	  {
-	    int	nSamples = 0;
-
-	    do{
-	      /* Read the learning pair */
-	      for(j = 0; j < nn.descr.InputsNumber(); ++j)
-		pIn[j] = dfTeIn->GetValue(j);
-	      for(j = 0; j < nn.descr.nOutNeurons; ++j)
-		pTar[j] = dfTeOut->GetValue(j);
-
-	      /* Pass through the net in forward direction */
-	      nn.Function(pIn, pOut);
-
-	      /* Compute sum of squared error */
-	      for(j = 0; j < nn.descr.nOutNeurons; ++j)
-		pTeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
-
-	      ++nSamples;
-
-	    }while(dfTeIn->GoNextRecord() && dfTeOut->GoNextRecord());
-
-	    /* Compute mean squared error */
-	    for(j = 0; j < nn.descr.nOutNeurons; ++j)
-	      pTeMSE[j] /= nSamples;
-	  }
-
 	/* Update the NN weights at the end of each epoch */
 	nnteacher->UpdateNN();
+	nnteacher->Reset();
 
 	/* Display epoch number, learning and testing errors */
 	printf("%d\t", iEpoch);
