@@ -82,6 +82,11 @@ int main (int argc, char* argv[])
     NaQuickProp		qpe(nn);
     NaStdBackProp	*nnteacher = &bpe;
 
+    char	*szDebugLevel = getenv("BPE_DEBUG");
+    if(NULL != szDebugLevel) {
+	nnteacher->SetDebugLevel(atoi(szDebugLevel));
+    }
+
     char		*szQPropMu = getenv("QPROP_MU");
     if(NULL != szQPropMu) {
 	qpe.mu = atof(szQPropMu);
