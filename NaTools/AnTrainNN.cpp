@@ -331,10 +331,18 @@ int main (int argc, char* argv[])
 
 	}/* End of learning loop */
 
-	if(argc == 5 || argc == 7)
-	    nn.Save(argv[6]);
-	else
-	    nn.Save(argv[1]);
+	switch(argc)
+	    {
+	    case 5:
+		nn.Save(argv[4]);
+		break;
+	    case 7:
+		nn.Save(argv[6]);
+		break;
+	    default:
+		nn.Save(argv[1]);
+		break;
+	    }
     }
     catch(NaException& ex){
 	NaPrintLog("EXCEPTION: %s\n", NaExceptionMsg(ex));
