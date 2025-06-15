@@ -108,7 +108,7 @@ int main (int argc, char* argv[])
 
 	NaDataFile	*dfLeOut = OpenInputDataFile(argv[3]);
 
-	NaDataFile	*dfTeIn = dfLeIn/* Error!!!! */, *dfTeOut = dfLeOut;
+	NaDataFile	*dfTeIn = NULL, *dfTeOut = dfLeOut;
 
 	if(argc > 5) {
 	    dfTeIn = OpenInputDataFile(argv[4]);
@@ -156,27 +156,60 @@ int main (int argc, char* argv[])
 	    /*******************************
 	     * Validation epoch
 	     *******************************/
-	    if(dfTeIn->GoStartRecord() && dfTeOut->GoStartRecord())
+	    if(dfTeOut->GoStartRecord())
 		{
 		    int	nSamples = 0;
 
-		    do{
-			/* Read the learning pair */
-			for(j = 0; j < nn.descr.InputsNumber(); ++j)
-			    pIn[j] = dfTeIn->GetValue(j);
-			for(j = 0; j < nn.descr.nOutNeurons; ++j)
-			    pTar[j] = dfTeOut->GetValue(j);
+		    if(NULL != dfTeIn) {
+			if(dfTeIn->GoStartRecord()) {
+			    do{
+				/* Read the learning pair */
+				for(j = 0; j < nn.descr.InputsNumber(); ++j)
+				    pIn[j] = dfTeIn->GetValue(j);
+				for(j = 0; j < nn.descr.nOutNeurons; ++j)
+				    pTar[j] = dfTeOut->GetValue(j);
 
-			/* Pass through the net in forward direction */
-			nn.Function(pIn, pOut);
+				/* Pass through the net in forward direction */
+				nn.Function(pIn, pOut);
 
-			/* Compute sum of squared error */
-			for(j = 0; j < nn.descr.nOutNeurons; ++j)
-			    pTeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
+				/* Compute sum of squared error */
+				for(j = 0; j < nn.descr.nOutNeurons; ++j)
+				    pTeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
 
-			++nSamples;
+				++nSamples;
 
-		    }while(dfTeIn->GoNextRecord() && dfTeOut->GoNextRecord());
+			    }while(dfTeIn->GoNextRecord() && dfTeOut->GoNextRecord());
+			}
+		    } else {
+			for(int iClass = 0; iClass < nClass; ++iClass) {
+			    dfTeIn = dfInDS[iClass];
+
+			    for(j = 0; j < nn.descr.nOutNeurons; ++j)
+				pTar[j] = dfTeOut->GetValue(j);
+
+			    if(dfTeIn->GoStartRecord()) {
+				do{
+				    /* Read the learning pair */
+				    for(j = 0; j < nn.descr.InputsNumber(); ++j)
+					pIn[j] = dfTeIn->GetValue(j);
+
+				    /* Pass through the net in forward direction */
+				    nn.Function(pIn, pOut);
+
+				    /* Compute sum of squared error */
+				    for(j = 0; j < nn.descr.nOutNeurons; ++j)
+					pTeMSE[j] += (pTar[j] - pOut[j]) * (pTar[j] - pOut[j]);
+
+				    ++nSamples;
+
+				}while(dfTeIn->GoNextRecord());
+			    }
+
+			    if(!dfTeOut->GoNextRecord())
+				break;
+			}
+			dfTeIn = NULL;
+		    }
 
 		    /* Compute mean squared error */
 		    for(j = 0; j < nn.descr.nOutNeurons; ++j)
