@@ -155,6 +155,9 @@ int main (int argc, char* argv[])
 	    for(j = 0; j < nn.descr.nOutNeurons; ++j)
 		pLeMSE[j] = pTeMSE[j] = pAntMSE[j] = 0.0;
 
+	    if(iDebugLevel > 2)
+		NaPrintLog("###\n### Validation epoch\n###\n");
+
 	    /*******************************
 	     * Validation epoch
 	     *******************************/
@@ -171,8 +174,20 @@ int main (int argc, char* argv[])
 				for(j = 0; j < nn.descr.nOutNeurons; ++j)
 				    pTar[j] = dfTeOut->GetValue(j);
 
+				if(iDebugLevel > 2) {
+				    NaPrintLog(">>> Input vector %d:\n", nSamples+1);
+				    for(j = 0; j < nn.descr.InputsNumber(); ++j)
+					NaPrintLog("    * x[%d]= %-10g\n", j, pIn[j]);
+				}
+
 				/* Pass through the net in forward direction */
 				nn.Function(pIn, pOut);
+
+				if(iDebugLevel > 2) {
+				    NaPrintLog(">>> Output and target vectors %d:\n", nSamples+1);
+				    for(j = 0; j < nn.descr.nOutNeurons; ++j)
+					NaPrintLog("    * y[%d]= %-10g  t[%d]=%-10g\n", j, pOut[j], j, pTar[j]);
+				}
 
 				/* Compute sum of squared error */
 				for(j = 0; j < nn.descr.nOutNeurons; ++j)
@@ -195,8 +210,20 @@ int main (int argc, char* argv[])
 				    for(j = 0; j < nn.descr.InputsNumber(); ++j)
 					pIn[j] = dfTeIn->GetValue(j);
 
+				    if(iDebugLevel > 2) {
+					NaPrintLog(">>> Input vector %d:\n", nSamples+1);
+					for(j = 0; j < nn.descr.InputsNumber(); ++j)
+					    NaPrintLog("    * x[%d]= %-10g\n", j, pIn[j]);
+				    }
+
 				    /* Pass through the net in forward direction */
 				    nn.Function(pIn, pOut);
+
+				    if(iDebugLevel > 2) {
+					NaPrintLog(">>> Output and target vectors %d:\n", nSamples+1);
+					for(j = 0; j < nn.descr.nOutNeurons; ++j)
+					    NaPrintLog("    * y[%d]= %-10g  t[%d]=%-10g\n", j, pOut[j], j, pTar[j]);
+				    }
 
 				    /* Compute sum of squared error */
 				    for(j = 0; j < nn.descr.nOutNeurons; ++j)
