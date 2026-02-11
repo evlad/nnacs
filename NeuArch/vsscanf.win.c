@@ -13,7 +13,7 @@
   Kaya Kupferschmidt  (k.kupferschmidt@dimajix.de)
 */
 
-#ifndef __GNUC__
+#if 0
 
 /**
  * This is a dirty hack in order to get String::sscanf to work and

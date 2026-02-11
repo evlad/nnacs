@@ -59,7 +59,7 @@ extern FILE *fpNaLog;
 #  define PNNA_API
 #endif
 
-#ifdef WIN32
+#if 0
 #  include <stdarg.h>
 #  ifdef __cplusplus
 extern "C" {
