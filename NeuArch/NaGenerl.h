@@ -55,10 +55,8 @@ extern FILE *fpNaLog;
     #define PNNA_API __declspec(dllimport)
 #endif
 
-#else
+#else // for other platforms
 #  define PNNA_API
-#endif
-
 #endif // WIN32
 
 #endif /* NaGeneral.h */
