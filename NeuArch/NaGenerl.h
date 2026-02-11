@@ -59,17 +59,6 @@ extern FILE *fpNaLog;
 #  define PNNA_API
 #endif
 
-#if 0
-#  include <stdarg.h>
-#  ifdef __cplusplus
-extern "C" {
-#  endif // C++
-PNNA_API int vsscanf(const char  *buffer,
-		     const char  *format,
-		     va_list     argPtr);
-#  ifdef __cplusplus
-};
-#  endif // C++
 #endif // WIN32
 
 #endif /* NaGeneral.h */

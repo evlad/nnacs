@@ -98,15 +98,11 @@ set(SOURCE_LIB NaConLaw.cpp
 	NaWMR.cpp
 	kbdif.cpp)			# Установка переменной со списком исходников для библиотеки
 
-if(WIN32)
-set(SOURCE_LIB ${SOURCE_LIB} vsscanf.win.c)
-endif(WIN32)
-
 
 #add_library(pnna STATIC ${SOURCE_LIB})	# Создание статической библиотеки с именем pnna
 add_library(pnna SHARED ${SOURCE_LIB})	# Создание динамической библиотеки с именем pnna
 generate_export_header( pnna
-			EXPORT_MACRO_NAME PNNA_API
+			EXPORT_MACRO_NAME PNNA_EXPORT
 			EXPORT_FILE_NAME pnna_api.h
 			STATIC_DEFINE PNNA_BUILT_AS_STATIC)
 target_link_libraries(pnna matrix)
@@ -114,11 +110,5 @@ target_link_libraries(pnna matrix)
 
 
 install(TARGETS pnna LIBRARY DESTINATION ${LIB_DEST_DIR} RUNTIME DESTINATION ${LIB_DEST_DIR})
-
-if(WIN32)
-set(SOURCE_EXE test_vsscanf.cpp vsscanf.win.c)
-add_executable(test_vsscanf ${SOURCE_EXE})
-#target_link_libraries(test_vsscanf pnna matrix)
-endif(WIN32)
 
 add_subdirectory(ExFuncs)
