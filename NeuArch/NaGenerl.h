@@ -48,11 +48,12 @@ extern FILE *fpNaLog;
 
 
 #ifdef _WIN32
-//#  include <pnna_api.h>
+
+#include "pnna_api.h"
 #ifdef PNNA_EXPORT
-    #define PNNA_API __declspec(dllexport)
+    #define PNNA_API PNNA_EXPORT
 #else
-    #define PNNA_API __declspec(dllimport)
+    #define PNNA_API
 #endif
 
 #else // for other platforms
