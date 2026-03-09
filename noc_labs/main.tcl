@@ -57,30 +57,15 @@ NNACS - Neural network applications for control systems
 } center
     global tcl_platform
     set platform [string totitle $tcl_platform(platform)]
-    $w.text insert end "Версия: 1.8.3 для $platform\n" center
-    $w.text insert end "Дата: 11 января 2024 года\n" center
+    $w.text insert end "Версия: 1.8.4 для $platform\n" center
+    $w.text insert end "Дата: 09 марта 2026 года\n" center
     $w.text insert end {
 Национальный исследовательский университет "МЭИ"
 Институт информационных и вычислительных технологий (ИВТИ, ранее АВТИ)
 Кафедра Управления и интеллектуальных технологий
 } center
 
-    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2024\nEmail: YeliseevVL@mpei.ru\n" center
-
-    if {$tcl_platform(platform) == "windows"} {
-        $w.text insert end {
-В версии пакета на платформе Windows используется фунция vsscanf:
-
-This software is provided 'as-is', without any express or implied
-warranty.  In no event will the authors be held liable for any damages
-arising from the use of this software.
-
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, under the terms in LICENSE.TXT.
-
-Kaya Kupferschmidt  (k.kupferschmidt@dimajix.de)} moreinfo
-    }
+    $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2026\nEmail: YeliseevVL@mpei.ru\n" center
 
     $w.text configure -state disabled
 }
