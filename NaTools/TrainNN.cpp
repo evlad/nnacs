@@ -36,12 +36,22 @@ handle_sigint (int signo)
    argv[4] - test input        {"-" or absent means learning input}
    argv[5] - test output       {"-" or absent means learning output}
    argv[6] - NN file (target)  {optional}
+
+   Env.variables:
+   ~~~~~~~~~~~~~~
+   MAX_EPOCHS  - number of epochs (unlimited by default)
+   QPROP_MU    - quick-propagation setup and turn on
+   DEBUG_LEVEL - turn on verbose mode (0-off, 1-partially, 2-totally)
 */
 int main (int argc, char* argv[])
 {
   if(argc < 4)
     {
-      printf("Usage: %s NN-file LearnIn LearnOut [TestIn TestOut [NN-out]]\n",
+      printf("Usage: %s NN-file LearnIn LearnOut [TestIn TestOut [NN-out]]\n"\
+	     "Parameters via env.variable:\n"\
+	     "   MAX_EPOCHS  - number of epochs (unlimited by default)\n"\
+	     "   QPROP_MU    - quick-propagation setup and turn on\n"\
+	     "   DEBUG_LEVEL - turn on verbose mode (0-off, 1-partially, 2-totally)\n",
 	     argv[0]);
       return 1;
     }
@@ -55,6 +65,12 @@ int main (int argc, char* argv[])
   char	*szMaxEpochs = getenv("MAX_EPOCHS");
   if(NULL != szMaxEpochs) {
       nMaxEpochs = atoi(szMaxEpochs);
+  }
+
+  int	nDebugLvl = -1;		// undefined
+  char	*szDebugLvl = getenv("DEBUG_LEVEL");
+  if(NULL != szDebugLvl) {
+    nDebugLvl = atoi(szDebugLvl);
   }
 
   try{
@@ -80,6 +96,10 @@ int main (int argc, char* argv[])
 	qpe.mu = atof(szQPropMu);
 	nnteacher = &qpe;
     }
+    if(nDebugLvl >= 0) {
+      NaPrintLog("Debug level: %d\n", nDebugLvl);
+      nnteacher->SetDebugLevel(nDebugLvl);
+    }
 
     /* Prepare buffers for input, target and output data */
     NaReal	*pIn = new NaReal[nn.descr.InputsNumber()];
@@ -96,6 +116,10 @@ int main (int argc, char* argv[])
       {
 	++iEpoch;
 
+	if(nDebugLvl >= 0) {
+	  NaPrintLog("### Epoch %d ###\n", iEpoch);
+	}
+	
 	/* Reset error counters */
 	for(j = 0; j < nn.descr.nOutNeurons; ++j)
 	  pLeMSE[j] = pTeMSE[j] = 0.0;
@@ -183,7 +207,7 @@ int main (int argc, char* argv[])
 
 	putchar('\n');
 
-	if(iEpoch > nMaxEpochs)
+	if(nMaxEpochs != -1 && iEpoch > nMaxEpochs)
 	    bTerminate = true;
 
       }/* End of learning loop */
