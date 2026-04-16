@@ -16,6 +16,7 @@ enum NaFileFormat{
     ffStatistica,       // STATISTICA packet file format
     ffDPlot,            // DPLOT/W v.1.2 file format
     ffBinaryStream,	// Simple enough binary data format
+    ffSimInTechData,	// Dat file of SimInTech
     ffUnknown           // Unknown file format - can't guess anything
 };
 
@@ -39,6 +40,7 @@ enum NaFileFormat{
 #define NaIO_STATISTICA_EXT     ".STA"
 #define NaIO_DPLOT_EXT          ".GRF"
 #define NaIO_BINARY_STREAM_EXT  ".BIS"
+#define NaIO_SIMINTECH_DATA_EXT ".SIT"
 
 
 //---------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 #include <stdarg.h>
 
 #ifndef __GNUC__
-extern "C" void vsscanf (const char* s, const char* f, va_list vargs);
+extern "C" int vsscanf (const char* s, const char* f, va_list vargs);
 #endif /* __GNUC__ */
 
 void

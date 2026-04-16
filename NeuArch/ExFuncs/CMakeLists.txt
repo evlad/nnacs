@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)	# Проверка версии CMake.
+cmake_minimum_required(VERSION 3.5)	# Проверка версии CMake.
 					# Если версия установленой программы
 					# старее указаной, произайдёт аварийный выход.
 
@@ -33,6 +33,9 @@ set(EXFUNC_LIST
 add_library(cstr SHARED cstr.cpp)
 target_link_libraries(cstr ${LINK_WITH_LIBS})
 
+set(DEFAULTS
+    cstrpar.def)
+
 add_library(deadzone SHARED deadzone.cpp)
 target_link_libraries(deadzone ${LINK_WITH_LIBS})
 
@@ -63,5 +66,6 @@ target_link_libraries(watertank ${LINK_WITH_LIBS})
 # Build without prefix lib
 set_target_properties(${EXFUNC_LIST} PROPERTIES PREFIX "")
 
-# Install rule
+# Install rules
 install(TARGETS ${EXFUNC_LIST} LIBRARY DESTINATION ${LIB_DEST_DIR} RUNTIME DESTINATION ${LIB_DEST_DIR})
+install(FILES ${DEFAULTS} DESTINATION templates)

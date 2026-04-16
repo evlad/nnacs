@@ -79,7 +79,7 @@ NaCustomFunc::PrintLog (const char* szIndent) const
 bool
 NaCustomFunc::Empty () const
 {
-  return NULL == szFile;
+  return NULL == szFile || NULL == exfunc;
 }
 
 
