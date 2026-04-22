@@ -398,7 +398,9 @@ proc GrSeriesDestroy {w} {
     global $c.props $c.utags $c.utagCounter
     array unset $c.props
     array unset $c.utags
-    unset $c.utagCounter
+    if {![info exists $c.utagCounter]} {
+	unset $c.utagCounter
+    }
 
     foreach v {xmin xmax ymin ymax} {
 	global $c.view_$v
@@ -564,6 +566,12 @@ proc GrSeriesWindow {p title {path ""} {extproc ""}} {
 
     pack $w.buttons.print $w.buttons.curves $o $w.buttons.redraw \
 	$w.buttons.close -side left -expand 1
+}
+
+proc GrSeriesWindowsClose {p} {
+    set w $p.grseries
+    GrSeriesDestroy $w
+    destroy $w
 }
 
 proc GrSeriesTest {} {

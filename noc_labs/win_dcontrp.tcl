@@ -288,7 +288,7 @@ proc dcontrpCreateWindow {p title sessionDir} {
     button $w.controls.series -text "Графики" \
 	-command "GrSeriesWindow $w \"NN-C out-of-loop training series plot\" \"[SessionDir $curSessionDir]\""
     button $w.controls.close -text "Закрыть" \
-	-command "array set dcontrp_params {} ; destroy $w"
+	-command "array set dcontrp_params {} ; GrSeriesWindowsClose $w ; destroy $w"
     pack $w.controls.print $w.controls.run $w.controls.log \
 	$w.controls.series $w.controls.close -side left -expand 1
 

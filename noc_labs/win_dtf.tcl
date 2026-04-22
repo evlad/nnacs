@@ -103,7 +103,7 @@ proc dtfCreateWindow {p title sessionDir} {
     button $w.controls.series -text "Графики" \
 	-command "GrSeriesWindow $w \"Open loop modeling series plot\" \"[SessionDir $curSessionDir]\""
     button $w.controls.close -text "Закрыть" \
-	-command "array set dtf_params {} ; destroy $w"
+	-command "array set dtf_params {} ; GrSeriesWindowsClose $w ; destroy $w"
     pack $w.controls.print $w.controls.run $w.controls.log \
 	$w.controls.series $w.controls.close -side left -expand 1
 
