@@ -37,34 +37,28 @@ handle_sigint (int signo)
    argv[5] - test output       {absent means learning output}
    argv[6] - NN file (target)  {optional}
 
-<<<<<<< HEAD
    Env.variables:
    ~~~~~~~~~~~~~~
    MAX_EPOCHS  - number of epochs (unlimited by default)
    QPROP_MU    - quick-propagation setup and turn on
    DEBUG_LEVEL - turn on verbose mode (0-off, 1-partially, 2-totally)
-=======
+
    Examples:
    ~~~~~~~~~
    TrainNN file.nn xtraining.dat ytraining.dat                                (argc=4)
    TrainNN file.nn xtraining.dat ytraining.dat result.nn                      (argc=5)
    TrainNN file.nn xtraining.dat ytraining.dat xtest.dat ytest.dat            (argc=6)
    TrainNN file.nn xtraining.dat ytraining.dat xtest.dat ytest.dat result.nn  (argc=7)
->>>>>>> 4f326e3008103149113d0797d87f60b431a72ec0
 */
 int main (int argc, char* argv[])
 {
   if(argc < 4)
     {
-<<<<<<< HEAD
       printf("Usage: %s NN-file LearnIn LearnOut [TestIn TestOut [NN-out]]\n"\
 	     "Parameters via env.variable:\n"\
 	     "   MAX_EPOCHS  - number of epochs (unlimited by default)\n"\
 	     "   QPROP_MU    - quick-propagation setup and turn on\n"\
 	     "   DEBUG_LEVEL - turn on verbose mode (0-off, 1-partially, 2-totally)\n",
-=======
-      printf("Usage: %s NN-file LearnIn LearnOut [TestIn TestOut] [NN-out]\n",
->>>>>>> 4f326e3008103149113d0797d87f60b431a72ec0
 	     argv[0]);
       return 1;
     }
