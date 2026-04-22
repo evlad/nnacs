@@ -25,8 +25,9 @@ set menuContent {
     "dplantid" "Обучение нейросетевой модели объекта управления"
     "dcontrf" "Обучение нейросетевого регулятора в контуре"
     "dcsloop" "Обнаружение разладки объекта в контуре"
-    "dtf"     "Моделирование объекта в дискретном времени"
 }
+
+#    "dtf"     "Моделирование объекта в дискретном времени"
 
 proc AboutWindow {p} {
     set w $p.text
@@ -58,11 +59,11 @@ NNACS - Neural network applications for control systems
     global tcl_platform
     set platform [string totitle $tcl_platform(platform)]
     $w.text insert end "Версия: 1.8.4 для $platform\n" center
-    $w.text insert end "Дата: 09 марта 2026 года\n" center
+    $w.text insert end "Дата: 23 апреля 2026 года\n" center
     $w.text insert end {
 Национальный исследовательский университет "МЭИ"
 Институт информационных и вычислительных технологий (ИВТИ, ранее АВТИ)
-Кафедра Управления и интеллектуальных технологий
+Кафедра Управления и интеллектуальных технологий (УИТ)
 } center
 
     $w.text insert end "\n\uf8e9 Елисеев Владимир Леонидович, 2001-2026\nEmail: YeliseevVL@mpei.ru\n" center
