@@ -295,7 +295,8 @@ int main(int argc, char **argv)
 	  csm.set_tdg_flag(false);
 
 	// Reset pseudo-random sequence
-	putenv("DRAND_SAFE=1");
+	static char szRandomSafe[15] = "DRAND_SAFE=1";
+	putenv(szRandomSafe);
 	reset_rand();
 
 	// Set cummulative sum method is turned on or off
