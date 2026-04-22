@@ -12,7 +12,7 @@ const char*
 NaExceptionMsg (enum NaException exCode)
 {
     const char  *szMsg;
-    char        szBuf[100];
+    static char szBuf[100];
 
     switch(exCode){
     case na_null_pointer:
