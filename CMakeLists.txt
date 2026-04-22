@@ -25,6 +25,7 @@ add_subdirectory(dplantid)
 add_subdirectory(dcontrp)
 add_subdirectory(dcontrf)
 add_subdirectory(noc_labs)
+add_subdirectory(Plotchart2.0.2)
 add_subdirectory(test_mimo)
 
 install(DIRECTORY noc_etalon DESTINATION .
